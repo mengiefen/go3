@@ -1,0 +1,120 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-lg">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Edit Your Account</h2>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+      <%= render "users/shared/error_messages", resource: resource %>
+
+      <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+        <div>
+          <%= f.label :first_name, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= f.text_field :first_name, autofocus: true, autocomplete: "given-name", 
+                class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :last_name, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= f.text_field :last_name, autocomplete: "family-name", 
+                class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :email, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.email_field :email, autocomplete: "email", 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        </div>
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div class="mt-1 text-sm text-gray-500">Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :password, class: "block text-sm font-medium leading-6 text-gray-900" %> 
+        <div class="mt-2">
+          <%= f.password_field :password, autocomplete: "new-password",
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+              placeholder: "Leave blank if you don't want to change it" %>
+          <p class="mt-1 text-sm text-gray-500">
+            <% if @minimum_password_length %>
+              <em><%= @minimum_password_length %> characters minimum</em>
+            <% end %>
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :password_confirmation, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password",
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :current_password, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.password_field :current_password, autocomplete: "current-password",
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+              placeholder: "We need your current password to confirm changes" %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.submit "Update", class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+      </div>
+    <% end %>
+
+    <div class="mt-10 border-t border-gray-200 pt-6">
+      <h3 class="text-base font-semibold leading-7 text-gray-900">Two-Factor Authentication</h3>
+      <div class="mt-4 space-y-4">
+        <% if current_user.otp_required_for_login %>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="h-6 w-6 flex items-center justify-center rounded-full bg-green-100">
+                <svg class="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <span class="ml-3 text-sm font-medium text-gray-900">Two-factor authentication is enabled</span>
+            </div>
+            <%= link_to "Disable Two-Factor", disable_two_factor_path, method: :delete, data: { confirm: "Are you sure you want to disable two-factor authentication?" }, class: "text-sm font-medium text-red-600 hover:text-red-500" %>
+          </div>
+        <% else %>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="h-6 w-6 flex items-center justify-center rounded-full bg-gray-100">
+                <svg class="h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <span class="ml-3 text-sm font-medium text-gray-900">Two-factor authentication is not enabled</span>
+            </div>
+            <%= link_to "Enable Two-Factor", new_two_factor_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-gray-200 pt-6">
+      <h3 class="text-base font-semibold leading-7 text-gray-900">Account Management</h3>
+      <p class="mt-1 text-sm leading-6 text-gray-600">Manage your account settings and preferences.</p>
+      <div class="mt-6">
+        <div class="text-center">
+          <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure? This action cannot be undone.", turbo_confirm: "Are you sure? This action cannot be undone." }, method: :delete, class: "rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 text-center">
+      <%= link_to "Back", :back, class: "text-sm font-semibold leading-6 text-gray-900" %>
+    </div>
+  </div>
+</div>

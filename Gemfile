@@ -18,7 +18,31 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
+
+# Authentication
+gem "devise"  # Flexible authentication solution
+gem "omniauth" # Authentication framework supporting multiple providers
+gem "omniauth-google-oauth2" # Google OAuth2 strategy for OmniAuth
+gem "omniauth-facebook" # Facebook strategy for OmniAuth
+gem "omniauth-apple" # Apple Sign-in strategy for OmniAuth
+gem "omniauth-linkedin-oauth2" # LinkedIn strategy for OmniAuth
+gem "omniauth-rails_csrf_protection" # CSRF protection for OmniAuth
+
+# Multi-Factor Authentication
+gem "rotp", "~> 6.0"
+gem "rqrcode", "~> 2.0"
+gem "twilio-ruby" # Twilio API client for SMS-based verification
+
+# Security
+gem "rack-attack" # Rack middleware for blocking & throttling abusive requests
+gem "recaptcha" # reCAPTCHA helper for Ruby apps
+
+# Authorization
+gem "pundit" # Minimal authorization through OO design and pure Ruby classes
+
+# Internationalization
+gem "http_accept_language" # Parse Accept-Language header
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -54,6 +78,15 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  # gem "rack-mini-profiler"
+
+  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+  # gem "spring"
+  
+  # Preview email in the browser instead of sending it
+  gem "letter_opener"
 end
 
 group :test do
