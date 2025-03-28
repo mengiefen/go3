@@ -35,18 +35,14 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
   
-  # Configure email delivery method to use letter_opener_web for development
-  config.action_mailer.delivery_method = :letter_opener_web
+  # Configure email delivery method to use MailCatcher for development
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address: '127.0.0.1', port: 1025 }
   config.action_mailer.perform_deliveries = true
   
   # Set default URL options for ActionMailer
   host = ENV.fetch('HOST') { 'localhost:3000' }
   config.action_mailer.default_url_options = { host: host, protocol: 'http' }
-  
-  # Define locations for letter_opener_web to store emails
-  LetterOpenerWeb.configure do |letter_config|
-    letter_config.letters_location = Rails.root.join('tmp', 'letter_opener_web')
-  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

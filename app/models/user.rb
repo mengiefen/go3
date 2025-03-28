@@ -93,7 +93,7 @@ class User < ApplicationRecord
         last_sign_in_ip: Current.ip_address
       )
       
-      # Send welcome email (this will use letter_opener_web in development)
+      # Send welcome email
       user.send_welcome_email
     else
       Rails.logger.error("Failed to create user: #{user.errors.full_messages.join(', ')}")

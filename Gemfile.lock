@@ -98,11 +98,11 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-    childprocess (5.0.0)
     chunky_png (1.4.0)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.0)
     crass (1.0.6)
+    daemons (1.4.1)
     date (3.4.1)
     debug (1.10.0)
       irb (~> 1.10)
@@ -119,6 +119,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    eventmachine (1.0.9.1)
     faraday (2.12.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
@@ -132,6 +133,10 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    haml (6.3.0)
+      temple (>= 0.8.2)
+      thor
+      tilt
     hashie (5.0.0)
     http_accept_language (2.1.1)
     i18n (1.14.7)
@@ -170,11 +175,6 @@ GEM
       thor (~> 1.3)
       zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.4)
-    launchy (3.0.1)
-      addressable (~> 2.8)
-      childprocess (~> 5.0)
-    letter_opener (1.10.0)
-      launchy (>= 2.2, < 4)
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.24.0)
@@ -185,6 +185,16 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailcatcher (0.2.4)
+      eventmachine
+      haml
+      i18n
+      json
+      mail
+      sinatra
+      skinny (>= 0.1.2)
+      sqlite3-ruby
+      thin
     marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
@@ -192,6 +202,8 @@ GEM
     msgpack (1.8.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
+    mustermann (3.0.3)
+      ruby2_keywords (~> 0.0.1)
     net-http (0.6.0)
       uri
     net-imap (0.5.6)
@@ -208,19 +220,19 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-    nokogiri (1.18.5-aarch64-linux-gnu)
+    nokogiri (1.18.6-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.5-aarch64-linux-musl)
+    nokogiri (1.18.6-aarch64-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.18.5-arm-linux-gnu)
+    nokogiri (1.18.6-arm-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.5-arm-linux-musl)
+    nokogiri (1.18.6-arm-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.18.5-arm64-darwin)
+    nokogiri (1.18.6-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.5-x86_64-linux-gnu)
+    nokogiri (1.18.6-x86_64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.5-x86_64-linux-musl)
+    nokogiri (1.18.6-x86_64-linux-musl)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -255,13 +267,14 @@ GEM
     orm_adapter (0.5.0)
     ostruct (0.6.1)
     parallel (1.26.3)
-    parser (3.3.7.2)
+    parser (3.3.7.3)
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
+    prism (1.4.0)
     propshaft (1.1.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
@@ -322,7 +335,7 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
-    rdoc (6.12.0)
+    rdoc (6.13.0)
       psych (>= 4.0.0)
     recaptcha (5.19.0)
     regexp_parser (2.10.0)
@@ -337,7 +350,7 @@ GEM
       chunky_png (~> 1.0)
       rqrcode_core (~> 1.0)
     rqrcode_core (1.2.0)
-    rubocop (1.74.0)
+    rubocop (1.75.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -345,11 +358,12 @@ GEM
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.38.0, < 2.0)
+      rubocop-ast (>= 1.43.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.41.0)
+    rubocop-ast (1.43.0)
       parser (>= 3.3.7.2)
+      prism (~> 1.4)
     rubocop-performance (1.24.0)
       lint_roller (~> 1.1)
       rubocop (>= 1.72.1, < 2.0)
@@ -365,6 +379,7 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.4.1)
     securerandom (0.4.1)
     selenium-webdriver (4.30.1)
@@ -373,6 +388,16 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sinatra (4.1.1)
+      logger (>= 1.6.0)
+      mustermann (~> 3.0)
+      rack (>= 3.0.0, < 4)
+      rack-protection (= 4.1.1)
+      rack-session (>= 2.0.0, < 3)
+      tilt (~> 2.0)
+    skinny (0.2.4)
+      eventmachine (~> 1.0.0)
+      thin (>= 1.5, < 1.7)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -392,6 +417,15 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
+    sqlite3 (2.6.0-aarch64-linux-gnu)
+    sqlite3 (2.6.0-aarch64-linux-musl)
+    sqlite3 (2.6.0-arm-linux-gnu)
+    sqlite3 (2.6.0-arm-linux-musl)
+    sqlite3 (2.6.0-arm64-darwin)
+    sqlite3 (2.6.0-x86_64-linux-gnu)
+    sqlite3 (2.6.0-x86_64-linux-musl)
+    sqlite3-ruby (1.3.3)
+      sqlite3 (>= 1.3.3)
     sshkit (1.24.0)
       base64
       logger
@@ -401,21 +435,27 @@ GEM
       ostruct
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
-    stringio (3.1.5)
+    stringio (3.1.6)
     tailwindcss-rails (4.2.1)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.0.14)
-    tailwindcss-ruby (4.0.14-aarch64-linux-gnu)
-    tailwindcss-ruby (4.0.14-aarch64-linux-musl)
-    tailwindcss-ruby (4.0.14-arm64-darwin)
-    tailwindcss-ruby (4.0.14-x86_64-linux-gnu)
-    tailwindcss-ruby (4.0.14-x86_64-linux-musl)
+    tailwindcss-ruby (4.0.17)
+    tailwindcss-ruby (4.0.17-aarch64-linux-gnu)
+    tailwindcss-ruby (4.0.17-aarch64-linux-musl)
+    tailwindcss-ruby (4.0.17-arm64-darwin)
+    tailwindcss-ruby (4.0.17-x86_64-linux-gnu)
+    tailwindcss-ruby (4.0.17-x86_64-linux-musl)
+    temple (0.10.3)
+    thin (1.6.2)
+      daemons (>= 1.0.9)
+      eventmachine (>= 1.0.0)
+      rack (>= 1.0.0)
     thor (1.3.2)
     thruster (0.1.12)
     thruster (0.1.12-aarch64-linux)
     thruster (0.1.12-arm64-darwin)
     thruster (0.1.12-x86_64-linux)
+    tilt (2.6.0)
     timeout (0.4.3)
     turbo-rails (2.0.13)
       actionpack (>= 7.1.0)
@@ -472,7 +512,10 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  letter_opener
+  mailcatcher
+  net-imap
+  net-pop
+  net-smtp
   omniauth
   omniauth-apple
   omniauth-facebook
@@ -489,7 +532,7 @@ DEPENDENCIES
   rotp (~> 6.0)
   rqrcode (~> 2.0)
   rubocop-rails-omakase
-  selenium-webdriver
+  selenium-webdriver (~> 4.12)
   solid_cable
   solid_cache
   solid_queue

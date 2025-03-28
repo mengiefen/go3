@@ -82,19 +82,27 @@ group :development do
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
-  
   # Preview email in the browser instead of sending it
-  gem "letter_opener"
+  # gem "letter_opener"
+
+  gem "mailcatcher"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "~> 4.12"
 end
 
 gem "tailwindcss-rails", "~> 4.2"
 
 gem "tailwindcss-ruby", "~> 4.0"
+
+# Email SMTP delivery
+gem "net-smtp", require: false
+gem "net-imap", require: false
+gem "net-pop", require: false
+
+
+# Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+# gem "spring"
