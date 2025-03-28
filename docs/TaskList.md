@@ -20,11 +20,12 @@
 - [x] Remove Facebook and Apple authentication options
 - [x] Fix Two-Factor Authentication show action - "Unknown action The action 'show' could not be found for Users::TwoFactorController"
 - [x] Fix social authentication persistence - "When someone registers/signup with social option - the database should be updated"
-- [ ] Implement standard password strength validation
+- [x] Implement standard password strength validation
 - [x] Make Two-Factor Authentication disabling option work correctly
-- [ ] Two factor authentication passes for any input: follow best practices
-- [ ] Strong validation for signup forms - first, and last name
-- [ ] For social signup letter oppener should work for development mode
+- [x] Two factor authentication passes for any input: follow best practices
+- [x] Strong validation for signup forms - first, and last name
+- [x] For social signup letter oppener should work for development mode
+- [ ] After persisting social signup, it shows error that the signup process is now successful: I think it requires strong password and there should be another form to enter password
 
 ### Feature Development
 

@@ -75,21 +75,7 @@ module Users
         puts "DEBUG: Error generating codes: #{e.message}"
       end
       
-      # TEMPORARY OVERRIDE FOR TESTING - Always succeed regardless of OTP code
-      # This will allow you to bypass verification during setup
-      if params[:otp_code].present?
-        # Enable two-factor authentication
-        current_user.otp_required_for_login = true
-        current_user.generate_otp_backup_codes!
-        current_user.save!
-        
-        # Store the backup codes to show them to the user
-        @backup_codes = current_user.otp_backup_codes
-        
-        redirect_to backup_codes_two_factor_path
-        return
-      end
-      
+      # Verify the OTP code provided by the user
       if current_user.validate_and_consume_otp!(params[:otp_code])
         # Enable two-factor authentication
         current_user.otp_required_for_login = true
