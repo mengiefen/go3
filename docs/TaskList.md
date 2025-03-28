@@ -25,7 +25,7 @@
 - [x] Two factor authentication passes for any input: follow best practices
 - [x] Strong validation for signup forms - first, and last name
 - [x] For social signup letter oppener should work for development mode
-- [ ] After persisting social signup, it shows error that the signup process is now successful: I think it requires strong password and there should be another form to enter password
+- [x] After persisting social signup, it shows error that the signup process is now successful: I think it requires strong password and there should be another form to enter password
 
 ### Feature Development
 
