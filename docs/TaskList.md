@@ -15,6 +15,14 @@
 
 ## Next Steps
 
+### Authentication Issues to Fix
+
+- [x] Remove Facebook and Apple authentication options
+- [ ] Fix Two-Factor Authentication show action - "Unknown action The action 'show' could not be found for Users::TwoFactorController"
+- [ ] Fix social authentication persistence - "When someone registers/signup with social option - the database should be updated"
+- [ ] Implement standard password strength validation
+- [ ] Make Two-Factor Authentication disabling option work correctly
+
 ### Feature Development
 
 - [x] Set up authentication (Devise)
