@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   }
 
   # Two-factor authentication
-  resource :two_factor, only: [:new, :create, :show], controller: 'users/two_factor' do
+  resource :two_factor, only: [:new, :create, :show, :update], controller: 'users/two_factor' do
     get :backup_codes
   end
   

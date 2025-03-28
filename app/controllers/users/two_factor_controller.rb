@@ -22,6 +22,36 @@ module Users
       @qr_code = generate_qr_code(current_user.otp_provisioning_uri(current_user.email))
     end
     
+    def show
+      unless current_user.otp_required_for_login
+        redirect_to new_two_factor_path, alert: "Two-factor authentication is not enabled yet."
+        return
+      end
+      
+      begin
+        # Show the user's two-factor authentication status and options
+        @backup_codes = current_user.otp_backup_codes
+        
+        # Handle backup codes string vs array format
+        if @backup_codes.is_a?(String)
+          if @backup_codes.start_with?('[') || @backup_codes.start_with?('{')
+            @backup_codes = JSON.parse(@backup_codes) rescue @backup_codes.split(',')
+          else
+            @backup_codes = @backup_codes.split(',')
+          end
+        end
+        
+        # If backup codes are not available, generate them
+        if @backup_codes.blank?
+          @backup_codes = current_user.generate_otp_backup_codes!
+        end
+        
+      rescue => e
+        Rails.logger.error("Error in TwoFactorController#show: #{e.message}")
+        redirect_to edit_user_registration_path, alert: "An error occurred while accessing your two-factor authentication settings. Please try again."
+      end
+    end
+    
     def create
       # Verify the OTP code entered by the user
       puts "DEBUG: OTP code submitted: #{params[:otp_code]}"
@@ -85,6 +115,19 @@ module Users
       # In a real app, you might want to check a session flag or similar
       @backup_codes = current_user.otp_backup_codes
       @backup_codes = JSON.parse(@backup_codes) if @backup_codes.is_a?(String)
+    end
+    
+    def update
+      unless current_user.otp_required_for_login
+        redirect_to new_two_factor_path, alert: "Two-factor authentication is not enabled yet."
+        return
+      end
+      
+      # Generate new backup codes
+      @backup_codes = current_user.generate_otp_backup_codes!
+      current_user.save!
+      
+      redirect_to two_factor_path, notice: "New backup codes have been generated. Please save these codes securely."
     end
     
     def destroy

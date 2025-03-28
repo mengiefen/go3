@@ -43,7 +43,14 @@ class User < ApplicationRecord
     
     # Create new user from oauth data
     Rails.logger.info("Creating new user from OAuth data")
-    create_from_oauth_data(auth)
+    user = create_from_oauth_data(auth)
+    
+    # Ensure the user is persisted before returning
+    unless user.persisted?
+      Rails.logger.error("Failed to persist social user: #{user.errors.full_messages.join(', ')}")
+    end
+    
+    user
   end
   
   def self.create_from_oauth_data(auth)
@@ -69,9 +76,18 @@ class User < ApplicationRecord
     # Skip email confirmation for OAuth users
     user.skip_confirmation!
     
-    # Save and return the user
+    # Save and log the result
     if user.save
       Rails.logger.info("Successfully created new user: #{user.id}")
+      # Additional attributes that should be set for new social users
+      user.update(
+        active: true,
+        sign_in_count: 1,
+        current_sign_in_at: Time.current,
+        last_sign_in_at: Time.current,
+        current_sign_in_ip: Current.ip_address,
+        last_sign_in_ip: Current.ip_address
+      )
     else
       Rails.logger.error("Failed to create user: #{user.errors.full_messages.join(', ')}")
     end

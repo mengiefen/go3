@@ -63,7 +63,7 @@
                   >
                     <%= link_to "Your Profile", edit_user_registration_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
                     <% if current_user.otp_required_for_login %>
-                      <%= link_to "Manage Two-Factor", disable_two_factor_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
+                      <%= link_to "Manage Two-Factor", two_factor_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
                     <% else %>
                       <%= link_to "Setup Two-Factor", new_two_factor_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
                     <% end %>
@@ -90,7 +90,6 @@
             </div>
           </div>
         </div>
-
         <div class="mobile-menu hidden sm:hidden" id="mobile-menu">
           <div class="space-y-1 pb-3 pt-2">
             <%= link_to "Home", root_path, class: "block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700" %>
@@ -111,7 +110,7 @@
               <div class="mt-3 space-y-1">
                 <%= link_to "Your Profile", edit_user_registration_path, class: "block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800" %>
                 <% if current_user.otp_required_for_login %>
-                  <%= link_to "Manage Two-Factor", disable_two_factor_path, class: "block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800" %>
+                  <%= link_to "Manage Two-Factor", two_factor_path, class: "block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800" %>
                 <% else %>
                   <%= link_to "Setup Two-Factor", new_two_factor_path, class: "block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800" %>
                 <% end %>
@@ -127,7 +126,6 @@
         </div>
       </nav>
     </header>
-
     <% if notice %>
       <div class="rounded-md bg-blue-50 p-4 mx-auto max-w-7xl mt-4 px-4 sm:px-6 lg:px-8">
         <div class="flex">
@@ -142,7 +140,6 @@
         </div>
       </div>
     <% end %>
-
     <% if alert %>
       <div class="rounded-md bg-red-50 p-4 mx-auto max-w-7xl mt-4 px-4 sm:px-6 lg:px-8">
         <div class="flex">
@@ -157,29 +154,27 @@
         </div>
       </div>
     <% end %>
-
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
-
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle
         const mobileMenuButton = document.querySelector('.mobile-menu-button');
         const mobileMenu = document.querySelector('.mobile-menu');
-        
+
         if (mobileMenuButton && mobileMenu) {
           mobileMenuButton.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
           });
         }
-        
+
         // Alpine.js like functionality for dropdowns
         const dropdownButtons = document.querySelectorAll('[aria-haspopup="true"]');
-        
+
         dropdownButtons.forEach(button => {
           const dropdown = button.nextElementSibling;
-          
+
           if (dropdown) {
             button.addEventListener('click', function(e) {
               e.stopPropagation();
@@ -187,7 +182,7 @@
               this.setAttribute('aria-expanded', !expanded);
               dropdown.style.display = expanded ? 'none' : 'block';
             });
-            
+
             document.addEventListener('click', function(e) {
               if (!dropdown.contains(e.target) && !button.contains(e.target)) {
                 button.setAttribute('aria-expanded', 'false');
