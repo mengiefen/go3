@@ -1,5 +1,8 @@
 require_relative "boot"
 
+# Load dotenv for environment variables
+require 'dotenv/load' if File.exist?(File.join(File.dirname(__FILE__), '..', '.env'))
+
 require "rails/all"
 require "devise"
 

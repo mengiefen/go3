@@ -26,6 +26,11 @@ Rails.application.routes.draw do
   resource :two_factor_verification, only: [:show, :update], controller: 'users/two_factor_verification' do
     post :verify_backup_code
   end
+  
+  # Social connections management
+  resources :social_connections, only: [:index], controller: 'users/social_connections' do
+    delete ':provider', to: 'users/social_connections#destroy', on: :collection, as: :destroy
+  end
 
   # Defines the root path route ("/")
   root "home#index"

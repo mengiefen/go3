@@ -19,9 +19,9 @@
 
 - [ ] Set up authentication (Devise)
 - [ ] Create user management
-- [ ] Implement authorization (Pundit)
+- [ ] Implement authorization (pundit, cancancan)
 - [ ] Develop API endpoints
-- [ ] Set up background jobs (Sidekiq)
+- [ ] Set up background jobs (default rails 8 activejob)
 
 ### Testing
 
