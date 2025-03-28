@@ -32,6 +32,9 @@ Rails.application.routes.draw do
     delete ':provider', to: 'users/social_connections#destroy', on: :collection, as: :destroy
   end
 
+  # Letter Opener Web UI (development only)
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+
   # Defines the root path route ("/")
   root "home#index"
 end

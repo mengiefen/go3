@@ -31,18 +31,22 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
+  # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
-
-  # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
-
-  # Use letter_opener to preview emails in the browser instead of sending them
-  config.action_mailer.delivery_method = :letter_opener
+  
+  # Configure email delivery method to use letter_opener_web for development
+  config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
-
+  
   # Set default URL options for ActionMailer
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  host = ENV.fetch('HOST') { 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: host, protocol: 'http' }
+  
+  # Define locations for letter_opener_web to store emails
+  LetterOpenerWeb.configure do |letter_config|
+    letter_config.letters_location = Rails.root.join('tmp', 'letter_opener_web')
+  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

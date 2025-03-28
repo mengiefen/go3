@@ -9,6 +9,10 @@ class User < ApplicationRecord
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :first_name, :last_name, presence: true, on: :update
+  validates :first_name, :last_name, length: { minimum: 2, maximum: 50 }, 
+                                       format: { with: /\A[a-zA-Z\s\-']+\z/, message: "can only contain letters, spaces, hyphens, and apostrophes" }, 
+                                       allow_blank: true
+  validate :password_complexity, if: -> { encrypted_password_changed? || new_record? }
   
   # Callbacks
   before_save :ensure_otp_secret, if: :otp_required_for_login_changed?
@@ -88,6 +92,9 @@ class User < ApplicationRecord
         current_sign_in_ip: Current.ip_address,
         last_sign_in_ip: Current.ip_address
       )
+      
+      # Send welcome email (this will use letter_opener_web in development)
+      user.send_welcome_email
     else
       Rails.logger.error("Failed to create user: #{user.errors.full_messages.join(', ')}")
     end
@@ -120,6 +127,13 @@ class User < ApplicationRecord
          auth.info.name.split(" ").drop(1).join(" ") : 
          "User")
     end
+  end
+  
+  # Sends a welcome email to a newly created user
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_now
+  rescue => e
+    Rails.logger.error("Failed to send welcome email to #{email}: #{e.message}")
   end
   
   # MFA methods
@@ -337,6 +351,40 @@ class User < ApplicationRecord
     end
     
     update(provider: nil, uid: nil)
+  end
+  
+  # Password strength validation method
+  def password_complexity
+    return if password.blank?
+    
+    # Check password complexity
+    unless password.match?(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=~`{}\[\]|:;"'<>,.?\/])/)
+      errors.add :password, "must include at least one lowercase letter, one uppercase letter, one digit, and one special character"
+    end
+    
+    # Check for minimum length (already handled by Devise, but adding as a backup)
+    if password.length < 8
+      errors.add :password, "must be at least 8 characters long"
+    end
+    
+    # Check for common patterns
+    common_patterns = %w[qwerty asdfgh zxcvb 123456 password]
+    if common_patterns.any? { |pattern| password.downcase.include?(pattern) }
+      errors.add :password, "contains a common pattern. Please choose a more secure password."
+    end
+    
+    # Check for personal information in password
+    if first_name.present? && password.downcase.include?(first_name.downcase)
+      errors.add :password, "should not contain your first name"
+    end
+    
+    if last_name.present? && password.downcase.include?(last_name.downcase)
+      errors.add :password, "should not contain your last name"
+    end
+    
+    if email.present? && password.downcase.include?(email.split('@').first.downcase)
+      errors.add :password, "should not contain your email username"
+    end
   end
   
   private
