@@ -34,6 +34,13 @@ class User < ApplicationRecord
     
     if user
       Rails.logger.info("Found existing user: #{user.id}")
+      
+      # If user was found by email (not previous OAuth), confirm their account
+      if user.provider.blank? || user.uid.blank?
+        Rails.logger.info("Confirming user account for social auth: #{user.id}")
+        ensure_confirmed(user)
+      end
+      
       # Update oauth credentials for existing user
       user.update(
         provider: auth.provider,
@@ -64,8 +71,8 @@ class User < ApplicationRecord
       return User.new.tap { |u| u.errors.add(:email, "is required") }
     end
     
-    # Create a secure random password
-    generated_password = Devise.friendly_token[0, 20]
+    # Create a secure random password that meets complexity requirements
+    generated_password = "#{('A'..'Z').to_a.sample(2).join}#{('a'..'z').to_a.sample(4).join}#{(0..9).to_a.sample(2).join}#{['!', '@', '#', '$', '%', '^', '&', '*'].sample(2).join}#{SecureRandom.hex(5)}"
     
     user = User.new(
       provider: auth.provider,
@@ -74,7 +81,8 @@ class User < ApplicationRecord
       password: generated_password,
       first_name: parse_first_name(auth),
       last_name: parse_last_name(auth),
-      avatar: auth.info.image
+      avatar: auth.info.image,
+      confirmed_at: Time.current
     )
     
     # Skip email confirmation for OAuth users
@@ -83,6 +91,9 @@ class User < ApplicationRecord
     # Save and log the result
     if user.save
       Rails.logger.info("Successfully created new user: #{user.id}")
+      # Make sure the user is confirmed
+      ensure_confirmed(user)
+      
       # Additional attributes that should be set for new social users
       user.update(
         active: true,
@@ -385,6 +396,28 @@ class User < ApplicationRecord
     if email.present? && password.downcase.include?(email.split('@').first.downcase)
       errors.add :password, "should not contain your email username"
     end
+  end
+  
+  # Additional helper method to ensure social users are always confirmed
+  def self.ensure_confirmed(user)
+    # Only proceed if the user is confirmable and not confirmed
+    if user.respond_to?(:confirmed?) && !user.confirmed?
+      # Set confirmation fields directly if needed
+      user.skip_confirmation!
+      user.confirmed_at = Time.current if user.confirmed_at.nil?
+      user.confirmation_token = nil
+      user.confirmation_sent_at = nil
+      
+      # Save without validations if only updating confirmation fields
+      if user.changed_attributes.keys.all? { |attr| ['confirmed_at', 'confirmation_token', 'confirmation_sent_at'].include?(attr) }
+        user.save(validate: false)
+      else
+        user.save
+      end
+      
+      Rails.logger.info("User #{user.id} confirmed for social auth")
+    end
+    user
   end
   
   private

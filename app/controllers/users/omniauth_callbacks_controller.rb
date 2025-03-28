@@ -49,6 +49,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = User.from_omniauth(request.env["omniauth.auth"])
       
       if @user.persisted?
+        # Ensure user is confirmed
+        User.ensure_confirmed(@user) if @user.respond_to?(:confirmed?) && !@user.confirmed?
+        
         # Log security event
         @user.log_security_event("social_login_success", {
           provider: provider,
