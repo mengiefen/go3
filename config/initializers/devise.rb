@@ -279,21 +279,8 @@ Devise.setup do |config|
     prompt: 'select_account'
   }
   
-  config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET'], {
-    scope: 'email,public_profile',
-    info_fields: 'email,first_name,last_name,gender,birthday',
-    secure_image_url: true
-  }
-  
-  config.omniauth :apple, ENV['APPLE_CLIENT_ID'], {
-    scope: 'email name',
-    team_id: ENV['APPLE_TEAM_ID'],
-    key_id: ENV['APPLE_KEY_ID'],
-    pem: ENV['APPLE_PRIVATE_KEY']
-  }
-  
   config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET'], {
-    scope: 'r_liteprofile r_emailaddress',
+    scope: 'r_emailaddress r_liteprofile',
     fields: ['id', 'first-name', 'last-name', 'picture-url', 'email-address']
   }
 

@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
-         :omniauthable, omniauth_providers: [:google_oauth2, :facebook, :apple, :linkedin]
+         :omniauthable, omniauth_providers: [:google_oauth2, :linkedin]
          
   # Validations
   validates :email, presence: true, uniqueness: true
@@ -22,13 +22,87 @@ class User < ApplicationRecord
   
   # Class methods
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-      user.first_name = auth.info.first_name || auth.info.name.split(" ").first
-      user.last_name = auth.info.last_name || auth.info.name.split(" ").last
-      user.avatar = auth.info.image
-      user.skip_confirmation!
+    Rails.logger.info("Processing OAuth data for provider: #{auth.provider}")
+    
+    # Find existing user by provider/uid or email
+    user = find_by(provider: auth.provider, uid: auth.uid) 
+    user ||= find_by(email: auth.info.email) if auth.info.email.present?
+    
+    if user
+      Rails.logger.info("Found existing user: #{user.id}")
+      # Update oauth credentials for existing user
+      user.update(
+        provider: auth.provider,
+        uid: auth.uid,
+        # Only update name if not already set
+        first_name: user.first_name.blank? ? parse_first_name(auth) : user.first_name,
+        last_name: user.last_name.blank? ? parse_last_name(auth) : user.last_name
+      )
+      return user
+    end
+    
+    # Create new user from oauth data
+    Rails.logger.info("Creating new user from OAuth data")
+    create_from_oauth_data(auth)
+  end
+  
+  def self.create_from_oauth_data(auth)
+    # Confirm we have an email which is required
+    unless auth.info.email.present?
+      Rails.logger.error("OAuth data missing required email: #{auth.to_json}")
+      return User.new.tap { |u| u.errors.add(:email, "is required") }
+    end
+    
+    # Create a secure random password
+    generated_password = Devise.friendly_token[0, 20]
+    
+    user = User.new(
+      provider: auth.provider,
+      uid: auth.uid,
+      email: auth.info.email,
+      password: generated_password,
+      first_name: parse_first_name(auth),
+      last_name: parse_last_name(auth),
+      avatar: auth.info.image
+    )
+    
+    # Skip email confirmation for OAuth users
+    user.skip_confirmation!
+    
+    # Save and return the user
+    if user.save
+      Rails.logger.info("Successfully created new user: #{user.id}")
+    else
+      Rails.logger.error("Failed to create user: #{user.errors.full_messages.join(', ')}")
+    end
+    
+    user
+  end
+  
+  # Helper methods for parsing OAuth data
+  def self.parse_first_name(auth)
+    case auth.provider
+    when 'linkedin'
+      # LinkedIn might use name instead of first_name/last_name
+      auth.info.first_name || auth.info.name&.split(" ")&.first || "LinkedIn"
+    else
+      # Google should provide first_name directly
+      auth.info.first_name || auth.info.name&.split(" ")&.first || "User"
+    end
+  end
+  
+  def self.parse_last_name(auth)
+    case auth.provider
+    when 'linkedin'
+      auth.info.last_name || 
+        (auth.info.name.present? && auth.info.name.split(" ").size > 1 ? 
+         auth.info.name.split(" ").drop(1).join(" ") : 
+         "User")
+    else
+      auth.info.last_name || 
+        (auth.info.name.present? && auth.info.name.split(" ").size > 1 ? 
+         auth.info.name.split(" ").drop(1).join(" ") : 
+         "User")
     end
   end
   
@@ -209,6 +283,44 @@ class User < ApplicationRecord
     else
       false
     end
+  end
+  
+  # OAuth methods
+  def linked_providers
+    return [] if provider.blank? || uid.blank?
+    [provider]
+  end
+  
+  def linked_to?(provider_name)
+    provider == provider_name && uid.present?
+  end
+  
+  def link_oauth_account(auth)
+    return false unless auth.provider.present? && auth.uid.present?
+    
+    # Don't allow linking if already linked to a different provider
+    if provider.present? && provider != auth.provider
+      errors.add(:provider, "already linked to #{provider}")
+      return false
+    end
+    
+    # Update provider details
+    update(
+      provider: auth.provider,
+      uid: auth.uid
+    )
+  end
+  
+  def unlink_oauth_account
+    return false unless provider.present? && uid.present?
+    
+    # Ensure user has a password if unlinking
+    if encrypted_password.blank?
+      errors.add(:base, "You need to set a password before unlinking your social account")
+      return false
+    end
+    
+    update(provider: nil, uid: nil)
   end
   
   private
