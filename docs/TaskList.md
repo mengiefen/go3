@@ -38,7 +38,7 @@
     - [x] Design profile views (show/edit) - single page aproach with hotwire
     - [ ] Implement profile picture management with Active Storage
     - [ ] Timezone detection is not working
-    - [ ] importmap implementation is not standard
+    - [ ] importmap implementation is not standard (https://date-fns.org/v4.1.0/docs/Time-Zones)
   - [x] Account Settings UI - Hotwire based implementation for easy and optimized loadig time and use experiance
     - [x] Design comprehensive settings dashboard
     - [x] Enhance email/password management flows
