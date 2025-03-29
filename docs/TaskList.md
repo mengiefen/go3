@@ -15,13 +15,61 @@
 
 ## Next Steps
 
+### Authentication Issues to Fix
+
+- [x] Remove Facebook and Apple authentication options
+- [x] Fix Two-Factor Authentication show action - "Unknown action The action 'show' could not be found for Users::TwoFactorController"
+- [x] Fix social authentication persistence - "When someone registers/signup with social option - the database should be updated"
+- [x] Implement standard password strength validation
+- [x] Make Two-Factor Authentication disabling option work correctly
+- [x] Two factor authentication passes for any input: follow best practices
+- [x] Strong validation for signup forms - first, and last name
+- [x] For social signup letter oppener should work for development mode
+- [x] After persisting social signup, it shows error that the signup process is now successful: I think it requires strong password and there should be another form to enter password
+
 ### Feature Development
 
-- [ ] Set up authentication (Devise)
+- [x] Set up authentication (Devise)
+- [~] Adding Captcha in Singin and Signup page for human check - WAITING CONFIRMATION
 - [ ] Create user management
-- [ ] Implement authorization (Pundit)
+
+  - [ ] User Profile System
+    - [ ] Create UserProfile model with extended attributes (contact info, preferences)
+    - [ ] Design profile views (show/edit) - single page aproach with hotwire
+    - [ ] Implement profile picture management with Active Storage
+  - [ ] User Invitation Workflow
+    - [ ] Create Invitation model with token and expiration
+    - [ ] Build invitation email templates
+    - [ ] Implement invitation acceptance flow
+    - [ ] Create admin interface for managing invitations
+  - [ ] Account Settings UI - Hotwire based implementation for easy and optimized loadig time and use experiance
+    - [ ] Design comprehensive settings dashboard
+    - [ ] Enhance email/password management flows
+    - [ ] Improve connected social accounts management
+    - [ ] Create notification preferences section
+  - [ ] User Deactivation/Reactivation
+    - [ ] Add account status field to User model
+    - [ ] Implement hard-delete functionality
+    - [ ] Build admin interface for account status management
+  - [ ] Admin User Management Interface
+    - [ ] Create admin dashboard for user management
+    - [ ] Implement user search and filtering
+    - [ ] Add bulk operations (invite, deactivate)
+    - [ ] Create user impersonation feature
+  - [ ] User Preferences System
+
+    - [ ] Design UserPreference model
+    - [ ] Create UI for managing preferences
+    - [ ] Implement preference-based experience customization
+
+  - [ ] User Activity Tracking -Use Papertrail
+    - [ ] Create UserActivity model for tracking user actions
+    - [ ] Implement privacy-compliant tracking system
+    - [ ] Build activity visualization
+
+- [ ] Implement authorization (pundit, cancancan)
 - [ ] Develop API endpoints
-- [ ] Set up background jobs (Sidekiq)
+- [ ] Set up background jobs (default rails 8 activejob)
 
 ### Testing
 
@@ -44,38 +92,38 @@
 
 ### Core Architecture Setup
 
-- [ ] Set up development environment
-- [ ] Initialize Rails 8 application
-- [ ] Configure PostgreSQL database
-- [ ] Set up Docker development environment
-- [ ] Configure GitHub repository structure
-- [ ] Create initial CI/CD pipeline
-- [ ] Set up environment configuration
-- [ ] Configure logging and monitoring basics
+- [x] Set up development environment
+- [x] Initialize Rails 8 application
+- [x] Configure PostgreSQL database
+- [x] Set up Docker development environment
+- [x] Configure GitHub repository structure
+- [x] Create initial CI/CD pipeline
+- [x] Set up environment configuration
+- [x] Configure logging and monitoring basics
 
 ### Authentication System
 
-- [ ] Generate base authentication with Rails 8 generator
-- [ ] Extend User model for additional fields
-- [ ] Implement account lockout mechanism
-- [ ] Set up rate limiting with Rack Attack
+- [x] Generate base authentication with Rails 8 generator
+- [x] Extend User model for additional fields
+- [x] Implement account lockout mechanism
+- [x] Set up rate limiting with Rack Attack
 - [ ] Add CAPTCHA for signup/login forms
-- [ ] Implement password policies and validation
-- [ ] Set up session management
-- [ ] Add password reset functionality
-- [ ] Implement email verification
-- [ ] Create login/signup UI components
+- [x] Implement password policies and validation
+- [x] Set up session management
+- [x] Add password reset functionality
+- [x] Implement email verification
+- [x] Create login/signup UI components
 
 #### Social Authentication
 
-- [ ] Add OmniAuth gem and configuration
-- [ ] Implement Google OAuth provider
+- [x] Add OmniAuth gem and configuration
+- [x] Implement Google OAuth provider
 - [ ] Implement Facebook OAuth provider
 - [ ] Implement Apple Sign-in
-- [ ] Implement LinkedIn authentication
-- [ ] Add CSRF protection for OAuth
-- [ ] Create unified account linking mechanism
-- [ ] Design and implement social login UI components
+- [x] Implement LinkedIn authentication
+- [x] Add CSRF protection for OAuth
+- [x] Create unified account linking mechanism
+- [x] Design and implement social login UI components
 
 #### Multi-Factor Authentication
 

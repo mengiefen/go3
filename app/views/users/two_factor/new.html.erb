@@ -1,0 +1,70 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Set up Two-Factor Authentication</h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      Enhance your account security with an additional verification step
+    </p>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
+      <div class="mb-6">
+        <h3 class="text-base font-semibold leading-7 text-gray-900">1. Scan this QR code with your authenticator app</h3>
+        <div class="mt-4 text-center">
+          <%= @qr_code.html_safe %>
+        </div>
+        <p class="mt-4 text-sm text-gray-500">
+          Use an authenticator app like Google Authenticator, Authy, or 1Password to scan this QR code.
+        </p>
+      </div>
+
+      <div class="mb-6 pt-4 border-t border-gray-200">
+        <h3 class="text-base font-semibold leading-7 text-gray-900">Or enter setup key manually</h3>
+        <p class="mt-2 text-sm text-gray-500">
+          If you can't scan the QR code, enter this key into your authenticator app:
+        </p>
+        <div class="mt-2 p-2 bg-gray-100 rounded text-center font-mono text-sm">
+          <%= @otp_secret_for_display %>
+        </div>
+        <p class="mt-2 text-xs text-gray-500">
+          Account name: <%= current_user.email %><br>
+          Issuer: GO3<br>
+          Type: Time-based (TOTP)
+        </p>
+      </div>
+
+      <%= form_with url: two_factor_path, method: :post, class: "space-y-6" do |f| %>
+        <div>
+          <h3 class="text-base font-semibold leading-7 text-gray-900">2. Enter the verification code from your app</h3>
+          <div class="mt-2">
+            <%= f.text_field :otp_code, autocomplete: "off", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter 6-digit code" %>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <%= link_to "Cancel", edit_user_registration_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+          <%= f.submit "Verify and enable", class: "flex w-auto justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-6">
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="bg-gray-50 px-2 text-gray-500">Important notice</span>
+        </div>
+      </div>
+      <div class="mt-4 text-sm text-gray-600">
+        <p class="font-medium text-red-600">
+          After enabling two-factor authentication, you'll need both your password and a verification code to log in.
+        </p>
+        <p class="mt-2">
+          Make sure you save the backup codes that will be provided in the next step. They can be used if you lose access to your authenticator app.
+        </p>
+      </div>
+    </div>
+  </div>
+</div> 

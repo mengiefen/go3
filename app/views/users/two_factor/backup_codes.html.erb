@@ -1,0 +1,75 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+      <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    <h2 class="mt-3 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Two-Factor Authentication Enabled</h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      Your account is now more secure. You'll need both your password and a verification code to sign in.
+    </p>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white px-6 py-8 shadow sm:rounded-lg sm:px-12">
+      <div class="rounded-md bg-yellow-50 p-4 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-yellow-800">Important: Save Your Backup Codes</h3>
+            <div class="mt-2 text-sm text-yellow-700">
+              <p>Each backup code can only be used once. Store these codes somewhere safe but accessible.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-base font-semibold leading-7 text-gray-900">Your Backup Codes</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          If you can't access your authenticator app, you can use one of these codes to sign in.
+        </p>
+        
+        <div class="mt-4 grid grid-cols-2 gap-2">
+          <% @backup_codes.each do |code| %>
+            <div class="bg-gray-50 p-2 rounded-md text-center font-mono text-sm">
+              <%= code %>
+            </div>
+          <% end %>
+        </div>
+        
+        <div class="mt-4">
+          <button id="copy-codes" type="button" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+            Copy all codes to clipboard
+          </button>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex justify-center">
+        <%= link_to "Continue", root_path, class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('copy-codes').addEventListener('click', function() {
+    const codes = <%= raw @backup_codes.to_json %>;
+    const textToCopy = codes.join('\n');
+    
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      const button = document.getElementById('copy-codes');
+      const originalText = button.textContent;
+      button.textContent = 'Copied!';
+      
+      setTimeout(function() {
+        button.textContent = originalText;
+      }, 2000);
+    });
+  });
+</script> 

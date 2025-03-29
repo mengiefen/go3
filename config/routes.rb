@@ -5,10 +5,33 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Device routes with custom controllers
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    passwords: 'users/passwords',
+    confirmations: 'users/confirmations',
+    unlocks: 'users/unlocks',
+    omniauth_callbacks: 'users/omniauth_callbacks'
+  }
+
+  # Two-factor authentication
+  resource :two_factor, only: [:new, :create, :show, :update], controller: 'users/two_factor' do
+    get :backup_codes
+  end
+  
+  delete 'two_factor', to: 'users/two_factor#destroy', as: :disable_two_factor
+  
+  # Two Factor Verification during login
+  resource :two_factor_verification, only: [:show, :update], controller: 'users/two_factor_verification' do
+    post :verify_backup_code
+  end
+  
+  # Social connections management
+  resources :social_connections, only: [:index], controller: 'users/social_connections' do
+    delete ':provider', to: 'users/social_connections#destroy', on: :collection, as: :destroy
+  end
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 end

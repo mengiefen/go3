@@ -12,6 +12,31 @@ A modern Rails 8 application with PostgreSQL database.
 - Docker and Docker Compose
 - Node.js and Yarn
 
+### Email Testing with MailCatcher
+
+For email testing in development, this application uses MailCatcher.
+
+1. Install MailCatcher globally (not in your project Gemfile):
+
+   ```bash
+   gem install mailcatcher
+   ```
+
+2. Start MailCatcher:
+
+   ```bash
+   mailcatcher
+   ```
+
+3. Access the web interface at http://localhost:1080 to view emails
+
+4. All emails sent by the application will be captured here rather than actually being sent
+
+When MailCatcher is running, it provides:
+
+- SMTP server on 127.0.0.1:1025
+- Web interface on 127.0.0.1:1080
+
 ### Setup with Docker (Recommended)
 
 1. Clone the repository

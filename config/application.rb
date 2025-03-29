@@ -1,6 +1,10 @@
 require_relative "boot"
 
+# Load dotenv for environment variables
+require 'dotenv/load' if File.exist?(File.join(File.dirname(__FILE__), '..', '.env'))
+
 require "rails/all"
+require "devise"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
