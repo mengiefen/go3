@@ -30,8 +30,43 @@
 ### Feature Development
 
 - [x] Set up authentication (Devise)
-- [ ] Adding Captcha in Singin and Signup page for human check
+- [~] Adding Captcha in Singin and Signup page for human check - WAITING CONFIRMATION
 - [ ] Create user management
+
+  - [ ] User Profile System
+    - [ ] Create UserProfile model with extended attributes (contact info, preferences)
+    - [ ] Design profile views (show/edit) - single page aproach with hotwire
+    - [ ] Implement profile picture management with Active Storage
+  - [ ] User Invitation Workflow
+    - [ ] Create Invitation model with token and expiration
+    - [ ] Build invitation email templates
+    - [ ] Implement invitation acceptance flow
+    - [ ] Create admin interface for managing invitations
+  - [ ] Account Settings UI - Hotwire based implementation for easy and optimized loadig time and use experiance
+    - [ ] Design comprehensive settings dashboard
+    - [ ] Enhance email/password management flows
+    - [ ] Improve connected social accounts management
+    - [ ] Create notification preferences section
+  - [ ] User Deactivation/Reactivation
+    - [ ] Add account status field to User model
+    - [ ] Implement hard-delete functionality
+    - [ ] Build admin interface for account status management
+  - [ ] Admin User Management Interface
+    - [ ] Create admin dashboard for user management
+    - [ ] Implement user search and filtering
+    - [ ] Add bulk operations (invite, deactivate)
+    - [ ] Create user impersonation feature
+  - [ ] User Preferences System
+
+    - [ ] Design UserPreference model
+    - [ ] Create UI for managing preferences
+    - [ ] Implement preference-based experience customization
+
+  - [ ] User Activity Tracking -Use Papertrail
+    - [ ] Create UserActivity model for tracking user actions
+    - [ ] Implement privacy-compliant tracking system
+    - [ ] Build activity visualization
+
 - [ ] Implement authorization (pundit, cancancan)
 - [ ] Develop API endpoints
 - [ ] Set up background jobs (default rails 8 activejob)

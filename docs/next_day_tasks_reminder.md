@@ -21,7 +21,7 @@
 
    - Review and test the full authentication flow once more
    - Verify MailCatcher is working correctly
-   - Add CAPTCHA support for sign-in/sign-up forms
+   - ⏳ Add CAPTCHA support for sign-in/sign-up forms - AWAITING CONFIRMATION
 
 2. **User Management**
 
