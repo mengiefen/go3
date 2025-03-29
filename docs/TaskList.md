@@ -34,7 +34,7 @@
 - [ ] Create user management
 
   - [ ] User Profile System
-    - [ ] Create UserProfile model with extended attributes (contact info, preferences)
+    - [ ] Create UserProfile model with extended attributes
     - [ ] Design profile views (show/edit) - single page aproach with hotwire
     - [ ] Implement profile picture management with Active Storage
   - [ ] User Invitation Workflow

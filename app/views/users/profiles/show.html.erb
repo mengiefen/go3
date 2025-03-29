@@ -1,0 +1,80 @@
+<div class="max-w-3xl mx-auto py-8">
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-medium text-gray-900">My Profile</h1>
+        <%= link_to "Edit Profile", edit_users_profile_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+    
+    <div class="px-6 py-4">
+      <% if notice.present? %>
+        <div class="mb-4 p-4 bg-green-100 rounded-lg text-green-700">
+          <%= notice %>
+        </div>
+      <% end %>
+      
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Name</h3>
+            <p class="mt-1 text-sm text-gray-900"><%= current_user.full_name %></p>
+          </div>
+          
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Email</h3>
+            <p class="mt-1 text-sm text-gray-900"><%= current_user.email %></p>
+          </div>
+          
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Phone</h3>
+            <p class="mt-1 text-sm text-gray-900"><%= current_user.phone_number.present? ? current_user.phone_number : "Not provided" %></p>
+          </div>
+          
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Address</h3>
+            <p class="mt-1 text-sm text-gray-900"><%= current_user.address.present? ? current_user.address : "Not provided" %></p>
+          </div>
+          
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Language</h3>
+            <p class="mt-1 text-sm text-gray-900"><%= current_user.language.present? ? current_user.language : "English (default)" %></p>
+          </div>
+          
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Timezone</h3>
+            <p class="mt-1 text-sm text-gray-900"><%= current_user.timezone.present? ? current_user.timezone : "Not set" %></p>
+          </div>
+        </div>
+        
+        <div class="border-t border-gray-200 pt-4">
+          <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Security Settings</h3>
+          
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-900">Two-Factor Authentication</p>
+                <p class="text-xs text-gray-500">Add an extra layer of security to your account</p>
+              </div>
+              <div>
+                <% if current_user.otp_required_for_login? %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Enabled</span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Disabled</span>
+                <% end %>
+              </div>
+            </div>
+            
+            <div class="mt-2">
+              <% if current_user.otp_required_for_login? %>
+                <%= link_to "Manage 2FA Settings", two_factor_path, class: "text-sm text-indigo-600 hover:text-indigo-500" %>
+              <% else %>
+                <%= link_to "Enable 2FA", new_two_factor_path, class: "text-sm text-indigo-600 hover:text-indigo-500" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

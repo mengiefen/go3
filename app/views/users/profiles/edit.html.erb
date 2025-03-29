@@ -1,0 +1,70 @@
+<div class="max-w-3xl mx-auto py-8">
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-medium text-gray-900">Edit Profile</h1>
+        <%= link_to "Back to Profile", users_profile_path, class: "text-sm text-indigo-600 hover:text-indigo-500" %>
+      </div>
+    </div>
+    
+    <div class="px-6 py-4">
+      <%= form_with(model: current_user, url: users_profile_path, class: "space-y-6") do |form| %>
+        <% if current_user.errors.any? %>
+          <div class="bg-red-50 p-4 rounded-lg mb-4">
+            <div class="text-sm text-red-700">
+              <h2><%= pluralize(current_user.errors.count, "error") %> prohibited this profile from being saved:</h2>
+              <ul class="list-disc pl-5 mt-2">
+                <% current_user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+        
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+          <div>
+            <%= form.label :first_name, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :first_name, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+          
+          <div>
+            <%= form.label :last_name, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :last_name, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+          
+          <div>
+            <%= form.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.telephone_field :phone_number, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+          
+          <div>
+            <%= form.label :language, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :language, 
+                [["English", "en"], ["Spanish", "es"], ["French", "fr"], ["German", "de"], ["Chinese", "zh"], ["Japanese", "ja"]], 
+                { include_blank: false }, 
+                { class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+          </div>
+          
+          <div>
+            <%= form.label :timezone, "Timezone", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.time_zone_select :timezone, 
+                ActiveSupport::TimeZone.all.sort, 
+                { include_blank: true, default: Time.zone.name }, 
+                { class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", id: "user_timezone" } %>
+            <p class="mt-1 text-xs text-gray-500">Your timezone is auto-detected from your browser.</p>
+          </div>
+          
+          <div class="sm:col-span-2">
+            <%= form.label :address, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_area :address, rows: 3, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+        </div>
+        
+        <div class="flex justify-end">
+          <%= form.submit "Update Profile", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
