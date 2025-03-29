@@ -34,35 +34,19 @@
 - [ ] Create user management
 
   - [ ] User Profile System
-    - [ ] Create UserProfile model with extended attributes
-    - [ ] Design profile views (show/edit) - single page aproach with hotwire
+    - [x] Create UserProfile model with extended attributes
+    - [x] Design profile views (show/edit) - single page aproach with hotwire
     - [ ] Implement profile picture management with Active Storage
-  - [ ] User Invitation Workflow
-    - [ ] Create Invitation model with token and expiration
-    - [ ] Build invitation email templates
-    - [ ] Implement invitation acceptance flow
-    - [ ] Create admin interface for managing invitations
-  - [ ] Account Settings UI - Hotwire based implementation for easy and optimized loadig time and use experiance
-    - [ ] Design comprehensive settings dashboard
-    - [ ] Enhance email/password management flows
-    - [ ] Improve connected social accounts management
-    - [ ] Create notification preferences section
-  - [ ] User Deactivation/Reactivation
-    - [ ] Add account status field to User model
-    - [ ] Implement hard-delete functionality
-    - [ ] Build admin interface for account status management
-  - [ ] Admin User Management Interface
-    - [ ] Create admin dashboard for user management
-    - [ ] Implement user search and filtering
-    - [ ] Add bulk operations (invite, deactivate)
-    - [ ] Create user impersonation feature
-  - [ ] User Preferences System
+    - [ ] Timezone detection is not working
+    - [ ] importmap implementation is not standard
+  - [x] Account Settings UI - Hotwire based implementation for easy and optimized loadig time and use experiance
+    - [x] Design comprehensive settings dashboard
+    - [x] Enhance email/password management flows
+    - [x] Improve connected social accounts management
+  - [x] User Deactivation/Reactivation
+    - [x] Implement hard-delete functionality
 
-    - [ ] Design UserPreference model
-    - [ ] Create UI for managing preferences
-    - [ ] Implement preference-based experience customization
-
-  - [ ] User Activity Tracking -Use Papertrail
+  - [ ] User Activity Tracking - Use Papertrail (Later)
     - [ ] Create UserActivity model for tracking user actions
     - [ ] Implement privacy-compliant tracking system
     - [ ] Build activity visualization
