@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  namespace :users do
+    resource :profile, only: [:show, :edit, :update], controller: 'profiles'
+    delete 'remove_avatar', to: 'profiles#remove_avatar', as: :remove_avatar
+    resource :settings, only: [:edit, :update], controller: 'settings'
+    get 'profile', to: 'profile#show'
+    delete 'account', to: 'settings#destroy_account'
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

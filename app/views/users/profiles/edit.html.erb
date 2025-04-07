@@ -1,0 +1,257 @@
+<div class="max-w-3xl mx-auto py-8">
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-medium text-gray-900">Edit Profile</h1>
+        <%= link_to "Back to Profile", users_profile_path, class: "text-sm text-indigo-600 hover:text-indigo-500" %>
+      </div>
+    </div>
+    
+    <div class="px-6 py-4">
+      <%= form_with(model: current_user, url: users_profile_path, class: "space-y-6", html: { multipart: true }) do |form| %>
+        <% if current_user.errors.any? %>
+          <div class="bg-red-50 p-4 rounded-lg mb-4">
+            <div class="text-sm text-red-700">
+              <h2><%= pluralize(current_user.errors.count, "error") %> prohibited this profile from being saved:</h2>
+              <ul class="list-disc pl-5 mt-2">
+                <% current_user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Avatar upload section -->
+        <div class="sm:col-span-2 mb-6">
+          <div class="flex flex-col items-center sm:flex-row sm:items-start">
+            <div class="mb-4 sm:mb-0 sm:mr-6">
+              <div class="w-32 h-32 rounded-full overflow-hidden bg-gray-100 border border-gray-300" data-avatar-upload-target="preview">
+                <% if current_user.avatar.attached? %>
+                  <%= image_tag current_user.avatar.variant(resize_to_fill: [128, 128]), class: "w-full h-full object-cover" %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center text-gray-400">
+                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+                    </svg>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            
+            <div class="flex-1" data-controller="avatar-upload">
+              <div class="mb-2">
+                <%= form.label :avatar, "Profile Picture", class: "block text-sm font-medium text-gray-700" %>
+              </div>
+              
+              <%= form.file_field :avatar, 
+                  accept: "image/jpeg,image/png,image/gif", 
+                  class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100",
+                  direct_upload: true,
+                  data: { 
+                    avatar_upload_target: "input"
+                  } %>
+              
+              <!-- Progress bar (hidden by default) -->
+              <div class="mt-2 hidden" data-avatar-upload-target="progress">
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%" data-avatar-upload-target="progressBar"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Uploading image...</p>
+              </div>
+              
+              <div class="mt-1 text-xs text-gray-500">
+                <p>Maximum file size: 5MB</p>
+                <p>Supported formats: JPG, PNG, GIF</p>
+              </div>
+              
+              <% if current_user.avatar.attached? %>
+                <div class="mt-2">
+                  <%= link_to "Remove current picture", users_remove_avatar_path, 
+                      method: :delete,
+                      class: "text-sm text-red-600 hover:text-red-500",
+                      data: { 
+                        confirm: "Are you sure you want to remove your profile picture?"
+                      } %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+          <div>
+            <%= form.label :first_name, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :first_name, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+          
+          <div>
+            <%= form.label :last_name, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :last_name, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+          
+          <div>
+            <%= form.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.telephone_field :phone_number, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+          
+          <div>
+            <%= form.label :language, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :language, 
+                [["English", "en"], ["Spanish", "es"], ["French", "fr"], ["German", "de"], ["Chinese", "zh"], ["Japanese", "ja"]], 
+                { include_blank: false }, 
+                { class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+          </div>
+          
+          <div>
+            <%= form.label :timezone, "Timezone", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :timezone, 
+                [], 
+                { include_blank: true, default: current_user.timezone || Time.zone.name }, 
+                { class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm timezone-select", id: "user_timezone" } %>
+            <p class="mt-1 text-xs text-gray-500">Your timezone is auto-detected from your browser.</p>
+          </div>
+          
+          <div class="sm:col-span-2">
+            <%= form.label :address, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_area :address, rows: 3, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+        </div>
+        
+        <div class="flex justify-end">
+          <%= form.submit "Update Profile", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+<!-- Tom Select CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+<!-- Tom Select JS -->
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Import the timezones using the correct import path
+    import('timezones').then(module => {
+      const { timezones, clientTimeZone } = module;
+      const allTimezones = timezones();
+      const tzSelect = document.getElementById('user_timezone');
+      
+      // Directly populate the select element first for better reliability
+      tzSelect.innerHTML = '';
+      const blankOption = document.createElement('option');
+      blankOption.value = '';
+      blankOption.textContent = 'Select timezone...';
+      tzSelect.appendChild(blankOption);
+      
+      // Add all timezone options to the select
+      allTimezones.forEach(tz => {
+        const option = document.createElement('option');
+        option.value = tz.name;
+        option.textContent = tz.caption;
+        tzSelect.appendChild(option);
+      });
+      
+      // Initialize TomSelect after populating the select
+      try {
+        const tomSelect = new TomSelect('#user_timezone', {
+          valueField: 'value',
+          labelField: 'text',
+          searchField: 'text',
+          create: false,
+          placeholder: 'Search for a timezone...',
+          allowEmptyOption: true,
+          render: {
+            option: function(data, escape) {
+              return '<div class="py-2 px-3">' + escape(data.text) + '</div>';
+            },
+            item: function(data, escape) {
+              return '<div>' + escape(data.text) + '</div>';
+            }
+          }
+        });
+        
+        // Set current value if available
+        const currentTz = '<%= current_user.timezone %>';
+        if (currentTz) {
+          tomSelect.setValue(currentTz);
+        } else {
+          // Try to detect timezone
+          const detected = clientTimeZone();
+          if (detected) {
+            tomSelect.setValue(detected.name);
+          }
+        }
+      } catch (error) {
+        // The select element is already populated as a fallback
+        console.error('Error initializing TomSelect, using standard select as fallback');
+      }
+    }).catch(err => {
+      console.error('Error loading timezones module');
+    });
+    
+    // Avatar preview functionality
+    const avatarInput = document.querySelector('input[type="file"][name="user[avatar]"]');
+    if (avatarInput) {
+      avatarInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const previewImg = document.querySelector('.w-32.h-32.rounded-full img');
+            if (previewImg) {
+              previewImg.src = e.target.result;
+            } else {
+              const avatarContainer = document.querySelector('.w-32.h-32.rounded-full');
+              if (avatarContainer) {
+                avatarContainer.innerHTML = '';
+                const newImg = document.createElement('img');
+                newImg.src = e.target.result;
+                newImg.className = 'w-full h-full object-cover';
+                avatarContainer.appendChild(newImg);
+              }
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+    
+    // Avatar remove confirmation
+    const removeLink = document.querySelector('[data-controller="avatar-remove"]');
+    if (removeLink) {
+      removeLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to remove your profile picture?')) {
+          // Create a temporary form to submit the avatar removal request
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '<%= users_remove_avatar_path %>';
+          
+          // Add CSRF token
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+          const csrfInput = document.createElement('input');
+          csrfInput.type = 'hidden';
+          csrfInput.name = 'authenticity_token';
+          csrfInput.value = csrfToken;
+          form.appendChild(csrfInput);
+          
+          // Add method override for DELETE
+          const methodInput = document.createElement('input');
+          methodInput.type = 'hidden';
+          methodInput.name = '_method';
+          methodInput.value = 'delete';
+          form.appendChild(methodInput);
+          
+          // Submit the form
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
+    }
+  });
+</script>
+<% end %>
