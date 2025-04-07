@@ -52,7 +52,6 @@
     - [ ] Implement privacy-compliant tracking system
     - [ ] Build activity visualization
 
-- [ ] Implement authorization (pundit, cancancan)
 - [ ] Develop API endpoints
 - [ ] Set up background jobs (default rails 8 activejob)
 
@@ -123,18 +122,72 @@
 
 ### Authorization System
 
-- [ ] Add Pundit for policy-based authorization
-- [ ] Create Permission model
-- [ ] Create Role model
-- [ ] Create UserGroup model
-- [ ] Implement User-Role relationships
-- [ ] Implement Role-Permission mappings
-- [ ] Create Organization-based permission hierarchy
-- [ ] Implement controller authorization checks
-- [ ] Create authorization scopes for collections
-- [ ] Build permission management UI
-- [ ] Implement authorization audit logging
-- [ ] Set up permission versioning
+- [ ] **Database Schema Design**
+  - [ ] Add Pundit gem for policy-based authorization
+  - [ ] Create Permission model with permission_code and polymorphic subject/target
+  - [ ] Create Role model with hierarchical structure
+  - [ ] Create groups_members join table for many-to-many relationship
+  - [ ] Create Department model and associations
+  - [ ] Implement tenant isolation with proper foreign key constraints
+  - [ ] Configure PaperTrail for audit trail on all authorization models
+  - [ ] Set up PostgreSQL Row-Level Security policies for tenant isolation
+
+- [ ] **Code-Defined Permission Registry**
+  - [ ] Create PermissionRegistry module
+  - [ ] Define resource categories and actions
+  - [ ] Implement permission code validation methods
+  - [ ] Create helper methods for permission metadata
+  - [ ] Implement permission display and categorization utilities
+  - [ ] Add permission code generators
+
+- [ ] **Core Permission Implementation**
+  - [ ] Implement organization-specific and platform-specific roles
+  - [ ] Create role hierarchy implementation
+  - [ ] Build role assignment mechanism with history tracking
+  - [ ] Implement permission delegation system
+  - [ ] Create time-limited permissions with expiration
+  - [ ] Build notification system for expiring permissions
+
+- [ ] **Pundit Policy Framework**
+  - [ ] Design base ApplicationPolicy with permission checking
+  - [ ] Create resource-specific policies inheriting from base policy
+  - [ ] Implement role-specific policy contexts for maintainable code
+  - [ ] Create controller helpers for authorization checks
+  - [ ] Implement tenant-aware authorization context
+  - [ ] Add authorization scopes for collections
+
+- [ ] **Permission Resolution Engine**
+  - [ ] Implement algorithm to check multiple permission sources
+  - [ ] Create member direct permission validation
+  - [ ] Implement group membership permission validation
+  - [ ] Create department permission validation
+  - [ ] Implement role permission validation
+  - [ ] Optimize queries with proper database indexing
+  - [ ] Implement warning system for multiple permission sources
+
+- [ ] **Caching and Performance**
+  - [ ] Set up Redis for permission caching
+  - [ ] Implement cache invalidation on permission changes
+  - [ ] Create batch permission verification for UI rendering
+  - [ ] Optimize database queries with proper indexes
+  - [ ] Implement permission preloading for common scenarios
+
+- [ ] **User Interface**
+  - [ ] Design permission management dashboard
+  - [ ] Create role management interface
+  - [ ] Build group management UI
+  - [ ] Implement permission assignment interface
+  - [ ] Create visualizations for permission sources
+  - [ ] Build audit log viewer for permission changes
+  - [ ] Implement permission impact analysis tool
+
+- [ ] **Testing and Security**
+  - [ ] Create unit tests for permission resolution logic
+  - [ ] Implement integration tests for policies
+  - [ ] Build system tests for permission UI
+  - [ ] Add performance tests for authorization system
+  - [ ] Implement security penetration tests
+  - [ ] Create documentation for authorization system
 
 ### User Management
 
