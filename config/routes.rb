@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :users do
     resource :profile, only: [:show, :edit, :update], controller: 'profiles'
+    delete 'remove_avatar', to: 'profiles#remove_avatar', as: :remove_avatar
     resource :settings, only: [:edit, :update], controller: 'settings'
     get 'profile', to: 'profile#show'
     delete 'account', to: 'settings#destroy_account'

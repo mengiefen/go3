@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: [:google_oauth2, :linkedin]
+  
+  # Active Storage attachment
+  has_one_attached :avatar
          
   # Validations
   validates :email, presence: true, uniqueness: true
@@ -13,6 +16,7 @@ class User < ApplicationRecord
                                        format: { with: /\A[a-zA-Z\s\-']+\z/, message: "can only contain letters, spaces, hyphens, and apostrophes" }, 
                                        allow_blank: true
   validate :password_complexity, if: -> { encrypted_password_changed? || new_record? }
+  validate :acceptable_avatar, if: -> { avatar.attached? }
   
   # Callbacks
   before_save :ensure_otp_secret, if: :otp_required_for_login_changed?
@@ -81,7 +85,6 @@ class User < ApplicationRecord
       password: generated_password,
       first_name: parse_first_name(auth),
       last_name: parse_last_name(auth),
-      avatar: auth.info.image,
       confirmed_at: Time.current
     )
     
@@ -103,6 +106,11 @@ class User < ApplicationRecord
         current_sign_in_ip: Current.ip_address,
         last_sign_in_ip: Current.ip_address
       )
+      
+      # Import avatar from social provider if available
+      if auth.info.image.present?
+        user.import_avatar_from_url(auth.info.image)
+      end
       
       # Send welcome email
       user.send_welcome_email
@@ -420,9 +428,64 @@ class User < ApplicationRecord
     user
   end
   
+  # Avatar helper methods
+  def avatar_url
+    if avatar.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(avatar)
+    else
+      # Return default avatar URL
+      "/images/default_avatar.svg"
+    end
+  end
+  
+  def avatar_thumbnail
+    return nil unless avatar.attached?
+    
+    avatar.variant(resize_to_fill: [100, 100]).processed
+  end
+  
+  def avatar_medium
+    return nil unless avatar.attached?
+    
+    avatar.variant(resize_to_fill: [300, 300]).processed
+  end
+  
+  # Import avatar from OAuth provider's image URL
+  def import_avatar_from_url(url)
+    return if url.blank?
+    
+    begin
+      # Download the image from the URL
+      downloaded_image = URI.open(url)
+      
+      # Attach the downloaded image as the avatar
+      avatar.attach(io: downloaded_image, filename: "avatar-#{Time.current.to_i}.jpg")
+      return true
+    rescue => e
+      Rails.logger.error("Failed to import avatar from URL: #{e.message}")
+      return false
+    end
+  end
+  
   private
   
   def ensure_otp_secret
     self.otp_secret = ROTP::Base32.random if otp_required_for_login? && otp_secret.blank?
+  end
+  
+  # Validate avatar file type and size
+  def acceptable_avatar
+    # Check file size
+    if avatar.blob.byte_size > 5.megabytes
+      errors.add(:avatar, "is too large - should be less than 5MB")
+      avatar.purge
+    end
+    
+    # Check file type
+    acceptable_types = ["image/jpeg", "image/png", "image/gif"]
+    unless acceptable_types.include?(avatar.blob.content_type)
+      errors.add(:avatar, "must be a JPEG, PNG, or GIF file")
+      avatar.purge
+    end
   end
 end

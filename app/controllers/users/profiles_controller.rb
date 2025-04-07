@@ -16,6 +16,11 @@ class Users::ProfilesController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+  
+  def remove_avatar
+    current_user.avatar.purge
+    redirect_to edit_users_profile_path, notice: 'Profile picture was successfully removed.'
+  end
 
   private
 
@@ -26,7 +31,8 @@ class Users::ProfilesController < ApplicationController
       :phone_number, 
       :address,
       :language,
-      :timezone
+      :timezone,
+      :avatar
     )
   end
 end

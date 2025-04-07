@@ -36,7 +36,7 @@
   - [ ] User Profile System
     - [x] Create UserProfile model with extended attributes
     - [x] Design profile views (show/edit) - single page aproach with hotwire
-    - [ ] Implement profile picture management with Active Storage
+    - [x] Implement profile picture management with Active Storage
     - [x] Timezone detection is not working
     - [ ] importmap implementation is not standard (https://date-fns.org/v4.1.0/docs/Time-Zones)
   - [x] Account Settings UI - Hotwire based implementation for easy and optimized loadig time and use experiance
@@ -44,6 +44,7 @@
     - [x] Enhance email/password management flows
     - [x] Improve connected social accounts management
   - [x] User Deactivation/Reactivation
+
     - [x] Implement hard-delete functionality
 
   - [ ] User Activity Tracking - Use Papertrail (Later)
@@ -111,8 +112,8 @@
 
 #### Multi-Factor Authentication
 
-- [ ] Add TOTP functionality with ROTP gem
-- [ ] Implement QR code generation for TOTP setup
+- [x] Add TOTP functionality with ROTP gem
+- [x] Implement QR code generation for TOTP setup
 - [ ] Add SMS-based verification via Twilio
 - [ ] Implement email-based verification codes
 - [ ] Create backup recovery codes system

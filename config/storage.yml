@@ -1,3 +1,7 @@
+# Storage configuration for the application's active storage
+# For more information, see: https://guides.rubyonrails.org/active_storage_overview.html#setup
+
+# Local disk storage (default for development)
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
@@ -6,28 +10,35 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket-<%= Rails.env %>
+# Amazon S3 configuration
+amazon:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: <%= ENV['AWS_REGION'] || 'us-east-1' %>
+  bucket: <%= ENV['AWS_BUCKET'] %>
+  public: <%= ENV['AWS_PUBLIC'] || false %>
+  # Optional additional settings
+  upload:
+    cache_control: <%= ENV['AWS_CACHE_CONTROL'] || 'private, max-age=86400' %>
+    server_side_encryption: <%= ENV['AWS_ENCRYPTION'] || 'AES256' %>
 
-# Remember not to checkin your GCS keyfile to a repository
-# google:
-#   service: GCS
-#   project: your_project
-#   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
-#   bucket: your_own_bucket-<%= Rails.env %>
+# Google Cloud Storage configuration
+google:
+  service: GCS
+  project: <%= ENV['GOOGLE_CLOUD_PROJECT'] %>
+  credentials: <%= ENV['GOOGLE_CLOUD_KEYFILE_JSON'] || Rails.root.join("config/keyfiles/google-keyfile.json") %>
+  bucket: <%= ENV['GOOGLE_CLOUD_BUCKET'] %>
+  public: <%= ENV['GOOGLE_CLOUD_PUBLIC'] || false %>
 
-# Use bin/rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
-# microsoft:
-#   service: AzureStorage
-#   storage_account_name: your_account_name
-#   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
-#   container: your_container_name-<%= Rails.env %>
-
+# Microsoft Azure Storage configuration
+microsoft:
+  service: AzureStorage
+  storage_account_name: <%= ENV['AZURE_STORAGE_ACCOUNT'] %>
+  storage_access_key: <%= ENV['AZURE_STORAGE_ACCESS_KEY'] %>
+  container: <%= ENV['AZURE_CONTAINER'] %>
+  public: <%= ENV['AZURE_PUBLIC'] || false %>
+# Mirror service that allows storing files in multiple services for redundancy (optional)
 # mirror:
 #   service: Mirror
 #   primary: local
