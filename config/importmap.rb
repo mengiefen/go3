@@ -9,4 +9,5 @@ pin "luxon", to: "https://cdn.skypack.dev/luxon@3.4.4"
 
 # Pin imported Stimulus controllers
 pin "hello_world_controller", to: "controllers/hello_world_controller.js"
-pin "timezone_controller", to: "controllers/timezone_controller.js" 
+pin "timezone_controller", to: "controllers/timezone_controller.js"
+pin "timezones", to: "controllers/timezones.js" 

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { DateTime } from "luxon"
+import { clientTimeZone } from "./timezones"
 
 // Connects to data-controller="timezone"
 export default class extends Controller {
@@ -10,6 +11,39 @@ export default class extends Controller {
   }
   
   detectTimezone() {
+    try {
+      // Use our enhanced timezone detection
+      const detectedTimezone = clientTimeZone()
+      
+      if (!detectedTimezone) {
+        console.error("Enhanced timezone detection failed")
+        // Fall back to Luxon if our detection fails
+        this.fallbackTimezoneDetection()
+        return
+      }
+      
+      console.log("Detected timezone:", detectedTimezone)
+      
+      // For signup forms, make sure we set the timezone in the hidden input field
+      if (this.hasInputTarget) {
+        console.log("Setting timezone on input target:", detectedTimezone.name)
+        this.inputTarget.value = detectedTimezone.name
+      } else {
+        console.warn("No input target found for timezone")
+        // Try to create a hidden input if we don't have a target
+        this.createHiddenInput(detectedTimezone.name)
+      }
+      
+      // Update select dropdown if it exists
+      this.updateSelectWithDetectedTimezone(detectedTimezone)
+    } catch (e) {
+      console.error('Timezone detection error:', e)
+      // Fall back to Luxon if our detection fails
+      this.fallbackTimezoneDetection()
+    }
+  }
+  
+  fallbackTimezoneDetection() {
     try {
       // Get browser's timezone using Luxon
       const timezone = DateTime.now().zoneName
@@ -27,8 +61,33 @@ export default class extends Controller {
       // Update select dropdown if it exists
       this.updateSelectElement(timezone)
     } catch (e) {
-      console.error('Timezone detection error:', e)
+      console.error('Fallback timezone detection error:', e)
     }
+  }
+
+  updateSelectWithDetectedTimezone(detectedTimezone) {
+    // Find timezone select elements
+    const timezoneSelects = document.querySelectorAll('select[id$="_timezone"]')
+    
+    if (timezoneSelects.length === 0) return
+    
+    timezoneSelects.forEach(select => {
+      const options = Array.from(select.options)
+      
+      // Try to find the option that matches our detected timezone name
+      const match = options.find(option => 
+        option.text.includes(detectedTimezone.name) || 
+        option.value.includes(detectedTimezone.name)
+      )
+      
+      if (match) {
+        select.value = match.value
+        return
+      }
+      
+      // Fall back to the standard matching algorithm
+      this.updateSelectElement(detectedTimezone.name)
+    })
   }
   
   createHiddenInput(timezone) {

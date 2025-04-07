@@ -48,10 +48,10 @@
           
           <div>
             <%= form.label :timezone, "Timezone", class: "block text-sm font-medium text-gray-700" %>
-            <%= form.time_zone_select :timezone, 
-                ActiveSupport::TimeZone.all.sort, 
-                { include_blank: true, default: Time.zone.name }, 
-                { class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", id: "user_timezone" } %>
+            <%= form.select :timezone, 
+                [], 
+                { include_blank: true, default: current_user.timezone || Time.zone.name }, 
+                { class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm timezone-select", id: "user_timezone" } %>
             <p class="mt-1 text-xs text-gray-500">Your timezone is auto-detected from your browser.</p>
           </div>
           
@@ -68,3 +68,73 @@
     </div>
   </div>
 </div>
+
+<% content_for :page_scripts do %>
+<!-- Tom Select CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+<!-- Tom Select JS -->
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Import the timezones using the correct import path
+    import('timezones').then(module => {
+      const { timezones, clientTimeZone } = module;
+      const allTimezones = timezones();
+      const tzSelect = document.getElementById('user_timezone');
+      
+      // Directly populate the select element first for better reliability
+      tzSelect.innerHTML = '';
+      const blankOption = document.createElement('option');
+      blankOption.value = '';
+      blankOption.textContent = 'Select timezone...';
+      tzSelect.appendChild(blankOption);
+      
+      // Add all timezone options to the select
+      allTimezones.forEach(tz => {
+        const option = document.createElement('option');
+        option.value = tz.name;
+        option.textContent = tz.caption;
+        tzSelect.appendChild(option);
+      });
+      
+      // Initialize TomSelect after populating the select
+      try {
+        const tomSelect = new TomSelect('#user_timezone', {
+          valueField: 'value',
+          labelField: 'text',
+          searchField: 'text',
+          create: false,
+          placeholder: 'Search for a timezone...',
+          allowEmptyOption: true,
+          render: {
+            option: function(data, escape) {
+              return '<div class="py-2 px-3">' + escape(data.text) + '</div>';
+            },
+            item: function(data, escape) {
+              return '<div>' + escape(data.text) + '</div>';
+            }
+          }
+        });
+        
+        // Set current value if available
+        const currentTz = '<%= current_user.timezone %>';
+        if (currentTz) {
+          tomSelect.setValue(currentTz);
+        } else {
+          // Try to detect timezone
+          const detected = clientTimeZone();
+          if (detected) {
+            tomSelect.setValue(detected.name);
+          }
+        }
+      } catch (error) {
+        // The select element is already populated as a fallback
+        console.error('Error initializing TomSelect, using standard select as fallback');
+      }
+    }).catch(err => {
+      console.error('Error loading timezones module');
+    });
+  });
+</script>
+<% end %>

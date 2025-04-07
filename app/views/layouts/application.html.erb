@@ -1,25 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>" class="h-full">
   <head>
-    <title><%= content_for(:title) || "Go3" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <title><%= content_for?(:title) ? yield(:title) : "GO3 Platform" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
+    
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= yield :head_styles if content_for?(:head_styles) %>
+    
+    <!-- Ensure these are loaded before page content -->
     <%= javascript_importmap_tags %>
     <%= javascript_import_module_tag "tailwindcss" %>
     <%= javascript_import_module_tag "alpinejs" %>
+    
+    <!-- Add moment.js with timezone support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    
+    <%= yield :head_scripts if content_for?(:head_scripts) %>
+    
+    <meta name="turbo-cache-control" content="no-preview">
   </head>
-  <body class="bg-gray-50">
+  <body class="h-full bg-gray-50">
     <header>
       <nav class="bg-white shadow">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -166,6 +180,10 @@
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
+    
+    <!-- Include content from page_scripts block -->
+    <%= yield :page_scripts if content_for?(:page_scripts) %>
+    
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle
@@ -201,69 +219,16 @@
           }
         });
         
-        // Enhanced timezone auto-detection
-        const timezoneSelect = document.querySelector('#user_timezone');
-        if (timezoneSelect) {
-          try {
-            // Get browser's timezone
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            if (timezone) {
-              console.log("Detected timezone:", timezone);
-              
-              // First try exact matching
-              const options = Array.from(timezoneSelect.options);
-              const exactMatch = options.find(option => option.text === timezone);
-              
-              if (exactMatch) {
-                timezoneSelect.value = exactMatch.value;
-              } else {
-                // Try to find a match that contains the timezone name
-                const partialMatch = options.find(option => 
-                  option.text.includes(timezone) || 
-                  timezone.includes(option.text) ||
-                  // Handle special cases like mapping America/New_York to Eastern Time
-                  (timezone.includes("New_York") && option.text.includes("Eastern")) ||
-                  (timezone.includes("Los_Angeles") && option.text.includes("Pacific")) ||
-                  (timezone.includes("Chicago") && option.text.includes("Central")) ||
-                  (timezone.includes("Denver") && option.text.includes("Mountain"))
-                );
-                
-                if (partialMatch) {
-                  timezoneSelect.value = partialMatch.value;
-                } else {
-                  // If no match found, try to deduce from UTC offset
-                  const now = new Date();
-                  const offset = -now.getTimezoneOffset() / 60;
-                  const offsetMatch = options.find(option => {
-                    // Look for timezone options that mention the same UTC offset
-                    const offsetStr = offset > 0 ? `UTC+${offset}` : `UTC${offset}`;
-                    return option.text.includes(offsetStr);
-                  });
-                  
-                  if (offsetMatch) {
-                    timezoneSelect.value = offsetMatch.value;
-                  }
-                }
-              }
+        // Flash message dismissal
+        const dismissButtons = document.querySelectorAll('[data-dismiss]');
+        dismissButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const target = document.getElementById(button.dataset.dismiss);
+            if (target) {
+              target.remove();
             }
-            
-            // Also add timezone as a hidden field for sign up
-            const signupForm = document.querySelector('form[action="/users"]');
-            if (signupForm && timezone) {
-              let hiddenField = document.querySelector('input[name="user[timezone]"]');
-              if (!hiddenField) {
-                hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = 'user[timezone]';
-                hiddenField.value = timezone;
-                signupForm.appendChild(hiddenField);
-              }
-            }
-          } catch (e) {
-            // Browser doesn't support timezone detection, fallback to default
-            console.error('Timezone detection error:', e);
-          }
-        }
+          });
+        });
       });
     </script>
   </body>
