@@ -67,19 +67,20 @@ The profile picture management feature involves several key files:
 
 - **Models**:
   - `app/models/user.rb` - Contains the Active Storage attachment declaration and validation logic
-  
 - **Controllers**:
   - `app/controllers/users/profiles_controller.rb` - Handles profile updates and avatar removal
-  
 - **Views**:
+
   - `app/views/users/profiles/edit.html.erb` - Contains the avatar upload form
   - `app/views/users/profiles/show.html.erb` - Displays the user's profile picture
   - `app/views/layouts/application.html.erb` - Displays the user's avatar in the header
 
 - **JavaScript**:
+
   - `app/javascript/controllers/avatar_upload_controller.js` - Stimulus controller for handling uploads
 
 - **Assets**:
+
   - `public/images/default_avatar.svg` - Default avatar shown when no profile picture exists
 
 - **Configuration**:
@@ -118,7 +119,7 @@ def acceptable_avatar
     errors.add(:avatar, "is too large - should be less than 5MB")
     avatar.purge
   end
-  
+
   # Check file type
   acceptable_types = ["image/jpeg", "image/png", "image/gif"]
   unless acceptable_types.include?(avatar.blob.content_type)
@@ -153,11 +154,11 @@ end
 # Import avatar from OAuth provider's image URL
 def import_avatar_from_url(url)
   return if url.blank?
-  
+
   begin
     # Download the image from the URL
     downloaded_image = URI.open(url)
-    
+
     # Attach the downloaded image as the avatar
     avatar.attach(io: downloaded_image, filename: "avatar-#{Time.current.to_i}.jpg")
     return true
@@ -219,16 +220,16 @@ The profile edit view includes a form for avatar upload:
       <% end %>
     </div>
   </div>
-  
+
   <div class="flex-1" data-controller="avatar-upload">
     <!-- File input and preview logic -->
-    <%= form.file_field :avatar, 
-        accept: "image/jpeg,image/png,image/gif", 
+    <%= form.file_field :avatar,
+        accept: "image/jpeg,image/png,image/gif",
         direct_upload: true,
-        data: { 
+        data: {
           avatar_upload_target: "input"
         } %>
-    
+
     <!-- Progress bar and remove link -->
   </div>
 </div>
@@ -239,31 +240,31 @@ The profile edit view includes a form for avatar upload:
 The Stimulus controller (`app/javascript/controllers/avatar_upload_controller.js`) handles direct uploads and image previews:
 
 ```javascript
-import { Controller } from "@hotwired/stimulus"
-import { DirectUpload } from "@rails/activestorage"
+import { Controller } from '@hotwired/stimulus';
+import { DirectUpload } from '@rails/activestorage';
 
 export default class extends Controller {
-  static targets = ["input", "preview", "progress", "progressBar"]
-  
+  static targets = ['input', 'preview', 'progress', 'progressBar'];
+
   connect() {
     if (this.hasInputTarget && this.hasPreviewTarget) {
-      this.inputTarget.addEventListener("change", this.handleFileSelect.bind(this))
+      this.inputTarget.addEventListener('change', this.handleFileSelect.bind(this));
     }
   }
-  
+
   handleFileSelect(event) {
-    const file = event.target.files[0]
-    if (!file) return
-    
+    const file = event.target.files[0];
+    if (!file) return;
+
     // Show file preview
-    this.previewFile(file)
-    
+    this.previewFile(file);
+
     // If direct upload is enabled
-    if (this.inputTarget.hasAttribute("data-direct-upload-url")) {
-      this.uploadFile(file)
+    if (this.inputTarget.hasAttribute('data-direct-upload-url')) {
+      this.uploadFile(file);
     }
   }
-  
+
   // Other methods including previewFile, uploadFile, directUploadWillStoreFileWithXHR...
 }
 ```
@@ -508,7 +509,7 @@ Test avatar validations and helper methods:
 test "should not save avatar with invalid file type" do
   user = users(:valid_user)
   file = fixture_file_upload('files/invalid.txt', 'text/plain')
-  
+
   user.avatar.attach(file)
   assert_not user.save, "Saved avatar with invalid file type"
   assert_includes user.errors[:avatar], "must be a JPEG, PNG, or GIF file"
@@ -533,10 +534,10 @@ Test the avatar upload UI:
 test "user can upload and see profile picture" do
   sign_in users(:valid_user)
   visit edit_users_profile_path
-  
+
   attach_file("user[avatar]", file_fixture("avatar.jpg"))
   click_button "Update Profile"
-  
+
   assert_selector "img.profile-avatar"
   assert users(:valid_user).avatar.attached?
 end
@@ -582,4 +583,4 @@ For improved direct upload performance:
 
 ---
 
-*Last updated: April 7, 2025*
+_Last updated: April 7, 2025_
