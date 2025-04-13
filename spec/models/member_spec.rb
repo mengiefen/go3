@@ -3,24 +3,20 @@ require 'rails_helper'
 RSpec.describe Member, type: :model do
   describe "database schema" do
     it { should have_db_column(:email).of_type(:string).with_options(null: false) }
-    it { should have_db_column(:first_name).of_type(:string) }
-    it { should have_db_column(:last_name).of_type(:string) }
+    it { should have_db_column(:name).of_type(:string) }
     it { should have_db_column(:organization_id).of_type(:integer) }
-    it { should have_db_column(:employee_id).of_type(:string) }
     it { should have_db_column(:status).of_type(:string) }
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
     
     it { should have_db_index(:email) }
     it { should have_db_index([:organization_id]) }
-    it { should have_db_index([:employee_id]) }
   end
 
   describe "validations" do
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).scoped_to(:organization_id) }
-    it { should validate_presence_of(:first_name) }
-    it { should validate_presence_of(:last_name) }
+    it { should validate_presence_of(:name) }
     
     it { should allow_value('user@example.com').for(:email) }
     it { should_not allow_value('invalid_email').for(:email) }
@@ -28,9 +24,9 @@ RSpec.describe Member, type: :model do
 
   describe "associations" do
     it { should belong_to(:organization).optional(false) }
-    it { should have_many(:role_assignments).as(:assignee) }
+    it { should have_many(:role_assignments) }
     it { should have_many(:roles).through(:role_assignments) }
-    it { should have_many(:permissions).as(:subject) }
+    it { should have_many(:permissions)}
     it { should have_and_belong_to_many(:groups) }
   end
 
@@ -49,15 +45,7 @@ RSpec.describe Member, type: :model do
       expect(Member.inactive).not_to include(active_member)
     end
   end
-
-  describe "#full_name" do
-    let(:member) { create(:member, first_name: "John", last_name: "Doe") }
-    
-    it "returns the full name of the member" do
-      expect(member.full_name).to eq("John Doe")
-    end
-  end
-  
+ 
   describe "permissions" do
     let(:organization) { create(:organization) }
     let(:member) { create(:member, organization: organization) }

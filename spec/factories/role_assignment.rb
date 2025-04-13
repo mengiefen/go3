@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :role_assignment do
-    association :role
-    association :member
+    role
+    association :assignee, factory: :member
+    organization { role.organization }
     start_date { Time.current }
     finish_date { nil }
     
