@@ -108,10 +108,10 @@ RSpec.describe Member, type: :model do
     let(:group) { create(:group, organization: organization) }
     let(:department) { create(:department, organization: organization) }
     
-    let(:role_permission) { create(:permission, grantee: role) }
-    let(:group_permission) { create(:permission, grantee: group) }
-    let(:department_permission) { create(:permission, grantee: department) }
-    let(:direct_permission) { create(:permission, grantee: member) }
+    let(:role_permission) { create(:permission, grantee: role, code: "members.invite") }
+    let(:group_permission) { create(:permission, grantee: group, code: "members.invite") }
+    let(:department_permission) { create(:permission, grantee: department, code: "members.invite") }
+    let(:direct_permission) { create(:permission, grantee: member, code: "members.invite") }
     
     before do
       # Setup relationships

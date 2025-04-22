@@ -1,8 +1,22 @@
 class Permission < ApplicationRecord
+  has_paper_trail
+
   # Associations
   belongs_to :grantee, polymorphic: true
-  belongs_to :target, polymorphic: true, optional: true
+  belongs_to :organization
 
   # Validations
-  validates :permission_code, presence: true
+  validates :code, presence: true
+  validates :grantee, presence: true
+
+  def permitted_users
+    users = []
+    organization.users.includes(:members).each do |user|
+      member = user.members.where(organization_id: organization.id).first
+      next unless member
+      users << user if member.all_permissions.include?(self)
+    end
+
+    users
+  end
 end 

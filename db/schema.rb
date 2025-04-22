@@ -96,17 +96,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "permission_code", null: false
+    t.string "code", null: false
     t.string "grantee_type", null: false
     t.bigint "grantee_id", null: false
-    t.string "target_type"
-    t.bigint "target_id"
+    t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["grantee_id", "grantee_type", "permission_code"], name: "index_permissions_on_grantee_and_code"
-    t.index ["grantee_type", "grantee_id"], name: "index_permissions_on_grantee"
-    t.index ["permission_code"], name: "index_permissions_on_permission_code"
-    t.index ["target_type", "target_id"], name: "index_permissions_on_target"
+    t.index ["code", "grantee_type", "grantee_id"], name: "index_permissions_on_code_and_grantee", unique: true
+    t.index ["code"], name: "index_permissions_on_code"
+    t.index ["grantee_id"], name: "index_permissions_on_grantee_id"
+    t.index ["grantee_type", "grantee_id"], name: "index_permissions_on_grantee_type_and_grantee_id"
+    t.index ["grantee_type"], name: "index_permissions_on_grantee_type"
+    t.index ["organization_id"], name: "index_permissions_on_organization_id"
   end
 
   create_table "role_assignments", force: :cascade do |t|
@@ -210,6 +211,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
   add_foreign_key "groups", "organizations"
   add_foreign_key "members", "organizations"
   add_foreign_key "members", "users"
+  add_foreign_key "permissions", "organizations"
   add_foreign_key "role_assignments", "members"
   add_foreign_key "role_assignments", "roles"
   add_foreign_key "roles", "departments"

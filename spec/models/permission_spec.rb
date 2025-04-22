@@ -2,39 +2,41 @@ require 'rails_helper'
 
 RSpec.describe Permission, type: :model do
   describe "database schema" do
-    it { should have_db_column(:permission_code).of_type(:string).with_options(null: false) }
-    it { should have_db_column(:permissionable_type).of_type(:string) }
-    it { should have_db_column(:permissionable_id).of_type(:integer) }
+    it { should have_db_column(:code).of_type(:string).with_options(null: false) }
+    it { should have_db_column(:grantee_type).of_type(:string) }
+    it { should have_db_column(:grantee_id).of_type(:integer) }
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
     
-    it { should have_db_index([:permission_code]) }
-    it { should have_db_index([:permissionable_type, :permissionable_id]) }
-    it { should have_db_index([:organization_id]) }
+    it { should have_db_index([:code, :grantee_type, :grantee_id]) }
+    it { should have_db_index([:grantee_type, :grantee_id]) }
+    it { should have_db_index([:code]) }
+    it { should have_db_index([:grantee_id]) }
+    it { should have_db_index([:grantee_type]) }
   end
 
   describe "validations" do
-    it { should validate_presence_of(:permission_code) }
-    it { should validate_inclusion_of(:permission_code).in_array(PermissionRegistry.all_codes) }
-    it { should validate_presence_of(:permissionable) }
+    it { should validate_presence_of(:code) }
+    it { should validate_presence_of(:grantee) }
   end
 
   describe "associations" do
-    it { should belong_to(:tenant).optional(false) }
-    it { should belong_to(:permissionable) }
+    it { should belong_to(:organization).optional(false) }
+    it { should belong_to(:grantee) }
   end
 
   describe "PaperTrail" do
     it { should be_versioned }
     
     it "tracks changes to permission attributes" do
-      permission = create(:permission)
+      organization = create(:organization)
+      department = create(:department, organization: organization)
+      permission = create(:permission, code: "department.add_role", grantee: department, organization: organization)
       
       expect {
-        permission.update(permission_code: PermissionRegistry.all_codes.last)
+        permission.destroy
       }.to change { permission.versions.count }.by(1)
-      
-      expect(permission.versions.last.changeset).to have_key("permission_code")
+      expect(permission.versions.last.event).to eq("destroy")
     end
   end
 

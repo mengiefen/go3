@@ -8,6 +8,8 @@ class User < ApplicationRecord
   
   # Active Storage attachment
   has_one_attached :avatar
+  has_many :members, dependent: :nullify
+  has_many :organizations, through: :members
          
   # Validations
   validates :email, presence: true, uniqueness: true
