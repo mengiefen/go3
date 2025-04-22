@@ -4,13 +4,13 @@ FactoryBot.define do
 
     name { "Group #{SecureRandom.uuid}" }
     
-    after(:build) do |department, evaluator|
+    after(:build) do |group, evaluator|
       if evaluator.name.is_a?(String)
-        Mobility.with_locale(:en) { department.name = evaluator.name }
+        Mobility.with_locale(:en) { group.name = evaluator.name }
       elsif evaluator.name.is_a?(Hash)
-        department.name = nil
+        group.name = nil
         evaluator.name.each do |locale, name|
-          Mobility.with_locale(locale) { department.name = name }
+          Mobility.with_locale(locale) { group.name = name }
         end
       end
     end
