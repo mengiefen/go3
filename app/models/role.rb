@@ -50,7 +50,7 @@ class Role < ApplicationRecord
       end
       current = current.children.first
     end
-    chain
+    chain.uniq
   end
 
   def member
