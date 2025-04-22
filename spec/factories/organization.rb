@@ -1,19 +1,16 @@
 FactoryBot.define do
   factory :organization do
-    sequence(:name) { |n| { "en" => "Org #{n} #{SecureRandom.uuid}" } }
-    description { { en: "Organization description" } }
-    is_tenant { false }
+    name { "Organization #{SecureRandom.uuid}" }
     
-    trait :as_tenant do
-      is_tenant { true }
-    end
-    
-    factory :tenant do
-      is_tenant { true }
-    end
-    
-    trait :with_parent do
-      association :parent, factory: :organization
+    after(:build) do |org, evaluator|
+      if evaluator.name.is_a?(String)
+        Mobility.with_locale(:en) { org.name = evaluator.name }
+      elsif evaluator.name.is_a?(Hash)
+        org.name = nil
+        evaluator.name.each do |locale, name|
+          Mobility.with_locale(locale) { org.name = name }
+        end
+      end
     end
   end
 end 

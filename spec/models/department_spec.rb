@@ -65,8 +65,8 @@ RSpec.describe Department, type: :model do
     let(:member2) { create(:member, organization: org) }
     
     before do
-      create(:role_assignment, role: role, assignee: member1, organization: org)
-      create(:role_assignment, role: role, assignee: member2, organization: org)
+      create(:role_assignment, role: role, member: member1)
+      create(:role_assignment, role: role, member: member2)
     end
     
     it "returns members assigned to roles in this department" do
@@ -83,7 +83,7 @@ RSpec.describe Department, type: :model do
     let(:other_member) { create(:member, organization: org) }
     
     before do
-      create(:role_assignment, role: role, assignee: member, organization: org)
+      create(:role_assignment, role: role, member: member)
     end
     
     it "returns true if member is assigned to a role in this department" do
@@ -99,7 +99,7 @@ RSpec.describe Department, type: :model do
     let(:org) { create(:organization, name: { en: "Add Role Org #{SecureRandom.uuid}" }) }
     let(:department) { create(:department, organization: org) }
     let(:other_department) { create(:department, organization: org) }
-    let(:role) { create(:role, organization: org) }
+    let(:role) { create(:role, organization: org, department: nil) }
     
     it "associates an existing role with the department" do
       expect(role.department).to be_nil

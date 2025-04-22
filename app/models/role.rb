@@ -54,7 +54,7 @@ class Role < ApplicationRecord
   end
 
   def member
-    role_assignments.active.first&.assignee
+    role_assignments.active.first&.member
   end
 
   def assign_member(member)
@@ -67,8 +67,7 @@ class Role < ApplicationRecord
     
     # Create new assignment
     role_assignments.create(
-      assignee: member,
-      organization: organization,
+      member: member,
       start_date: Time.current
     )
     

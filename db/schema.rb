@@ -72,13 +72,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
 
   create_table "members", force: :cascade do |t|
     t.string "email", null: false
-    t.string "name"
+    t.jsonb "name"
     t.bigint "organization_id", null: false
+    t.bigint "user_id"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_members_on_email"
+    t.index ["name"], name: "index_members_on_name", using: :gin
     t.index ["organization_id"], name: "index_members_on_organization_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -206,6 +209,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
   add_foreign_key "departments", "organizations"
   add_foreign_key "groups", "organizations"
   add_foreign_key "members", "organizations"
+  add_foreign_key "members", "users"
   add_foreign_key "role_assignments", "members"
   add_foreign_key "role_assignments", "roles"
   add_foreign_key "roles", "departments"

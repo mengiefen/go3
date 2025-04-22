@@ -28,7 +28,7 @@ class Department < ApplicationRecord
   def member_in_department?(member)
     # Find if any role associated with this department is assigned to the member
     roles.joins(:role_assignments)
-         .where(role_assignments: { assignee_id: member.id, assignee_type: member.class.name })
+         .where(role_assignments: { member_id: member.id })
          .exists?
   end
 

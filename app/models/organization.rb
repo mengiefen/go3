@@ -1,11 +1,15 @@
 class Organization < ApplicationRecord
   # Will enable PaperTrail later
-  # has_paper_trail
+  has_paper_trail
 
   # Will enable Mobility for translations later
-  # extend Mobility
-  # translates :name, type: :jsonb
-  # translates :description, type: :jsonb
+  extend Mobility
+  translates :name, backend: :jsonb, fallbacks: true
+  translates :description, backend: :jsonb, fallbacks: true
+
+  # Ensure name is always initialized as a hash
+  after_initialize :initialize_name
+  before_validation :initialize_name
 
   # Associations
   belongs_to :parent, class_name: 'Organization', optional: true
@@ -16,16 +20,12 @@ class Organization < ApplicationRecord
   has_many :members
 
   # Validations
-  validates :name, presence: true
-  validate :name_has_at_least_one_translation
   validate :no_circular_references
-  validates :name, uniqueness: { scope: :parent_id }
-
-  # Scopes
-  scope :tenants, -> { where(is_tenant: true) }
+  validate :name_has_at_least_one_translation
+  validate :name_translations_are_unique_within_parent_organization
 
   # Methods
-  def ancestor_chain
+  def ancestors
     chain = [self]
     current = self
     
@@ -39,10 +39,13 @@ class Organization < ApplicationRecord
 
   private
 
+  def initialize_name
+    write_attribute(:name, {}) if read_attribute(:name).nil?
+  end
+  
   def name_has_at_least_one_translation
-    if name.blank? || !name.is_a?(Hash) || name.values.all?(&:blank?)
-      errors.add(:name, "must contain at least one translation")
-    end
+    return if Mobility.available_locales.any? { |loc| name(locale: loc).present? }
+    errors.add(:name, "must contain at least one translation")
   end
 
   def no_circular_references
@@ -55,6 +58,19 @@ class Organization < ApplicationRecord
         break
       end
       current_parent = current_parent.parent
+    end
+  end
+
+  def name_translations_are_unique_within_parent_organization
+    name_translations = read_attribute(:name) || {}
+    name_translations.each do |locale, name_value|
+      next if name_value.blank?
+      next if parent.nil?
+      Mobility.with_locale(locale) do
+        if parent.children.where.not(id: id).where("name ->> ? = ?", locale.to_s, name_value).exists?
+          errors.add(:name, "must be unique within the organization for locale #{locale}")
+        end
+      end
     end
   end
 end

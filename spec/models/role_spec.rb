@@ -147,16 +147,14 @@ RSpec.describe Role, type: :model do
     end
     
     it "returns the assigned member when there is an active assignment" do
-      create(:role_assignment, role: role, assignee: member, organization: organization)
+      create(:role_assignment, role: role, member: member)
       expect(role.member).to eq(member)
     end
     
     it "returns only the active assignment" do
       inactive_member = create(:member, organization: organization)
-      create(:role_assignment, role: role, assignee: inactive_member, 
-             organization: organization, finish_date: Time.current)
-      
-      create(:role_assignment, role: role, assignee: member, organization: organization)
+      create(:role_assignment, role: role, member: inactive_member, finish_date: Time.current)
+      create(:role_assignment, role: role, member: member)
       
       expect(role.member).to eq(member)
     end
@@ -176,9 +174,8 @@ RSpec.describe Role, type: :model do
       }.to change { RoleAssignment.count }.by(1)
       
       assignment = RoleAssignment.last
-      expect(assignment.assignee).to eq(member)
+      expect(assignment.member).to eq(member)
       expect(assignment.role).to eq(role)
-      expect(assignment.organization).to eq(organization)
       expect(assignment.start_date).to be_present
       expect(assignment.finish_date).to be_nil
     end
@@ -192,7 +189,7 @@ RSpec.describe Role, type: :model do
         .and change { RoleAssignment.active.count }.by(0)
       
       # Verify previous assignment was closed
-      first_assignment = RoleAssignment.where(assignee: member, role: role).first
+      first_assignment = RoleAssignment.where(member: member, role: role).first
       expect(first_assignment.finish_date).not_to be_nil
       
       # Verify new assignment is active
