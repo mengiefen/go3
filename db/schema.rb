@@ -108,17 +108,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
 
   create_table "role_assignments", force: :cascade do |t|
     t.bigint "role_id", null: false
-    t.string "assignee_type", null: false
-    t.bigint "assignee_id", null: false
-    t.bigint "organization_id", null: false
+    t.bigint "member_id", null: false
     t.datetime "start_date"
     t.datetime "finish_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assignee_id", "assignee_type"], name: "index_role_assignments_on_assignee_id_and_assignee_type"
-    t.index ["assignee_type", "assignee_id"], name: "index_role_assignments_on_assignee"
-    t.index ["organization_id"], name: "index_role_assignments_on_organization_id"
-    t.index ["role_id", "assignee_id", "assignee_type"], name: "index_role_assignments_on_role_and_assignee", unique: true
+    t.index ["member_id", "role_id"], name: "index_role_assignments_on_member_id_and_role_id"
+    t.index ["member_id"], name: "index_role_assignments_on_member_id"
+    t.index ["role_id", "member_id"], name: "index_role_assignments_on_role_id_and_member_id"
     t.index ["role_id"], name: "index_role_assignments_on_role_id"
   end
 
@@ -209,7 +206,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
   add_foreign_key "departments", "organizations"
   add_foreign_key "groups", "organizations"
   add_foreign_key "members", "organizations"
-  add_foreign_key "role_assignments", "organizations"
+  add_foreign_key "role_assignments", "members"
   add_foreign_key "role_assignments", "roles"
   add_foreign_key "roles", "departments"
   add_foreign_key "roles", "organizations"
