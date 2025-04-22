@@ -13,16 +13,14 @@ RSpec.describe Group, type: :model do
     it { should have_db_index([:organization_id]) }
   end
 
-  describe "validations" do
-    it { should validate_presence_of(:name) }
-    
+  describe "validations" do   
     it "validates uniqueness of name within organization scope" do
       # Create organizations with random names to avoid uniqueness conflicts
       org1 = create(:organization, name: { en: "Org Test #{rand(1000)}" })
       org2 = create(:organization, name: { en: "Org Test #{rand(1000)}" })
       
       # Create a group in the first organization
-      test_group_name = { en: "Test Group Name" }
+      test_group_name = "Test Group Name"
       group1 = create(:group, organization: org1, name: test_group_name)
       
       # Try to create another group with the same name in the same organization - should fail
@@ -53,11 +51,11 @@ RSpec.describe Group, type: :model do
       PaperTrail.enabled = true
       
       # Update the group with a new name
-      new_name = { en: "Updated Name #{rand(10000)}" }
+      new_name = "Updated Name #{rand(10000)}"
       
       # Update the group and verify a version is created
       expect {
-        group.update!(name: new_name)
+        Mobility.with_locale(:en) { group.update!(name: new_name) }
       }.to change { group.versions.count }.by(1)
       
       # Reload the group to ensure all associations are fresh

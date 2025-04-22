@@ -56,7 +56,6 @@ class Department < ApplicationRecord
 
   def name_has_at_least_one_translation
     return if Mobility.available_locales.any? { |loc| name(locale: loc).present? }
-
     errors.add(:name, "must contain at least one translation")
   end
 

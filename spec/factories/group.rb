@@ -1,23 +1,18 @@
-require 'securerandom'
-
 FactoryBot.define do
   factory :group do
-    sequence(:name) do |n| 
-      { en: "Group #{n}-#{Time.now.to_f}-#{SecureRandom.hex(8)}" }
-    end
-    description { { en: "Group description" } }
-    association :organization
+    organization { Organization.first || create(:organization) }
 
-    trait :with_members do
-      transient do
-        members_count { 3 }
-      end
-
-      after(:create) do |group, evaluator|
-        create_list(:member, evaluator.members_count, organization: group.organization).each do |member|
-          group.add_member(member)
+    name { "Group #{SecureRandom.uuid}" }
+    
+    after(:build) do |department, evaluator|
+      if evaluator.name.is_a?(String)
+        Mobility.with_locale(:en) { department.name = evaluator.name }
+      elsif evaluator.name.is_a?(Hash)
+        department.name = nil
+        evaluator.name.each do |locale, name|
+          Mobility.with_locale(locale) { department.name = name }
         end
       end
     end
   end
-end 
+end

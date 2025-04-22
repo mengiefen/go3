@@ -1,4 +1,3 @@
-# spec/factories/departments.rb
 FactoryBot.define do
   factory :department do
     organization { Organization.first || create(:organization) }
