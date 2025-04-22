@@ -6,6 +6,7 @@ RSpec.describe Department, type: :model do
     it { should have_db_column(:name).of_type(:jsonb).with_options(null: false) }
     it { should have_db_column(:description).of_type(:jsonb) }
     it { should have_db_column(:organization_id).of_type(:integer) }
+    it { should have_db_column(:abbreviation).of_type(:string) }
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
     
@@ -14,12 +15,10 @@ RSpec.describe Department, type: :model do
   end
 
   describe "validations" do
-    it { should validate_presence_of(:name) }
-
     let(:organization) { create(:organization, name: { en: "Validation Org #{SecureRandom.uuid}" }) }
     
     it "is not valid with a name does not containing at least one translation" do
-      department = build(:department, :invalid, organization: organization)
+      department = build(:department, name: {}, organization: organization)
       expect(department).not_to be_valid
       expect(department.errors[:name]).to include("must contain at least one translation")
     end
@@ -45,10 +44,9 @@ RSpec.describe Department, type: :model do
       
       PaperTrail.enabled = true
       
-      new_name = { en: "Updated Department Name #{SecureRandom.uuid}" }
-      
-      expect {
-        department.update!(name: new_name)
+      new_name = "Updated Department Name #{SecureRandom.uuid}"
+      expect { 
+        Mobility.with_locale(:en) { department.update!(name: new_name) } 
       }.to change { department.versions.count }.by(1)
       
       version = department.versions.last
@@ -159,9 +157,7 @@ RSpec.describe Department, type: :model do
     let(:organization) { create(:organization) }
   
     it "supports name translations" do
-      department = create(:department, organization: organization, 
-        name_translations: { "en" => "Marketing", "fr" => "Marketing FR" }
-      )
+      department = create(:department, organization: organization, name: { "en" => "Marketing", "fr" => "Marketing FR" })
   
       Mobility.with_locale(:en) do
         expect(department.name).to eq("Marketing")
@@ -173,9 +169,7 @@ RSpec.describe Department, type: :model do
     end
   
     it "uses fallbacks if translation is missing" do
-      department = create(:department, organization: organization,
-        name_translations: { "en" => "Sales" }
-      )
+      department = create(:department, organization: organization, name: { "en" => "Sales" })
   
       Mobility.with_locale(:fr) do
         expect(department.name).to eq("Sales") # Falls back to English

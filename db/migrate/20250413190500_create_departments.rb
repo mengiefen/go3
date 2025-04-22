@@ -3,6 +3,7 @@ class CreateDepartments < ActiveRecord::Migration[8.0]
     create_table :departments do |t|
       t.jsonb :name, null: false
       t.jsonb :description
+      t.string :abbreviation
       t.references :organization, null: false, foreign_key: true
 
       t.timestamps

@@ -1,25 +1,20 @@
 # spec/factories/departments.rb
 FactoryBot.define do
   factory :department do
-    association :organization
+    organization { Organization.first || create(:organization) }
 
-    transient do
-      # Default to English name, but allow override
-      name_translations { { "en" => "Department #{SecureRandom.uuid}" } }
-    end
+    name { "Department #{SecureRandom.uuid}" }
+
+    abbreviation { (0..3).map { ('A'..'Z').to_a.sample }.join }
 
     after(:build) do |department, evaluator|
-      # Set translations using Mobility
-      evaluator.name_translations.each do |locale, name|
-        Mobility.with_locale(locale) { department.name = name }
-      end
-    end
-
-    trait :invalid do
-      # Explicitly set empty name for validation testing
-      after(:build) do |department, _evaluator|
-        Mobility.with_locale(:en) { department.name = nil }
-        department.instance_variable_set(:@name_translations, {})
+      if evaluator.name.is_a?(String)
+        Mobility.with_locale(:en) { department.name = evaluator.name }
+      elsif evaluator.name.is_a?(Hash)
+        department.name = nil
+        evaluator.name.each do |locale, name|
+          Mobility.with_locale(locale) { department.name = name }
+        end
       end
     end
   end

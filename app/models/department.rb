@@ -17,8 +17,9 @@ class Department < ApplicationRecord
   has_many :permissions, as: :grantee, dependent: :destroy
 
   # Validations
-  validates :name, presence: true
+  validates :abbreviation, presence: true
   validate :name_has_at_least_one_translation
+  validate :name_translations_are_unique
 
   def members
     Member.joins(:roles).where(roles: { department_id: id }).distinct
@@ -57,5 +58,17 @@ class Department < ApplicationRecord
     return if Mobility.available_locales.any? { |loc| name(locale: loc).present? }
 
     errors.add(:name, "must contain at least one translation")
+  end
+
+  def name_translations_are_unique
+    name_translations = read_attribute(:name) || {}
+    name_translations.each do |locale, name_value|
+      next if name_value.blank?
+      Mobility.with_locale(locale) do
+        if organization.departments.where.not(id: id).where("name ->> ? = ?", locale.to_s, name_value).exists?
+          errors.add(:name, "must be unique within the organization for locale #{locale}")
+        end
+      end
+    end
   end
 end 

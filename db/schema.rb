@@ -45,6 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
   create_table "departments", force: :cascade do |t|
     t.jsonb "name", null: false
     t.jsonb "description"
+    t.string "abbreviation"
     t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
