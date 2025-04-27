@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -91,6 +91,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
     t.boolean "is_tenant"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_trial", default: false
+    t.datetime "archived_at"
+    t.integer "archive_number"
+    t.index ["archived_at"], name: "index_organizations_on_archived_at"
     t.index ["name"], name: "index_organizations_on_name", using: :gin
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
   end
@@ -183,6 +187,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
     t.datetime "updated_at", null: false
     t.text "address"
     t.string "language", default: "en"
+    t.string "role"
     t.index ["active"], name: "index_users_on_active"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -192,6 +197,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_193746) do
     t.index ["phone_number"], name: "index_users_on_phone_number"
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, where: "((provider IS NOT NULL) AND (uid IS NOT NULL))"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role"], name: "index_users_on_role"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 

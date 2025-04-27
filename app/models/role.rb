@@ -18,6 +18,7 @@ class Role < ApplicationRecord
   has_many :children, class_name: 'Role', foreign_key: 'parent_id'
   has_many :permissions, as: :grantee
   has_many :role_assignments
+  # has_one :member, -> { active }, class_name: 'Member', through: :role_assignments
 
   # Validations
   validate :name_has_at_least_one_translation

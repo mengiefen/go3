@@ -1,6 +1,19 @@
 class Organization < ApplicationRecord
+  # Use acts_as_archival for soft delete
+  acts_as_archival
+  
+  # Callbacks for archiving
+  before_archive :archive_children
+  after_unarchive :handle_unarchive
+  
+  # Remove default_scope and use explicit scopes for better control
+  scope :active, -> { unarchived }
+  
   # Will enable PaperTrail later
   has_paper_trail
+
+  # Active Storage attachment
+  has_one_attached :logo
 
   # Will enable Mobility for translations later
   extend Mobility
@@ -13,11 +26,11 @@ class Organization < ApplicationRecord
 
   # Associations
   belongs_to :parent, class_name: 'Organization', optional: true
-  has_many :children, class_name: 'Organization', foreign_key: 'parent_id'
-  has_many :departments
-  has_many :groups
-  has_many :roles
-  has_many :members
+  has_many :children, class_name: 'Organization', foreign_key: 'parent_id', dependent: :nullify
+  has_many :departments, dependent: :nullify
+  has_many :groups, dependent: :nullify
+  has_many :roles, dependent: :nullify
+  has_many :members, dependent: :destroy
 
   # Validations
   validate :no_circular_references
@@ -38,6 +51,21 @@ class Organization < ApplicationRecord
   end
 
   private
+
+  def archive_children
+    # Archive all children when this organization is archived
+    children.each(&:archive)
+    # Archive related entities if needed
+    # departments.each(&:archive)
+    # groups.each(&:archive)
+    # roles.each(&:archive)
+  end
+  
+  def handle_unarchive
+    # You might want to implement logic to unarchive related records here
+    # For now, we'll leave it up to the admin to manually restore related records
+    Rails.logger.info "Organization #{id} has been restored (unarchived)"
+  end
 
   def initialize_name
     write_attribute(:name, {}) if read_attribute(:name).nil?

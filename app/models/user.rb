@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: [:google_oauth2, :linkedin]
   
+ 
   # Active Storage attachment
   has_one_attached :avatar
   has_many :members, dependent: :nullify
@@ -26,9 +27,16 @@ class User < ApplicationRecord
   # Attributes
   attr_accessor :otp_code, :otp_code_attempt
   
+  GO3_ADMIN = "GO3_ADMIN"
   # Scopes
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :go3_admins, -> { where(role: GO3_ADMIN) }
+  
+  # Check if user is a platform admin
+  def is_go3_admin?
+    role == GO3_ADMIN
+  end
   
   # Class methods
   def self.from_omniauth(auth)
@@ -473,6 +481,10 @@ class User < ApplicationRecord
   
   def ensure_otp_secret
     self.otp_secret = ROTP::Base32.random if otp_required_for_login? && otp_secret.blank?
+  end
+  
+  def sync_admin_flag
+    self.is_admin = role == 'GO3_ADMIN'
   end
   
   # Validate avatar file type and size

@@ -114,4 +114,4 @@ RSpec.describe Organization, type: :model do
       expect(organization.read_attribute(:name)).to eq({})
     end
   end
-end 
+end

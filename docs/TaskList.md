@@ -124,29 +124,19 @@
 
 - [ ] **Database Schema Design**
   - [ ] Add Pundit gem for policy-based authorization
-  - [ ] Create Permission model with permission_code and polymorphic subject/target
-  - [ ] Create Role model with hierarchical structure
-  - [ ] Create groups_members join table for many-to-many relationship
-  - [ ] Create Department model and associations
-  - [ ] Implement tenant isolation with proper foreign key constraints
-  - [ ] Configure PaperTrail for audit trail on all authorization models
-  - [ ] Set up PostgreSQL Row-Level Security policies for tenant isolation
-
-- [ ] **Code-Defined Permission Registry**
-  - [ ] Create PermissionRegistry module
-  - [ ] Define resource categories and actions
-  - [ ] Implement permission code validation methods
-  - [ ] Create helper methods for permission metadata
-  - [ ] Implement permission display and categorization utilities
-  - [ ] Add permission code generators
+  - [x] Create Permission model with permission_code and polymorphic subject/target
+  - [x] Create Role model with hierarchical structure
+  - [x] Create groups_members join table for many-to-many relationship
+  - [x] Create Department model and associations
+  - [x] Configure PaperTrail for audit trail on all authorization models
 
 - [ ] **Core Permission Implementation**
-  - [ ] Implement organization-specific and platform-specific roles
-  - [ ] Create role hierarchy implementation
-  - [ ] Build role assignment mechanism with history tracking
-  - [ ] Implement permission delegation system
-  - [ ] Create time-limited permissions with expiration
-  - [ ] Build notification system for expiring permissions
+  - [x] Implement organization-specific and platform-specific roles
+  - [x] Create role hierarchy implementation
+  - [x] Build role assignment mechanism with history tracking
+  - [x] Implement permission delegation system
+  - [ ] Create time-limited permissions with expiration (Later with advanced features)
+  - [ ] Build notification system for expiring permissions (Later with advanced features)
 
 - [ ] **Pundit Policy Framework**
   - [ ] Design base ApplicationPolicy with permission checking

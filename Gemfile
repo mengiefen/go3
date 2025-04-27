@@ -41,6 +41,9 @@ gem "recaptcha" # reCAPTCHA helper for Ruby apps
 # Authorization
 gem "pundit" # Minimal authorization through OO design and pure Ruby classes
 
+# Soft deletion / archiving
+gem "acts_as_archival", "~> 2.0" # Records can be archived and unarchived, instead of destroyed
+
 # Internationalization
 gem "http_accept_language" # Parse Accept-Language header
 
@@ -95,6 +98,7 @@ group :development do
 
   # Preview email in the browser instead of sending it
   # gem "letter_opener"
+  gem "mailcatcher"
 end
 
 group :test do

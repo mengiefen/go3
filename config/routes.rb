@@ -39,6 +39,20 @@ Rails.application.routes.draw do
     delete ':provider', to: 'users/social_connections#destroy', on: :collection, as: :destroy
   end
 
+  resources :organizations
+  
+  namespace :admin do
+    resources :organizations do
+      member do
+        patch :archive
+        patch :unarchive
+      end
+      collection do
+        get :archived
+      end
+    end
+  end
+
   # Defines the root path route ("/")
   root "home#index"
 end

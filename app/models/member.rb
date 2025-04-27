@@ -39,6 +39,10 @@ class Member < ApplicationRecord
     direct_permissions + role_permissions + group_permissions + department_permissions
   end
 
+  def is_go3_admin?
+    user.is_go3_admin?
+  end
+
   private
   
   def initialize_name
