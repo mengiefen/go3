@@ -139,7 +139,7 @@
   - [ ] Build notification system for expiring permissions (Later with advanced features)
 
 - [ ] **Pundit Policy Framework**
-  - [ ] Design base ApplicationPolicy with permission checking
+  - [x] Design base ApplicationPolicy with permission checking
   - [ ] Create resource-specific policies inheriting from base policy
   - [ ] Implement role-specific policy contexts for maintainable code
   - [ ] Create controller helpers for authorization checks
@@ -147,12 +147,12 @@
   - [ ] Add authorization scopes for collections
 
 - [ ] **Permission Resolution Engine**
-  - [ ] Implement algorithm to check multiple permission sources
-  - [ ] Create member direct permission validation
-  - [ ] Implement group membership permission validation
-  - [ ] Create department permission validation
-  - [ ] Implement role permission validation
-  - [ ] Optimize queries with proper database indexing
+  - [x] Implement algorithm to check multiple permission sources
+  - [x] Create member direct permission validation
+  - [x] Implement group membership permission validation
+  - [x] Create department permission validation
+  - [x] Implement role permission validation
+  - [x] Optimize queries with proper database indexing
   - [ ] Implement warning system for multiple permission sources
 
 - [ ] **Caching and Performance**

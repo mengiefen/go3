@@ -8,6 +8,7 @@ class Permission < ApplicationRecord
   # Validations
   validates :code, presence: true
   validates :grantee, presence: true
+  validates :grantee_id, uniqueness: { scope: [:grantee_type, :code] }
 
   def permitted_users
     users = []
