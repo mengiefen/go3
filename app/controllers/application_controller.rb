@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :set_locale
   
+  helper ComponentHelper
+  
   protected
   
   def configure_permitted_parameters

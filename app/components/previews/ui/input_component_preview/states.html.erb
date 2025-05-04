@@ -1,0 +1,42 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/input_component_preview/states.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Input States</h2>
+  <div class="space-y-4 max-w-md">
+    <div>
+      <%= render(Forms::InputComponent.new(name: "default_state", placeholder: "Regular input")) do |component| %>
+        <% component.with_label { "Default State" } %>
+        <% component.with_hint { "This is a normal input field" } %>
+      <% end %>
+    </div>
+    <div>
+      <%= render(Forms::InputComponent.new(name: "focused_state", placeholder: "Click to focus")) do |component| %>
+        <% component.with_label { "Focused State (click to see)" } %>
+        <% component.with_hint { "Click on this input to see the focused state" } %>
+      <% end %>
+    </div>
+    <div>
+      <%= render(Forms::InputComponent.new(name: "disabled_state", placeholder: "Can't type here", disabled: true)) do |component| %>
+        <% component.with_label { "Disabled State" } %>
+        <% component.with_hint { "This input cannot be edited" } %>
+      <% end %>
+    </div>
+    <div>
+      <%= render(Forms::InputComponent.new(name: "readonly_state", value: "This is read-only text", readonly: true)) do |component| %>
+        <% component.with_label { "Readonly State" } %>
+        <% component.with_hint { "This input cannot be modified but can be focused" } %>
+      <% end %>
+    </div>
+    <div>
+      <%= render(Forms::InputComponent.new(name: "required_state", placeholder: "Required field", required: true)) do |component| %>
+        <% component.with_label { "Required State" } %>
+        <% component.with_hint { "This field must be filled" } %>
+      <% end %>
+    </div>
+    <div>
+      <%= render(Forms::InputComponent.new(name: "error_state", value: "Invalid input", error_state: true)) do |component| %>
+        <% component.with_label { "Error State" } %>
+        <% component.with_error { "This input contains invalid data" } %>
+      <% end %>
+    </div>
+  </div>
+</div>

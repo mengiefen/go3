@@ -75,5 +75,5 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # Enable ViewComponent previews
-  config.view_component.preview_paths << Rails.root.join("spec/components/previews")
+  config.view_component.preview_paths << Rails.root.join("app/components/previews")
 end

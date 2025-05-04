@@ -52,7 +52,12 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  # Custom route for examples dashboard
+  get "examples/dashboard", to: "examples#dashboard", as: :examples_dashboard
 
   # Defines the root path route ("/")
   root "home#index"
+
+ 
 end

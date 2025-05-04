@@ -1,0 +1,16 @@
+<div class="flex h-screen flex-col">
+  <header class="bg-white border-b border-gray-200 z-10">
+    <%= header %>
+  </header>
+  <div class="flex flex-1 overflow-hidden">
+    <% if @show_side_panel %>
+      <aside data-controller="resizable-panel" class="w-72 overflow-y-auto border-r border-gray-200 bg-white">
+        <%= side_panel %>
+      </aside>
+    <% end %>
+    <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+      <%= main_content %>
+    </main>
+  </div>
+</div>
+ 
