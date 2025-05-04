@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_07_184056) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,106 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_184056) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "departments", force: :cascade do |t|
+    t.jsonb "name", null: false
+    t.jsonb "description"
+    t.string "abbreviation"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_departments_on_name", using: :gin
+    t.index ["organization_id"], name: "index_departments_on_organization_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.jsonb "name", null: false
+    t.jsonb "description"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_groups_on_name", using: :gin
+    t.index ["organization_id"], name: "index_groups_on_organization_id"
+  end
+
+  create_table "groups_members", id: false, force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "member_id", null: false
+    t.index ["group_id", "member_id"], name: "index_groups_members_on_group_id_and_member_id"
+    t.index ["member_id", "group_id"], name: "index_groups_members_on_member_id_and_group_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.string "email", null: false
+    t.jsonb "name"
+    t.bigint "organization_id", null: false
+    t.bigint "user_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_members_on_email"
+    t.index ["name"], name: "index_members_on_name", using: :gin
+    t.index ["organization_id"], name: "index_members_on_organization_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.jsonb "name", null: false
+    t.jsonb "description"
+    t.integer "parent_id"
+    t.boolean "is_tenant"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_trial", default: false
+    t.datetime "archived_at"
+    t.integer "archive_number"
+    t.index ["archived_at"], name: "index_organizations_on_archived_at"
+    t.index ["name"], name: "index_organizations_on_name", using: :gin
+    t.index ["parent_id"], name: "index_organizations_on_parent_id"
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "grantee_type", null: false
+    t.bigint "grantee_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code", "grantee_type", "grantee_id"], name: "index_permissions_on_code_and_grantee", unique: true
+    t.index ["code"], name: "index_permissions_on_code"
+    t.index ["grantee_id"], name: "index_permissions_on_grantee_id"
+    t.index ["grantee_type", "grantee_id"], name: "index_permissions_on_grantee_type_and_grantee_id"
+    t.index ["grantee_type"], name: "index_permissions_on_grantee_type"
+    t.index ["organization_id"], name: "index_permissions_on_organization_id"
+  end
+
+  create_table "role_assignments", force: :cascade do |t|
+    t.bigint "role_id", null: false
+    t.bigint "member_id", null: false
+    t.datetime "start_date"
+    t.datetime "finish_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id", "role_id"], name: "index_role_assignments_on_member_id_and_role_id"
+    t.index ["member_id"], name: "index_role_assignments_on_member_id"
+    t.index ["role_id", "member_id"], name: "index_role_assignments_on_role_id_and_member_id"
+    t.index ["role_id"], name: "index_role_assignments_on_role_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.jsonb "name", null: false
+    t.jsonb "description"
+    t.integer "parent_id"
+    t.bigint "organization_id", null: false
+    t.bigint "department_id"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_roles_on_department_id"
+    t.index ["name"], name: "index_roles_on_name", using: :gin
+    t.index ["organization_id"], name: "index_roles_on_organization_id"
+    t.index ["parent_id"], name: "index_roles_on_parent_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -87,6 +187,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_184056) do
     t.datetime "updated_at", null: false
     t.text "address"
     t.string "language", default: "en"
+    t.string "role"
     t.index ["active"], name: "index_users_on_active"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -96,9 +197,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_184056) do
     t.index ["phone_number"], name: "index_users_on_phone_number"
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, where: "((provider IS NOT NULL) AND (uid IS NOT NULL))"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role"], name: "index_users_on_role"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "whodunnit"
+    t.datetime "created_at"
+    t.bigint "item_id", null: false
+    t.string "item_type", null: false
+    t.string "event", null: false
+    t.text "object"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "departments", "organizations"
+  add_foreign_key "groups", "organizations"
+  add_foreign_key "members", "organizations"
+  add_foreign_key "members", "users"
+  add_foreign_key "permissions", "organizations"
+  add_foreign_key "role_assignments", "members"
+  add_foreign_key "role_assignments", "roles"
+  add_foreign_key "roles", "departments"
+  add_foreign_key "roles", "organizations"
 end

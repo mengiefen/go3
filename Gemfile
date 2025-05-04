@@ -41,8 +41,15 @@ gem "recaptcha" # reCAPTCHA helper for Ruby apps
 # Authorization
 gem "pundit" # Minimal authorization through OO design and pure Ruby classes
 
+# Soft deletion / archiving
+gem "acts_as_archival", "~> 2.0" # Records can be archived and unarchived, instead of destroyed
+
 # Internationalization
 gem "http_accept_language" # Parse Accept-Language header
+
+# Translations
+gem "mobility", "~> 1.2" # Translate ActiveRecord models
+gem "paper_trail" # Track changes to models
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -73,6 +80,13 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  
+  # Testing
+  gem "rspec-rails", "~> 6.1.0"
+  gem "factory_bot_rails"
+  gem "shoulda-matchers"
+  gem "faker"
+  gem "database_cleaner-active_record"
 end
 
 group :development do
@@ -84,6 +98,7 @@ group :development do
 
   # Preview email in the browser instead of sending it
   # gem "letter_opener"
+  gem "mailcatcher"
 end
 
 group :test do

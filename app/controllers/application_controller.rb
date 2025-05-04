@@ -2,6 +2,10 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  include Pundit::Authorization
+  
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   before_action :set_current_attributes
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :store_user_location!, if: :storable_location?
@@ -48,6 +52,11 @@ class ApplicationController < ActionController::Base
   end
   
   private
+  
+  def user_not_authorized
+    flash[:alert] = "You are not authorized to perform this action."
+    redirect_to(request.referrer || root_path)
+  end
   
   def set_current_attributes
     Current.ip_address = request.ip

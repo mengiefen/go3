@@ -1,0 +1,56 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Organization Management</h1>
+    <div class="flex space-x-4">
+      <%= link_to "Archived Organizations", archived_admin_organizations_path, class: "btn btn-secondary" %>
+      <%= link_to "New Organization", new_organization_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <% if @organizations.any? %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @organizations.each do |organization| %>
+          <li>
+            <div class="px-4 py-4 sm:px-6 flex items-center justify-between">
+              <div class="flex items-center">
+                <% if organization.logo.attached? %>
+                  <%= image_tag organization.logo.variant(resize_to_limit: [48, 48]), class: "h-12 w-12 rounded-full mr-4" %>
+                <% else %>
+                  <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                    <span class="text-gray-500 text-xl"><%= organization.name %></span>
+                  </div>
+                <% end %>
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900">
+                    <%= link_to organization.name, admin_organization_path(organization) %>
+                  </h3>
+                  <% if organization.parent %>
+                    <p class="text-sm text-gray-500">Sub-organization of <%= organization.parent.name %></p>
+                  <% end %>
+                </div>
+              </div>
+              
+              <div class="flex items-center space-x-2">
+                <% if organization.is_trial %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
+                    Trial
+                  </span>
+                <% end %>
+                
+                <div class="flex space-x-2">
+                  <%= link_to "Edit", edit_admin_organization_path(organization), class: "btn btn-sm btn-secondary" %>
+                  <%= button_to "Archive", archive_admin_organization_path(organization), method: :patch, class: "btn btn-sm btn-warning" %>
+                </div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+      <p class="text-gray-500">No active organizations found.</p>
+    </div>
+  <% end %>
+</div> 
