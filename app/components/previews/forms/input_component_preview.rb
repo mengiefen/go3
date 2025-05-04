@@ -1,5 +1,5 @@
 # filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/previews/ui/input_component_preview.rb
-class Ui::InputComponentPreview < ViewComponent::Preview
+class Forms::InputComponentPreview < ViewComponent::Preview
   # @param type [Symbol] select {options: [text, email, password, number, tel, url, search, date, time, datetime-local, month, week]}
   # @param size [Symbol] select {options: [sm, md, lg]}
   # @param disabled [Boolean] toggle

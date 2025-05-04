@@ -1,4 +1,4 @@
-# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/text_component_preview.rb
+# filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/previews/ui/text_component_preview.rb
 class Ui::TextComponentPreview < ViewComponent::Preview
   # @param size [Symbol] select {options: [xs, sm, base, lg, xl, 2xl]}
   # @param color [Symbol] select {options: [default, muted, light, white, primary, success, warning, danger]}

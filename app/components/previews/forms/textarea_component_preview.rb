@@ -1,4 +1,4 @@
-class Ui::TextareaComponentPreview < ViewComponent::Preview
+class Forms::TextareaComponentPreview < ViewComponent::Preview
   # @param rows [Number] number
   # @param resize [Symbol] select {options: [none, vertical, horizontal, both]}
   # @param disabled [Boolean] toggle

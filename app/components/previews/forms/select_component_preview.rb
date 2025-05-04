@@ -1,5 +1,5 @@
-# filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/previews/ui/select_component_preview.rb
-class Ui::SelectComponentPreview < ViewComponent::Preview
+# filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/previews/forms/select_component_preview.rb
+class Forms::SelectComponentPreview < ViewComponent::Preview
   # @param required [Boolean] toggle
   # @param disabled [Boolean] toggle
   # @param multiple [Boolean] toggle

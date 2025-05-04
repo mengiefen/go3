@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Ui
+module Specialized
   class SearchComponentPreview < ViewComponent::Preview
     # @!group Display Types
 
