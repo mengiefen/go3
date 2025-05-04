@@ -1,0 +1,32 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/alert_component_preview/variants.html.erb %>
+<div class="space-y-4 p-4">
+  <h2 class="text-xl font-bold">Alert Variants</h2>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Info Alert</h3>
+    <%= render(Ui::AlertComponent.new(variant: :info)) do %>
+      This is an informational alert.
+    <% end %>
+  </div>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Success Alert</h3>
+    <%= render(Ui::AlertComponent.new(variant: :success)) do %>
+      This is a success alert.
+    <% end %>
+  </div>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Warning Alert</h3>
+    <%= render(Ui::AlertComponent.new(variant: :warning)) do %>
+      This is a warning alert.
+    <% end %>
+  </div>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Error Alert</h3>
+    <%= render(Ui::AlertComponent.new(variant: :error)) do %>
+      This is an error alert.
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/avatar_component_preview/with_initials.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Avatars with Initials</h2>
+  
+  <div class="flex flex-wrap gap-8">
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Single Initial</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "J",
+        size: :lg,
+        color: "blue"
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Two Initials</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "JD",
+        size: :lg,
+        color: "green"
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Square with Initials</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "AB",
+        size: :lg,
+        shape: :square,
+        color: "purple"
+      )) %>
+    </div>
+  </div>
+</div>

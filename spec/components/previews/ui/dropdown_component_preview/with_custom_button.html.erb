@@ -1,0 +1,19 @@
+<%= render(Ui::DropdownComponent.new) do |dropdown| %>
+  <% dropdown.button do %>
+    <%= render(Ui::ButtonComponent.new(variant: :primary, icon_right: "chevron-down")) do %>
+      Custom Button
+    <% end %>
+  <% end %>
+  
+  <% dropdown.item do %>
+    <a href="#dashboard" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Dashboard</a>
+  <% end %>
+  
+  <% dropdown.item do %>
+    <a href="#profile" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Your Profile</a>
+  <% end %>
+  
+  <% dropdown.item do %>
+    <a href="#settings" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Settings</a>
+  <% end %>
+<% end %>

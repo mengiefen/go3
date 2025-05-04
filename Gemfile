@@ -87,6 +87,8 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "faker"
   gem "database_cleaner-active_record"
+
+   gem "hotwire-livereload"
 end
 
 group :development do
@@ -119,3 +121,5 @@ gem "net-pop", require: false
 
 # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
 # gem "spring"
+
+gem "view_component", "~> 3.21"

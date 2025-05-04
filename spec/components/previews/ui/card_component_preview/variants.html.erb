@@ -1,0 +1,113 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/card_component_preview/variants.html.erb %>
+<div class="p-4 space-y-8">
+  <h2 class="text-xl font-bold">Card Variants</h2>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Shadow Variants</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div>
+        <p class="mb-2 text-sm font-medium">No Shadow</p>
+        <%= render(Ui::CardComponent.new(shadow: :none)) do %>
+          <div class="h-20 flex items-center justify-center">
+            No Shadow
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Small Shadow</p>
+        <%= render(Ui::CardComponent.new(shadow: :sm)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Small Shadow
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Medium Shadow (Default)</p>
+        <%= render(Ui::CardComponent.new(shadow: :md)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Medium Shadow
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Large Shadow</p>
+        <%= render(Ui::CardComponent.new(shadow: :lg)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Large Shadow
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Extra Large Shadow</p>
+        <%= render(Ui::CardComponent.new(shadow: :xl)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Extra Large Shadow
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Rounded Corner Variants</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div>
+        <p class="mb-2 text-sm font-medium">No Rounded Corners</p>
+        <%= render(Ui::CardComponent.new(rounded: :none)) do %>
+          <div class="h-20 flex items-center justify-center">
+            No Rounding
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Small Rounded Corners</p>
+        <%= render(Ui::CardComponent.new(rounded: :sm)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Small Rounded
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Medium Rounded Corners (Default)</p>
+        <%= render(Ui::CardComponent.new(rounded: :md)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Medium Rounded
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Large Rounded Corners</p>
+        <%= render(Ui::CardComponent.new(rounded: :lg)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Large Rounded
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Extra Large Rounded Corners</p>
+        <%= render(Ui::CardComponent.new(rounded: :xl)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Extra Large Rounded
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <p class="mb-2 text-sm font-medium">Fully Rounded</p>
+        <%= render(Ui::CardComponent.new(rounded: :full)) do %>
+          <div class="h-20 flex items-center justify-center">
+            Fully Rounded
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

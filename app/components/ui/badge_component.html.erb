@@ -1,0 +1,9 @@
+<span class="<%= container_classes %>" <%= @attrs.map { |k, v| "#{k}=\"#{v}\"" }.join(" ") %>>
+  <% if @dot %>
+    <span class="relative h-2 w-2 mr-1.5">
+      <span class="absolute h-2 w-2 <%= @variant == :primary ? 'bg-blue-400' : '' %><%= @variant == :secondary ? 'bg-gray-400' : '' %><%= @variant == :success ? 'bg-green-400' : '' %><%= @variant == :danger ? 'bg-red-400' : '' %><%= @variant == :warning ? 'bg-yellow-400' : '' %><%= @variant == :info ? 'bg-cyan-400' : '' %><%= @variant == :light ? 'bg-gray-300' : '' %><%= @variant == :dark ? 'bg-gray-500' : '' %> rounded-full"></span>
+      <span class="absolute h-2 w-2 <%= @variant == :primary ? 'bg-blue-400' : '' %><%= @variant == :secondary ? 'bg-gray-400' : '' %><%= @variant == :success ? 'bg-green-400' : '' %><%= @variant == :danger ? 'bg-red-400' : '' %><%= @variant == :warning ? 'bg-yellow-400' : '' %><%= @variant == :info ? 'bg-cyan-400' : '' %><%= @variant == :light ? 'bg-gray-300' : '' %><%= @variant == :dark ? 'bg-gray-500' : '' %> rounded-full animate-ping opacity-75"></span>
+    </span>
+  <% end %>
+  <%= content %>
+</span>

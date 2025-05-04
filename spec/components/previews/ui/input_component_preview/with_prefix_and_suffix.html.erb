@@ -1,0 +1,63 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/input_component_preview/with_prefix_and_suffix.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Inputs with Prefix and Suffix</h2>
+  
+  <div class="space-y-4 max-w-md">
+    <div>
+      <%= render(Ui::InputComponent.new(name: "currency_input", placeholder: "0.00")) do |component| %>
+        <% component.with_label { "Price" } %>
+        <% component.with_prefix do %>
+          <span class="text-gray-500">$</span>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(name: "weight_input", placeholder: "0.00")) do |component| %>
+        <% component.with_label { "Weight" } %>
+        <% component.with_suffix do %>
+          <span class="text-gray-500">kg</span>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(name: "username_input", placeholder: "username")) do |component| %>
+        <% component.with_label { "Username" } %>
+        <% component.with_prefix do %>
+          <span class="text-gray-500">@</span>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :url, name: "website_input", placeholder: "example")) do |component| %>
+        <% component.with_label { "Website" } %>
+        <% component.with_prefix do %>
+          <span class="text-gray-500">https://</span>
+        <% end %>
+        <% component.with_suffix do %>
+          <span class="text-gray-500">.com</span>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :search, name: "search_input", placeholder: "Search...")) do |component| %>
+        <% component.with_label { "Search" } %>
+        <% component.with_prefix do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+          </svg>
+        <% end %>
+        <% component.with_suffix do %>
+          <button type="button" class="text-gray-400 hover:text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

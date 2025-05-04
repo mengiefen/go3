@@ -1,0 +1,60 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/input_component_preview/input_types.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Input Types</h2>
+  
+  <div class="space-y-4 max-w-md">
+    <div>
+      <%= render(Ui::InputComponent.new(type: :text, name: "text_input", placeholder: "Text input...")) do |component| %>
+        <% component.with_label { "Text Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :email, name: "email_input", placeholder: "name@example.com")) do |component| %>
+        <% component.with_label { "Email Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :password, name: "password_input", placeholder: "••••••••")) do |component| %>
+        <% component.with_label { "Password Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :number, name: "number_input", placeholder: "123", min: 0, max: 100)) do |component| %>
+        <% component.with_label { "Number Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :tel, name: "tel_input", placeholder: "(123) 456-7890")) do |component| %>
+        <% component.with_label { "Telephone Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :url, name: "url_input", placeholder: "https://example.com")) do |component| %>
+        <% component.with_label { "URL Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :date, name: "date_input")) do |component| %>
+        <% component.with_label { "Date Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :time, name: "time_input")) do |component| %>
+        <% component.with_label { "Time Input" } %>
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::InputComponent.new(type: :search, name: "search_input", placeholder: "Search...")) do |component| %>
+        <% component.with_label { "Search Input" } %>
+      <% end %>
+    </div>
+  </div>
+</div>

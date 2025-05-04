@@ -1,0 +1,60 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/text_component_preview/line_heights.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Text Line Heights</h2>
+  
+  <div class="space-y-8">
+    <div>
+      <p class="text-sm font-medium mb-1">None</p>
+      <div class="border border-gray-300 p-3 rounded">
+        <%= render(Ui::TextComponent.new(leading: :none)) do %>
+          This text has no line height (leading-none). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar magna eu lacus tincidunt vulputate. Fusce sed luctus orci, at gravida odio. Sed maximus ultrices ipsum, vel blandit risus iaculis eget.
+        <% end %>
+      </div>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Tight</p>
+      <div class="border border-gray-300 p-3 rounded">
+        <%= render(Ui::TextComponent.new(leading: :tight)) do %>
+          This text has tight line height (leading-tight). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar magna eu lacus tincidunt vulputate. Fusce sed luctus orci, at gravida odio. Sed maximus ultrices ipsum, vel blandit risus iaculis eget.
+        <% end %>
+      </div>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Snug</p>
+      <div class="border border-gray-300 p-3 rounded">
+        <%= render(Ui::TextComponent.new(leading: :snug)) do %>
+          This text has snug line height (leading-snug). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar magna eu lacus tincidunt vulputate. Fusce sed luctus orci, at gravida odio. Sed maximus ultrices ipsum, vel blandit risus iaculis eget.
+        <% end %>
+      </div>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Normal</p>
+      <div class="border border-gray-300 p-3 rounded">
+        <%= render(Ui::TextComponent.new(leading: :normal)) do %>
+          This text has normal line height (leading-normal). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar magna eu lacus tincidunt vulputate. Fusce sed luctus orci, at gravida odio. Sed maximus ultrices ipsum, vel blandit risus iaculis eget.
+        <% end %>
+      </div>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Relaxed</p>
+      <div class="border border-gray-300 p-3 rounded">
+        <%= render(Ui::TextComponent.new(leading: :relaxed)) do %>
+          This text has relaxed line height (leading-relaxed). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar magna eu lacus tincidunt vulputate. Fusce sed luctus orci, at gravida odio. Sed maximus ultrices ipsum, vel blandit risus iaculis eget.
+        <% end %>
+      </div>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Loose</p>
+      <div class="border border-gray-300 p-3 rounded">
+        <%= render(Ui::TextComponent.new(leading: :loose)) do %>
+          This text has loose line height (leading-loose). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar magna eu lacus tincidunt vulputate. Fusce sed luctus orci, at gravida odio. Sed maximus ultrices ipsum, vel blandit risus iaculis eget.
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

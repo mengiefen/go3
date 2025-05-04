@@ -1,0 +1,45 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/tabs_component_preview/with_lazy_loading.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Tabs with Lazy Loading</h2>
+  
+  <p class="text-gray-600">
+    This example demonstrates loading tab content dynamically using Turbo Frames.
+    The first tab loads immediately, while the other tabs load their content only when activated.
+  </p>
+  
+  <div class="bg-yellow-50 border border-yellow-200 p-4 rounded mb-4">
+    <p>When you click on the "Lazy Tab 1" or "Lazy Tab 2" tabs, the content will be loaded from separate endpoints.</p>
+    <p class="mt-2">In a real application, these endpoints would be controller actions that return only the tab content HTML.</p>
+  </div>
+  
+  <div class="border rounded overflow-hidden">
+    <%= render Ui::TabsComponent.new(id: "lazy-tabs", active_tab: "instant-tab") do |tabs| %>
+      <% # Tab Triggers %>
+      <% tabs.with_tab_trigger(id: "instant-tab", label: "Instant", active: true) %>
+      <% tabs.with_tab_trigger(id: "lazy-tab-1", label: "Lazy Tab 1") %>
+      <% tabs.with_tab_trigger(id: "lazy-tab-2", label: "Lazy Tab 2") %>
+      
+      <% # Instant tab with direct content %>
+      <% tabs.with_tab_content(id: "instant-tab") do %>
+        <div class="p-4 space-y-4">
+          <h3 class="text-lg font-medium">Instant Content</h3>
+          <p>This content loads immediately when the page loads.</p>
+          <div class="bg-blue-50 p-4 rounded">
+            <p>Pre-loading content for the initially visible tab improves the perceived performance.</p>
+          </div>
+        </div>
+      <% end %>
+      
+      <% # Lazy-loaded tabs %>
+      <% tabs.with_tab_content(
+        id: "lazy-tab-1", 
+        lazy_load_url: "/rails/view_components/ui/tabs_component_preview/lazy_tab_1_content"
+      ) %>
+      
+      <% tabs.with_tab_content(
+        id: "lazy-tab-2", 
+        lazy_load_url: "/rails/view_components/ui/tabs_component_preview/lazy_tab_2_content"
+      ) %>
+    <% end %>
+  </div>
+</div>

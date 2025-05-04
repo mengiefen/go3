@@ -1,0 +1,17 @@
+<div class="<%= container_classes %>" <%= @attrs.map { |k, v| "#{k}=\"#{v}\"" }.join(" ") %>>
+  <% if header %>
+    <div class="border-b border-gray-200 <%= @padding ? 'px-4 py-3' : '' %>">
+      <%= header %>
+    </div>
+  <% end %>
+  
+  <div class="<%= content_classes %>">
+    <%= content %>
+  </div>
+  
+  <% if footer %>
+    <div class="border-t border-gray-200 <%= @padding ? 'px-4 py-3' : '' %>">
+      <%= footer %>
+    </div>
+  <% end %>
+</div>

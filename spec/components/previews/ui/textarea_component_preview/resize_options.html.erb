@@ -1,0 +1,50 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/textarea_component_preview/resize_options.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Textarea Resize Options</h2>
+  
+  <div class="space-y-4 max-w-md">
+    <div>
+      <p class="text-sm font-medium mb-1">Vertical Resize (Default)</p>
+      <%= render(Ui::TextareaComponent.new(
+        name: "vertical_resize",
+        placeholder: "This textarea can be resized vertically...",
+        resize: :vertical
+      )) do |component|
+        component.with_label { "Vertical Resize" }
+      end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Horizontal Resize</p>
+      <%= render(Ui::TextareaComponent.new(
+        name: "horizontal_resize",
+        placeholder: "This textarea can be resized horizontally...",
+        resize: :horizontal
+      )) do |component|
+        component.with_label { "Horizontal Resize" }
+      end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Both Directions Resize</p>
+      <%= render(Ui::TextareaComponent.new(
+        name: "both_resize",
+        placeholder: "This textarea can be resized in both directions...",
+        resize: :both
+      )) do |component|
+        component.with_label { "Both Directions Resize" }
+      end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">No Resize</p>
+      <%= render(Ui::TextareaComponent.new(
+        name: "no_resize",
+        placeholder: "This textarea cannot be resized...",
+        resize: :none
+      )) do |component|
+        component.with_label { "No Resize" }
+      end %>
+    </div>
+  </div>
+</div>

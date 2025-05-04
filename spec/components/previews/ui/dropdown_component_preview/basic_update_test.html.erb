@@ -1,0 +1,28 @@
+<div class="p-8 bg-gray-50">
+  <h1 class="text-xl font-bold mb-4">Basic Button Text Update Test</h1>
+  
+  <%= render(Ui::DropdownComponent.new(update_button_text: true)) do |c| %>
+    <% c.button do %>
+      <button class="px-4 py-2 bg-blue-500 text-white rounded">
+        <span>Click to select</span>
+      </button>
+    <% end %>
+    
+    <% c.item do %>
+      <button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-value="option1">Option One</button>
+    <% end %>
+    
+    <% c.item do %>
+      <button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-value="option2">Option Two</button>
+    <% end %>
+    
+    <% c.item do %>
+      <button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-value="option3">Option Three</button>
+    <% end %>
+  <% end %>
+  
+  <div class="mt-4 p-4 bg-yellow-50 border border-yellow-100 rounded">
+    <p class="text-sm">This example uses the simplest possible setup to test button text updating.</p>
+    <p class="text-sm mt-2">When you select an option, the button text should change.</p>
+  </div>
+</div>

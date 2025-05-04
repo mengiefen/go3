@@ -1,0 +1,62 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/badge_component_preview/variants.html.erb %>
+<div class="space-y-6 p-4">
+  <h2 class="text-xl font-bold">Badge Variants</h2>
+  
+  <div class="flex flex-wrap gap-4">
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Primary</p>
+      <%= render(Ui::BadgeComponent.new(variant: :primary)) do %>
+        Primary
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Secondary</p>
+      <%= render(Ui::BadgeComponent.new(variant: :secondary)) do %>
+        Secondary
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Success</p>
+      <%= render(Ui::BadgeComponent.new(variant: :success)) do %>
+        Success
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Danger</p>
+      <%= render(Ui::BadgeComponent.new(variant: :danger)) do %>
+        Danger
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Warning</p>
+      <%= render(Ui::BadgeComponent.new(variant: :warning)) do %>
+        Warning
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Info</p>
+      <%= render(Ui::BadgeComponent.new(variant: :info)) do %>
+        Info
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Light</p>
+      <%= render(Ui::BadgeComponent.new(variant: :light)) do %>
+        Light
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Dark</p>
+      <%= render(Ui::BadgeComponent.new(variant: :dark)) do %>
+        Dark
+      <% end %>
+    </div>
+  </div>
+</div>
