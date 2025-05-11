@@ -1,15 +1,57 @@
 <!-- Debug: PageLayout component rendering -->
-<div class="flex h-screen flex-col">
-  <header class="bg-white border-b border-gray-200 z-10">
-    <%= header %>
+<div class="flex h-screen flex-col w-screen <%= @rtl ? 'rtl' : 'ltr' %>" 
+     data-controller="collapsible-panel"
+     data-collapsible-panel-mobile-breakpoint-value="768">
+  <!-- Header - Fixed in desktop, scroll with content in mobile -->
+  <header class="border-b border-gray-200 z-40 bg-white print:hidden
+                md:sticky md:top-0 shadow-sm">
+    <div class="flex items-center justify-between p-4">
+      <!-- Toggle button for mobile view -->
+      <button data-action="collapsible-panel#toggle" 
+              data-collapsible-panel-target="toggle"
+              class="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              aria-label="Toggle navigation menu">
+        <span data-collapsible-panel-target="icon">☰</span>
+      </button>
+      
+      <!-- Header content -->
+      <div class="flex-1 <%= @rtl ? 'mr-4' : 'ml-4' %> md:m-0">
+        <%= header %>
+      </div>
+    </div>
   </header>
+  
   <div class="flex flex-1 overflow-hidden">
     <% if @show_side_panel %>
-      <aside data-controller="resizable-panel" class="w-72 overflow-y-auto border-r border-gray-200 bg-white">
-        <%= side_panel %>
+      <!-- Side Panel with collapsible and resizable functionality -->
+      <aside data-controller="resizable-panel"
+             data-resizable-panel-min-width-value="<%= @min_side_panel_width %>"
+             data-resizable-panel-max-width-value="<%= @max_side_panel_width %>"
+             data-resizable-panel-rtl-value="<%= @rtl %>"
+             data-collapsible-panel-target="panel"
+             class="w-72 <%= @rtl ? 'border-l' : 'border-r' %> border-gray-200 bg-white transition-all duration-200 ease-in-out shadow-sm relative flex flex-col">
+        
+        <!-- Side Panel Header with Toggle Button -->
+        <div class="p-3 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
+          <!-- Toggle button inside the panel -->
+          <button data-action="collapsible-panel#toggle"
+                  class="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                  aria-label="Collapse panel">
+            <span data-collapsible-panel-target="icon" class="text-gray-500">&larr;</span>
+          </button>
+          
+          <h3 class="font-medium text-gray-700 truncate flex-1 text-center">Navigation</h3>
+        </div>
+        
+        <!-- Side Panel Content -->
+        <div class="overflow-y-auto flex-1">
+          <%= side_panel %>
+        </div>
       </aside>
     <% end %>
-    <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+    
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto bg-white p-4 md:p-6">
       <%= main_content %>
     </main>
   </div>

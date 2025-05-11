@@ -184,18 +184,8 @@
         </div>
       </div>
     <% end %>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <% if user_signed_in? && current_user.is_go3_admin? %>
-        <div class="admin-nav">
-          <nav>
-            <ul>
-              <li>
-                <%= link_to "Organization Management", admin_organizations_path %>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      <% end %>
+    <main class="mx-auto flex">
+     
       <%= yield %>
     </main>
     
