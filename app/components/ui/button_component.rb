@@ -9,7 +9,8 @@ module Ui
       info: "bg-cyan-500 hover:bg-cyan-600 text-white focus:ring-cyan-400",
       light: "bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 focus:ring-gray-300",
       dark: "bg-gray-800 hover:bg-gray-900 text-white focus:ring-gray-700",
-      link: "bg-transparent hover:underline text-blue-600 hover:text-blue-800 focus:ring-blue-400"
+      link: "bg-transparent hover:underline text-blue-600 hover:text-blue-800 focus:ring-blue-400",
+      icon: "bg-transparent hover:bg-gray-100 text-gray-800 focus:ring-gray-300"
     }.freeze
 
     SIZE_CLASSES = {
@@ -57,7 +58,9 @@ module Ui
     def button_content
       return spinner if @loading && !content
 
-      if @icon && @loading
+      if @variant == :icon && @icon && !content.present?
+        icon_element
+      elsif @icon && @loading
         icon_with_content_and_spinner
       elsif @icon
         icon_with_content

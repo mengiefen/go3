@@ -1,4 +1,4 @@
-class UI::SearchInputComponent < ViewComponent::Base
+class Ui::SearchInputComponent < ViewComponent::Base
   def initialize(
     placeholder: "Search...",
     name: "q",

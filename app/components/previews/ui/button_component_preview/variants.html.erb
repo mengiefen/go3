@@ -1,7 +1,7 @@
 <div class="space-y-4 p-4">
   <h2 class="text-xl font-bold">Button Variants</h2>
   <div class="flex flex-wrap gap-4">
-    <% [:primary, :secondary, :success, :danger, :warning, :info, :light, :dark, :link].each do |variant| %>
+    <% [:primary, :secondary, :success, :danger, :warning, :info, :light, :dark, :link, :icon].each do |variant| %>
       <%= render Ui::ButtonComponent.new(variant: variant) do %>
         <%= variant.to_s.titleize %>
       <% end %>
