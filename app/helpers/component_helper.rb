@@ -1,7 +1,8 @@
 module ComponentHelper
   # Layout components
   def PageLayout(props = {}, &block)
-    render Containers::PageLayoutComponent.new(**props), &block
+    component = Containers::PageLayoutComponent.new(**props)
+    render component, &block
   end
 
   def Card(props = {}, &block)

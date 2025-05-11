@@ -1,0 +1,23 @@
+<%# Test PageLayout component %>
+<h2>Testing PageLayout Component</h2>
+
+<!-- Debug information -->
+<div style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc;">
+  <p>Component Helper available: <%= defined?(PageLayout) ? "Yes" : "No" %></p>
+  <p>View Component loaded: <%= defined?(ViewComponent) ? "Yes" : "No" %></p>
+  <p>PageLayout Component: <%= defined?(Containers::PageLayoutComponent) ? "Yes" : "No" %></p>
+</div>
+
+<%= PageLayout do |c| %>
+  <%= c.header do %>
+    <div class="p-4">This is the header content</div>
+  <% end %>
+  
+  <%= c.side_panel do %>
+    <div class="p-4">This is the side panel content</div>
+  <% end %>
+  
+  <%= c.main_content do %>
+    <div class="p-4">This is the main content</div>
+  <% end %>
+<% end %>
