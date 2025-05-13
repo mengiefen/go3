@@ -18,7 +18,7 @@ export default class extends Controller {
     
     // Load saved width from localStorage if available
     const savedWidth = localStorage.getItem('sidebarWidth');
-    if (savedWidth && !this.element.classList.contains('w-0')) {
+    if (savedWidth && !this.element.classList.contains('panel-collapsed')) {
       this.element.style.width = savedWidth;
     }
   }
@@ -42,34 +42,17 @@ export default class extends Controller {
       'top-0',
       handlePosition,
       'h-full',
-      'w-2', // Slightly wider for better usability
+      'w-[1px]',
       'cursor-col-resize',
       'z-10',
-      'hover:bg-blue-500',
-      'active:bg-blue-500',
-      'transition-colors',
-      'duration-150'
+      'transition-opacity',
+      'duration-150',
+      'opacity-0',
+      'hover:opacity-100'
     );
 
-    // Add a visible indicator inside the handle for better UX
-    const handleIndicator = document.createElement('div');
-    handleIndicator.classList.add(
-      'absolute',
-      'top-1/2',
-      '-translate-y-1/2',
-      'h-16', // Taller handle indicator
-      'w-1',
-      'bg-gray-300',
-      'rounded-full'
-    );
-    
-    if (this.isRTL) {
-      handleIndicator.classList.add('left-0');
-    } else {
-      handleIndicator.classList.add('right-0');
-    }
-    
-    this.resizeHandle.appendChild(handleIndicator);
+    // Add subtle styling
+    this.resizeHandle.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
     
     this.element.style.position = 'relative';
     this.element.appendChild(this.resizeHandle);
@@ -86,16 +69,16 @@ export default class extends Controller {
 
   startResize(event) {
     // Don't resize if panel is collapsed
-    if (this.element.classList.contains('w-0')) return;
+    if (this.element.classList.contains('panel-collapsed')) return;
     
     this.isResizing = true;
     this.startX = event.clientX;
     this.startWidth = this.element.offsetWidth;
 
-    // Add a class to indicate resizing is in progress
+    // Add visual feedback during resize
     document.body.classList.add('resizing');
-    this.resizeHandle.classList.add('bg-blue-500');
     document.body.style.cursor = 'col-resize';
+    this.resizeHandle.style.opacity = '1';
 
     event.preventDefault();
   }
@@ -104,8 +87,8 @@ export default class extends Controller {
     if (this.isResizing) {
       this.isResizing = false;
       document.body.classList.remove('resizing');
-      this.resizeHandle.classList.remove('bg-blue-500');
       document.body.style.cursor = '';
+      this.resizeHandle.style.opacity = '0';
 
       // Save the current width preference to localStorage
       localStorage.setItem('sidebarWidth', this.element.style.width);

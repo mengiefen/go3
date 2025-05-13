@@ -8,6 +8,10 @@ export default class extends Controller {
   };
 
   connect() {
+    // Check if the layout is RTL
+    this.isRTL = document.querySelector('.rtl') !== null || 
+                 document.documentElement.dir === 'rtl';
+    
     this.checkMobileView();
     window.addEventListener('resize', this.checkMobileView.bind(this));
     
@@ -18,10 +22,34 @@ export default class extends Controller {
     }
     
     this.updateUI();
+    
+    // Add custom CSS for collapsed panel
+    this.addCollapsedStyles();
   }
 
   disconnect() {
     window.removeEventListener('resize', this.checkMobileView.bind(this));
+  }
+
+  addCollapsedStyles() {
+    // Only add these styles once
+    if (document.getElementById('collapsible-panel-styles')) return;
+    
+    const styleElement = document.createElement('style');
+    styleElement.id = 'collapsible-panel-styles';
+    
+    // CSS to handle narrow collapsed state
+    styleElement.textContent = `
+      .panel-collapsed {
+        width: 48px !important;
+      }
+      
+      .panel-collapsed .collapse-when-narrow {
+        display: none;
+      }
+    `;
+    
+    document.head.appendChild(styleElement);
   }
 
   checkMobileView() {
@@ -45,7 +73,8 @@ export default class extends Controller {
   updateUI() {
     if (this.hasPanelTarget) {
       if (this.expandedValue) {
-        this.panelTarget.classList.remove('hidden', 'w-0');
+        // Expanded state
+        this.panelTarget.classList.remove('panel-collapsed', 'hidden');
         
         // For desktop view, restore proper width
         if (!this.isMobileView) {
@@ -55,20 +84,21 @@ export default class extends Controller {
             this.panelTarget.style.width = savedWidth;
           } else {
             // Default width if no saved width
-            this.panelTarget.classList.add('w-72');
+            this.panelTarget.style.width = '288px'; // w-72 equivalent
           }
         } else {
           // For mobile, just use default width
-          this.panelTarget.classList.add('w-72');
+          this.panelTarget.style.width = '288px'; // w-72 equivalent
         }
       } else {
-        // Just hide in mobile view, collapse to small width in desktop
+        // Collapsed state
         if (this.isMobileView) {
+          // In mobile view, completely hide the panel
           this.panelTarget.classList.add('hidden');
         } else {
-          this.panelTarget.classList.remove('w-72');
-          this.panelTarget.classList.add('w-0');
-          this.panelTarget.style.width = '0px';
+          // In desktop view, collapse to narrow panel
+          this.panelTarget.classList.add('panel-collapsed');
+          this.panelTarget.classList.remove('hidden');
         }
       }
     }
@@ -77,19 +107,39 @@ export default class extends Controller {
     this.iconTargets.forEach(icon => {
       // Mobile hamburger menu icon
       if (icon.closest('button').classList.contains('md:hidden')) {
-        icon.innerHTML = '☰';
+        // Always show bars for mobile menu
+        this.updateFontAwesomeIcon(icon, 'fa-bars');
         return;
       }
       
-      // Panel toggle icon
+      // Panel toggle icon - use different icons based on state
       if (this.expandedValue) {
         // Direction depends on RTL
-        const isRTL = document.querySelector('.rtl') !== null;
-        icon.innerHTML = isRTL ? '&rarr;' : '&larr;';
+        this.updateFontAwesomeIcon(icon, this.isRTL ? 'fa-chevron-right' : 'fa-chevron-left');
       } else {
-        const isRTL = document.querySelector('.rtl') !== null;
-        icon.innerHTML = isRTL ? '&larr;' : '&rarr;';
+        this.updateFontAwesomeIcon(icon, this.isRTL ? 'fa-chevron-left' : 'fa-chevron-right');
       }
     });
+  }
+  
+  // Better helper to update Font Awesome icon classes
+  updateFontAwesomeIcon(iconElement, newIconClass) {
+    // Get all classes
+    const classes = [...iconElement.classList];
+    
+    // Remove any existing fa-* classes except fas/far/fab base classes
+    classes.forEach(className => {
+      if (className.startsWith('fa-') && !['fas', 'far', 'fab', 'fa'].includes(className)) {
+        iconElement.classList.remove(className);
+      }
+    });
+    
+    // Add the new icon class
+    iconElement.classList.add(newIconClass);
+    
+    // Ensure we have a base class (fas - solid)
+    if (!classes.some(c => ['fas', 'far', 'fab', 'fa'].includes(c))) {
+      iconElement.classList.add('fas');
+    }
   }
 } 

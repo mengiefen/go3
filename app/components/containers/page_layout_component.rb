@@ -11,5 +11,18 @@ module Containers
       @min_side_panel_width = min_side_panel_width
       @max_side_panel_width = max_side_panel_width
     end
+    
+    # Helper methods for icons to ensure consistent usage
+    def chevron_left_icon
+      '<i class="fas fa-chevron-left"></i>'.html_safe
+    end
+    
+    def chevron_right_icon
+      '<i class="fas fa-chevron-right"></i>'.html_safe
+    end
+    
+    def bars_icon
+      '<i class="fas fa-bars"></i>'.html_safe
+    end
   end
 end 
