@@ -21,7 +21,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
   # ```
   def default
     render Containers::PageLayoutComponent.new do |c|
-      c.header do
+      c.with_header do
         tag.div(class: "p-4") do
           tag.h1("Dashboard", class: "text-xl font-bold")
         end
@@ -63,7 +63,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
   # @description Page layout with the side panel hidden
   def without_side_panel
     render Containers::PageLayoutComponent.new(show_side_panel: false) do |c|
-      c.header do
+      c.with_header do
         tag.div(class: "p-4 flex justify-between items-center") do
           tag.h1("Full Width View", class: "text-xl font-bold")
           tag.button(class: "px-4 py-2 bg-blue-600 text-white rounded-md flex items-center") do
@@ -89,7 +89,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
   # @description Tests independent scrolling of side panel and main content with many items
   def scrolling_test
     render(Containers::PageLayoutComponent.new) do |c|
-      c.header do
+      c.with_header do
         tag.div(class: "p-4") do
           tag.h1("Scrolling Test", class: "text-xl font-bold")
         end
@@ -176,7 +176,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
   # @description Tests RTL support with scrollable content
   def rtl_scrolling_test
     render(Containers::PageLayoutComponent.new(rtl: true)) do |c|
-      c.header do
+      c.with_header do
         tag.div(class: "p-4") do
           tag.h1("RTL Scrolling Test", class: "text-xl font-bold")
         end
