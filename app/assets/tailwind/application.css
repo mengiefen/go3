@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+/* Import component-specific styles */
+@import './components.css';
+@import './page_tabs.css';
 
 /* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
 @theme {
@@ -387,4 +390,12 @@
       animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
   }
+}
+
+/* Global styles for Font Awesome integration */
+.sidebar-icon {
+  width: 20px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 0.5rem;
 }
