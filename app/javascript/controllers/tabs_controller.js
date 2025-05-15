@@ -27,7 +27,7 @@ export default class extends Controller {
 
   // Tab click handler
   switch(event) {
-    event.preventDefault();
+      event.preventDefault();
     this.activateTab(event.currentTarget);
 
     // Update URL if needed to maintain tab state

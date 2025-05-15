@@ -38,6 +38,6 @@ class Users::SettingsController < ApplicationController
   private
 
   def settings_params
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:email, :use_tabbed_navigation)
   end
 end
