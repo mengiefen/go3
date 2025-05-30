@@ -1,0 +1,54 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/heading_component_preview/color_variants.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Heading Color Variants</h2>
+  
+  <div class="space-y-4">
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :default)) do %>
+        Default Color
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :light)) do %>
+        Light Color
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :muted)) do %>
+        Muted Color
+      <% end %>
+    </div>
+    
+    <div class="bg-gray-800 p-3 rounded">
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :white)) do %>
+        White Color
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :primary)) do %>
+        Primary Color
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :success)) do %>
+        Success Color
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :warning)) do %>
+        Warning Color
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3, color: :danger)) do %>
+        Danger Color
+      <% end %>
+    </div>
+  </div>
+</div>

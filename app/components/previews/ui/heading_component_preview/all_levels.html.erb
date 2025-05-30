@@ -1,0 +1,42 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/heading_component_preview/all_levels.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Heading Levels</h2>
+  
+  <div class="space-y-4">
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h1)) do %>
+        Heading Level 1 (h1)
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h2)) do %>
+        Heading Level 2 (h2)
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h3)) do %>
+        Heading Level 3 (h3)
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h4)) do %>
+        Heading Level 4 (h4)
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h5)) do %>
+        Heading Level 5 (h5)
+      <% end %>
+    </div>
+    
+    <div>
+      <%= render(Ui::HeadingComponent.new(tag: :h6)) do %>
+        Heading Level 6 (h6)
+      <% end %>
+    </div>
+  </div>
+</div>

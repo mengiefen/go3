@@ -1,0 +1,74 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/tabs_modal_component_preview/settings_tab_content.html.erb %>
+<%= turbo_frame_tag "settings-tab-panel-frame" do %>
+  <div class="space-y-4">
+    <h3 class="text-lg font-medium">Settings (Loaded via Turbo Frame)</h3>
+    <p class="text-gray-500">This content was loaded asynchronously when you clicked on the Settings tab.</p>
+    
+    <div class="mt-6 space-y-6">
+      <div>
+        <h4 class="font-medium text-gray-700 mb-2">General Settings</h4>
+        <div class="space-y-2">
+          <div class="flex items-center">
+            <input id="setting1" name="setting1" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label for="setting1" class="ml-2 block text-sm text-gray-700">Enable notifications</label>
+          </div>
+          <div class="flex items-center">
+            <input id="setting2" name="setting2" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label for="setting2" class="ml-2 block text-sm text-gray-700">Enable dark mode</label>
+          </div>
+          <div class="flex items-center">
+            <input id="setting3" name="setting3" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label for="setting3" class="ml-2 block text-sm text-gray-700">Show activity status</label>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <h4 class="font-medium text-gray-700 mb-2">Privacy Settings</h4>
+        <div class="space-y-2">
+          <div class="flex items-center">
+            <input id="privacy1" name="privacy1" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label for="privacy1" class="ml-2 block text-sm text-gray-700">Make profile public</label>
+          </div>
+          <div class="flex items-center">
+            <input id="privacy2" name="privacy2" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label for="privacy2" class="ml-2 block text-sm text-gray-700">Allow search engines to index your profile</label>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <h4 class="font-medium text-gray-700 mb-2">Email Preferences</h4>
+        <div class="space-y-4">
+          <div>
+            <label for="email_frequency" class="block text-sm font-medium text-gray-700">Email Frequency</label>
+            <select id="email_frequency" name="email_frequency" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+              <option>Daily digest</option>
+              <option>Weekly digest</option>
+              <option>Immediate notifications</option>
+              <option>No emails</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="notification_types" class="block text-sm font-medium text-gray-700">Notification Types</label>
+            <div class="mt-2 space-y-2">
+              <div class="flex items-center">
+                <input id="notify_comments" name="notify_comments" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="notify_comments" class="ml-2 block text-sm text-gray-700">Comments and replies</label>
+              </div>
+              <div class="flex items-center">
+                <input id="notify_mentions" name="notify_mentions" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="notify_mentions" class="ml-2 block text-sm text-gray-700">Mentions</label>
+              </div>
+              <div class="flex items-center">
+                <input id="notify_updates" name="notify_updates" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="notify_updates" class="ml-2 block text-sm text-gray-700">System updates</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

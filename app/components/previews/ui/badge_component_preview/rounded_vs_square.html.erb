@@ -1,0 +1,20 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/badge_component_preview/rounded_vs_square.html.erb %>
+<div class="space-y-6 p-4">
+  <h2 class="text-xl font-bold">Rounded vs Square Badges</h2>
+  
+  <div class="flex flex-wrap gap-8">
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Rounded (Default)</p>
+      <%= render(Ui::BadgeComponent.new(rounded: true)) do %>
+        Rounded Badge
+      <% end %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Square</p>
+      <%= render(Ui::BadgeComponent.new(rounded: false)) do %>
+        Square Badge
+      <% end %>
+    </div>
+  </div>
+</div>

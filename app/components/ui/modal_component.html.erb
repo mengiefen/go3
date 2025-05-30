@@ -1,0 +1,53 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/ui/modal_component.html.erb %>
+<div 
+  id="<%= id %>"
+  class="hidden fixed inset-0 z-50 overflow-y-auto"
+  aria-labelledby="<%= id %>-title"
+  role="dialog"
+  aria-modal="true"
+  data-controller="modal"
+  data-action="keydown.escape->modal#close"
+>
+  <!-- Background overlay -->
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" data-action="click->modal#close"></div>
+  
+  <!-- Modal panel -->
+  <div class="relative min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl transform transition-all w-full <%= modal_size_class %> <%= full_screen_classes %>">
+      
+      <!-- Modal header -->
+      <% if header.present? || title.present? %>
+        <div class="flex items-center justify-between p-4 border-b border-gray-200">
+          <% if header.present? %>
+            <%= header %>
+          <% else %>
+            <h3 class="text-lg font-medium text-gray-900" id="<%= id %>-title"><%= title %></h3>
+          <% end %>
+          <button 
+            type="button" 
+            class="text-gray-400 hover:text-gray-500 focus:outline-none"
+            data-action="modal#close"
+          >
+            <span class="sr-only">Close</span>
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      <% end %>
+      
+      <!-- Modal body -->
+      <div class="p-4">
+        <%= body.present? ? body : content %>
+      </div>
+      
+      <!-- Modal footer -->
+      <% if footer.present? %>
+        <div class="px-4 py-3 bg-gray-50 flex justify-end rounded-b-lg">
+          <%= footer %>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
+</div>

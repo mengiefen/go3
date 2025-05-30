@@ -34,6 +34,18 @@
             <%= form.email_field :email, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" %>
             <p class="mt-1 text-xs text-gray-500">Changing your email will require you to confirm the new email address.</p>
           </div>
+
+          <div class="mt-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <%= form.label :use_tabbed_navigation, "Use Tabbed Navigation", class: "block text-sm font-medium text-gray-700" %>
+                <p class="mt-1 text-xs text-gray-500">Experience the app with a tabbed interface, similar to a web browser, to work on multiple pages at once.</p>
+              </div>
+              <div class="flex items-center mt-2">
+                <%= form.check_box :use_tabbed_navigation, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+              </div>
+            </div>
+          </div>
         </div>
           
         <div class="flex justify-end">

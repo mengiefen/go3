@@ -1,0 +1,83 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/tabs_modal_component_preview/with_turbo_frame_lazy_loading.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Tabs Modal with Turbo Frame Lazy Loading</h2>
+  
+  <!-- Button to open the modal -->
+  <button 
+    type="button" 
+    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+    onclick="document.getElementById('lazy-loading-modal').classList.remove('hidden')"
+  >
+    Open Lazy Loading Modal
+  </button>
+  
+  <!-- Info about lazy loading -->
+  <div class="bg-yellow-50 border border-yellow-200 p-4 rounded">
+    <p>This example demonstrates loading tab content dynamically using Turbo Frames. When you click on the "Users" or "Settings" tabs, the content will be loaded from separate endpoints.</p>
+    <p class="mt-2">In a real application, these endpoints would be controller actions that return only the tab content HTML.</p>
+  </div>
+  
+  <!-- The tabs modal component -->
+  <%= render Ui::TabsModalComponent.new(
+    id: "lazy-loading-modal", 
+    title: "Lazy Loading Tabs Demo",
+    size: :lg
+  ) do |component| %>
+    <% # Define tabs %>
+    <% component.with_tab(id: "dashboard-tab", label: "Dashboard", active: true) %>
+    <% component.with_tab(id: "users-tab", label: "Users") %>
+    <% component.with_tab(id: "settings-tab", label: "Settings") %>
+    
+    <% # Define panels %>
+    <% # First panel with static content %>
+    <% component.with_panel(id: "dashboard-tab") do %>
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium">Dashboard Content (Static)</h3>
+        <p>This tab content is rendered immediately with the page.</p>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-blue-50 p-4 rounded border border-blue-200 flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-2xl font-bold">125</div>
+              <div class="text-sm text-gray-500">Active Users</div>
+            </div>
+          </div>
+          <div class="bg-green-50 p-4 rounded border border-green-200 flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-2xl font-bold">37</div>
+              <div class="text-sm text-gray-500">New Tasks</div>
+            </div>
+          </div>
+          <div class="bg-purple-50 p-4 rounded border border-purple-200 flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-2xl font-bold">18</div>
+              <div class="text-sm text-gray-500">Projects</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+    <% # Second panel with lazy-loaded content %>
+    <% component.with_panel(
+      id: "users-tab", 
+      lazy_load_url: "/rails/view_components/ui/tabs_modal_component_preview/users_tab_content"
+    ) %>
+    
+    <% # Third panel with lazy-loaded content %>
+    <% component.with_panel(
+      id: "settings-tab", 
+      lazy_load_url: "/rails/view_components/ui/tabs_modal_component_preview/settings_tab_content"
+    ) %>
+    
+    <% # Modal footer with buttons %>
+    <div class="flex space-x-2">
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+        data-action="modal#close"
+      >
+        Close
+      </button>
+    </div>
+  <% end %>
+</div>

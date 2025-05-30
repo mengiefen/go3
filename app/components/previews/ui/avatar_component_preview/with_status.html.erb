@@ -1,0 +1,42 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/avatar_component_preview/with_status.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Avatars with Status Indicators</h2>
+  
+  <div class="flex flex-wrap gap-8">
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Online</p>
+      <%= render(Ui::AvatarComponent.new(
+        src: "https://i.pravatar.cc/300?img=1",
+        size: :lg,
+        status: :online
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Offline</p>
+      <%= render(Ui::AvatarComponent.new(
+        src: "https://i.pravatar.cc/300?img=2",
+        size: :lg,
+        status: :offline
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Busy</p>
+      <%= render(Ui::AvatarComponent.new(
+        src: "https://i.pravatar.cc/300?img=3",
+        size: :lg,
+        status: :busy
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Away</p>
+      <%= render(Ui::AvatarComponent.new(
+        src: "https://i.pravatar.cc/300?img=4",
+        size: :lg,
+        status: :away
+      )) %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/avatar_component_preview/sizes.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Avatar Sizes</h2>
+  
+  <div class="flex flex-wrap items-end gap-6">
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Extra Small (xs)</p>
+      <%= render(Ui::AvatarComponent.new(size: :xs, src: "https://i.pravatar.cc/300")) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Small (sm)</p>
+      <%= render(Ui::AvatarComponent.new(size: :sm, src: "https://i.pravatar.cc/300")) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Medium (md)</p>
+      <%= render(Ui::AvatarComponent.new(size: :md, src: "https://i.pravatar.cc/300")) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Large (lg)</p>
+      <%= render(Ui::AvatarComponent.new(size: :lg, src: "https://i.pravatar.cc/300")) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Extra Large (xl)</p>
+      <%= render(Ui::AvatarComponent.new(size: :xl, src: "https://i.pravatar.cc/300")) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">2XL</p>
+      <%= render(Ui::AvatarComponent.new(size: :"2xl", src: "https://i.pravatar.cc/300")) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">3XL</p>
+      <%= render(Ui::AvatarComponent.new(size: :"3xl", src: "https://i.pravatar.cc/300")) %>
+    </div>
+  </div>
+</div>

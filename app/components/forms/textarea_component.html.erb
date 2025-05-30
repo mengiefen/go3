@@ -1,0 +1,36 @@
+<div class="<%= @container_classes %>">
+  <% if label %>
+    <label for="<%= @id %>" class="block text-sm font-medium text-gray-700 mb-1">
+      <%= label %>
+      <% if @required %>
+        <span class="text-red-500 ml-1">*</span>
+      <% end %>
+    </label>
+  <% end %>
+  
+  <div class="relative">
+    <%= tag.textarea(textarea_attributes) do %>
+      <%= @value %>
+    <% end %>
+  </div>
+  
+  <% if hint && !@error_state %>
+    <p class="mt-1 text-sm text-gray-500" id="<%= @id %>-description">
+      <%= hint %>
+    </p>
+  <% end %>
+  
+  <% if error && @error_state %>
+    <p class="mt-1 text-sm text-red-600" id="<%= @id %>-error">
+      <%= error %>
+    </p>
+  <% end %>
+  
+  <% if @maxlength %>
+    <div class="flex justify-end mt-1">
+      <span class="text-xs text-gray-500" data-controller="character-counter" data-character-counter-target="counter" data-character-counter-textarea-id-value="<%= @id %>" data-character-counter-max-value="<%= @maxlength %>">
+        0/<%= @maxlength %>
+      </span>
+    </div>
+  <% end %>
+</div>

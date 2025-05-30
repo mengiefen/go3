@@ -1,0 +1,89 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/tabs_modal_component_preview/playground.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Tabs Modal Playground</h2>
+  
+  <!-- Button to open the modal -->
+  <button 
+    type="button" 
+    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+    onclick="document.getElementById('playground-modal').classList.remove('hidden')"
+  >
+    Open Modal
+  </button>
+  
+  <!-- The tabs modal component -->
+  <%= render Ui::TabsModalComponent.new(
+    id: "playground-modal", 
+    title: "Configurable Tabs Modal",
+    size: size,
+    full_screen: full_screen
+  ) do |component| %>
+    <% # Define tabs %>
+    <% component.with_tab(id: "tab1", label: "First Tab", active: true) %>
+    <% component.with_tab(id: "tab2", label: "Second Tab") %>
+    <% component.with_tab(id: "tab3", label: "Third Tab") %>
+    
+    <% # Define panels %>
+    <% component.with_panel(id: "tab1") do %>
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium">First Tab Content</h3>
+        <p>This is the content for the first tab. It demonstrates a basic tab panel.</p>
+        <p>You can customize the modal size and full-screen mode using the playground controls.</p>
+        <div class="bg-blue-50 p-4 rounded border border-blue-200">
+          <p class="font-medium">Current Configuration:</p>
+          <ul class="list-disc list-inside">
+            <li>Size: <%= size %></li>
+            <li>Full Screen: <%= full_screen %></li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+    
+    <% component.with_panel(id: "tab2") do %>
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium">Second Tab Content</h3>
+        <p>This is the content for the second tab.</p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gray-100 p-4 rounded">Panel A</div>
+          <div class="bg-gray-100 p-4 rounded">Panel B</div>
+          <div class="bg-gray-100 p-4 rounded">Panel C</div>
+          <div class="bg-gray-100 p-4 rounded">Panel D</div>
+        </div>
+      </div>
+    <% end %>
+    
+    <% component.with_panel(id: "tab3") do %>
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium">Third Tab Content</h3>
+        <p>This is the content for the third tab.</p>
+        <form class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="name" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="email" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500">
+          </div>
+        </form>
+      </div>
+    <% end %>
+    
+    <% # Modal footer with buttons %>
+    <div class="flex space-x-2">
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+        data-action="modal#close"
+      >
+        Cancel
+      </button>
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Save
+      </button>
+    </div>
+  <% end %>
+</div>

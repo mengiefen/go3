@@ -1,0 +1,70 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/textarea_component_preview/states.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Textarea States</h2>
+  <div class="space-y-4 max-w-md">
+    <div>
+      <p class="text-sm font-medium mb-1">Default State</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "default_state",
+        placeholder: "This is a normal textarea..."
+      )) do |component|
+        component.with_label { "Default State" }
+        component.with_hint { "This is a standard textarea field" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">Focused State (click to see)</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "focused_state",
+        placeholder: "Click to focus this textarea..."
+      )) do |component|
+        component.with_label { "Focused State" }
+        component.with_hint { "Click on this textarea to see the focused state" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">Disabled State</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "disabled_state",
+        placeholder: "This textarea is disabled...",
+        disabled: true
+      )) do |component|
+        component.with_label { "Disabled State" }
+        component.with_hint { "This textarea cannot be edited" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">Readonly State</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "readonly_state",
+        value: "This is read-only content that cannot be modified, but you can still select the text and focus the field.",
+        readonly: true
+      )) do |component|
+        component.with_label { "Readonly State" }
+        component.with_hint { "This textarea cannot be modified but can be focused" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">Required State</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "required_state",
+        placeholder: "This field is required...",
+        required: true
+      )) do |component|
+        component.with_label { "Required State" }
+        component.with_hint { "This field must be filled" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">Error State</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "error_state",
+        value: "This input contains invalid content...",
+        error_state: true
+      )) do |component|
+        component.with_label { "Error State" }
+        component.with_error { "This textarea contains invalid data" }
+      end %>
+    </div>
+  </div>
+</div>

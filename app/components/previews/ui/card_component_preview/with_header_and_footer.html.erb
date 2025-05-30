@@ -1,0 +1,24 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/card_component_preview/with_header_and_footer.html.erb %>
+<div class="space-y-6 p-4">
+  <h2 class="text-xl font-bold">Card with Header and Footer</h2>
+  <div class="max-w-md">
+    <%= render(Containers::CardComponent.new) do |component| %>
+      <% component.with_header do %>
+        <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+          <h3 class="font-medium text-gray-700">Card Header</h3>
+        </div>
+      <% end %>
+      <p class="text-gray-700">
+        This is a card component with both a header and a footer section.
+        The content area can contain any HTML content.
+      </p>
+      <% component.with_footer do %>
+        <div class="px-4 py-3 border-t border-gray-200 bg-gray-50 flex justify-end">
+          <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Action
+          </button>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

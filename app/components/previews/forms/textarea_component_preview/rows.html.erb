@@ -1,0 +1,46 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/textarea_component_preview/rows.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Textarea Row Heights</h2>
+  <div class="space-y-4 max-w-md">
+    <div>
+      <p class="text-sm font-medium mb-1">2 Rows (Short)</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "rows_2",
+        placeholder: "This textarea has 2 rows...",
+        rows: 2
+      )) do |component|
+        component.with_label { "Short Textarea" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">4 Rows (Default)</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "rows_4",
+        placeholder: "This textarea has 4 rows...",
+        rows: 4
+      )) do |component|
+        component.with_label { "Default Height Textarea" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">6 Rows (Medium)</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "rows_6",
+        placeholder: "This textarea has 6 rows...",
+        rows: 6
+      )) do |component|
+        component.with_label { "Medium Textarea" }
+      end %>
+    </div>
+    <div>
+      <p class="text-sm font-medium mb-1">10 Rows (Tall)</p>
+      <%= render(Forms::TextareaComponent.new(
+        name: "rows_10",
+        placeholder: "This textarea has 10 rows...",
+        rows: 10
+      )) do |component|
+        component.with_label { "Tall Textarea" }
+      end %>
+    </div>
+  </div>
+</div>

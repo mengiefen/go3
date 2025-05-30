@@ -1,0 +1,60 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/avatar_component_preview/with_custom_colors.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Avatars with Custom Colors</h2>
+  
+  <div class="flex flex-wrap gap-8">
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Blue</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "AB",
+        size: :lg,
+        color: "blue"
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Green</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "CD",
+        size: :lg,
+        color: "green"
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Red</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "EF",
+        size: :lg,
+        color: "red"
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Purple</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "GH",
+        size: :lg,
+        color: "purple"
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Yellow</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "IJ",
+        size: :lg,
+        color: "yellow"
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Gray</p>
+      <%= render(Ui::AvatarComponent.new(
+        initials: "KL",
+        size: :lg,
+        color: "gray"
+      )) %>
+    </div>
+  </div>
+</div>

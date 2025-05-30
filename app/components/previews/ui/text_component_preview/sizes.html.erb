@@ -1,0 +1,48 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/text_component_preview/sizes.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Text Sizes</h2>
+  
+  <div class="space-y-4">
+    <div>
+      <p class="text-sm font-medium mb-1">Extra Small (xs)</p>
+      <%= render(Ui::TextComponent.new(size: :xs)) do %>
+        This is extra small text that can be used for fine print or supporting information.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Small (sm)</p>
+      <%= render(Ui::TextComponent.new(size: :sm)) do %>
+        This is small text that works well for secondary information or details.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Base (base)</p>
+      <%= render(Ui::TextComponent.new(size: :base)) do %>
+        This is the default text size, appropriate for most body text and general content.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Large (lg)</p>
+      <%= render(Ui::TextComponent.new(size: :lg)) do %>
+        This is large text that can be used to emphasize important content.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Extra Large (xl)</p>
+      <%= render(Ui::TextComponent.new(size: :xl)) do %>
+        This is extra large text for increased visual importance.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">2XL (2xl)</p>
+      <%= render(Ui::TextComponent.new(size: :"2xl")) do %>
+        This is very large text for maximum visual emphasis.
+      <% end %>
+    </div>
+  </div>
+</div>

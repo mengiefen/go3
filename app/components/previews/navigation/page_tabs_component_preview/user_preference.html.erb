@@ -1,0 +1,75 @@
+<div class="preview-container bg-gray-50 p-8" style="width: 100%; min-height: 600px;">
+  <h2 class="text-lg font-semibold mb-4">User Preference for Tabbed Navigation</h2>
+  <p class="mb-4 text-gray-700">Users can enable or disable tabbed navigation in their account settings. This preview shows how the toggle appears in the settings page.</p>
+  
+  <div class="max-w-3xl mx-auto bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-medium text-gray-900">Account Settings</h1>
+        <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">View Profile</a>
+      </div>
+    </div>
+    
+    <div class="px-6 py-4">
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" value="user@example.com" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+          <p class="mt-1 text-xs text-gray-500">Changing your email will require you to confirm the new email address.</p>
+        </div>
+
+        <div class="mt-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Use Tabbed Navigation</label>
+              <p class="mt-1 text-xs text-gray-500">Experience the app with a tabbed interface, similar to a web browser, to work on multiple pages at once.</p>
+            </div>
+            <div class="flex items-center mt-2">
+              <input type="checkbox" checked class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      <div class="flex justify-end mt-6">
+        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Update Settings</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="mt-8 flex gap-6">
+    <div class="w-1/2">
+      <h3 class="text-md font-medium mb-4">With Tabbed Navigation (Enabled)</h3>
+      <div class="border border-gray-300 rounded-md overflow-hidden">
+        <img src="https://via.placeholder.com/500x300/f3f4f6/6b7280?text=Tabbed+Navigation+Enabled" alt="Tabbed Navigation Enabled" class="w-full">
+      </div>
+    </div>
+    
+    <div class="w-1/2">
+      <h3 class="text-md font-medium mb-4">Without Tabbed Navigation (Disabled)</h3>
+      <div class="border border-gray-300 rounded-md overflow-hidden">
+        <img src="https://via.placeholder.com/500x300/f3f4f6/6b7280?text=Tabbed+Navigation+Disabled" alt="Tabbed Navigation Disabled" class="w-full">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-6 p-4 rounded-lg border border-teal-200 bg-teal-50">
+  <div class="flex items-start">
+    <div class="flex-shrink-0">
+      <svg class="h-5 w-5 text-teal-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div class="ml-3">
+      <h3 class="text-sm font-medium text-teal-800">User Preference Implementation</h3>
+      <ul class="mt-2 text-sm text-teal-700 list-disc pl-5">
+        <li>The <code>use_tabbed_navigation</code> attribute is stored as a boolean in the User model.</li>
+        <li>When enabled, the application uses the tabbed interface for navigation.</li>
+        <li>When disabled, the application uses a traditional single-page view.</li>
+        <li>The setting respects the user's preference across sessions.</li>
+        <li>By default, tabbed navigation is enabled for new users.</li>
+      </ul>
+    </div>
+  </div>
+</div> 

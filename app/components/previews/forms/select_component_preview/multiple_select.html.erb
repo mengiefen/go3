@@ -1,0 +1,57 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/select_component_preview/multiple_select.html.erb %>
+<div class="space-y-8 p-4">
+  <div>
+    <h3 class="text-lg font-medium mb-3">Basic Multiple Select</h3>
+    <div class="max-w-md">
+      <%= render(Forms::SelectComponent.new(
+        name: "basic_multiple",
+        options: [["Option 1", 1], ["Option 2", 2], ["Option 3", 3], ["Option 4", 4], ["Option 5", 5]],
+        multiple: true
+      )) do |component| 
+        component.with_label { "Multiple select" }
+        component.with_hint { "Hold Ctrl/Cmd to select multiple options" }
+      end %>
+    </div>
+  </div>
+  <div>
+    <h3 class="text-lg font-medium mb-3">Multiple Select with Size</h3>
+    <div class="max-w-md">
+      <%= render(Forms::SelectComponent.new(
+        name: "multiple_with_size",
+        options: [["Option 1", 1], ["Option 2", 2], ["Option 3", 3], ["Option 4", 4], ["Option 5", 5]],
+        multiple: true,
+        size: 4
+      )) do |component| 
+        component.with_label { "Multiple select with visible options" }
+        component.with_hint { "Size attribute controls how many options are visible at once" }
+      end %>
+    </div>
+  </div>
+  <div>
+    <h3 class="text-lg font-medium mb-3">Multiple Select with Pre-selected Values</h3>
+    <div class="max-w-md">
+      <%= render(Forms::SelectComponent.new(
+        name: "multiple_preselected",
+        options: [["Option 1", 1], ["Option 2", 2], ["Option 3", 3], ["Option 4", 4], ["Option 5", 5]],
+        multiple: true,
+        selected: [2, 4]
+      )) do |component| 
+        component.with_label { "Multiple select with pre-selected values" }
+      end %>
+    </div>
+  </div>
+  <div>
+    <h3 class="text-lg font-medium mb-3">Required Multiple Select</h3>
+    <div class="max-w-md">
+      <%= render(Forms::SelectComponent.new(
+        name: "required_multiple",
+        options: [["Option 1", 1], ["Option 2", 2], ["Option 3", 3], ["Option 4", 4], ["Option 5", 5]],
+        multiple: true,
+        required: true
+      )) do |component| 
+        component.with_label { "Required multiple select" }
+        component.with_hint { "At least one option must be selected" }
+      end %>
+    </div>
+  </div>
+</div>
