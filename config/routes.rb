@@ -56,6 +56,11 @@ Rails.application.routes.draw do
   # Custom route for examples dashboard
   get "examples/dashboard", to: "examples#dashboard", as: :examples_dashboard
   get "examples/test_layout", to: "examples#test_layout", as: :examples_test_layout
+  
+  # Tab demo page - single page with dynamic content loading
+  get "tab-demo", to: "tab_demo#index", as: :tab_demo
+  get "tab-demo/sidebar/:sidebar_type", to: "tab_demo#sidebar_content", as: :tab_demo_sidebar
+  get "tab-demo/content/:content_type/:content_id", to: "tab_demo#tab_content", as: :tab_demo_content
 
   # Defines the root path route ("/")
   root "home#index"
