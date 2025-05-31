@@ -217,7 +217,7 @@ export default class extends Controller {
     
     // If we closed the last tab, go to the home page
     if (this.tabsValue.length === 0) {
-      visit("/");
+      window.location.href = "/";
     }
     
     this.persistTabs();
@@ -228,7 +228,7 @@ export default class extends Controller {
     this.tabsValue = [];
     this.tabsListTarget.innerHTML = "";
     this.persistTabs();
-    visit("/");
+    window.location.href = "/";
   }
   
   // Close all tabs except the active one
