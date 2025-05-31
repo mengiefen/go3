@@ -1,4 +1,4 @@
-<div id="<%= tab_id %>" class="tab-content w-full h-full bg-white" data-loaded-tab-id="<%= tab_id %>">
+<div class="w-full h-full bg-white">
   <div class="h-full overflow-y-auto">
     <div class="p-6">
       <!-- Header with task info -->
@@ -152,15 +152,3 @@
     </div>
   </div>
 </div>
-<script>
-  // Trigger tab activation when content is loaded
-  document.addEventListener('DOMContentLoaded', function() {
-    const tabContent = document.getElementById('<%= tab_id %>');
-    if (tabContent) {
-      const event = new CustomEvent('tab:loaded', {
-        detail: { tabId: '<%= tab_id %>' }
-      });
-      document.dispatchEvent(event);
-    }
-  });
-</script>

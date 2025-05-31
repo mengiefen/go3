@@ -1,9 +1,13 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ['tabBar', 'contentArea', 'tab', 'content'];
+  static targets = ['tabBar', 'contentAreas', 'tab', 'content'];
 
   connect() {
+    console.log('VSCode Tabs Controller connected');
+    console.log('Available targets:', this.targets);
+    console.log('Content areas element check:', document.getElementById('tab-content-areas'));
+    
     this.openTabs = new Map(); // Store open tabs
     this.restoreTabsFromStorage();
   }
@@ -16,7 +20,7 @@ export default class extends Controller {
     }
 
     // Hide the welcome message
-    const welcomeMessage = this.contentAreaTarget.querySelector('.absolute.inset-0.flex.items-center.justify-center');
+    const welcomeMessage = document.getElementById('welcome-message');
     if (welcomeMessage) {
       welcomeMessage.classList.add('hidden');
     }
@@ -30,7 +34,7 @@ export default class extends Controller {
     }
 
     // Show the welcome message
-    const welcomeMessage = this.contentAreaTarget.querySelector('.absolute.inset-0.flex.items-center.justify-center');
+    const welcomeMessage = document.getElementById('welcome-message');
     if (welcomeMessage) {
       welcomeMessage.classList.remove('hidden');
     }
@@ -142,12 +146,20 @@ export default class extends Controller {
     return tabId.startsWith('tab-tasks-');
   }
 
+  // Generate unique tab ID to support multiple instances
+  generateUniqueTabId(contentType, contentId) {
+    return `tab-${contentType}-${contentId}-${Date.now()}`;
+  }
+
   // Override addTab to save state
   addTab(tabId, tabName) {
     // Don't add if tab already exists
     if (this.openTabs.has(tabId)) {
       return;
     }
+
+    // Create the tab content container first
+    this.createTabContentContainer(tabId);
 
     // Hide welcome message and "No tabs open" indicator when first tab is added
     if (this.openTabs.size === 0) {
@@ -190,6 +202,53 @@ export default class extends Controller {
     this.saveTabsToStorage();
   }
 
+  // Create individual tab content container
+  createTabContentContainer(tabId) {
+    console.log('Creating tab content container for:', tabId);
+    
+    // Check if container already exists
+    const existing = document.getElementById(tabId);
+    if (existing) {
+      console.log('Container already exists for:', tabId);
+      return existing;
+    }
+    
+    const contentContainer = document.createElement('div');
+    contentContainer.id = tabId;
+    contentContainer.className = 'tab-content';
+    contentContainer.dataset.vscodeTabsTarget = 'content';
+    contentContainer.dataset.tabId = tabId;
+    
+    // Try different ways to find the content areas target
+    let targetElement = null;
+    
+    try {
+      targetElement = this.contentAreasTarget;
+      console.log('Found contentAreasTarget via Stimulus:', targetElement);
+    } catch (error) {
+      console.log('contentAreasTarget not available via Stimulus, trying fallback');
+    }
+    
+    if (!targetElement) {
+      targetElement = document.getElementById('tab-content-areas');
+      console.log('Found target via getElementById:', targetElement);
+    }
+    
+    if (!targetElement) {
+      targetElement = document.querySelector('[data-vscode-tabs-target="contentAreas"]');
+      console.log('Found target via querySelector:', targetElement);
+    }
+    
+    if (targetElement) {
+      targetElement.appendChild(contentContainer);
+      console.log('Successfully added container to DOM');
+    } else {
+      console.error('No target element found for content areas!');
+    }
+    
+    return contentContainer;
+  }
+
   // Override closeTab to save state
   closeTab(event) {
     event.stopPropagation();
@@ -201,7 +260,7 @@ export default class extends Controller {
       tabElement.remove();
     }
 
-    // Remove content
+    // Remove content container
     const contentElement = document.getElementById(tabId);
     if (contentElement) {
       contentElement.remove();
@@ -245,15 +304,22 @@ export default class extends Controller {
     });
 
     // Show corresponding content if it exists
-    const allContent = this.contentAreaTarget.querySelectorAll('.tab-content');
+    let contentAreasElement;
+    try {
+      contentAreasElement = this.contentAreasTarget;
+    } catch (error) {
+      contentAreasElement = document.getElementById('tab-content-areas');
+    }
+    
+    const allContent = contentAreasElement ? contentAreasElement.querySelectorAll('.tab-content') : [];
     console.log('Found content elements:', allContent.length);
 
     allContent.forEach((content) => {
       if (content.id === tabId) {
         console.log('Showing content for:', tabId);
-        content.classList.remove('hidden');
+        content.classList.add('active');
       } else {
-        content.classList.add('hidden');
+        content.classList.remove('active');
       }
     });
 

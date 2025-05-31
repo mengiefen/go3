@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus";
-import { visit } from "@hotwired/turbo";
 import Sortable from "sortablejs";
 
 // Connects to data-controller="page-tabs"

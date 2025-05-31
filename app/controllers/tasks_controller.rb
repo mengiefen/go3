@@ -87,7 +87,7 @@ class TasksController < ApplicationController
     @filter_type = params[:filter_type] # 'category', 'status', 'priority'
     @filter_value = params[:filter_value]
     @content_name = params[:content_name]
-    @tab_id = "tab-tasks-#{@filter_type}-#{@filter_value}"
+    @frame_id = params[:frame_id]
     
     Rails.logger.info "=== Task Tab Content Debug ==="
     Rails.logger.info "Filter type: #{@filter_type}"
@@ -111,16 +111,13 @@ class TasksController < ApplicationController
     Rails.logger.info "Filtered tasks count: #{@tasks.count}"
 
     respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.append("tab-content-area", 
-          render_to_string(partial: 'task_tab_content', locals: {
-            tasks: @tasks,
-            tab_id: @tab_id,
-            content_name: @content_name,
-            filter_type: @filter_type,
-            filter_value: @filter_value
-          })
-        )
+      format.html do
+        render 'tab_content', locals: {
+          tasks: @tasks,
+          content_name: @content_name,
+          filter_type: @filter_type,
+          filter_value: @filter_value
+        }
       end
     end
   end

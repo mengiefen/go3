@@ -21,12 +21,13 @@
       </div>
     </div>
     
-    <!-- Content Area -->
+    <!-- Content Areas Container -->
     <div class="flex-1 overflow-auto relative" 
-         id="tab-content-area"
-         data-vscode-tabs-target="contentArea">
+         id="tab-content-areas"
+         data-vscode-tabs-target="contentAreas">
+      
       <!-- Welcome message when no tabs are open -->
-      <div class="absolute inset-0 flex items-center justify-center">
+      <div id="welcome-message" class="absolute inset-0 flex items-center justify-center">
         <div class="text-center max-w-md">
           <div class="mx-auto w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-6 shadow-lg">
             <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,6 +54,8 @@
           </div>
         </div>
       </div>
+      
+      <!-- Individual tab content containers will be dynamically added here -->
     </div>
   </div>
 </div>

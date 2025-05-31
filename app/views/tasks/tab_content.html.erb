@@ -1,0 +1,8 @@
+<turbo-frame id="<%= @frame_id %>">
+  <%= render partial: 'task_tab_content', locals: {
+    tasks: @tasks,
+    content_name: @content_name,
+    filter_type: @filter_type,
+    filter_value: @filter_value
+  } %>
+</turbo-frame>
