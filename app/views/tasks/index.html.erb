@@ -1,0 +1,62 @@
+<div class="h-screen flex bg-slate-50" data-controller="vscode-tabs">
+  <!-- Primary Icon Sidebar -->
+  <%= render(IconSidebarComponent.new(active_item: 'tasks')) %>
+  
+  <!-- Secondary Sidebar -->
+  <%= turbo_frame_tag "secondary-sidebar" do %>
+    <%= render(SecondarySidebarComponent.new(sidebar_type: 'tasks')) %>
+  <% end %>
+  
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col bg-white shadow-xl">
+    <!-- Tab Bar -->
+    <div class="h-12 bg-gradient-to-r from-slate-100 to-slate-200 border-b border-slate-300 flex items-center overflow-x-auto shadow-sm" 
+         data-vscode-tabs-target="tabBar">
+      <!-- Tabs will be added here dynamically -->
+      <div class="flex items-center h-full px-4 text-slate-500 text-sm font-medium">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        No tabs open
+      </div>
+    </div>
+    
+    <!-- Content Area -->
+    <div class="flex-1 overflow-auto relative" 
+         id="tab-content-area"
+         data-vscode-tabs-target="contentArea">
+      <!-- Welcome message when no tabs are open -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="text-center max-w-md">
+          <div class="mx-auto w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-6 shadow-lg">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+            </svg>
+          </div>
+          <h2 class="text-3xl font-bold text-slate-800 mb-4">Task Management</h2>
+          <p class="text-slate-600 text-lg leading-relaxed">
+            Select a task category from the sidebar to open a new tab and start managing your tasks.
+          </p>
+          <div class="mt-6 flex items-center justify-center space-x-4 text-sm text-slate-500">
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+              Browse categories
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+              Select tasks
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+              Open in tabs
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals for Task Operations -->
+<%= turbo_frame_tag "task_form_modal" %>
+<%= turbo_frame_tag "task_detail_modal" %>

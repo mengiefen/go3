@@ -1,9 +1,8 @@
 <div class="w-16 h-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center py-6 space-y-3 shadow-2xl border-r border-slate-700" data-controller="icon-sidebar">
   <% sidebar_items.each_with_index do |item, index| %>
-    <div class="icon-sidebar-item group relative w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 transform hover:scale-110 <%= index == 0 ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-700 hover:text-white' %>" 
-         data-action="click->icon-sidebar#selectSidebar"
-         data-sidebar-type="<%= item[:id] %>"
-         title="<%= item[:label] %>">
+    <%= link_to item[:path], class: "icon-sidebar-item group relative w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 transform hover:scale-110 #{active?(item[:id]) ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-700 hover:text-white'}", 
+                              data: { action: "click->icon-sidebar#selectSidebar", sidebar_type: item[:id] },
+                              title: item[:label] do %>
       
       <!-- Icon with enhanced styling -->
       <div class="relative">
@@ -11,6 +10,10 @@
         <% when 'organizations' %>
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-6a1 1 0 00-1-1H9a1 1 0 00-1 1v6a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 8a1 1 0 011-1h4a1 1 0 011 1v4H7v-4z" clip-rule="evenodd" />
+          </svg>
+        <% when 'tasks' %>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
           </svg>
         <% when 'users' %>
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -31,7 +34,7 @@
         <% end %>
         
         <!-- Active indicator -->
-        <div class="absolute -right-1 top-1/2 transform translate-x-full -translate-y-1/2 w-1 h-8 bg-blue-400 rounded-full opacity-0 transition-opacity duration-300 <%= index == 0 ? 'opacity-100' : '' %> group-hover:opacity-50" data-icon-sidebar-target="activeIndicator"></div>
+        <div class="absolute -right-1 top-1/2 transform translate-x-full -translate-y-1/2 w-1 h-8 bg-blue-400 rounded-full opacity-0 transition-opacity duration-300 <%= active?(item[:id]) ? 'opacity-100' : '' %> group-hover:opacity-50" data-icon-sidebar-target="activeIndicator"></div>
       </div>
       
       <!-- Tooltip -->
@@ -39,6 +42,6 @@
         <%= item[:label] %>
         <div class="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
       </div>
-    </div>
+    <% end %>
   <% end %>
 </div>

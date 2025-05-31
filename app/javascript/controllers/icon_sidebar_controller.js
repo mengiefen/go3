@@ -4,12 +4,38 @@ export default class extends Controller {
   static targets = ["activeIndicator"]
   
   connect() {
-    // Initialize with the first sidebar active
-    this.selectSidebar({ currentTarget: this.element.querySelector('[data-sidebar-type="organizations"]') })
+    // Check localStorage for previously active sidebar
+    const savedSidebarType = localStorage.getItem('activeSidebarType')
+    
+    if (savedSidebarType) {
+      // Restore saved state
+      const savedSidebarItem = this.element.querySelector(`[data-sidebar-type="${savedSidebarType}"]`)
+      if (savedSidebarItem) {
+        this.selectSidebar({ currentTarget: savedSidebarItem })
+        return
+      }
+    }
+    
+    // Check if there's already an active sidebar item, if not, initialize with first one
+    const activeItem = this.element.querySelector('.bg-gradient-to-br.from-blue-500.to-blue-600')
+    if (activeItem) {
+      // There's already an active item set by the component, load its sidebar
+      const sidebarType = activeItem.dataset.sidebarType
+      // Save this to localStorage
+      localStorage.setItem('activeSidebarType', sidebarType)
+      this.loadSecondarySidebar(sidebarType)
+    } else {
+      // No active item, initialize with the first sidebar
+      const defaultSidebar = this.element.querySelector('[data-sidebar-type="organizations"]')
+      this.selectSidebar({ currentTarget: defaultSidebar })
+    }
   }
 
   selectSidebar(event) {
     const sidebarType = event.currentTarget.dataset.sidebarType
+    
+    // Save to localStorage
+    localStorage.setItem('activeSidebarType', sidebarType)
     
     // Update active state - remove active from all items
     this.element.querySelectorAll('.icon-sidebar-item').forEach(item => {
@@ -40,7 +66,17 @@ export default class extends Controller {
   }
 
   loadSecondarySidebar(sidebarType) {
-    const url = `/tab-demo/sidebar/${sidebarType}`
+    let url
+    
+    // Route to appropriate controller based on sidebar type
+    switch(sidebarType) {
+      case 'tasks':
+        url = `/tasks/sidebar/${sidebarType}`
+        break
+      default:
+        url = `/tab-demo/sidebar/${sidebarType}`
+        break
+    }
     
     fetch(url, {
       method: 'GET',

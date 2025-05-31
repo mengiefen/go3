@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :tasks do
+    member do
+      patch :complete
+    end
+    collection do
+      get "sidebar/:sidebar_type", to: "tasks#sidebar_content", as: :sidebar
+      get "content/:filter_type/:filter_value", to: "tasks#tab_content", as: :tab_content
+    end
+  end
   namespace :users do
     resource :profile, only: [:show, :edit, :update], controller: 'profiles'
     delete 'remove_avatar', to: 'profiles#remove_avatar', as: :remove_avatar

@@ -34,7 +34,7 @@
               <div class="group mx-4 mb-1 px-4 py-2.5 cursor-pointer rounded-lg transition-all duration-200 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-blue-500/10 hover:shadow-md hover:transform hover:translate-x-1 border border-transparent hover:border-blue-500/20"
                    data-action="click->secondary-sidebar#openTab"
                    data-content-type="<%= item[:type] %>"
-                   data-content-id="<%= item[:id] %>"
+                   data-content-id="<%= item[:filter] || item[:id] %>"
                    data-content-name="<%= item[:name] %>">
                 <div class="flex items-center">
                   <!-- File icon based on type -->
@@ -56,6 +56,18 @@
                       <svg class="w-3.5 h-3.5 text-orange-400 group-hover:text-orange-300" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
                         <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000 2H6a2 2 0 00-2 2v6a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2 1 1 0 100-2 2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd" />
+                      </svg>
+                    <% when 'task_category' %>
+                      <svg class="w-3.5 h-3.5 text-blue-400 group-hover:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                      </svg>
+                    <% when 'task_status' %>
+                      <svg class="w-3.5 h-3.5 text-green-400 group-hover:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    <% when 'task_priority' %>
+                      <svg class="w-3.5 h-3.5 text-orange-400 group-hover:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                       </svg>
                     <% else %>
                       <div class="w-2 h-2 bg-slate-400 rounded-full group-hover:bg-slate-300"></div>

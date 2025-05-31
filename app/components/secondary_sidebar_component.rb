@@ -101,6 +101,46 @@ class SecondarySidebarComponent < ViewComponent::Base
           }
         ]
       }
+    when 'tasks'
+      {
+        title: 'TASKS',
+        categories: [
+          {
+            name: 'Categories',
+            collapsed: false,
+            items: [
+              { id: 'task-all', name: 'All Tasks', type: 'task_category', filter: 'all' },
+              { id: 'task-general', name: 'General', type: 'task_category', filter: 'general' },
+              { id: 'task-development', name: 'Development', type: 'task_category', filter: 'development' },
+              { id: 'task-design', name: 'Design', type: 'task_category', filter: 'design' },
+              { id: 'task-marketing', name: 'Marketing', type: 'task_category', filter: 'marketing' },
+              { id: 'task-sales', name: 'Sales', type: 'task_category', filter: 'sales' },
+              { id: 'task-support', name: 'Support', type: 'task_category', filter: 'support' },
+              { id: 'task-admin', name: 'Admin', type: 'task_category', filter: 'admin' }
+            ]
+          },
+          {
+            name: 'Status',
+            collapsed: true,
+            items: [
+              { id: 'task-pending', name: 'Pending', type: 'task_status', filter: 'pending' },
+              { id: 'task-in_progress', name: 'In Progress', type: 'task_status', filter: 'in_progress' },
+              { id: 'task-completed', name: 'Completed', type: 'task_status', filter: 'completed' },
+              { id: 'task-cancelled', name: 'Cancelled', type: 'task_status', filter: 'cancelled' }
+            ]
+          },
+          {
+            name: 'Priority',
+            collapsed: true,
+            items: [
+              { id: 'task-urgent', name: 'Urgent', type: 'task_priority', filter: 'urgent' },
+              { id: 'task-high', name: 'High', type: 'task_priority', filter: 'high' },
+              { id: 'task-medium', name: 'Medium', type: 'task_priority', filter: 'medium' },
+              { id: 'task-low', name: 'Low', type: 'task_priority', filter: 'low' }
+            ]
+          }
+        ]
+      }
     when 'settings'
       {
         title: 'SETTINGS',
