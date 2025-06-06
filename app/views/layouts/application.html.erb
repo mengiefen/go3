@@ -36,8 +36,30 @@
     <meta name="turbo-cache-control" content="no-preview">
   </head>
   <body class="h-full bg-gray-50">
+    <% if !(controller_name == 'sessions' && action_name == 'new' && devise_controller?) %>
+      <%= PageLayout do |pl| %>
+        <%= pl.with_header do %>
+          <a href="/"> <h1 class="ma-0 pa-0"> It's Go3 </h1></a>
+        <% end %>
+        <%= pl.with_side_panel do %>
+          <ul>
+            <li><%= link_to "Organizations", organizations_path, data: { 
+              action: "click->tabs#handleSidebarClick",
+              title: "Organizations",
+              tab_id: "organizations"
+            } %></li>
+            <li><%= link_to "New Organizations", new_organization_path, data: { 
+              action: "click->tabs#handleSidebarClick",
+              title: "New Organization",
+              tab_id: "new_organization"
+            } %></li>
+          </ul>
+        <% end %>
+        <%= pl.with_main_content do %><% end %>
+      <% end %>
+    <% else %>
       <%= yield %>    
-    
+    <% end %>
     <!-- Include content from page_scripts block -->
     <%= yield :page_scripts if content_for?(:page_scripts) %>
     

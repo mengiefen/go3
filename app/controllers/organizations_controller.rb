@@ -1,10 +1,12 @@
 class OrganizationsController < ApplicationController
+  include TabContent
   before_action :authenticate_user!
   before_action :set_organization, only: [:show, :edit, :update, :destroy]
 
   def index
     authorize Organization
     @organizations = policy_scope(Organization).unarchived
+    sleep(5)
   end
 
   def show

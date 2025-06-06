@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 /* Import component-specific styles */
 @import './components.css';
-@import './page_tabs.css';
+@import './page_tabs.scss';
 
 /* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
 @theme {
