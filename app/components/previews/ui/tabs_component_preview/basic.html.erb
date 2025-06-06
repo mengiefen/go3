@@ -1,0 +1,48 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/tabs_component_preview/basic.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Basic Tabs Component</h2>
+  
+  <p class="text-gray-600">
+    This is a basic implementation of the TabsComponent with three tabs and simple content.
+  </p>
+  
+  <div class="border rounded overflow-hidden">
+    <%= render Ui::TabsComponent.new(id: "basic-tabs", active_tab: "tab1") do |tabs| %>
+      <% # Tab Triggers %>
+      <% tabs.with_tab_trigger(id: "tab1", label: "First Tab", active: true) %>
+      <% tabs.with_tab_trigger(id: "tab2", label: "Second Tab") %>
+      <% tabs.with_tab_trigger(id: "tab3", label: "Third Tab") %>
+      
+      <% # Tab Contents %>
+      <% tabs.with_tab_content(id: "tab1") do %>
+        <div class="p-4 space-y-4">
+          <h3 class="text-lg font-medium">First Tab Content</h3>
+          <p>This is the content for the first tab. The TabsComponent manages tab state automatically.</p>
+          <div class="bg-blue-50 p-4 rounded">
+            <p>By default, the first tab is active unless you specify a different tab with the <code>active_tab</code> parameter.</p>
+          </div>
+        </div>
+      <% end %>
+      
+      <% tabs.with_tab_content(id: "tab2") do %>
+        <div class="p-4 space-y-4">
+          <h3 class="text-lg font-medium">Second Tab Content</h3>
+          <p>This is the content for the second tab.</p>
+          <div class="bg-green-50 p-4 rounded">
+            <p>The TabsComponent uses ARIA attributes for accessibility, ensuring screen readers can properly interpret the tab interface.</p>
+          </div>
+        </div>
+      <% end %>
+      
+      <% tabs.with_tab_content(id: "tab3") do %>
+        <div class="p-4 space-y-4">
+          <h3 class="text-lg font-medium">Third Tab Content</h3>
+          <p>This is the content for the third tab.</p>
+          <div class="bg-purple-50 p-4 rounded">
+            <p>Tabs are a great way to organize content into logical sections without overwhelming the user.</p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

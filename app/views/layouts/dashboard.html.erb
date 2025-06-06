@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" class="h-full">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title><%= content_for?(:title) ? yield(:title) : "GO3 Platform" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %> 
+    <%= yield :head %>
+    
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= yield :head_styles if content_for?(:head_styles) %>
+    
+    <!-- Ensure these are loaded before page content -->
+    <%= javascript_importmap_tags %>
+    <%= javascript_import_module_tag "alpinejs" %>
+    
+    <!-- Add moment.js with timezone support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    
+    <%= yield :head_scripts if content_for?(:head_scripts) %>
+    
+    <meta name="turbo-cache-control" content="no-preview">
+  </head>
+  <body class="h-full bg-gray-50">
+   
+    <%= PageLayout do |c| %>      
+      <% c.with_header do %>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <%= link_to root_path, class: "flex items-center" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 120 120">
+                <rect width="120" height="120" fill="white"/>
+                
+                <!-- Purple circle with thin border -->
+                <circle cx="60" cy="60" r="48" fill="white" fill-opacity="0.9" stroke="#6A0DAD" stroke-width="1.5"/>
+                
+                <!-- Text elements with thin outlines -->
+                <text x="32" y="72" font-family="Arial, sans-serif" font-weight="normal" font-size="42" fill="#6A0DAD" text-anchor="middle">G</text>
+                <text x="62" y="72" font-family="Arial, sans-serif" font-weight="normal" font-size="42" fill="#6A0DAD" text-anchor="middle">O</text>
+                <text x="87" y="72" font-family="Arial, sans-serif" font-weight="normal" font-size="42" fill="#6A0DAD" stroke="#6A0DAD" stroke-width="1" text-anchor="middle">3</text>
+                
+                <!-- Single thin horizontal accent line -->
+                <line x1="30" y1="85" x2="90" y2="85" stroke="#6A0DAD" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="ml-2 text-xl font-bold">GO3 Platform</span>
+            <% end %>
+          </div>
+          
+          <div class="flex items-center space-x-4">
+            <% if user_signed_in? %>
+              <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                <button type="button" @click="open = !open" class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <span class="sr-only">Open user menu</span>
+                  <% if current_user.avatar.attached? %>
+                    <%= image_tag current_user.avatar.variant(resize_to_fill: [32, 32]), class: "h-8 w-8 rounded-full" %>
+                  <% else %>
+                    <div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white">
+                      <%= current_user.first_name.first.upcase if current_user.first_name.present? %>
+                    </div>
+                  <% end %>
+                </button>
+                <div 
+                  x-show="open"
+                  x-transition:enter="transition ease-out duration-200"
+                  x-transition:enter-start="transform opacity-0 scale-95"
+                  x-transition:enter-end="transform opacity-100 scale-100"
+                  x-transition:leave="transition ease-in duration-75"
+                  x-transition:leave-start="transform opacity-100 scale-100"
+                  x-transition:leave-end="transform opacity-0 scale-95"
+                  class="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
+                  role="menu" 
+                  aria-orientation="vertical" 
+                  aria-labelledby="user-menu-button" 
+                  tabindex="-1"
+                  style="display: none;"
+                >
+                  <%= link_to "Your Profile", users_profile_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
+                  <%= link_to "Account Settings", edit_users_settings_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
+                  <% if current_user.otp_required_for_login %>
+                    <%= link_to "Manage Two-Factor", two_factor_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
+                  <% else %>
+                    <%= link_to "Setup Two-Factor", new_two_factor_path, class: "block px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
+                  <% end %>
+                  <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "block w-full text-left px-4 py-2 text-sm text-gray-700", role: "menuitem", tabindex: "-1" %>
+                </div>
+              </div>
+            <% else %>
+              <div class="flex space-x-4">
+                <%= link_to "Sign in", new_user_session_path, class: "inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+                <%= link_to "Sign up", new_user_registration_path, class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      
+      <% c.with_side_panel do %>
+        <div class="p-4">
+          <nav class="space-y-2">
+            <%= link_to root_path, class: "block px-4 py-2 rounded-md #{current_page?(root_path) ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'} flex items-center" do %>
+              <i class="fas fa-home mr-2"></i>
+              Home
+            <% end %>
+            
+            <% if user_signed_in? %>
+              <%= link_to users_profile_path, class: "block px-4 py-2 rounded-md #{current_page?(users_profile_path) ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'} flex items-center" do %>
+                <i class="fas fa-user mr-2"></i>
+                Profile
+              <% end %>
+              
+              <%= link_to edit_users_settings_path, class: "block px-4 py-2 rounded-md #{current_page?(edit_users_settings_path) ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'} flex items-center" do %>
+                <i class="fas fa-cog mr-2"></i>
+                Settings
+              <% end %>
+            <% end %>
+            
+            <!-- Additional navigation links can be added here -->
+          </nav>
+        </div>
+      <% end %>
+
+      <% c.with_main_content do %>
+        
+        <%= yield %>
+      <% end %>
+    <% end %>
+       
+   
+  </body>
+</html>
+

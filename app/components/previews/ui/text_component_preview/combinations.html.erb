@@ -1,0 +1,48 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/text_component_preview/combinations.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Text Style Combinations</h2>
+  
+  <div class="space-y-6">
+    <div>
+      <p class="text-sm font-medium mb-1">Large Primary Bold</p>
+      <%= render(Ui::TextComponent.new(size: :lg, color: :primary, weight: :bold)) do %>
+        This text combines large size, primary color, and bold weight.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Small Muted Light Weight</p>
+      <%= render(Ui::TextComponent.new(size: :sm, color: :muted, weight: :light)) do %>
+        This text combines small size, muted color, and light weight.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Extra Large Success Semi-Bold</p>
+      <%= render(Ui::TextComponent.new(size: :xl, color: :success, weight: :semibold)) do %>
+        This text combines extra large size, success color, and semi-bold weight.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Base Size Danger Extra Bold</p>
+      <%= render(Ui::TextComponent.new(size: :base, color: :danger, weight: :extrabold)) do %>
+        This text combines base size, danger color, and extra bold weight.
+      <% end %>
+    </div>
+    
+    <div class="bg-gray-800 p-3 rounded">
+      <p class="text-sm font-medium text-white mb-1">2XL White Medium with Loose Line Height</p>
+      <%= render(Ui::TextComponent.new(size: :"2xl", color: :white, weight: :medium, leading: :loose)) do %>
+        This text combines 2XL size, white color, medium weight, and loose line height.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Warning Text with Tight Line Height</p>
+      <%= render(Ui::TextComponent.new(color: :warning, leading: :tight)) do %>
+        This is warning-colored text with tight line height. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+      <% end %>
+    </div>
+  </div>
+</div>

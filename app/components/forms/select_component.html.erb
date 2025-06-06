@@ -1,0 +1,242 @@
+<div class="<%= @container_classes %>">
+  <% if label %>
+    <label for="<%= @id %>" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      <%= label %>
+      <% if @required %>
+        <span class="text-red-500 ml-1">*</span>
+      <% end %>
+    </label>
+  <% end %>
+  
+  <div data-controller="select"
+       data-select-placeholder-value="<%= @placeholder %>"
+       data-select-multiple-value="<%= @multiple %>"
+       data-select-close-on-select-value="<%= @close_on_select %>"
+       class="relative">
+    <%# Hidden native select that maintains the form data %>
+    <%= select_tag @name, options_for_select(@options, @selected),
+      { prompt: @prompt, include_blank: !@prompt && !@required }.merge(select_attributes.merge(data: { select_target: "select" })) %>
+    
+    <%# Custom select trigger %>
+    <button type="button" 
+           class="<%= trigger_classes %>" 
+           id="<%= @id %>-button"
+           aria-haspopup="listbox" 
+           aria-expanded="false"
+           <%= @disabled ? 'disabled' : '' %>
+           data-select-target="trigger"
+           data-action="click->select#toggle">
+      <div class="flex flex-wrap min-h-[1.5rem] items-center" data-select-target="selectedItems">
+        <% if has_selected_options? %>
+          <%# Initial state will be rendered by the controller on connect %>
+          <span class="truncate"><%= @placeholder %></span>
+        <% else %>
+          <span class="text-gray-500 truncate"><%= @placeholder %></span>
+        <% end %>
+      </div>
+      
+      <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+        <%= dropdown_icon.html_safe %>
+      </span>
+      
+      <% if should_show_clear_button? %>
+        <button type="button"
+                class="<%= clear_button_classes %>"
+                data-action="click->select#clearAll click->select#stopPropagation">
+          <%= clear_icon.html_safe %>
+          <span class="sr-only">Clear selection</span>
+        </button>
+      <% end %>
+    </button>
+    
+    <%# Dropdown options panel %>
+    <div class="<%= options_panel_classes %>"
+         data-select-target="options"
+         role="listbox"
+         aria-labelledby="<%= @id %>-button"
+         tabindex="-1">
+      
+      <% if @searchable && (@options.size > 7 || @multiple) %>
+        <%# Search input for filtering options %>
+        <div class="sticky top-0 z-10 bg-white dark:bg-gray-800 px-1 py-1.5 shadow-sm">
+          <div class="relative">
+            <%= search_icon.html_safe %>
+            <input type="text" 
+                  class="<%= search_input_classes %>"
+                  placeholder="Search..."
+                  data-select-target="search"
+                  data-action="input->select#search click->select#stopPropagation"
+                  autocomplete="off">
+          </div>
+        </div>
+      <% end %>
+      
+      <%# Options list %>
+      <div class="py-1 max-h-60 overflow-auto">
+        <% @options.each do |option| %>
+          <% 
+            # Handle both grouped and ungrouped options
+            if option.is_a?(Array) && option[1].is_a?(Array)
+              # Grouped option
+              group_label = option[0]
+              group_options = option[1]
+          %>
+            <div class="px-3 py-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-t border-gray-100 dark:border-gray-700 first:border-0 sticky top-0 bg-gray-50 dark:bg-gray-800">
+              <%= group_label %>
+            </div>
+            
+            <% group_options.each do |sub_option| %>
+              <% 
+                option_text = sub_option.is_a?(Array) ? sub_option[0] : sub_option
+                option_value = sub_option.is_a?(Array) ? sub_option[1] : sub_option
+                option_description = sub_option.is_a?(Array) && sub_option.length > 2 ? sub_option[2] : nil
+                is_selected = @selected.is_a?(Array) ? @selected.include?(option_value.to_s) : @selected.to_s == option_value.to_s
+              %>
+              <div class="option-item <%= option_item_classes %>" data-action="click->select#selectOption" data-value="<%= option_value %>">
+                <% if @multiple %>
+                  <input type="checkbox" 
+                        class="<%= checkbox_classes %>"
+                        value="<%= option_value %>"
+                        <%= "checked" if is_selected %>
+                        data-action="click->select#stopPropagation">
+                <% end %>
+                
+                <div class="flex-grow truncate">
+                  <div class="<%= is_selected ? "font-medium text-#{@color}-700" : "" %>"><%= option_text %></div>
+                  <% if option_description %>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 truncate"><%= option_description %></p>
+                  <% end %>
+                </div>
+                
+                <% if is_selected && !@multiple %>
+                  <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-<%= @color %>-600">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            <% 
+              # Regular option
+              option_text = option.is_a?(Array) ? option[0] : option
+              option_value = option.is_a?(Array) ? option[1] : option
+              option_description = option.is_a?(Array) && option.length > 2 ? option[2] : nil
+              is_selected = @selected.is_a?(Array) ? @selected.include?(option_value.to_s) : @selected.to_s == option_value.to_s
+            %>
+            <div class="option-item <%= option_item_classes %> <%= is_selected ? "bg-#{@color}-50" : "" %>" 
+                 data-action="click->select#selectOption" 
+                 data-value="<%= option_value %>">
+              <% if @multiple %>
+                <input type="checkbox" 
+                      class="<%= checkbox_classes %>"
+                      value="<%= option_value %>"
+                      <%= "checked" if is_selected %>
+                      data-action="click->select#stopPropagation">
+              <% end %>
+              
+              <div class="flex-grow truncate">
+                <div class="<%= is_selected ? "font-medium text-#{@color}-700" : "" %>"><%= option_text %></div>
+                <% if option_description %>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 truncate"><%= option_description %></p>
+                <% end %>
+              </div>
+              
+              <% if is_selected && !@multiple %>
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-<%= @color %>-600">
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+        
+        <% if @options.empty? %>
+          <div class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 text-center">
+            No options available
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <% if hint && !@error_state %>
+    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400" id="<%= @id %>-description">
+      <%= hint %>
+    </p>
+  <% end %>
+  
+  <% if error && @error_state %>
+    <p class="mt-1 text-sm text-red-600 dark:text-red-400" id="<%= @id %>-error">
+      <%= error %>
+    </p>
+  <% end %>
+</div>
+
+<% content_for :styles do %>
+<style>
+  .animate-dropdown-in {
+    animation: dropdown-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  @keyframes dropdown-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  /* Style for option items focus/hover states */
+  .option-item {
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  
+  .option-item:hover {
+    background-color: rgba(var(--<%= @color %>-50-rgb, 239, 246, 255), 0.75);
+  }
+  
+  .option-item.option-focused {
+    background-color: rgba(var(--<%= @color %>-100-rgb, 219, 234, 254), 0.75);
+    color: rgb(var(--<%= @color %>-700-rgb, 29, 78, 216));
+  }
+  
+  /* Hide the default browser outline when focused and use our custom one */
+  [data-controller="select"] button:focus {
+    outline: 2px solid transparent;
+  }
+  
+  /* Badge animations */
+  [data-select-target="badge"] {
+    transition: background-color 0.15s ease, transform 0.1s ease;
+  }
+  
+  [data-select-target="badge"]:hover {
+    transform: translateY(-1px);
+  }
+  
+  /* Custom scrollbar for modern browsers */
+  .max-h-60::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .max-h-60::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .max-h-60::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.3);
+    border-radius: 4px;
+  }
+  
+  .max-h-60::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.5);
+  }
+</style>
+<% end %>

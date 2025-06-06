@@ -1,0 +1,23 @@
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold">Simple Button Text Update</h2>
+  
+  <%= render(Ui::DropdownComponent.new(update_button_text: true)) do |dropdown| %>
+    <% dropdown.button do %>
+      <span>Select an option</span>
+    <% end %>
+    
+    <% dropdown.item do %>
+      <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" data-value="apple">Apple</a>
+    <% end %>
+    
+    <% dropdown.item do %>
+      <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" data-value="banana">Banana</a>
+    <% end %>
+    
+    <% dropdown.item do %>
+      <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" data-value="cherry">Cherry</a>
+    <% end %>
+  <% end %>
+  
+  <p class="text-sm text-gray-500 mt-4">The button text should update to the selected option when clicked.</p>
+</div>

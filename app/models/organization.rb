@@ -31,6 +31,7 @@ class Organization < ApplicationRecord
   has_many :groups, dependent: :nullify
   has_many :roles, dependent: :nullify
   has_many :members, dependent: :destroy
+  has_many :tasks, dependent: :destroy
 
   # Validations
   validate :no_circular_references

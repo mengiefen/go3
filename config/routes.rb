@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :tasks do
+    member do
+      patch :complete
+    end
+    collection do
+      get "sidebar/:sidebar_type", to: "tasks#sidebar_content", as: :sidebar
+      get "content/:filter_type/:filter_value", to: "tasks#tab_content", as: :tab_content
+    end
+  end
   namespace :users do
     resource :profile, only: [:show, :edit, :update], controller: 'profiles'
     delete 'remove_avatar', to: 'profiles#remove_avatar', as: :remove_avatar
@@ -52,7 +61,18 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  # Custom route for examples dashboard
+  get "examples/dashboard", to: "examples#dashboard", as: :examples_dashboard
+  get "examples/test_layout", to: "examples#test_layout", as: :examples_test_layout
+  
+  # Tab demo page - single page with dynamic content loading
+  get "tab-demo", to: "tab_demo#index", as: :tab_demo
+  get "tab-demo/sidebar/:sidebar_type", to: "tab_demo#sidebar_content", as: :tab_demo_sidebar
+  get "tab-demo/content/:content_type/:content_id", to: "tab_demo#tab_content", as: :tab_demo_content
 
   # Defines the root path route ("/")
   root "home#index"
+
+ 
 end

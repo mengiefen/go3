@@ -1,0 +1,16 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Import component-specific styles */
+@import "components";
+
+/* Global styles for Font Awesome integration */
+.sidebar-icon {
+  width: 20px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 0.5rem;
+} 
+
+/* tabs */

@@ -1,0 +1,37 @@
+<div class="page-tabs-container" data-controller="page-tabs" data-page-tabs-current-path-value="<%= current_path %>">
+  <div class="page-tabs-header">
+    <div class="page-tabs-list" data-page-tabs-target="tabsList" data-sortable-target="container">
+      <%= tabs %>
+    </div>
+
+    <div class="page-tabs-actions">
+      <div class="dropdown" data-controller="dropdown">
+        <button class="dropdown-toggle" data-action="dropdown#toggle">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <div class="dropdown-menu" data-dropdown-target="menu">
+          <button class="dropdown-item" data-action="page-tabs#closeAll">
+            <i class="fas fa-times-circle mr-2"></i>Close All Tabs
+          </button>
+          <button class="dropdown-item" data-action="page-tabs#closeOthers">
+            <i class="fas fa-minus-circle mr-2"></i>Close Other Tabs
+          </button>
+          <button class="dropdown-item" data-action="page-tabs#closeRight">
+            <i class="fas fa-arrow-right mr-2"></i>Close Tabs to the Right
+          </button>
+          <button class="dropdown-item" data-action="page-tabs#closeLeft">
+            <i class="fas fa-arrow-left mr-2"></i>Close Tabs to the Left
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-tabs-content" data-page-tabs-target="content">
+    <turbo-frame id="page-content" src="<%= current_path %>" data-page-tabs-target="frame">
+      <div class="loading-indicator">
+        <div class="spinner"></div>
+      </div>
+    </turbo-frame>
+  </div>
+</div> 

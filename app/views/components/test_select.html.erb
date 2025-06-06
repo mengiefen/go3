@@ -1,0 +1,23 @@
+<%# Simple test page for the select component %>
+<div class="container mx-auto py-8">
+  <h1 class="text-2xl font-bold mb-4">Select Component Test</h1>
+  
+  <div class="max-w-md">
+    <%= render Ui::SelectComponent.new(
+      name: "test_select",
+      options: [["Option 1", 1], ["Option 2", 2], ["Option 3", 3]],
+      prompt: "Select an option"
+    ) do |component|
+      component.with_label { "Test Select" }
+      component.with_hint { "This is a test select dropdown" }
+    end %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('Page loaded');
+    // Log all stimulus controllers
+    console.log('Controllers:', Stimulus.controllers);
+  });
+</script>
