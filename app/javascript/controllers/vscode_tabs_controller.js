@@ -469,6 +469,7 @@ export default class extends Controller {
     tabElement.dataset.tabId = tabId;
     tabElement.dataset.vscodeTabsTarget = 'tab';
     tabElement.dataset.action = 'click->vscode-tabs#focusTab';
+    tabElement.dataset.textHidden = 'false';
 
     // Create tab content with icon
     const tabContent = document.createElement('div');
@@ -487,7 +488,6 @@ export default class extends Controller {
     textSpan.className = 'tab-text';
     textSpan.textContent = tabName;
     textSpan.title = tabName; // Tooltip for long names
-    textSpan.dataset.textHidden = 'false'; // Track visibility state
     tabContent.appendChild(textSpan);
     
     // Add close button
@@ -712,10 +712,14 @@ export default class extends Controller {
     
     // Calculate available width per tab
     const containerWidth = this.tabBarTarget.offsetWidth;
-    const availableWidthPerTab = containerWidth / tabCount;
+    const totalTabsWidth = Array.from(tabs).reduce((sum, tab) => sum + tab.offsetWidth, 0);
     
-    // Define threshold for hiding text (when tab is less than 100px)
-    const TEXT_HIDE_THRESHOLD = 100;
+    // Check if we need to hide text
+    const needsCompression = totalTabsWidth > containerWidth;
+    const averageTabWidth = containerWidth / tabCount;
+    
+    // Define threshold for hiding text
+    const TEXT_HIDE_THRESHOLD = this.textHideThresholdValue || 100;
     
     tabs.forEach(tab => {
       const textElement = tab.querySelector('.tab-text');
@@ -724,15 +728,15 @@ export default class extends Controller {
       // Get actual tab width
       const tabWidth = tab.offsetWidth;
       
-      // Hide or show text based on width
-      if (tabWidth < TEXT_HIDE_THRESHOLD || availableWidthPerTab < TEXT_HIDE_THRESHOLD) {
-        textElement.dataset.textHidden = 'true';
+      // Hide or show text based on width and compression needs
+      if (needsCompression && (tabWidth < TEXT_HIDE_THRESHOLD || averageTabWidth < TEXT_HIDE_THRESHOLD)) {
+        tab.dataset.textHidden = 'true';
         // Add tooltip to tab when text is hidden
         if (!tab.title) {
           tab.title = textElement.textContent;
         }
       } else {
-        textElement.dataset.textHidden = 'false';
+        tab.dataset.textHidden = 'false';
         // Remove tooltip when text is visible
         tab.removeAttribute('title');
       }
