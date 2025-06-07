@@ -128,40 +128,68 @@
   @apply bg-white relative;
   z-index: 10;
   margin-bottom: -2px;
+  border-bottom: 2px solid white;
 }
 
-/* Create outside curves using pseudo-elements */
-.tab-item.active::before,
+/* Hide curve elements by default */
+.tab-curve-left,
+.tab-curve-right {
+  display: none;
+  position: absolute;
+  bottom: -2px;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+
+/* Show and style curves for active tab */
+.tab-item.active .tab-curve-left {
+  display: block;
+  left: -12px;
+  background: transparent;
+  box-shadow: 6px 6px 0 6px white;
+  border-bottom-right-radius: 12px;
+}
+
+.tab-item.active .tab-curve-right {
+  display: block;
+  right: -12px;
+  background: transparent;
+  box-shadow: -6px 6px 0 6px white;
+  border-bottom-left-radius: 12px;
+}
+
+/* Inside curved corners for active tab - modern browser style */
+.tab-item.active::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: -12px;
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 12 0 L 12 12 L 0 12 Q 12 12 12 0' fill='white'/%3E%3C/svg%3E");
+}
+
 .tab-item.active::after {
   content: '';
   position: absolute;
   bottom: -2px;
-  width: 8px;
-  height: 8px;
-  background-color: #f8fafc; /* bg-slate-50 */
-}
-
-.tab-item.active::before {
-  left: -8px;
-  border-bottom-right-radius: 8px;
-  box-shadow: 4px 4px 0 4px white;
-}
-
-.tab-item.active::after {
-  right: -8px;
-  border-bottom-left-radius: 8px;
-  box-shadow: -4px 4px 0 4px white;
+  right: -12px;
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 0 12 L 12 12 Q 0 12 0 0' fill='white'/%3E%3C/svg%3E");
 }
 
 /* Blue accent line at the bottom of active tab */
 .tab-item.active .tab-content-wrapper::after {
   content: '';
   position: absolute;
-  bottom: -10px;
-  left: -16px;
-  right: -16px;
+  bottom: -2px;
+  left: 0;
+  right: 0;
   height: 2px;
   background-color: #3b82f6;
+  z-index: 12;
 }
 
 .tab-item.active .tab-icon svg {

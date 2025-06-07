@@ -508,6 +508,15 @@ export default class extends Controller {
     const separator = document.createElement('span');
     separator.className = 'tab-separator';
     tabElement.appendChild(separator);
+    
+    // Add curve elements for active tab styling
+    const leftCurve = document.createElement('span');
+    leftCurve.className = 'tab-curve-left';
+    tabElement.appendChild(leftCurve);
+    
+    const rightCurve = document.createElement('span');
+    rightCurve.className = 'tab-curve-right';
+    tabElement.appendChild(rightCurve);
 
     // Add to tab bar
     this.tabBarTarget.appendChild(tabElement);
