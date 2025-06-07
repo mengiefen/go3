@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ['tabBar', 'contentAreas', 'tab', 'content'];
+  static targets = ['tabBar', 'contentAreas', 'tab', 'content', 'noTabsIndicator', 'tabActions'];
 
   connect() {
     console.log('VSCode Tabs Controller connected');
@@ -14,9 +14,13 @@ export default class extends Controller {
 
   hideWelcomeMessage() {
     // Hide the "No tabs open" indicator
-    const noTabsIndicator = this.tabBarTarget.querySelector('.flex.items-center.h-full');
-    if (noTabsIndicator) {
-      noTabsIndicator.classList.add('hidden');
+    if (this.hasNoTabsIndicatorTarget) {
+      this.noTabsIndicatorTarget.classList.add('hidden');
+    }
+
+    // Show tab actions
+    if (this.hasTabActionsTarget) {
+      this.tabActionsTarget.style.display = 'flex';
     }
 
     // Hide the welcome message
@@ -28,9 +32,13 @@ export default class extends Controller {
 
   showWelcomeMessage() {
     // Show the "No tabs open" indicator
-    const noTabsIndicator = this.tabBarTarget.querySelector('.flex.items-center.h-full');
-    if (noTabsIndicator) {
-      noTabsIndicator.classList.remove('hidden');
+    if (this.hasNoTabsIndicatorTarget) {
+      this.noTabsIndicatorTarget.classList.remove('hidden');
+    }
+
+    // Hide tab actions
+    if (this.hasTabActionsTarget) {
+      this.tabActionsTarget.style.display = 'none';
     }
 
     // Show the welcome message
@@ -120,22 +128,17 @@ export default class extends Controller {
         const tabInfo = this.openTabs.get(tabId);
         const tabName = tabInfo ? tabInfo.name : `${filterType} ${filterValue}`;
 
-        const url = `/tasks/content/${filterType}/${filterValue}?content_name=${encodeURIComponent(tabName)}`;
+        const url = `/tasks/content/${filterType}/${filterValue}?content_name=${encodeURIComponent(tabName)}&frame_id=frame-${tabId}`;
 
-        fetch(url, {
-          method: 'GET',
-          headers: {
-            Accept: 'text/vnd.turbo-stream.html',
-            'X-Requested-With': 'XMLHttpRequest',
-          },
-        })
-          .then((response) => response.text())
-          .then((html) => {
-            Turbo.renderStreamMessage(html);
-          })
-          .catch((error) => {
-            console.error('Error loading restored tab content:', error);
-          });
+        // Create turbo frame for restored tab content
+        const contentContainer = document.getElementById(tabId);
+        if (contentContainer) {
+          const turboFrame = document.createElement('turbo-frame');
+          turboFrame.id = `frame-${tabId}`;
+          turboFrame.src = url;
+          turboFrame.dataset.turboFrameRequestsFormat = 'html';
+          contentContainer.appendChild(turboFrame);
+        }
       }
     }
   }
@@ -330,5 +333,23 @@ export default class extends Controller {
 
     // Save to localStorage
     this.saveTabsToStorage();
+  }
+
+  // Close all tabs
+  closeAllTabs() {
+    // Remove all tab elements
+    this.tabTargets.forEach(tab => tab.remove());
+
+    // Remove all content containers
+    this.contentTargets.forEach(content => content.remove());
+
+    // Clear the openTabs map
+    this.openTabs.clear();
+
+    // Clear localStorage
+    this.saveTabsToStorage();
+
+    // Show welcome message
+    this.showWelcomeMessage();
   }
 }

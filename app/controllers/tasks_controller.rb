@@ -110,16 +110,13 @@ class TasksController < ApplicationController
     
     Rails.logger.info "Filtered tasks count: #{@tasks.count}"
 
-    respond_to do |format|
-      format.html do
-        render 'tab_content', locals: {
-          tasks: @tasks,
-          content_name: @content_name,
-          filter_type: @filter_type,
-          filter_value: @filter_value
-        }
-      end
-    end
+    # Force HTML format for turbo-frame requests
+    render 'tab_content', locals: {
+      tasks: @tasks,
+      content_name: @content_name,
+      filter_type: @filter_type,
+      filter_value: @filter_value
+    }, formats: [:html]
   end
 
   private

@@ -63,6 +63,7 @@ export default class extends Controller {
       turboFrame.id = `frame-${tabId}`;
       turboFrame.src = url;
       turboFrame.dataset.loadedTabId = tabId;
+      turboFrame.dataset.turboFrameRequestsFormat = 'html';
       
       // Listen for frame load event
       turboFrame.addEventListener('turbo:frame-load', (event) => {
