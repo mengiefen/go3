@@ -1,6 +1,6 @@
 # Real-World Examples
 
-Practical examples and patterns for implementing the VSCode-style tabbed interface in different scenarios.
+Practical examples and patterns for implementing the VSCode-style tabbed interface with URL-based state management in different scenarios.
 
 ## 📊 Task Management System
 
@@ -894,4 +894,120 @@ canRestoreTab(tabId) {
 }
 ```
 
-These examples demonstrate the flexibility and power of the VSCode-style tabbed interface system across different use cases and domains.
+## 🔗 URL-Based Tab Examples
+
+### Bookmarkable Tab States
+
+The tab system now supports URL-based state management, making every tab configuration bookmarkable and shareable.
+
+#### Single Tab URL
+```
+/tab-demo?tab_0=organization:org-1:Acme%20Corporation
+```
+Opens a single organization tab for "Acme Corporation"
+
+#### Multiple Tabs with Active Selection
+```
+/tab-demo?tab_0=organization:org-1:Acme%20Corp&tab_1=user:user-42:John%20Doe&tab_2=department:dept-5:Engineering&active_tab=1
+```
+Opens three tabs with the user tab (John Doe) active
+
+#### Task-Specific URLs
+```
+/tasks?tab_0=tasks-category:development:Development%20Tasks&tab_1=task:123:Fix%20Login%20Bug&tab_2=task-edit:124:Edit%20Task%20124&active_tab=0
+```
+Opens task category, individual task view, and task edit tabs
+
+### Programmatic URL Management
+
+```javascript
+// Example: Open tabs programmatically with URL update
+function openMultipleTabs() {
+  const tabsController = getTabsController();
+  
+  // Open organization tab
+  const orgTabId = tabsController.generateUniqueTabId('organization', 'org-1');
+  tabsController.addTab(orgTabId, 'Acme Corporation');
+  
+  // Open user tab
+  const userTabId = tabsController.generateUniqueTabId('user', 'user-42');
+  tabsController.addTab(userTabId, 'John Doe');
+  
+  // URL automatically updates to:
+  // /tab-demo?tab_0=organization:org-1:Acme%20Corporation&tab_1=user:user-42:John%20Doe&active_tab=1
+}
+
+// Example: Share current state
+function shareCurrentTabs() {
+  const currentURL = window.location.href;
+  navigator.clipboard.writeText(currentURL);
+  alert('Tab state URL copied to clipboard!');
+}
+```
+
+### Deep Linking Examples
+
+```html
+<!-- Email template with tab links -->
+<p>Check out these important items:</p>
+<ul>
+  <li>
+    <a href="/tab-demo?tab_0=report:report-q4:Q4%20Sales%20Report">
+      Q4 Sales Report
+    </a>
+  </li>
+  <li>
+    <a href="/tasks?tab_0=task:456:Critical%20Bug&tab_1=task-edit:456:Edit%20Critical%20Bug&active_tab=1">
+      Critical Bug (opens in edit mode)
+    </a>
+  </li>
+  <li>
+    <a href="/tab-demo?tab_0=dashboard:main:Main%20Dashboard&tab_1=report:daily:Daily%20Stats&tab_2=settings:general:General%20Settings&active_tab=0">
+      Daily Dashboard View
+    </a>
+  </li>
+</ul>
+```
+
+### Browser History Integration
+
+```javascript
+// The system automatically handles browser navigation
+// Users can use back/forward buttons to navigate through tab states
+
+// Example flow:
+// 1. User opens organization tab
+//    URL: /tab-demo?tab_0=organization:org-1:Acme
+// 
+// 2. User opens user tab
+//    URL: /tab-demo?tab_0=organization:org-1:Acme&tab_1=user:user-1:John&active_tab=1
+//
+// 3. User closes organization tab
+//    URL: /tab-demo?tab_0=user:user-1:John&active_tab=0
+//
+// 4. User clicks browser back button
+//    URL returns to: /tab-demo?tab_0=organization:org-1:Acme&tab_1=user:user-1:John&active_tab=1
+//    Both tabs are restored with user tab active
+```
+
+### URL Parameter Reference
+
+| Parameter | Format | Example | Description |
+|-----------|--------|---------|-------------|
+| `tab_N` | `type:id:name` | `tab_0=user:123:John%20Doe` | Defines a tab at index N |
+| `active_tab` | number | `active_tab=2` | Index of the active tab |
+
+### Special Tab Type Formats
+
+| Tab Type | URL Format | Example |
+|----------|------------|---------|
+| Organization | `organization:id:name` | `organization:org-1:Acme%20Corp` |
+| User | `user:id:name` | `user:user-42:Jane%20Smith` |
+| Task Category | `tasks-category:filter:name` | `tasks-category:development:Dev%20Tasks` |
+| Task View | `task:id:name` | `task:123:Fix%20Bug` |
+| Task Edit | `task-edit:id:name` | `task-edit:123:Edit%20Fix%20Bug` |
+| Department | `department:id:name` | `department:dept-5:Engineering` |
+| Report | `report:id:name` | `report:monthly:Monthly%20Report` |
+| Dashboard | `dashboard:id:name` | `dashboard:main:Main%20Dashboard` |
+
+These examples demonstrate the flexibility and power of the VSCode-style tabbed interface system with URL-based state management across different use cases and domains.

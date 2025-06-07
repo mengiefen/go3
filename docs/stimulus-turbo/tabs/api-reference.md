@@ -4,7 +4,7 @@ Complete reference for the VSCode-style tabbed interface controllers, methods, a
 
 ## VSCodeTabsController
 
-The main controller that manages tab lifecycle, content containers, and state persistence.
+The main controller that manages tab lifecycle, content containers, state persistence, and URL-based state management.
 
 ### Targets
 
@@ -22,6 +22,20 @@ The main controller that manages tab lifecycle, content containers, and state pe
 | `maxTabs` | Number | 10 | Maximum number of tabs allowed |
 | `persistState` | Boolean | true | Whether to save tab state to localStorage |
 | `autoClose` | Boolean | false | Auto-close oldest tab when max reached |
+
+### URL Management
+
+The tab system now supports URL-based state management, making tabs bookmarkable and shareable:
+
+- **URL Format**: Each tab state is reflected in URL query parameters
+  - Tab format: `?tab_0=organization:org-1:Acme%20Corp&tab_1=user:user-1:John%20Doe&active_tab=0`
+  - Special formats:
+    - Task categories: `tab_0=tasks-category:development:Development%20Tasks`
+    - Task edit: `tab_1=task-edit:123:Edit%20Task%20123`
+    - Task view: `tab_2=task:456:View%20Task%20456`
+- **Browser Navigation**: Full support for back/forward buttons
+- **Bookmarkable**: URLs can be saved and shared to restore exact tab states
+- **Auto-sync**: URL updates automatically as tabs are opened, closed, or switched
 
 ### Methods
 
@@ -258,6 +272,32 @@ Internal method that handles the tab creation process.
 - Sets up Turbo Frame for content loading
 - Handles event-driven activation
 
+## URL Sharing Examples
+
+### Basic Tab URL
+```
+/tab-demo?tab_0=organization:org-1:Acme%20Corp
+```
+Opens a single organization tab
+
+### Multiple Tabs
+```
+/tab-demo?tab_0=organization:org-1:Acme%20Corp&tab_1=user:user-1:John%20Doe&active_tab=1
+```
+Opens two tabs with the user tab active
+
+### Task-Specific URLs
+```
+/tasks?tab_0=tasks-category:development:Development&tab_1=task:123:Fix%20Bug&active_tab=0
+```
+Opens task category and individual task tabs
+
+### Complex State
+```
+/tab-demo?tab_0=organization:org-1:Acme&tab_1=department:dept-2:Sales&tab_2=user:user-3:Manager&tab_3=report:report-1:Q4%20Sales&active_tab=2
+```
+Opens four different tabs with the user tab active
+
 ## Custom Events
 
 The system dispatches custom events for integration with other components.
@@ -411,6 +451,79 @@ Loads content for a restored tab based on its ID pattern.
 - Creates appropriate turbo-frame based on tab type
 - Sets correct URL based on parsed tab ID
 - Loads content asynchronously
+
+#### `updateURL()`
+
+Updates the browser URL to reflect current tab state.
+
+**Parameters:** None
+
+**Returns:** `void`
+
+**Side Effects:**
+- Updates URL query parameters
+- Updates browser history state
+- Does not cause page reload
+
+**Example:**
+```javascript
+// Called automatically when tabs change
+this.updateURL();
+// URL becomes: /tab-demo?tab_0=organization:org-1:Acme%20Corp&active_tab=0
+```
+
+#### `restoreTabsFromURL()`
+
+Restores tabs from URL parameters on page load.
+
+**Parameters:** None
+
+**Returns:** `void`
+
+**Side Effects:**
+- Parses URL query parameters
+- Creates tabs based on URL state
+- Activates the previously active tab
+
+**Example:**
+```javascript
+// Called automatically in connect()
+// URL: /tab-demo?tab_0=user:user-1:John%20Doe&active_tab=0
+// Creates and activates user tab
+```
+
+#### `handlePopState(event)`
+
+Handles browser back/forward navigation.
+
+**Parameters:**
+- `event` (PopStateEvent): Browser popstate event
+
+**Returns:** `void`
+
+**Side Effects:**
+- Closes current tabs
+- Restores tabs from history state
+- Maintains proper tab activation
+
+**Example:**
+```javascript
+// Automatically registered in connect()
+window.addEventListener('popstate', this.handlePopState.bind(this));
+```
+
+#### `closeAllTabsWithoutHistory()`
+
+Closes all tabs without updating browser history.
+
+**Parameters:** None
+
+**Returns:** `void`
+
+**Side Effects:**
+- Removes all tabs and content
+- Does not update URL or history
+- Used internally for state transitions
 
 ### Usage Example
 

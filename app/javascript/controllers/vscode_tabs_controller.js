@@ -9,7 +9,22 @@ export default class extends Controller {
     console.log('Content areas element check:', document.getElementById('tab-content-areas'));
     
     this.openTabs = new Map(); // Store open tabs
-    this.restoreTabsFromStorage();
+    
+    // Handle browser back/forward navigation
+    window.addEventListener('popstate', this.handlePopState.bind(this));
+    
+    // Check URL for tabs to restore
+    this.restoreTabsFromURL();
+    
+    // Restore tabs from storage only if URL doesn't have tabs
+    if (this.openTabs.size === 0) {
+      this.restoreTabsFromStorage();
+    }
+  }
+
+  disconnect() {
+    // Clean up event listener
+    window.removeEventListener('popstate', this.handlePopState.bind(this));
   }
 
   hideWelcomeMessage() {
@@ -188,6 +203,157 @@ export default class extends Controller {
     return tabId.startsWith('tab-');
   }
 
+  // Handle browser back/forward navigation
+  handlePopState(event) {
+    console.log('Handling popstate event', event.state);
+    
+    if (event.state && event.state.tabs) {
+      // Close all current tabs
+      this.closeAllTabsWithoutHistory();
+      
+      // Restore tabs from state
+      event.state.tabs.forEach(tabState => {
+        this.addTab(tabState.tabId, tabState.name);
+        this.loadRestoredTabContent(tabState.tabId);
+      });
+      
+      // Set active tab
+      if (event.state.activeTab) {
+        setTimeout(() => {
+          this.setActiveTab(event.state.activeTab);
+        }, 100);
+      }
+    }
+  }
+
+  // Update URL when tabs change
+  updateURL() {
+    const tabs = Array.from(this.openTabs.entries()).map(([tabId, tabInfo]) => ({
+      tabId,
+      name: tabInfo.name,
+      active: tabInfo.active
+    }));
+    
+    const activeTab = tabs.find(tab => tab.active);
+    const params = new URLSearchParams(window.location.search);
+    
+    // Clear existing tab parameters
+    Array.from(params.keys()).forEach(key => {
+      if (key.startsWith('tab_')) {
+        params.delete(key);
+      }
+    });
+    
+    // Add current tabs to URL
+    tabs.forEach((tab, index) => {
+      const tabParts = tab.tabId.split('-');
+      
+      if (tab.tabId.startsWith('tab-tasks-')) {
+        // Handle task category tabs
+        const filterType = tabParts[2];
+        const filterValue = tabParts[3];
+        params.set(`tab_${index}`, `tasks-${filterType}:${filterValue}:${encodeURIComponent(tab.name)}`);
+      } else if (tab.tabId.startsWith('tab-task-edit-')) {
+        // Handle task edit tabs
+        const taskId = tabParts[3];
+        params.set(`tab_${index}`, `task-edit:${taskId}:${encodeURIComponent(tab.name)}`);
+      } else if (tab.tabId.startsWith('tab-task-')) {
+        // Handle individual task tabs
+        const taskId = tabParts[2];
+        params.set(`tab_${index}`, `task:${taskId}:${encodeURIComponent(tab.name)}`);
+      } else if (tabParts.length >= 4) {
+        // Handle all other tabs
+        const contentType = tabParts[1];
+        const contentId = tabParts.slice(2, -1).join('-');
+        params.set(`tab_${index}`, `${contentType}:${contentId}:${encodeURIComponent(tab.name)}`);
+      }
+    });
+    
+    // Set active tab
+    if (activeTab) {
+      params.set('active_tab', tabs.indexOf(activeTab).toString());
+    }
+    
+    const newURL = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.replaceState({ tabs, activeTab: activeTab?.tabId }, '', newURL);
+  }
+
+  // Restore tabs from URL parameters
+  restoreTabsFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const tabsToRestore = [];
+    let activeTabIndex = params.get('active_tab');
+    
+    // Find all tab parameters
+    Array.from(params.entries()).forEach(([key, value]) => {
+      if (key.startsWith('tab_')) {
+        const index = parseInt(key.substring(4));
+        const parts = value.split(':');
+        
+        if (parts.length >= 2) {
+          const contentType = parts[0];
+          const contentId = parts[1];
+          const encodedName = parts.slice(2).join(':'); // Handle names with colons
+          
+          tabsToRestore[index] = {
+            contentType,
+            contentId,
+            name: decodeURIComponent(encodedName || `${contentType} ${contentId}`)
+          };
+        }
+      }
+    });
+    
+    // Restore tabs in order
+    tabsToRestore.forEach((tabData, index) => {
+      if (tabData) {
+        let tabId;
+        
+        if (tabData.contentType.startsWith('tasks-')) {
+          // Handle task category tabs
+          const filterType = tabData.contentType.substring(6);
+          tabId = this.generateUniqueTabId(`tasks-${filterType}`, tabData.contentId);
+        } else if (tabData.contentType === 'task-edit') {
+          // Handle task edit tabs
+          tabId = this.generateUniqueTabId('task-edit', tabData.contentId);
+        } else if (tabData.contentType === 'task') {
+          // Handle individual task tabs
+          tabId = this.generateUniqueTabId('task', tabData.contentId);
+        } else {
+          // Handle all other tabs
+          tabId = this.generateUniqueTabId(tabData.contentType, tabData.contentId);
+        }
+        
+        this.addTab(tabId, tabData.name);
+        this.loadRestoredTabContent(tabId);
+        
+        if (activeTabIndex !== null && parseInt(activeTabIndex) === index) {
+          setTimeout(() => {
+            this.setActiveTab(tabId);
+          }, 100);
+        }
+      }
+    });
+  }
+
+  // Close all tabs without updating history
+  closeAllTabsWithoutHistory() {
+    // Remove all tab elements
+    this.tabTargets.forEach(tab => tab.remove());
+
+    // Remove all content containers
+    this.contentTargets.forEach(content => content.remove());
+
+    // Clear the openTabs map
+    this.openTabs.clear();
+
+    // Clear localStorage
+    this.saveTabsToStorage();
+
+    // Show welcome message
+    this.showWelcomeMessage();
+  }
+
   // Generate unique tab ID to support multiple instances
   generateUniqueTabId(contentType, contentId) {
     return `tab-${contentType}-${contentId}-${Date.now()}`;
@@ -242,6 +408,9 @@ export default class extends Controller {
 
     // Save to localStorage
     this.saveTabsToStorage();
+    
+    // Update URL
+    this.updateURL();
   }
 
   // Create individual tab content container
@@ -325,6 +494,9 @@ export default class extends Controller {
     if (this.openTabs.size === 0) {
       this.showWelcomeMessage();
     }
+    
+    // Update URL
+    this.updateURL();
   }
 
   // Override setActiveTab to save state
@@ -372,6 +544,9 @@ export default class extends Controller {
 
     // Save to localStorage
     this.saveTabsToStorage();
+    
+    // Update URL
+    this.updateURL();
   }
 
   // Close all tabs
@@ -390,5 +565,8 @@ export default class extends Controller {
 
     // Show welcome message
     this.showWelcomeMessage();
+    
+    // Update URL
+    this.updateURL();
   }
 }
