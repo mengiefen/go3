@@ -31,6 +31,12 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
+  # Wrap custom devise routes in devise_scope
+  devise_scope :user do
+    get 'confirmation_pending', to: 'users/registrations#confirmation_pending', as: :confirmation_pending
+    post 'resend_confirmation', to: 'users/registrations#resend_confirmation', as: :resend_confirmation
+  end
+
   # Two-factor authentication
   resource :two_factor, only: [:new, :create, :show, :update], controller: 'users/two_factor' do
     get :backup_codes
@@ -74,5 +80,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
- 
+  namespace :api do
+    get 'translations', to: 'translations#index'
+  end
+
 end

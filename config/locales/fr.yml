@@ -1,0 +1,57 @@
+fr:
+  sign_up:
+    title: "Créer un compte"
+    first_name: "Prénom"
+    last_name: "Nom"
+    email: "Adresse e-mail"
+    language: "Langue"
+    password: "Mot de passe"
+    password_confirmation: "Confirmer le mot de passe"
+    submit: "S'inscrire"
+    or_continue_with: "Ou continuer avec"
+    already_have_account: "Vous avez déjà un compte ?"
+    sign_in: "Se connecter"
+    minimum_password_length: "6 caractères minimum"
+
+  email_confirmation:
+    title: "Merci de vous être inscrit"
+    message: "Merci d'avoir créé un compte avec nous. Nous sommes ravis de vous accueillir ! Pour commencer, veuillez confirmer votre adresse e-mail en cliquant sur le lien que nous avons envoyé à %{email}. Si vous ne voyez pas l'e-mail, veuillez cliquer sur le bouton ci-dessous pour renvoyer l'e-mail de confirmation."
+    message_html: "Merci d'avoir créé un compte avec nous. Nous sommes ravis de vous accueillir ! Pour commencer, veuillez confirmer votre adresse e-mail en cliquant sur le lien que nous avons envoyé à %{email}. Si vous ne voyez pas l'e-mail, veuillez cliquer sur le bouton ci-dessous pour renvoyer l'e-mail de confirmation."
+    resend_button: "Renvoyer l'e-mail de confirmation"
+    sign_up_again: "S'inscrire avec une autre adresse e-mail"
+    check_spam: "Vérifier le dossier spam"
+    confirmation_sent: "L'e-mail de confirmation a été envoyé"
+    resend_success: "L'e-mail de confirmation a été renvoyé"
+    resend_error: "Impossible de renvoyer l'e-mail de confirmation"
+
+  devise:
+    confirmations:
+      confirmed: "Votre adresse e-mail a été confirmée avec succès."
+      send_instructions: "Vous allez recevoir un e-mail contenant les instructions pour confirmer votre adresse e-mail dans quelques minutes."
+      send_paranoid_instructions: "Si votre adresse e-mail existe dans notre base de données, vous allez recevoir un e-mail contenant les instructions pour confirmer votre adresse e-mail dans quelques minutes."
+    registrations:
+      signed_up: "Bienvenue ! Vous vous êtes inscrit avec succès."
+      signed_up_but_unconfirmed: "Un message contenant un lien de confirmation a été envoyé à votre adresse e-mail. Veuillez suivre le lien pour activer votre compte."
+      signed_up_but_locked: "Vous vous êtes inscrit avec succès. Cependant, nous n'avons pas pu vous connecter car votre compte est verrouillé."
+      signed_up_but_inactive: "Vous vous êtes inscrit avec succès. Cependant, nous n'avons pas pu vous connecter car votre compte n'est pas encore activé."
+      update_needs_confirmation: "Vous avez mis à jour votre compte avec succès, mais nous devons vérifier votre nouvelle adresse e-mail. Veuillez vérifier votre e-mail et suivre le lien de confirmation pour confirmer votre nouvelle adresse e-mail."
+      updated: "Votre compte a été mis à jour avec succès."
+      updated_but_not_signed_in: "Votre compte a été mis à jour avec succès, mais comme votre mot de passe a été modifié, vous devez vous reconnecter."
+      destroyed: "Au revoir ! Votre compte a été supprimé avec succès. Nous espérons vous revoir bientôt."
+
+  flash:
+    actions:
+      create:
+        success: "Créé avec succès"
+        error: "Erreur lors de la création"
+      update:
+        success: "Mis à jour avec succès"
+        error: "Erreur lors de la mise à jour"
+      destroy:
+        success: "Supprimé avec succès"
+        error: "Erreur lors de la suppression"
+    errors:
+      not_authorized: "Vous n'êtes pas autorisé à effectuer cette action"
+      not_found: "Ressource non trouvée"
+      invalid: "Données invalides"
+      server_error: "Erreur serveur"

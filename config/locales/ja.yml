@@ -1,0 +1,57 @@
+ja:
+  sign_up:
+    title: "アカウント作成"
+    first_name: "名"
+    last_name: "姓"
+    email: "メールアドレス"
+    language: "言語"
+    password: "パスワード"
+    password_confirmation: "パスワード（確認）"
+    submit: "登録"
+    or_continue_with: "または以下で続ける"
+    already_have_account: "すでにアカウントをお持ちですか？"
+    sign_in: "ログイン"
+    minimum_password_length: "最低6文字"
+
+  email_confirmation:
+    title: "ご登録ありがとうございます"
+    message: "アカウントを作成していただき、ありがとうございます。ご登録を心よりお待ちしております！%{email}に送信したリンクをクリックして、メールアドレスを確認してください。メールが届かない場合は、下のボタンをクリックして確認メールを再送信してください。"
+    message_html: "アカウントを作成していただき、ありがとうございます。ご登録を心よりお待ちしております！%{email}に送信したリンクをクリックして、メールアドレスを確認してください。メールが届かない場合は、下のボタンをクリックして確認メールを再送信してください。"
+    resend_button: "確認メールを再送信"
+    sign_up_again: "別のメールアドレスで登録"
+    check_spam: "迷惑メールフォルダを確認"
+    confirmation_sent: "確認メールを送信しました"
+    resend_success: "確認メールを再送信しました"
+    resend_error: "確認メールの再送信に失敗しました"
+
+  devise:
+    confirmations:
+      confirmed: "メールアドレスが正常に確認されました。"
+      send_instructions: "数分以内にメールアドレスの確認方法についてのメールが届きます。"
+      send_paranoid_instructions: "メールアドレスがデータベースに存在する場合、数分以内にメールアドレスの確認方法についてのメールが届きます。"
+    registrations:
+      signed_up: "ようこそ！登録が完了しました。"
+      signed_up_but_unconfirmed: "確認リンクを含むメールを送信しました。リンクをクリックしてアカウントを有効化してください。"
+      signed_up_but_locked: "登録は完了しましたが、アカウントがロックされているためログインできません。"
+      signed_up_but_inactive: "登録は完了しましたが、アカウントがまだ有効化されていないためログインできません。"
+      update_needs_confirmation: "アカウントの更新は完了しましたが、新しいメールアドレスの確認が必要です。メールを確認し、確認リンクをクリックして新しいメールアドレスを確認してください。"
+      updated: "アカウントが正常に更新されました。"
+      updated_but_not_signed_in: "アカウントが正常に更新されましたが、パスワードが変更されたため、再度ログインする必要があります。"
+      destroyed: "さようなら！アカウントが正常に削除されました。またのご利用をお待ちしております。"
+
+  flash:
+    actions:
+      create:
+        success: "正常に作成されました"
+        error: "作成中にエラーが発生しました"
+      update:
+        success: "正常に更新されました"
+        error: "更新中にエラーが発生しました"
+      destroy:
+        success: "正常に削除されました"
+        error: "削除中にエラーが発生しました"
+    errors:
+      not_authorized: "この操作を実行する権限がありません"
+      not_found: "リソースが見つかりません"
+      invalid: "無効なデータです"
+      server_error: "サーバーエラーが発生しました" 

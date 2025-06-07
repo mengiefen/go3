@@ -1,0 +1,57 @@
+zh:
+  sign_up:
+    title: "创建账户"
+    first_name: "名字"
+    last_name: "姓氏"
+    email: "电子邮箱"
+    language: "语言"
+    password: "密码"
+    password_confirmation: "确认密码"
+    submit: "注册"
+    or_continue_with: "或继续使用"
+    already_have_account: "已有账户？"
+    sign_in: "登录"
+    minimum_password_length: "最少6个字符"
+
+  email_confirmation:
+    title: "感谢您的注册"
+    message: "感谢您创建账户。我们很高兴您加入我们！要开始使用，请点击我们发送到%{email}的链接来确认您的电子邮箱地址。如果您没有收到邮件，请点击下面的按钮重新发送确认邮件。"
+    message_html: "感谢您创建账户。我们很高兴您加入我们！要开始使用，请点击我们发送到%{email}的链接来确认您的电子邮箱地址。如果您没有收到邮件，请点击下面的按钮重新发送确认邮件。"
+    resend_button: "重新发送确认邮件"
+    sign_up_again: "使用其他邮箱注册"
+    check_spam: "检查垃圾邮件文件夹"
+    confirmation_sent: "确认邮件已发送"
+    resend_success: "确认邮件已重新发送"
+    resend_error: "无法重新发送确认邮件"
+
+  devise:
+    confirmations:
+      confirmed: "您的电子邮箱地址已成功确认。"
+      send_instructions: "您将在几分钟内收到一封包含确认电子邮箱地址说明的邮件。"
+      send_paranoid_instructions: "如果您的电子邮箱地址存在于我们的数据库中，您将在几分钟内收到一封包含确认电子邮箱地址说明的邮件。"
+    registrations:
+      signed_up: "欢迎！您已成功注册。"
+      signed_up_but_unconfirmed: "一封包含确认链接的邮件已发送到您的电子邮箱地址。请点击链接激活您的账户。"
+      signed_up_but_locked: "您已成功注册。但是，由于您的账户被锁定，我们无法让您登录。"
+      signed_up_but_inactive: "您已成功注册。但是，由于您的账户尚未激活，我们无法让您登录。"
+      update_needs_confirmation: "您已成功更新账户，但我们需要验证您的新电子邮箱地址。请查看您的邮件并点击确认链接来确认您的新电子邮箱地址。"
+      updated: "您的账户已成功更新。"
+      updated_but_not_signed_in: "您的账户已成功更新，但由于密码已更改，您需要重新登录。"
+      destroyed: "再见！您的账户已成功注销。希望很快能再次见到您。"
+
+  flash:
+    actions:
+      create:
+        success: "创建成功"
+        error: "创建时发生错误"
+      update:
+        success: "更新成功"
+        error: "更新时发生错误"
+      destroy:
+        success: "删除成功"
+        error: "删除时发生错误"
+    errors:
+      not_authorized: "您没有执行此操作的权限"
+      not_found: "未找到资源"
+      invalid: "无效数据"
+      server_error: "服务器错误" 

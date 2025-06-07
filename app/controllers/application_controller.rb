@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :store_user_location!, if: :storable_location?
   before_action :set_locale
+  before_action :translate_flash_messages
   
   helper ComponentHelper
   
@@ -69,24 +70,46 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = if user_signed_in?
-                    current_user.locale
-                  else
-                    http_accept_language.compatible_language_from(I18n.available_locales) || I18n.default_locale
-                  end
+    # Get locale from user preference, params, or default
+    locale = if user_signed_in?
+               current_user.language
+             elsif params[:locale]
+               params[:locale]
+             else
+               I18n.default_locale
+             end
+
+    # Ensure the locale is valid
+    locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
+    
+    # Set the locale for this request
+    I18n.locale = locale.to_sym
+    
+    # Store the locale in the session for future requests
+    session[:locale] = locale
+  end
+  
+  def translate_flash_messages
+    flash.each do |type, message|
+      if message.is_a?(String)
+        # Try to translate the message if it's a string
+        flash[type] = I18n.t(message, default: message)
+      elsif message.is_a?(Hash)
+        # Handle nested flash messages (like in Devise)
+        message.each do |key, value|
+          if value.is_a?(String)
+            message[key] = I18n.t(value, default: value)
+          end
+        end
+      end
+    end
   end
   
   def storable_location?
-    request.get? && 
-    is_navigational_format? && 
-    !devise_controller? && 
-    !request.xhr? && 
-    !turbo_frame_request? &&
-    !request.format.turbo_stream?
+    request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
   
   def store_user_location!
-    # Store the current location for redirect after sign in
     store_location_for(:user, request.fullpath)
   end
   

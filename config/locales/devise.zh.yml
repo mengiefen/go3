@@ -1,0 +1,69 @@
+zh:
+  devise:
+    confirmations:
+      confirmed: "您的电子邮箱地址已成功确认。"
+      send_instructions: "您将在几分钟内收到一封包含确认说明的电子邮件。"
+      send_paranoid_instructions: "如果您的电子邮箱地址在我们的数据库中，您将在几分钟内收到一封包含确认说明的电子邮件。"
+    failure:
+      already_authenticated: "您已经登录。"
+      inactive: "您的账户尚未激活。"
+      invalid: "%{authentication_keys}或密码无效。"
+      locked: "您的账户已被锁定。"
+      last_attempt: "在账户被锁定之前，您还有一次尝试机会。"
+      not_found_in_database: "%{authentication_keys}或密码无效。"
+      timeout: "您的会话已过期。请重新登录。"
+      unauthenticated: "您需要登录或注册才能继续。"
+      unconfirmed: "在继续之前，您需要确认您的电子邮箱地址。"
+    mailer:
+      confirmation_instructions:
+        subject: "确认电子邮箱地址"
+        welcome: "欢迎来到GO3！"
+        hello: "你好，%{email}！"
+        confirm_link: "感谢您的注册！要完成注册并访问您的账户，请点击下面的按钮确认您的电子邮箱地址。"
+        confirm_button: "确认我的电子邮箱地址"
+        expiry_notice: "此确认链接将在24小时后过期。如果您没有创建此账户，请忽略此电子邮件。"
+        ignore_notice: "如果您没有请求此电子邮件，请忽略它。在您确认电子邮箱地址之前，您的账户将不会被创建。"
+      reset_password_instructions:
+        subject: "重置密码说明"
+      unlock_instructions:
+        subject: "解锁账户说明"
+      email_changed:
+        subject: "电子邮箱已更改"
+      password_change:
+        subject: "密码已更改"
+    omniauth_callbacks:
+      failure: "通过%{kind}的认证失败，原因是\"%{reason}\"。"
+      success: "通过%{kind}账户成功认证。"
+    passwords:
+      no_token: "如果没有通过重置密码的电子邮件链接，您无法访问此页面。如果您是通过重置密码的电子邮件链接访问此页面，请确保您使用了完整的URL。"
+      send_instructions: "您将在几分钟内收到一封包含重置密码说明的电子邮件。"
+      send_paranoid_instructions: "如果您的电子邮箱地址在我们的数据库中，您将在几分钟内收到一个重置密码的链接。"
+      updated: "您的密码已成功更改。您现在已登录。"
+      updated_not_active: "您的密码已成功更改。"
+    registrations:
+      destroyed: "再见！您的账户已成功删除。我们希望很快能再次见到您。"
+      signed_up: "欢迎！您已成功注册。"
+      signed_up_but_inactive: "您已成功注册。但是，我们无法让您登录，因为您的账户尚未激活。"
+      signed_up_but_locked: "您已成功注册。但是，我们无法让您登录，因为您的账户已被锁定。"
+      signed_up_but_unconfirmed: "已向您的电子邮箱地址发送一封包含确认链接的邮件。请点击链接以激活您的账户。"
+      update_needs_confirmation: "您已成功更新您的账户，但我们需要确认您的新电子邮箱地址。请检查您的电子邮件并点击确认链接以确认您的新电子邮箱地址。"
+      updated: "您的账户已成功更新。"
+      updated_but_not_signed_in: "您的账户已成功更新，但由于您的密码已更改，您需要重新登录。"
+    sessions:
+      signed_in: "登录成功。"
+      signed_out: "退出成功。"
+      already_signed_out: "已退出。"
+    unlocks:
+      send_instructions: "您将在几分钟内收到一封包含解锁账户说明的电子邮件。"
+      send_paranoid_instructions: "如果您的账户存在，您将在几分钟内收到一封包含解锁说明的电子邮件。"
+      unlocked: "您的账户已成功解锁。请登录以继续。"
+  errors:
+    messages:
+      already_confirmed: "已被确认，请登录"
+      confirmation_period_expired: "需要在%{period}内确认，请重新申请"
+      expired: "已过期，请重新申请"
+      not_found: "未找到"
+      not_locked: "未被锁定"
+      not_saved:
+        one: "保存%{resource}时出现1个错误："
+        other: "保存%{resource}时出现%{count}个错误：" 

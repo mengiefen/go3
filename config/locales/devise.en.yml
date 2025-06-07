@@ -18,7 +18,13 @@ en:
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "Confirm your email address"
+        welcome: "Welcome to GO3!"
+        hello: "Hello %{email}!"
+        confirm_link: "Thank you for signing up! To complete your registration and access your account, please confirm your email address by clicking the button below."
+        confirm_button: "Confirm my email address"
+        expiry_notice: "This confirmation link will expire in 24 hours. If you did not create an account, please ignore this email."
+        ignore_notice: "If you did not request this email, please ignore it. Your account will not be created until you confirm your email address."
       reset_password_instructions:
         subject: "Reset password instructions"
       unlock_instructions:

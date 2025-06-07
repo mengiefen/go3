@@ -1,0 +1,57 @@
+es:
+  sign_up:
+    title: "Crear una cuenta"
+    first_name: "Nombre"
+    last_name: "Apellido"
+    email: "Correo electrónico"
+    language: "Idioma"
+    password: "Contraseña"
+    password_confirmation: "Confirmar contraseña"
+    submit: "Registrarse"
+    or_continue_with: "O continuar con"
+    already_have_account: "¿Ya tienes una cuenta?"
+    sign_in: "Iniciar sesión"
+    minimum_password_length: "6 caracteres mínimo"
+
+  email_confirmation:
+    title: "Gracias por registrarte"
+    message: "Gracias por crear una cuenta con nosotros. ¡Nos alegra tenerte a bordo! Para comenzar, por favor confirma tu dirección de correo electrónico haciendo clic en el enlace que te hemos enviado a %{email}. Si no ves el correo electrónico, haz clic en el botón de abajo para reenviar el correo de confirmación."
+    message_html: "Gracias por crear una cuenta con nosotros. ¡Nos alegra tenerte a bordo! Para comenzar, por favor confirma tu dirección de correo electrónico haciendo clic en el enlace que te hemos enviado a %{email}. Si no ves el correo electrónico, haz clic en el botón de abajo para reenviar el correo de confirmación."
+    resend_button: "Reenviar correo de confirmación"
+    sign_up_again: "Registrarse con otro correo"
+    check_spam: "Revisar carpeta de spam"
+    confirmation_sent: "Se ha enviado el correo de confirmación"
+    resend_success: "Se ha reenviado el correo de confirmación"
+    resend_error: "No se pudo reenviar el correo de confirmación"
+
+  devise:
+    confirmations:
+      confirmed: "Tu dirección de correo electrónico ha sido confirmada con éxito."
+      send_instructions: "Recibirás un correo electrónico con instrucciones para confirmar tu dirección de correo electrónico en unos minutos."
+      send_paranoid_instructions: "Si tu dirección de correo electrónico existe en nuestra base de datos, recibirás un correo electrónico con instrucciones para confirmar tu dirección de correo electrónico en unos minutos."
+    registrations:
+      signed_up: "¡Bienvenido! Te has registrado con éxito."
+      signed_up_but_unconfirmed: "Se ha enviado un mensaje con un enlace de confirmación a tu dirección de correo electrónico. Por favor, sigue el enlace para activar tu cuenta."
+      signed_up_but_locked: "Te has registrado con éxito. Sin embargo, no pudimos iniciar tu sesión porque tu cuenta está bloqueada."
+      signed_up_but_inactive: "Te has registrado con éxito. Sin embargo, no pudimos iniciar tu sesión porque tu cuenta aún no está activada."
+      update_needs_confirmation: "Has actualizado tu cuenta con éxito, pero necesitamos verificar tu nueva dirección de correo electrónico. Por favor, revisa tu correo electrónico y sigue el enlace de confirmación para confirmar tu nueva dirección de correo electrónico."
+      updated: "Tu cuenta ha sido actualizada con éxito."
+      updated_but_not_signed_in: "Tu cuenta ha sido actualizada con éxito, pero como tu contraseña fue cambiada, necesitas iniciar sesión nuevamente."
+      destroyed: "¡Adiós! Tu cuenta ha sido cancelada con éxito. Esperamos verte pronto."
+
+  flash:
+    actions:
+      create:
+        success: "Creado con éxito"
+        error: "Error al crear"
+      update:
+        success: "Actualizado con éxito"
+        error: "Error al actualizar"
+      destroy:
+        success: "Eliminado con éxito"
+        error: "Error al eliminar"
+    errors:
+      not_authorized: "No estás autorizado para realizar esta acción"
+      not_found: "Recurso no encontrado"
+      invalid: "Datos inválidos"
+      server_error: "Error del servidor" 

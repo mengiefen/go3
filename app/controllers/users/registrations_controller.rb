@@ -5,9 +5,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    super
+  end
 
   # POST /resource
   def create
@@ -16,13 +16,62 @@ class Users::RegistrationsController < Devise::RegistrationsController
       params[:user][:timezone] = "UTC" # Default to UTC if no timezone detected
     end
     
-    super
+    build_resource(sign_up_params)
+    resource.save
+    
+    if resource.persisted?
+      # Store the user's language preference
+      resource.update(language: params[:user][:language]) if params[:user][:language].present?
+      
+      # Store email and language in session for confirmation pending page
+      session[:user_email] = resource.email
+      session[:user_language] = resource.language
+      
+      # Clear any existing flash messages
+      flash.clear
+      
+      # Redirect to confirmation pending page
+      redirect_to confirmation_pending_path
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
+
+  # GET /confirmation_pending
+  def confirmation_pending
+    # Get email and language from session or params
+    @email = session[:user_email] || params[:email]
+    @language = session[:user_language] || params[:language] || I18n.default_locale
+    
+    # Set the locale for this request
+    I18n.locale = @language.to_sym
+  end
+
+  # POST /resend_confirmation
+  def resend_confirmation
+    @email = params[:user][:email]
+    @language = session[:user_language] || I18n.default_locale
+    
+    # Set the locale for this request
+    I18n.locale = @language.to_sym
+    
+    # Find the user and resend confirmation
+    if user = User.find_by(email: @email)
+      user.send_confirmation_instructions
+      flash[:notice] = t('email_confirmation.resend_success')
+    else
+      flash[:alert] = t('email_confirmation.resend_error')
+    end
+    
+    redirect_to confirmation_pending_path
   end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    super
+  end
 
   # PUT /resource
   # This is specifically modified to handle social users who want to set a password
@@ -50,18 +99,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+  def destroy
+    super
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
   # in to be expired now. This is useful if the user wants to
   # cancel oauth signing in/up in the middle of the process,
   # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
+  def cancel
+    super
+  end
 
   protected
 
@@ -74,7 +123,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :timezone])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :timezone, :language])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -92,13 +141,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params.require(:user).permit(:first_name, :last_name, :avatar, :email, :password, :password_confirmation)
   end
 
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_sign_up_path_for(resource)
+    # Redirect to confirmation pending page
+    confirmation_pending_path
+  end
 
-  # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_inactive_sign_up_path_for(resource)
+    # Redirect to confirmation pending page
+    confirmation_pending_path
+  end
 end

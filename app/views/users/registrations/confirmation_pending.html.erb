@@ -1,0 +1,41 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900" data-i18n="email_confirmation.title">
+      <%= t('email_confirmation.title') %>
+    </h2>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <% if flash[:notice] %>
+        <div class="mb-4 p-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+
+      <% if flash[:alert] %>
+        <div class="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+
+      <div class="space-y-6">
+        <div class="text-center text-gray-600" data-i18n="email_confirmation.message">
+          <%= t('email_confirmation.message_html', email: content_tag(:strong, @email)) %>
+        </div>
+
+        <div class="flex flex-col space-y-4">
+          <%= button_to t('email_confirmation.resend_button'),
+                      resend_confirmation_path,
+                      method: :post,
+                      params: { user: { email: @email } },
+                      class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+
+          <%= link_to t('email_confirmation.sign_up_again'),
+                      new_user_registration_path,
+                      class: "w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

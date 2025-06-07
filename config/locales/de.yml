@@ -1,0 +1,57 @@
+de:
+  sign_up:
+    title: "Konto erstellen"
+    first_name: "Vorname"
+    last_name: "Nachname"
+    email: "E-Mail-Adresse"
+    language: "Sprache"
+    password: "Passwort"
+    password_confirmation: "Passwort bestätigen"
+    submit: "Registrieren"
+    or_continue_with: "Oder fortfahren mit"
+    already_have_account: "Haben Sie bereits ein Konto?"
+    sign_in: "Anmelden"
+    minimum_password_length: "6 Zeichen mindestens"
+
+  email_confirmation:
+    title: "Vielen Dank für Ihre Registrierung"
+    message: "Vielen Dank, dass Sie ein Konto bei uns erstellt haben. Wir freuen uns, Sie an Bord zu haben! Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf den Link klicken, den wir an %{email} gesendet haben. Wenn Sie die E-Mail nicht sehen, klicken Sie bitte auf die Schaltfläche unten, um die Bestätigungs-E-Mail erneut zu senden."
+    message_html: "Vielen Dank, dass Sie ein Konto bei uns erstellt haben. Wir freuen uns, Sie an Bord zu haben! Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf den Link klicken, den wir an %{email} gesendet haben. Wenn Sie die E-Mail nicht sehen, klicken Sie bitte auf die Schaltfläche unten, um die Bestätigungs-E-Mail erneut zu senden."
+    resend_button: "Bestätigungs-E-Mail erneut senden"
+    sign_up_again: "Mit anderer E-Mail registrieren"
+    check_spam: "Spam-Ordner überprüfen"
+    confirmation_sent: "Bestätigungs-E-Mail wurde gesendet"
+    resend_success: "Bestätigungs-E-Mail wurde erneut gesendet"
+    resend_error: "Bestätigungs-E-Mail konnte nicht erneut gesendet werden"
+
+  devise:
+    confirmations:
+      confirmed: "Ihre E-Mail-Adresse wurde erfolgreich bestätigt."
+      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse."
+      send_paranoid_instructions: "Wenn Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse."
+    registrations:
+      signed_up: "Willkommen! Sie haben sich erfolgreich registriert."
+      signed_up_but_unconfirmed: "Eine Nachricht mit einem Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet. Bitte folgen Sie dem Link, um Ihr Konto zu aktivieren."
+      signed_up_but_locked: "Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto gesperrt ist."
+      signed_up_but_inactive: "Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto noch nicht aktiviert ist."
+      update_needs_confirmation: "Sie haben Ihr Konto erfolgreich aktualisiert, aber wir müssen Ihre neue E-Mail-Adresse überprüfen. Bitte überprüfen Sie Ihre E-Mails und folgen Sie dem Bestätigungslink, um Ihre neue E-Mail-Adresse zu bestätigen."
+      updated: "Ihr Konto wurde erfolgreich aktualisiert."
+      updated_but_not_signed_in: "Ihr Konto wurde erfolgreich aktualisiert, aber da Ihr Passwort geändert wurde, müssen Sie sich erneut anmelden."
+      destroyed: "Auf Wiedersehen! Ihr Konto wurde erfolgreich gekündigt. Wir hoffen, Sie bald wiederzusehen."
+
+  flash:
+    actions:
+      create:
+        success: "Erfolgreich erstellt"
+        error: "Fehler beim Erstellen"
+      update:
+        success: "Erfolgreich aktualisiert"
+        error: "Fehler beim Aktualisieren"
+      destroy:
+        success: "Erfolgreich gelöscht"
+        error: "Fehler beim Löschen"
+    errors:
+      not_authorized: "Sie sind nicht berechtigt, diese Aktion auszuführen"
+      not_found: "Ressource nicht gefunden"
+      invalid: "Ungültige Daten"
+      server_error: "Serverfehler aufgetreten" 

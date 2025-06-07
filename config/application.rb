@@ -25,6 +25,12 @@ module Go3
     config.active_storage.variant_processor = :vips
     config.active_storage.web_image_content_types = %w[image/png image/jpeg image/gif image/webp]
 
+    # Configure available locales
+    config.i18n.available_locales = [:en, :fr, :es, :de, :zh, :ja, :ar, :fa, :ur]
+    config.i18n.default_locale = :en
+    config.i18n.fallbacks = true
+    config.i18n.fallbacks = [I18n.default_locale]
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
