@@ -1,0 +1,37 @@
+<li class="relative" data-tree-view-target="node" data-id="<%= @id %>">
+  <div class="flex items-center">
+    <% if nodes.any? %>
+      <button type="button"
+              class="mr-1 h-5 w-5 flex items-center justify-center text-gray-400 hover:text-gray-500"
+              data-tree-view-target="toggle"
+              data-action="click->tree-view#toggleNode">
+        <% if @expanded %>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        <% else %>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        <% end %>
+      </button>
+    <% else %>
+      <div class="mr-1 w-5"></div>
+    <% end %>
+    <span class="flex-1 truncate"><%= @label %></span>
+    <% if actions? %>
+      <div class="ml-4">
+        <%= actions %>
+      </div>
+    <% end %>
+  </div>
+  <% if nodes.any? %>
+    <ul class="ml-6 mt-1 <%= 'hidden' unless @expanded %>"
+        data-tree-view-target="children">
+      <% nodes.each do |node| %>
+        <%= node %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>
+ 

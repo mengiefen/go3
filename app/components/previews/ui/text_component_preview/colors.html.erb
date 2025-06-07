@@ -1,0 +1,62 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/text_component_preview/colors.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Text Colors</h2>
+  
+  <div class="space-y-4">
+    <div>
+      <p class="text-sm font-medium mb-1">Default</p>
+      <%= render(Ui::TextComponent.new(color: :default)) do %>
+        This is text with the default color, generally dark gray or black.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Muted</p>
+      <%= render(Ui::TextComponent.new(color: :muted)) do %>
+        This is muted text, useful for less important content.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Light</p>
+      <%= render(Ui::TextComponent.new(color: :light)) do %>
+        This is light text, which has reduced contrast.
+      <% end %>
+    </div>
+    
+    <div class="bg-gray-800 p-3 rounded">
+      <p class="text-sm font-medium text-white mb-1">White</p>
+      <%= render(Ui::TextComponent.new(color: :white)) do %>
+        This is white text, best used on dark backgrounds.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Primary</p>
+      <%= render(Ui::TextComponent.new(color: :primary)) do %>
+        This is text in the primary brand color, typically blue.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Success</p>
+      <%= render(Ui::TextComponent.new(color: :success)) do %>
+        This is success text, typically green to indicate positive outcomes.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Warning</p>
+      <%= render(Ui::TextComponent.new(color: :warning)) do %>
+        This is warning text, typically yellow to indicate caution.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Danger</p>
+      <%= render(Ui::TextComponent.new(color: :danger)) do %>
+        This is danger text, typically red to indicate errors or problems.
+      <% end %>
+    </div>
+  </div>
+</div>

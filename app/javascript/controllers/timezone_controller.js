@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { DateTime } from "luxon"
-import { clientTimeZone } from "./timezones"
+import { clientTimeZone } from "./timezones.js"
 
 // Connects to data-controller="timezone"
 export default class extends Controller {

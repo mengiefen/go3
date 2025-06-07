@@ -1,0 +1,23 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/ui/tabs_component.html.erb %>
+<div 
+  id="<%= id %>" 
+  class="tabs-container"
+  data-controller="tabs"
+  data-tabs-active-tab-value="<%= active_tab %>"
+>
+  <!-- Tab triggers list -->
+  <div class="border-b border-gray-200">
+    <div 
+      class="flex overflow-x-auto" 
+      role="tablist"
+      aria-label="<%= id %>-tabs"
+    >
+      <%= tab_triggers %>
+    </div>
+  </div>
+  
+  <!-- Tab content panels -->
+  <div class="tab-panels">
+    <%= tab_contents %>
+  </div>
+</div>

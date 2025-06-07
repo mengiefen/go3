@@ -1,0 +1,40 @@
+/* Component specific styles */
+
+/* Page Layout Component */
+.panel-collapsed .fa-chevron-left,
+.panel-collapsed .fa-chevron-right {
+  margin: 0 auto;
+}
+
+/* Font Awesome icon in collapsed state needs to be centered */
+.panel-collapsed button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Icons in collapsed panel */
+.panel-collapsed i.fas:not(.fa-chevron-left):not(.fa-chevron-right) {
+  margin: 0 auto;
+  font-size: 1.25rem;
+}
+
+/* RTL support */
+.rtl .fa-chevron-left::before {
+  content: "\f054"; /* fa-chevron-right */
+}
+
+.rtl .fa-chevron-right::before {
+  content: "\f053"; /* fa-chevron-left */
+}
+
+/* Fix for RTL spacing */
+.rtl .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+.rtl .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+} 

@@ -1,0 +1,24 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/avatar_component_preview/shapes.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Avatar Shapes</h2>
+  
+  <div class="flex flex-wrap gap-8">
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Circle (Default)</p>
+      <%= render(Ui::AvatarComponent.new(
+        shape: :circle,
+        src: "https://i.pravatar.cc/300",
+        size: :lg
+      )) %>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <p class="text-sm font-medium mb-2">Square</p>
+      <%= render(Ui::AvatarComponent.new(
+        shape: :square,
+        src: "https://i.pravatar.cc/300",
+        size: :lg
+      )) %>
+    </div>
+  </div>
+</div>

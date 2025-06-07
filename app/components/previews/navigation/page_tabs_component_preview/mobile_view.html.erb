@@ -1,0 +1,85 @@
+<div class="preview-container" style="width: 100%;">
+  <h2 class="text-lg font-semibold mb-4">Mobile View Adaptation</h2>
+  <p class="mb-4 text-gray-700">On mobile devices, the tabbed navigation is automatically disabled and replaced with a standard single-page view to optimize for smaller screens.</p>
+  
+  <div class="flex flex-wrap gap-8">
+    <div class="w-full md:w-[375px] border border-gray-300 rounded-md overflow-hidden">
+      <div class="bg-gray-200 p-2 text-center text-sm font-medium">
+        Mobile View (Width: 375px)
+      </div>
+      <div style="height: 600px; overflow: hidden; resize: horizontal;">
+        <div style="width: 375px; height: 100%;" class="border-t border-gray-300">
+          <!-- Mobile header -->
+          <div class="flex items-center justify-between bg-white px-4 py-2 shadow">
+            <div class="font-semibold">Sample Organization</div>
+            <button class="p-2 rounded-full hover:bg-gray-100">
+              <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Mobile content -->
+          <div class="p-4 bg-gray-50 h-full">
+            <h1 class="text-xl font-semibold mb-4">Sample Organization</h1>
+            <p class="text-gray-600 mb-4">
+              This is the content of the page. On mobile devices, the tabbed navigation is replaced with a traditional single-page view for better usability on smaller screens.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-white p-4 rounded-md shadow">
+                <h2 class="font-medium mb-2">Organization Details</h2>
+                <p class="text-sm text-gray-600">Content goes here...</p>
+              </div>
+              <div class="bg-white p-4 rounded-md shadow">
+                <h2 class="font-medium mb-2">Members</h2>
+                <p class="text-sm text-gray-600">Content goes here...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="w-full md:w-[768px] border border-gray-300 rounded-md overflow-hidden">
+      <div class="bg-gray-200 p-2 text-center text-sm font-medium">
+        Desktop View (Width: 768px+)
+      </div>
+      <div style="height: 600px; overflow: hidden;">
+        <div style="width: 100%; height: 100%;" class="border-t border-gray-300">
+          <!-- Desktop view with tabs -->
+          <%= render Navigation::PageTabsComponent.new(current_path: "/organizations/1") do |c| %>
+            <%= c.with_tab(title: "Dashboard", path: "/dashboard", active: false) %>
+            <%= c.with_tab(title: "Organizations", path: "/organizations", active: false) %>
+            <%= c.with_tab(title: "Sample Organization", path: "/organizations/1", active: true) %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-6 p-4 rounded-lg border border-blue-200 bg-blue-50">
+  <div class="flex items-start">
+    <div class="flex-shrink-0">
+      <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div class="ml-3">
+      <h3 class="text-sm font-medium text-blue-800">Responsive Implementation</h3>
+      <p class="mt-2 text-sm text-blue-700">
+        The mobile adaptation is implemented using CSS media queries that hide the tabs component on screens smaller than 768px wide. Instead, a simple page title is shown, and the content is displayed directly.
+      </p>
+      <pre class="mt-2 text-xs p-2 bg-blue-100 rounded overflow-x-auto">
+@media (max-width: 768px) {
+  .page-tabs-header {
+    display: none;
+  }
+  
+  .single-page-title {
+    display: flex;
+  }
+}</pre>
+    </div>
+  </div>
+</div> 

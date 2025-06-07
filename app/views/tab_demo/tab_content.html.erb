@@ -1,0 +1,28 @@
+<turbo-frame id="<%= frame_id %>">
+  <div class="w-full h-full bg-white">
+    <div class="h-full overflow-y-auto">
+      <div class="p-6">
+        <% case content_type %>
+        <% when 'organization' %>
+          <%= render 'organization_content', organization_id: content_id, name: content_name %>
+        <% when 'user', 'admin' %>
+          <%= render 'user_content', user_id: content_id, name: content_name, user_type: content_type %>
+        <% when 'department' %>
+          <%= render 'department_content', department_id: content_id, name: content_name %>
+        <% when 'campaign' %>
+          <%= render 'campaign_content', campaign_id: content_id, name: content_name %>
+        <% when 'report' %>
+          <%= render 'report_content', report_id: content_id, name: content_name %>
+        <% when 'dashboard' %>
+          <%= render 'dashboard_content', dashboard_id: content_id, name: content_name %>
+        <% when 'settings' %>
+          <%= render 'settings_content', settings_id: content_id, name: content_name %>
+        <% when 'security' %>
+          <%= render 'security_content', security_id: content_id, name: content_name %>
+        <% else %>
+          <%= render 'default_content', content_type: content_type, content_id: content_id, name: content_name %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

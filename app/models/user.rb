@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many :members, dependent: :nullify
   has_many :organizations, through: :members
+  has_many :tasks, dependent: :destroy
          
   # Validations
   validates :email, presence: true, uniqueness: true

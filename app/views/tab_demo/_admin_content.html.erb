@@ -1,0 +1,159 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Admin Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-6">
+    <div class="flex items-start justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900 mb-2"><%= name %></h1>
+        <div class="flex items-center space-x-4 text-sm text-slate-600">
+          <div class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+            Administrator
+          </div>
+          <span>•</span>
+          <div>ID: <%= admin_id %></div>
+        </div>
+      </div>
+      <span class="px-3 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">Admin Access</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Admin Stats -->
+    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-4">Admin Statistics</h2>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">Organizations Managed</span>
+          <span class="text-lg font-semibold text-slate-900">12</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">Total Users</span>
+          <span class="text-lg font-semibold text-slate-900">483</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">Active Sessions</span>
+          <span class="text-lg font-semibold text-slate-900">127</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">System Uptime</span>
+          <span class="text-lg font-semibold text-green-600">99.9%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Info -->
+    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-4">Administrator Details</h2>
+      <div class="flex items-center mb-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center text-white text-xl font-bold mr-4">
+          AD
+        </div>
+        <div>
+          <h3 class="font-semibold text-slate-900"><%= name %></h3>
+          <p class="text-sm text-slate-600">System Administrator</p>
+          <p class="text-sm text-slate-500 mt-1">admin@system.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-t border-slate-200">
+        <p class="text-xs text-slate-600">Last login: 2 hours ago</p>
+        <p class="text-xs text-slate-600">Admin since: January 1, 2024</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Permissions -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mt-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-4">Administrative Permissions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="space-y-2">
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">User Management</span>
+        </label>
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">Organization Management</span>
+        </label>
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">System Configuration</span>
+        </label>
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">Security Settings</span>
+        </label>
+      </div>
+      <div class="space-y-2">
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">Audit Log Access</span>
+        </label>
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">Database Management</span>
+        </label>
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">API Configuration</span>
+        </label>
+        <label class="flex items-center">
+          <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-sm text-slate-700">Billing Management</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Admin Actions -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mt-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-4">Recent Administrative Actions</h2>
+    <div class="space-y-3">
+      <div class="flex items-start space-x-3">
+        <div class="w-2 h-2 bg-blue-400 rounded-full mt-2"></div>
+        <div class="flex-1">
+          <p class="text-sm text-slate-900">Created new organization "Tech Innovations Inc."</p>
+          <p class="text-xs text-slate-500">10 minutes ago</p>
+        </div>
+      </div>
+      <div class="flex items-start space-x-3">
+        <div class="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
+        <div class="flex-1">
+          <p class="text-sm text-slate-900">Updated system security settings</p>
+          <p class="text-xs text-slate-500">1 hour ago</p>
+        </div>
+      </div>
+      <div class="flex items-start space-x-3">
+        <div class="w-2 h-2 bg-purple-400 rounded-full mt-2"></div>
+        <div class="flex-1">
+          <p class="text-sm text-slate-900">Granted admin access to user@example.com</p>
+          <p class="text-xs text-slate-500">3 hours ago</p>
+        </div>
+      </div>
+      <div class="flex items-start space-x-3">
+        <div class="w-2 h-2 bg-orange-400 rounded-full mt-2"></div>
+        <div class="flex-1">
+          <p class="text-sm text-slate-900">Performed system backup</p>
+          <p class="text-xs text-slate-500">Yesterday at 3:00 AM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

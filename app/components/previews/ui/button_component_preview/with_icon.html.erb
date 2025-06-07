@@ -1,0 +1,32 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/button_component_preview/with_icon.html.erb %>
+<div class="space-y-4">
+  <div>
+    <h3 class="text-lg font-medium mb-2">Icon on Left (default)</h3>
+    <div>
+      <%= render(Ui::ButtonComponent.new(icon: "arrow-right")) { "Button with Left Icon" } %>
+    </div>
+  </div>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Icon on Right</h3>
+    <div>
+      <%= render(Ui::ButtonComponent.new(icon: "arrow-right", icon_position: :right)) { "Button with Right Icon" } %>
+    </div>
+  </div>
+  
+  <div>
+    <h3 class="text-lg font-medium mb-2">Icon with Loading State</h3>
+    <div>
+      <%= render(Ui::ButtonComponent.new(icon: "arrow-right", loading: true)) { "Loading Button with Icon" } %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-medium mb-2">Icon in Different Sizes</h3>
+    <div class="flex space-x-2 items-center">
+      <%= render(Ui::ButtonComponent.new(icon: "arrow-right", size: :sm)) { "Small" } %>
+      <%= render(Ui::ButtonComponent.new(icon: "arrow-right", size: :md)) { "Medium" } %>
+      <%= render(Ui::ButtonComponent.new(icon: "arrow-right", size: :lg)) { "Large" } %>
+    </div>
+  </div>
+</div>

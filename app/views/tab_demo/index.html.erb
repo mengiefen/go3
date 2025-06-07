@@ -1,0 +1,78 @@
+<div class="h-screen flex bg-slate-50" data-controller="vscode-tabs">
+  <!-- Primary Icon Sidebar -->
+  <%= render(IconSidebarComponent.new) %>
+  
+  <!-- Secondary Sidebar -->
+  <%= turbo_frame_tag "secondary-sidebar" do %>
+    <%= render(SecondarySidebarComponent.new(sidebar_type: 'organizations')) %>
+  <% end %>
+  
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col bg-white shadow-xl">
+    <!-- Tab Bar -->
+    <div class="relative h-14 bg-slate-50 tab-bar-container overflow-hidden">
+      <div class="flex items-center h-full w-full">
+        <div class="flex-1 min-w-0 overflow-hidden">
+          <div class="flex items-center overflow-x-auto tab-bar-scroll scrollbar-hide h-full" data-vscode-tabs-target="tabBar">
+            <!-- Tabs will be added here dynamically -->
+            <div class="flex items-center h-full px-4 text-slate-500 text-sm font-medium whitespace-nowrap" data-vscode-tabs-target="noTabsIndicator">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              No tabs open
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tab Actions -->
+        <div class="flex items-center px-3 space-x-2 bg-slate-50 flex-shrink-0" data-vscode-tabs-target="tabActions" style="display: none;">
+          <div class="w-px h-6 bg-slate-300 mr-2"></div>
+          <button class="p-1.5 rounded hover:bg-slate-300 transition-colors group" 
+                  data-action="click->vscode-tabs#closeAllTabs"
+                  title="Close All Tabs">
+            <svg class="w-4 h-4 text-slate-600 group-hover:text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Content Areas Container -->
+    <div class="flex-1 overflow-auto relative" 
+         id="tab-content-areas"
+         data-vscode-tabs-target="contentAreas">
+      
+      <!-- Welcome message when no tabs are open -->
+      <div id="welcome-message" class="absolute inset-0 flex items-center justify-center">
+        <div class="text-center max-w-md">
+          <div class="mx-auto w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-6 shadow-lg">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+          </div>
+          <h2 class="text-3xl font-bold text-slate-800 mb-4">Welcome to Tab Demo</h2>
+          <p class="text-slate-600 text-lg leading-relaxed">
+            Select an item from the sidebar to open a new tab and start exploring your workspace.
+          </p>
+          <div class="mt-6 flex items-center justify-center space-x-4 text-sm text-slate-500">
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+              Click sidebar icons
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+              Select items
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+              Open tabs
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Individual tab content containers will be dynamically added here -->
+    </div>
+  </div>
+</div>
