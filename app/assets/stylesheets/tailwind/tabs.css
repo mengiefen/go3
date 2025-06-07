@@ -1,0 +1,255 @@
+/* Tab system styles with smart text hiding */
+
+/* Tab bar layout */
+[data-vscode-tabs-target="tabBar"] {
+  display: flex !important;
+  align-items: stretch !important;
+  height: 100% !important;
+  min-width: 0; /* Important for flexbox shrinking */
+  gap: 0; /* No gap for seamless tabs */
+}
+
+/* Tab item base styles with dynamic sizing */
+.tab-item {
+  @apply transition-all duration-200 ease-in-out relative cursor-pointer;
+  flex: 1 1 auto; /* Allow flexible sizing */
+  min-width: 50px; /* Minimum for icon-only mode */
+  max-width: 240px; /* Maximum tab width */
+  height: 100%;
+  display: flex !important;
+  flex-direction: row !important; /* Force horizontal layout */
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 20px !important;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Add separator between tabs using a span element */
+.tab-item:not(:last-child) .tab-separator {
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background-color: #e2e8f0;
+  transition: opacity 0.2s ease;
+}
+
+/* Hide separator when tab is active or next tab is active */
+.tab-item.active .tab-separator,
+.tab-item:has(+ .tab-item.active) .tab-separator {
+  opacity: 0;
+}
+
+/* Tab content wrapper - ensure horizontal layout */
+.tab-content-wrapper {
+  display: flex !important;
+  flex-direction: row !important; /* Force horizontal layout */
+  align-items: center !important;
+  min-width: 0; /* Allow content to shrink */
+  flex: 1;
+  gap: 10px; /* Space between icon and text */
+  height: 100%;
+  padding: 8px 0; /* Vertical padding for better height */
+  position: relative;
+}
+
+/* Icon styles */
+.tab-icon {
+  @apply flex-shrink-0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 20px;
+  height: 20px;
+}
+
+/* Text styles with dynamic visibility */
+.tab-text {
+  @apply text-sm;
+  min-width: 0; /* Allow text to shrink */
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: opacity 0.15s ease-in-out, width 0.15s ease-in-out;
+  line-height: 1.5;
+}
+
+/* Hide text when tab is too small */
+.tab-item:has(.tab-text:where([data-text-hidden="true"])) .tab-text {
+  opacity: 0;
+  width: 0;
+  margin: 0;
+}
+
+/* Adjust icon margin when text is hidden */
+.tab-item:has(.tab-text:where([data-text-hidden="true"])) .tab-icon {
+  margin-right: 0;
+}
+
+/* Close button styles */
+.tab-close {
+  @apply flex-shrink-0 rounded-md opacity-0;
+  @apply transition-all duration-150 ease-in-out;
+  margin-left: 12px;
+  padding: 4px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.tab-close:hover {
+  @apply bg-slate-200 dark:bg-slate-600;
+}
+
+/* Show close button on tab hover */
+.tab-item:hover .tab-close {
+  @apply opacity-100;
+}
+
+/* Hide close button when tab is very small */
+.tab-item:has(.tab-text:where([data-text-hidden="true"])) .tab-close {
+  margin-left: 6px;
+  padding: 2px;
+}
+
+/* Active tab styles with curved bottom corners */
+.tab-item.active {
+  @apply bg-white relative;
+  z-index: 10;
+  border-bottom: 3px solid transparent;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: -2px;
+}
+
+/* Blue accent line at the bottom of active tab */
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  background-color: #3b82f6;
+  border-radius: 3px 3px 0 0;
+}
+
+.tab-item.active .tab-icon svg {
+  @apply text-blue-600;
+}
+
+.tab-item.active .tab-text {
+  @apply text-slate-900 font-medium;
+}
+
+/* Non-active tab styles */
+.tab-item:not(.active) {
+  @apply bg-slate-100;
+}
+
+.tab-item:not(.active):hover {
+  @apply bg-slate-50;
+}
+
+.tab-item:not(.active) .tab-text {
+  @apply text-slate-700;
+}
+
+.tab-item:not(.active) .tab-icon svg {
+  @apply text-slate-500;
+}
+
+/* Container queries for responsive tab sizing */
+@container (max-width: 600px) {
+  .tab-item {
+    min-width: 40px;
+  }
+}
+
+/* Force horizontal scrolling when needed */
+.tab-bar-scroll {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+}
+
+/* Ensure proper width calculation for tabs */
+.tab-item[data-text-hidden="true"] {
+  max-width: 60px !important;
+}
+
+/* Animation for tab appearance */
+@keyframes tabSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tab-item {
+  animation: tabSlideIn 0.15s ease-out;
+}
+
+/* Smooth transitions for all tab interactions */
+.tab-item * {
+  transition-property: color, background-color, border-color, opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Focus styles for accessibility */
+.tab-item:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-1;
+}
+
+/* Hover effect for better interactivity */
+.tab-item:hover .tab-icon svg {
+  @apply text-slate-700;
+}
+
+.tab-item.active:hover .tab-icon svg {
+  @apply text-blue-700;
+}
+
+/* Tab bar container with container query support */
+.tab-bar-container {
+  @apply relative overflow-hidden;
+  container-type: inline-size;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* Scrollbar styles */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* No tabs indicator */
+[data-vscode-tabs-target="noTabsIndicator"] {
+  @apply flex-shrink-0;
+}
+
+/* Tab actions */
+[data-vscode-tabs-target="tabActions"] {
+  @apply flex-shrink-0;
+}

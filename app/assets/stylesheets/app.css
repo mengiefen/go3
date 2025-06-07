@@ -4,6 +4,7 @@
 
 /* Import component-specific styles */
 @import "components";
+@import "tailwind/tabs";
 
 /* Global styles for Font Awesome integration */
 .sidebar-icon {
