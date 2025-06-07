@@ -21,18 +21,14 @@ class TabDemoController < ApplicationController
     @content_type = params[:content_type]
     @content_id = params[:content_id]
     @content_name = params[:content_name]
-    @tab_id = "tab-#{@content_type}-#{@content_id}"
+    @frame_id = params[:frame_id]
     
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.append("tab-content-area", 
-          render_to_string(TabContentComponent.new(
-            content_type: @content_type, 
-            content_id: @content_id,
-            content_name: @content_name
-          ))
-        )
-      end
-    end
+    # Force HTML format for turbo-frame requests
+    render 'tab_content', locals: {
+      content_type: @content_type,
+      content_id: @content_id,
+      content_name: @content_name,
+      frame_id: @frame_id
+    }, formats: [:html]
   end
 end

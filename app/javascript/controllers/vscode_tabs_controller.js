@@ -117,8 +117,17 @@ export default class extends Controller {
 
   // Load content for a restored tab
   loadRestoredTabContent(tabId) {
+    const contentContainer = document.getElementById(tabId);
+    if (!contentContainer) {
+      console.error('No content container found for tab:', tabId);
+      return;
+    }
+
+    console.log('Loading content for restored tab:', tabId);
+    let url;
+    
     if (tabId.startsWith('tab-tasks-')) {
-      // Parse task tab ID to get filter info
+      // Parse task category tab ID to get filter info
       const parts = tabId.split('-');
       if (parts.length >= 4) {
         const filterType = parts[2]; // e.g., 'category'
@@ -128,25 +137,55 @@ export default class extends Controller {
         const tabInfo = this.openTabs.get(tabId);
         const tabName = tabInfo ? tabInfo.name : `${filterType} ${filterValue}`;
 
-        const url = `/tasks/content/${filterType}/${filterValue}?content_name=${encodeURIComponent(tabName)}&frame_id=frame-${tabId}`;
-
-        // Create turbo frame for restored tab content
-        const contentContainer = document.getElementById(tabId);
-        if (contentContainer) {
-          const turboFrame = document.createElement('turbo-frame');
-          turboFrame.id = `frame-${tabId}`;
-          turboFrame.src = url;
-          turboFrame.dataset.turboFrameRequestsFormat = 'html';
-          contentContainer.appendChild(turboFrame);
-        }
+        url = `/tasks/content/${filterType}/${filterValue}?content_name=${encodeURIComponent(tabName)}&frame_id=frame-${tabId}`;
       }
+    } else if (tabId.startsWith('tab-task-edit-')) {
+      // Parse task edit tab ID to get task ID
+      const parts = tabId.split('-');
+      if (parts.length >= 4) {
+        const taskId = parts[3]; // Extract task ID
+        url = `/tasks/${taskId}/edit?frame_id=frame-${tabId}`;
+      }
+    } else if (tabId.startsWith('tab-task-')) {
+      // Parse individual task tab ID to get task ID
+      const parts = tabId.split('-');
+      if (parts.length >= 3) {
+        const taskId = parts[2]; // Extract task ID
+        url = `/tasks/${taskId}?frame_id=frame-${tabId}`;
+      }
+    } else {
+      // Handle all other tab types (organization, user, etc.)
+      const parts = tabId.split('-');
+      if (parts.length >= 4) {
+        const contentType = parts[1]; // e.g., 'organization', 'user'
+        // Remove 'tab', contentType, and timestamp to get the content ID
+        // For tab-organization-org-1-1234567890, we want 'org-1'
+        const contentId = parts.slice(2, -1).join('-'); // Remove last part (timestamp)
+        const tabInfo = this.openTabs.get(tabId);
+        const contentName = tabInfo ? tabInfo.name : contentType;
+        
+        // Always use tab-demo route for non-task tabs
+        url = `/tab-demo/content/${contentType}/${contentId}?content_name=${encodeURIComponent(contentName)}&frame_id=frame-${tabId}`;
+      }
+    }
+
+    // Create turbo frame for restored tab content
+    if (url) {
+      console.log('Creating turbo frame with URL:', url);
+      const turboFrame = document.createElement('turbo-frame');
+      turboFrame.id = `frame-${tabId}`;
+      turboFrame.src = url;
+      turboFrame.dataset.turboFrameRequestsFormat = 'html';
+      contentContainer.appendChild(turboFrame);
+    } else {
+      console.error('No URL generated for tab:', tabId);
     }
   }
 
   // Check if we can restore a tab based on its ID format
   canRestoreTab(tabId) {
-    // Only restore task tabs for now, as they don't require server-side content
-    return tabId.startsWith('tab-tasks-');
+    // Restore all tab types
+    return tabId.startsWith('tab-');
   }
 
   // Generate unique tab ID to support multiple instances

@@ -10,14 +10,28 @@
   <!-- Main Content Area -->
   <div class="flex-1 flex flex-col bg-white shadow-xl">
     <!-- Tab Bar -->
-    <div class="h-12 bg-gradient-to-r from-slate-100 to-slate-200 border-b border-slate-300 flex items-center overflow-x-auto shadow-sm" 
-         data-vscode-tabs-target="tabBar">
-      <!-- Tabs will be added here dynamically -->
-      <div class="flex items-center h-full px-4 text-slate-500 text-sm font-medium">
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-        </svg>
-        No tabs open
+    <div class="relative h-12 bg-gradient-to-r from-slate-100 to-slate-200 border-b border-slate-300 shadow-sm">
+      <div class="flex items-center h-full">
+        <div class="flex-1 flex items-center overflow-x-auto" data-vscode-tabs-target="tabBar">
+          <!-- Tabs will be added here dynamically -->
+          <div class="flex items-center h-full px-4 text-slate-500 text-sm font-medium" data-vscode-tabs-target="noTabsIndicator">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            No tabs open
+          </div>
+        </div>
+        
+        <!-- Tab Actions -->
+        <div class="flex items-center px-2 space-x-2" data-vscode-tabs-target="tabActions" style="display: none;">
+          <button class="p-1.5 rounded hover:bg-slate-300 transition-colors" 
+                  data-action="click->vscode-tabs#closeAllTabs"
+                  title="Close All Tabs">
+            <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     

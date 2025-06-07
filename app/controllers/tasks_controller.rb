@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :set_organization
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
     @tasks = current_tasks.includes(:user)
@@ -12,6 +12,20 @@ class TasksController < ApplicationController
   end
 
   def show
+    @frame_id = params[:frame_id]
+    
+    respond_to do |format|
+      format.html do
+        if @frame_id.present?
+          render 'show_tab', locals: {
+            task: @task,
+            frame_id: @frame_id
+          }, formats: [:html]
+        else
+          render :show
+        end
+      end
+    end
   end
 
   def new
@@ -36,6 +50,20 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @frame_id = params[:frame_id]
+    
+    respond_to do |format|
+      format.html do
+        if @frame_id.present?
+          render 'edit_tab', locals: {
+            task: @task,
+            frame_id: @frame_id
+          }, formats: [:html]
+        else
+          render :edit
+        end
+      end
+    end
   end
 
   def update
