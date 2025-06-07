@@ -313,6 +313,105 @@ Fired when the last tab is closed.
 }
 ```
 
+## Task Card Controller API
+
+### Targets
+
+The TaskCardController doesn't define any targets.
+
+### Values
+
+#### `id` (Number)
+The ID of the task associated with this card.
+
+#### `title` (String)
+The title of the task for display in the tab.
+
+### Actions
+
+#### `openTab(event)`
+
+Opens the task in a new tab when the card is clicked.
+
+**Parameters:**
+- `event` (Event): Click event on the task card
+
+**Returns:** `void`
+
+**Example:**
+```html
+<div data-controller="task-card"
+     data-action="click->task-card#openTab"
+     data-task-card-id-value="<%= task.id %>"
+     data-task-card-title-value="<%= task.title %>">
+```
+
+#### `openEditTab(event)`
+
+Opens the task edit form in a new tab.
+
+**Parameters:**
+- `event` (Event): Click event on the edit button
+
+**Returns:** `void`
+
+**Example:**
+```html
+<button data-action="click->task-card#openEditTab"
+        data-task-id="<%= task.id %>"
+        data-task-title="<%= task.title %>">
+  Edit
+</button>
+```
+
+#### `stopPropagation(event)`
+
+Prevents event bubbling for action buttons within the card.
+
+**Parameters:**
+- `event` (Event): Any event that should not bubble up
+
+**Returns:** `void`
+
+**Example:**
+```html
+<div data-action="click->task-card#stopPropagation">
+  <!-- Action buttons here -->
+</div>
+```
+
+## Enhanced VSCodeTabsController Methods
+
+### Additional Methods for Tab Restoration
+
+#### `canRestoreTab(tabId)`
+
+Determines if a tab can be restored based on its ID pattern.
+
+**Parameters:**
+- `tabId` (string): The tab ID to check
+
+**Returns:** `boolean` - true if the tab can be restored
+
+**Supported Tab Types:**
+- `tab-tasks-*` - Task category/filter tabs
+- `tab-task-*` - Individual task view tabs
+- `tab-task-edit-*` - Task edit form tabs
+
+#### `loadRestoredTabContent(tabId)`
+
+Loads content for a restored tab based on its ID pattern.
+
+**Parameters:**
+- `tabId` (string): The tab ID to restore
+
+**Returns:** `void`
+
+**Side Effects:**
+- Creates appropriate turbo-frame based on tab type
+- Sets correct URL based on parsed tab ID
+- Loads content asynchronously
+
 ### Usage Example
 
 ```javascript

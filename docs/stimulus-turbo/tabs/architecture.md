@@ -262,6 +262,68 @@ if (!targetElement) {
 - **In-Memory Map**: For runtime tab management
 - **URL Parameters**: For deep linking support
 
+## 🎯 Enhanced Architecture Features
+
+### Click-to-Open Task Cards
+
+The system now supports opening individual items (tasks) in tabs through click interactions:
+
+```javascript
+// Task Card Controller Architecture
+TaskCardController
+├── Values
+│   ├── id: Task identifier
+│   └── title: Display name
+├── Actions
+│   ├── openTab: Opens task in view mode
+│   ├── openEditTab: Opens task in edit mode
+│   └── stopPropagation: Prevents bubbling
+└── Integration
+    └── Communicates with VSCodeTabsController
+```
+
+### Tab Type Hierarchy
+
+```
+Tab Types
+├── Category Tabs (tab-tasks-*)
+│   ├── Filter by category
+│   ├── Filter by status
+│   └── Filter by priority
+├── Item Tabs (tab-task-*)
+│   └── Individual task view
+└── Edit Tabs (tab-task-edit-*)
+    └── Task edit forms
+```
+
+### Enhanced Tab Restoration
+
+The persistence layer now supports three distinct tab types:
+
+```javascript
+// Tab ID Pattern Recognition
+tabId.startsWith('tab-tasks-')     // Category/filter tabs
+tabId.startsWith('tab-task-')      // Individual item tabs
+tabId.startsWith('tab-task-edit-') // Edit form tabs
+
+// URL Generation Logic
+if (category) → /tasks/content/{type}/{value}
+if (item) → /tasks/{id}
+if (edit) → /tasks/{id}/edit
+```
+
+### Controller Communication Flow
+
+```
+User Click → TaskCardController → VSCodeTabsController
+                ↓                        ↓
+         Extract task data      Generate unique tab ID
+                ↓                        ↓
+         Create frame URL       Add tab to tab bar
+                ↓                        ↓
+         Load turbo frame      Manage tab state
+```
+
 ## 🚀 Extension Points
 
 ### Custom Tab Types
@@ -295,6 +357,18 @@ preprocessContent(content, contentType) {
       return content;
   }
 }
+```
+
+### Format Handling
+
+To prevent format errors with Turbo frames:
+
+```ruby
+# Controller action
+render 'view_name', formats: [:html]
+
+# JavaScript
+turboFrame.dataset.turboFrameRequestsFormat = 'html';
 ```
 
 ## 📈 Monitoring & Analytics

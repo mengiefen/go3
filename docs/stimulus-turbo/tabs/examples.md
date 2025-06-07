@@ -624,4 +624,274 @@ showTabContextMenu(event, tabId) {
 }
 ```
 
+## 🎯 Task Management with Click-to-Open Cards
+
+Example of task cards that open in new tabs when clicked, with edit functionality.
+
+### Task Card Controller
+
+```javascript
+// app/javascript/controllers/task_card_controller.js
+import { Controller } from '@hotwired/stimulus';
+
+export default class extends Controller {
+  static values = { id: Number, title: String };
+
+  openTab(event) {
+    // Prevent default link behavior
+    event.preventDefault();
+    
+    // Get VSCode tabs controller
+    const tabsController = this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller="vscode-tabs"]'),
+      'vscode-tabs'
+    );
+
+    if (!tabsController) return;
+
+    // Generate unique tab ID for this task
+    const tabId = tabsController.generateUniqueTabId('task', this.idValue);
+    
+    // Create the URL for loading task details
+    const url = `/tasks/${this.idValue}?frame_id=frame-${tabId}`;
+
+    // Add tab to tab bar
+    tabsController.addTab(tabId, this.titleValue || `Task #${this.idValue}`);
+
+    // Create and load content
+    setTimeout(() => {
+      const contentContainer = document.getElementById(tabId);
+      if (contentContainer) {
+        const turboFrame = document.createElement('turbo-frame');
+        turboFrame.id = `frame-${tabId}`;
+        turboFrame.src = url;
+        turboFrame.dataset.turboFrameRequestsFormat = 'html';
+        
+        turboFrame.addEventListener('turbo:frame-load', () => {
+          tabsController.setActiveTab(tabId);
+        });
+        
+        contentContainer.appendChild(turboFrame);
+      }
+    }, 10);
+  }
+
+  openEditTab(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const taskId = event.currentTarget.dataset.taskId;
+    const taskTitle = event.currentTarget.dataset.taskTitle;
+    
+    const tabsController = this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller="vscode-tabs"]'),
+      'vscode-tabs'
+    );
+
+    if (!tabsController) return;
+
+    // Generate unique tab ID for editing
+    const tabId = tabsController.generateUniqueTabId('task-edit', taskId);
+    const url = `/tasks/${taskId}/edit?frame_id=frame-${tabId}`;
+
+    // Add edit tab
+    tabsController.addTab(tabId, `Edit: ${taskTitle || `Task #${taskId}`}`);
+
+    // Load edit form
+    setTimeout(() => {
+      const contentContainer = document.getElementById(tabId);
+      if (contentContainer) {
+        const turboFrame = document.createElement('turbo-frame');
+        turboFrame.id = `frame-${tabId}`;
+        turboFrame.src = url;
+        turboFrame.dataset.turboFrameRequestsFormat = 'html';
+        
+        turboFrame.addEventListener('turbo:frame-load', () => {
+          tabsController.setActiveTab(tabId);
+        });
+        
+        contentContainer.appendChild(turboFrame);
+      }
+    }, 10);
+  }
+
+  stopPropagation(event) {
+    event.stopPropagation();
+  }
+}
+```
+
+### Task Card View with Click Handler
+
+```erb
+<!-- app/views/tasks/_task_card.html.erb -->
+<div id="<%= dom_id(task) %>" 
+     class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer"
+     data-controller="task-card"
+     data-action="click->task-card#openTab"
+     data-task-card-id-value="<%= task.id %>"
+     data-task-card-title-value="<%= task.title %>">
+  <div class="flex items-start justify-between">
+    <div class="flex-1 min-w-0">
+      <!-- Task Title -->
+      <h3 class="text-lg font-medium text-gray-900 truncate">
+        <span class="hover:text-blue-600"><%= task.title %></span>
+      </h3>
+      
+      <!-- Task Meta -->
+      <div class="flex items-center mt-3 space-x-3">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= task.status_color %>-100 text-<%= task.status_color %>-800">
+          <%= task.status.humanize %>
+        </span>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= task.priority_color %>-100 text-<%= task.priority_color %>-800">
+          <%= task.priority.humanize %>
+        </span>
+      </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="flex flex-col ml-4 space-y-2" data-action="click->task-card#stopPropagation">
+      <!-- Edit Button -->
+      <button class="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+              title="Edit Task"
+              data-action="click->task-card#openEditTab"
+              data-task-id="<%= task.id %>"
+              data-task-title="<%= task.title %>"
+              type="button">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+### Enhanced Controller with Tab Support
+
+```ruby
+# app/controllers/tasks_controller.rb
+class TasksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_organization
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+
+  def show
+    @frame_id = params[:frame_id]
+    
+    respond_to do |format|
+      format.html do
+        if @frame_id.present?
+          render 'show_tab', locals: {
+            task: @task,
+            frame_id: @frame_id
+          }, formats: [:html]
+        else
+          render :show
+        end
+      end
+    end
+  end
+
+  def edit
+    @frame_id = params[:frame_id]
+    
+    respond_to do |format|
+      format.html do
+        if @frame_id.present?
+          render 'edit_tab', locals: {
+            task: @task,
+            frame_id: @frame_id
+          }, formats: [:html]
+        else
+          render :edit
+        end
+      end
+    end
+  end
+
+  def tab_content
+    @filter_type = params[:filter_type]
+    @filter_value = params[:filter_value]
+    @content_name = params[:content_name]
+    @frame_id = params[:frame_id]
+    
+    # Filter tasks based on type
+    @tasks = current_tasks.includes(:user)
+    case @filter_type
+    when 'category'
+      @tasks = @filter_value == 'all' ? @tasks : @tasks.by_category(@filter_value)
+    when 'status'
+      @tasks = @tasks.by_status(@filter_value)
+    when 'priority'
+      @tasks = @tasks.by_priority(@filter_value)
+    end
+    @tasks = @tasks.order(created_at: :desc)
+    
+    # Force HTML format for turbo-frame requests
+    render 'tab_content', locals: {
+      tasks: @tasks,
+      content_name: @content_name,
+      filter_type: @filter_type,
+      filter_value: @filter_value
+    }, formats: [:html]
+  end
+end
+```
+
+### Persistent Tab Restoration
+
+```javascript
+// Enhanced loadRestoredTabContent in vscode_tabs_controller.js
+loadRestoredTabContent(tabId) {
+  const contentContainer = document.getElementById(tabId);
+  if (!contentContainer) return;
+
+  let url;
+  
+  if (tabId.startsWith('tab-tasks-')) {
+    // Parse task category tab ID
+    const parts = tabId.split('-');
+    if (parts.length >= 4) {
+      const filterType = parts[2];
+      const filterValue = parts[3];
+      const tabInfo = this.openTabs.get(tabId);
+      const tabName = tabInfo ? tabInfo.name : `${filterType} ${filterValue}`;
+      url = `/tasks/content/${filterType}/${filterValue}?content_name=${encodeURIComponent(tabName)}&frame_id=frame-${tabId}`;
+    }
+  } else if (tabId.startsWith('tab-task-edit-')) {
+    // Parse task edit tab ID
+    const parts = tabId.split('-');
+    if (parts.length >= 4) {
+      const taskId = parts[3];
+      url = `/tasks/${taskId}/edit?frame_id=frame-${tabId}`;
+    }
+  } else if (tabId.startsWith('tab-task-')) {
+    // Parse individual task tab ID
+    const parts = tabId.split('-');
+    if (parts.length >= 3) {
+      const taskId = parts[2];
+      url = `/tasks/${taskId}?frame_id=frame-${tabId}`;
+    }
+  }
+
+  // Create turbo frame for restored tab content
+  if (url) {
+    const turboFrame = document.createElement('turbo-frame');
+    turboFrame.id = `frame-${tabId}`;
+    turboFrame.src = url;
+    turboFrame.dataset.turboFrameRequestsFormat = 'html';
+    contentContainer.appendChild(turboFrame);
+  }
+}
+
+// Enhanced canRestoreTab method
+canRestoreTab(tabId) {
+  // Restore all task-related tabs
+  return tabId.startsWith('tab-tasks-') || 
+         tabId.startsWith('tab-task-') || 
+         tabId.startsWith('tab-task-edit-');
+}
+```
+
 These examples demonstrate the flexibility and power of the VSCode-style tabbed interface system across different use cases and domains.

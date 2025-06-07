@@ -778,12 +778,236 @@ this.dispatch('tab:activated', { detail: { tabId } });
 this.dispatch('tab:closed', { detail: { tabId } });
 ```
 
+## 🎯 Enhanced Features
+
+### Click-to-Open Task Cards
+
+Create `app/javascript/controllers/task_card_controller.js`:
+
+```javascript
+import { Controller } from '@hotwired/stimulus';
+
+export default class extends Controller {
+  static values = { id: Number, title: String };
+
+  openTab(event) {
+    event.preventDefault();
+    
+    const tabsController = this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller="vscode-tabs"]'),
+      'vscode-tabs'
+    );
+
+    if (!tabsController) return;
+
+    const tabId = tabsController.generateUniqueTabId('task', this.idValue);
+    const url = `/tasks/${this.idValue}?frame_id=frame-${tabId}`;
+
+    tabsController.addTab(tabId, this.titleValue || `Task #${this.idValue}`);
+
+    setTimeout(() => {
+      const contentContainer = document.getElementById(tabId);
+      if (contentContainer) {
+        const turboFrame = document.createElement('turbo-frame');
+        turboFrame.id = `frame-${tabId}`;
+        turboFrame.src = url;
+        turboFrame.dataset.turboFrameRequestsFormat = 'html';
+        turboFrame.addEventListener('turbo:frame-load', () => {
+          tabsController.setActiveTab(tabId);
+        });
+        contentContainer.appendChild(turboFrame);
+      }
+    }, 10);
+  }
+
+  openEditTab(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const taskId = event.currentTarget.dataset.taskId;
+    const taskTitle = event.currentTarget.dataset.taskTitle;
+    
+    const tabsController = this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller="vscode-tabs"]'),
+      'vscode-tabs'
+    );
+
+    if (!tabsController) return;
+
+    const tabId = tabsController.generateUniqueTabId('task-edit', taskId);
+    const url = `/tasks/${taskId}/edit?frame_id=frame-${tabId}`;
+
+    tabsController.addTab(tabId, `Edit: ${taskTitle || `Task #${taskId}`}`);
+
+    // Load edit form
+    setTimeout(() => {
+      const contentContainer = document.getElementById(tabId);
+      if (contentContainer) {
+        const turboFrame = document.createElement('turbo-frame');
+        turboFrame.id = `frame-${tabId}`;
+        turboFrame.src = url;
+        turboFrame.dataset.turboFrameRequestsFormat = 'html';
+        turboFrame.addEventListener('turbo:frame-load', () => {
+          tabsController.setActiveTab(tabId);
+        });
+        contentContainer.appendChild(turboFrame);
+      }
+    }, 10);
+  }
+
+  stopPropagation(event) {
+    event.stopPropagation();
+  }
+}
+```
+
+### Enhanced Tab Restoration
+
+Update `vscode_tabs_controller.js` for complete tab persistence:
+
+```javascript
+// Enhanced canRestoreTab method
+canRestoreTab(tabId) {
+  // Restore all task-related tabs
+  return tabId.startsWith('tab-tasks-') || 
+         tabId.startsWith('tab-task-') || 
+         tabId.startsWith('tab-task-edit-');
+}
+
+// Enhanced loadRestoredTabContent method
+loadRestoredTabContent(tabId) {
+  const contentContainer = document.getElementById(tabId);
+  if (!contentContainer) return;
+
+  let url;
+  
+  if (tabId.startsWith('tab-tasks-')) {
+    // Task category tabs
+    const parts = tabId.split('-');
+    if (parts.length >= 4) {
+      const filterType = parts[2];
+      const filterValue = parts[3];
+      const tabInfo = this.openTabs.get(tabId);
+      const tabName = tabInfo ? tabInfo.name : `${filterType} ${filterValue}`;
+      url = `/tasks/content/${filterType}/${filterValue}?content_name=${encodeURIComponent(tabName)}&frame_id=frame-${tabId}`;
+    }
+  } else if (tabId.startsWith('tab-task-edit-')) {
+    // Task edit tabs
+    const parts = tabId.split('-');
+    if (parts.length >= 4) {
+      const taskId = parts[3];
+      url = `/tasks/${taskId}/edit?frame_id=frame-${tabId}`;
+    }
+  } else if (tabId.startsWith('tab-task-')) {
+    // Individual task tabs
+    const parts = tabId.split('-');
+    if (parts.length >= 3) {
+      const taskId = parts[2];
+      url = `/tasks/${taskId}?frame_id=frame-${tabId}`;
+    }
+  }
+
+  // Create turbo frame for restored tab content
+  if (url) {
+    const turboFrame = document.createElement('turbo-frame');
+    turboFrame.id = `frame-${tabId}`;
+    turboFrame.src = url;
+    turboFrame.dataset.turboFrameRequestsFormat = 'html';
+    contentContainer.appendChild(turboFrame);
+  }
+}
+```
+
+### Close All Tabs Functionality
+
+Add to `vscode_tabs_controller.js`:
+
+```javascript
+// Update targets to include new elements
+static targets = ['tabBar', 'contentAreas', 'tab', 'content', 'noTabsIndicator', 'tabActions'];
+
+// Update show/hide methods
+hideWelcomeMessage() {
+  if (this.hasNoTabsIndicatorTarget) {
+    this.noTabsIndicatorTarget.classList.add('hidden');
+  }
+  if (this.hasTabActionsTarget) {
+    this.tabActionsTarget.style.display = 'flex';
+  }
+  const welcomeMessage = document.getElementById('welcome-message');
+  if (welcomeMessage) {
+    welcomeMessage.classList.add('hidden');
+  }
+}
+
+showWelcomeMessage() {
+  if (this.hasNoTabsIndicatorTarget) {
+    this.noTabsIndicatorTarget.classList.remove('hidden');
+  }
+  if (this.hasTabActionsTarget) {
+    this.tabActionsTarget.style.display = 'none';
+  }
+  const welcomeMessage = document.getElementById('welcome-message');
+  if (welcomeMessage) {
+    welcomeMessage.classList.remove('hidden');
+  }
+}
+
+// Close all tabs method
+closeAllTabs() {
+  // Remove all tab elements
+  this.tabTargets.forEach(tab => tab.remove());
+
+  // Remove all content containers
+  this.contentTargets.forEach(content => content.remove());
+
+  // Clear the openTabs map
+  this.openTabs.clear();
+
+  // Clear localStorage
+  this.saveTabsToStorage();
+
+  // Show welcome message
+  this.showWelcomeMessage();
+}
+```
+
+### Controller Callback Fix
+
+Update `TasksController` to fix the organization loading issue:
+
+```ruby
+class TasksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_organization  # Must come before set_task
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+
+  # ... rest of controller
+  
+  private
+  
+  def set_organization
+    @organization = current_user&.organizations&.first || Organization.first
+  end
+  
+  def set_task
+    @task = current_tasks.find(params[:id])
+  end
+  
+  def current_tasks
+    @organization&.tasks || Task.none
+  end
+end
+```
+
 ## 🎯 Next Steps
 
-1. Add drag-and-drop tab reordering
+1. Add drag-and-drop tab reordering (already implemented with Sortable.js)
 2. Implement tab context menus
-3. Add keyboard shortcuts
+3. Add keyboard shortcuts for tab navigation
 4. Create tab groups/workspaces
 5. Add tab preview on hover
+6. Implement tab search functionality
+7. Add tab pinning feature
 
-This implementation provides a solid foundation for a scalable, VSCode-style tabbed interface that can be extended based on your specific needs.
+This implementation provides a solid foundation for a scalable, VSCode-style tabbed interface with click-to-open cards, persistent tabs, and full edit capabilities that can be extended based on your specific needs.
