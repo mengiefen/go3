@@ -88,4 +88,11 @@ ar:
       not_authorized: "غير مصرح لك بالقيام بهذا الإجراء"
       not_found: "لم يتم العثور على المورد المطلوب"
       invalid: "البيانات غير صالحة"
-      server_error: "حدث خطأ في الخادم" 
+      server_error: "حدث خطأ في الخادم"
+
+  common:
+    logo_alt: "شعار GO3"
+    company_name: "GO3"
+    all_rights_reserved: "جميع الحقوق محفوظة"
+    best_regards: "مع أطيب التحيات"
+    company_team: "فريق GO3" 

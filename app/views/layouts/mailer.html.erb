@@ -4,10 +4,68 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
       /* Email styles need to be inline */
+      body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333333;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .email-header {
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #eeeeee;
+      }
+      .email-body {
+        padding: 30px 0;
+      }
+      .email-footer {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #eeeeee;
+        font-size: 12px;
+        color: #666666;
+      }
+      .button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #007bff;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+      .button:hover {
+        background-color: #0056b3;
+      }
+      [dir="rtl"] {
+        text-align: right;
+      }
+      [dir="rtl"] .button {
+        margin: 20px 0;
+      }
     </style>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="email-container" dir="<%= I18n.locale == :ar ? 'rtl' : 'ltr' %>">
+      <div class="email-header">
+        <%= image_tag attachments['logo.png'].url, alt: t('common.logo_alt'), style: 'max-width: 150px;' if attachments['logo.png'] %>
+      </div>
+      
+      <div class="email-body">
+        <%= yield %>
+      </div>
+
+      <div class="email-footer">
+        <p>&copy; <%= Time.current.year %> <%= t('common.company_name') %>. <%= t('common.all_rights_reserved') %></p>
+      </div>
+    </div>
   </body>
 </html>

@@ -54,4 +54,11 @@ zh:
       not_authorized: "您没有执行此操作的权限"
       not_found: "未找到资源"
       invalid: "无效数据"
-      server_error: "服务器错误" 
+      server_error: "服务器错误"
+
+  common:
+    logo_alt: "GO3标志"
+    company_name: "GO3"
+    all_rights_reserved: "版权所有"
+    best_regards: "此致"
+    company_team: "GO3团队" 

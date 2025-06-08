@@ -54,4 +54,11 @@ ja:
       not_authorized: "この操作を実行する権限がありません"
       not_found: "リソースが見つかりません"
       invalid: "無効なデータです"
-      server_error: "サーバーエラーが発生しました" 
+      server_error: "サーバーエラーが発生しました"
+
+  common:
+    logo_alt: "GO3ロゴ"
+    company_name: "GO3"
+    all_rights_reserved: "All rights reserved"
+    best_regards: "敬具"
+    company_team: "GO3チーム" 

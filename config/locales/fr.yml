@@ -55,3 +55,10 @@ fr:
       not_found: "Ressource non trouvée"
       invalid: "Données invalides"
       server_error: "Erreur serveur"
+
+  common:
+    logo_alt: "Logo GO3"
+    company_name: "GO3"
+    all_rights_reserved: "Tous droits réservés"
+    best_regards: "Cordialement"
+    company_team: "L'équipe GO3"

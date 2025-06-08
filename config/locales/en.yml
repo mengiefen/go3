@@ -28,6 +28,12 @@
 #       enabled: "ON"
 
 en:
+  common:
+    logo_alt: "GO3 Logo"
+    company_name: "GO3"
+    all_rights_reserved: "All rights reserved"
+    best_regards: "Best regards"
+    company_team: "GO3 Team"
   hello: "Hello world"
   sign_up:
     title: "Create an account"

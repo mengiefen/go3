@@ -1,5 +1,15 @@
-<p><%= t('devise.mailer.confirmation_instructions.hello', email: @email) %></p>
+<p><%= t('devise.mailer.confirmation_instructions.welcome') %></p>
+
+<p><%= t('devise.mailer.confirmation_instructions.hello', email: @resource.first_name || @email) %></p>
 
 <p><%= t('devise.mailer.confirmation_instructions.confirm_link') %></p>
 
-<p><%= link_to t('devise.mailer.confirmation_instructions.confirm_button'), confirmation_url(@resource, confirmation_token: @token) %></p> 
+<p style="text-align: center;">
+  <%= link_to t('devise.mailer.confirmation_instructions.confirm_button'), confirmation_url(@resource, confirmation_token: @token), class: 'button' %>
+</p>
+
+<p><%= t('devise.mailer.confirmation_instructions.expiry_notice') %></p>
+
+<p><%= t('devise.mailer.confirmation_instructions.ignore_notice') %></p>
+
+<p><%= t('common.best_regards') %>,<br><%= t('common.company_team') %></p> 

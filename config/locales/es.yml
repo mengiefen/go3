@@ -54,4 +54,11 @@ es:
       not_authorized: "No estás autorizado para realizar esta acción"
       not_found: "Recurso no encontrado"
       invalid: "Datos inválidos"
-      server_error: "Error del servidor" 
+      server_error: "Error del servidor"
+
+  common:
+    logo_alt: "Logo GO3"
+    company_name: "GO3"
+    all_rights_reserved: "Todos los derechos reservados"
+    best_regards: "Saludos cordiales"
+    company_team: "Equipo GO3" 

@@ -54,4 +54,11 @@ ur:
       not_authorized: "آپ کو یہ کارروائی انجام دینے کی اجازت نہیں ہے"
       not_found: "وسیلہ نہیں ملا"
       invalid: "غلط ڈیٹا"
-      server_error: "سرور خرابی" 
+      server_error: "سرور خرابی"
+
+  common:
+    logo_alt: "GO3 لوگو"
+    company_name: "GO3"
+    all_rights_reserved: "جملہ حقوق محفوظ ہیں"
+    best_regards: "آپ کا خیر مقدم"
+    company_team: "GO3 ٹیم" 
