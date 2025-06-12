@@ -12,7 +12,10 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :set_locale
   before_action :translate_flash_messages
-  
+  before_action :authenticate_user!
+  before_action :check_onboarding
+  before_action :handle_organization_redirect
+
   helper ComponentHelper
   
   protected
@@ -115,5 +118,52 @@ class ApplicationController < ActionController::Base
   
   def turbo_frame_request?
     request.headers["Turbo-Frame"].present?
+  end
+
+  def check_onboarding
+    if user_signed_in? && 
+       current_user.confirmed? && 
+       !current_user.organizations.exists? && 
+       !onboarding_controller? &&
+       !(controller_name == 'organizations' && action_name == 'create')
+      redirect_to new_onboarding_path
+    end
+  end
+
+  def onboarding_controller?
+    controller_name == 'onboarding'
+  end
+
+  def handle_organization_redirect
+    return unless user_signed_in?
+    return if devise_controller?
+    return if controller_name == 'onboarding'
+    return if controller_name == 'organizations' && action_name == 'create'
+    return if request.xhr? || request.format.json?
+
+    # Get user's organizations
+    organizations = current_user.organizations.unarchived
+
+    if organizations.empty?
+      redirect_to new_onboarding_path unless onboarding_controller?
+    elsif organizations.count == 1
+      # If user has only one organization, redirect to it
+      redirect_to organization_path(organizations.first) unless current_page?(organization_path(organizations.first))
+    else
+      # If user has multiple organizations
+      saved_org_id = session[:selected_organization_id]
+      
+      if saved_org_id && organizations.exists?(saved_org_id)
+        # Use saved organization if it exists and is valid
+        redirect_to organization_path(saved_org_id) unless current_page?(organization_path(saved_org_id))
+      else
+        # Otherwise use first organization
+        redirect_to organization_path(organizations.first) unless current_page?(organization_path(organizations.first))
+      end
+    end
+  end
+
+  def current_page?(path)
+    request.path == path
   end
 end

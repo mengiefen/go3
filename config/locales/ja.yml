@@ -61,4 +61,15 @@ ja:
     company_name: "GO3"
     all_rights_reserved: "All rights reserved"
     best_regards: "敬具"
-    company_team: "GO3チーム" 
+    company_team: "GO3チーム"
+
+  onboarding:
+    title: "GO3へようこそ！始めましょう"
+    subtitle: "最初の組織を作成して、私たちとの旅を始めましょう"
+    organization_name_label: "組織の名前は何ですか？"
+    organization_name_placeholder: "組織名を入力してください"
+    submit_button: "組織を作成"
+    random_name_button: "ランダムな名前を生成"
+    description: "組織は、チーム、プロジェクト、リソースを管理する場所です。後でいつでも変更できます。"
+    success_message: "組織が正常に作成されました！ようこそ！"
+    error_message: "組織の作成中にエラーが発生しました。もう一度お試しください。" 

@@ -62,3 +62,14 @@ fr:
     all_rights_reserved: "Tous droits réservés"
     best_regards: "Cordialement"
     company_team: "L'équipe GO3"
+
+  onboarding:
+    title: "Bienvenue sur GO3 ! Commençons"
+    subtitle: "Créez votre première organisation pour commencer votre voyage avec nous"
+    organization_name_label: "Quel est le nom de votre organisation ?"
+    organization_name_placeholder: "Entrez le nom de votre organisation"
+    submit_button: "Créer l'Organisation"
+    random_name_button: "Générer un Nom Aléatoire"
+    description: "Votre organisation est l'endroit où vous gérerez votre équipe, vos projets et vos ressources. Vous pourrez toujours modifier cela plus tard."
+    success_message: "Organisation créée avec succès ! Bienvenue à bord !"
+    error_message: "Une erreur s'est produite lors de la création de votre organisation. Veuillez réessayer."

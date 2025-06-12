@@ -61,4 +61,15 @@ zh:
     company_name: "GO3"
     all_rights_reserved: "版权所有"
     best_regards: "此致"
-    company_team: "GO3团队" 
+    company_team: "GO3团队"
+
+  onboarding:
+    title: "欢迎来到GO3！让我们开始吧"
+    subtitle: "创建您的第一个组织，开始与我们同行"
+    organization_name_label: "您的组织名称是什么？"
+    organization_name_placeholder: "输入您的组织名称"
+    submit_button: "创建组织"
+    random_name_button: "生成随机名称"
+    description: "您的组织是您管理团队、项目和资源的地方。您可以随时更改。"
+    success_message: "组织创建成功！欢迎加入！"
+    error_message: "创建组织时出错。请重试。" 

@@ -75,7 +75,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_091809) do
     t.jsonb "name"
     t.bigint "organization_id", null: false
     t.bigint "user_id"
-    t.string "status"
+    t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_members_on_email"

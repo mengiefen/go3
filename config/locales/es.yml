@@ -61,4 +61,15 @@ es:
     company_name: "GO3"
     all_rights_reserved: "Todos los derechos reservados"
     best_regards: "Saludos cordiales"
-    company_team: "Equipo GO3" 
+    company_team: "Equipo GO3"
+
+  onboarding:
+    title: "¡Bienvenido a GO3! Empecemos"
+    subtitle: "Crea tu primera organización para comenzar tu viaje con nosotros"
+    organization_name_label: "¿Cuál es el nombre de tu organización?"
+    organization_name_placeholder: "Ingresa el nombre de tu organización"
+    submit_button: "Crear Organización"
+    random_name_button: "Generar Nombre Aleatorio"
+    description: "Tu organización es donde administrarás tu equipo, proyectos y recursos. Siempre puedes cambiar esto más tarde."
+    success_message: "¡Organización creada con éxito! ¡Bienvenido a bordo!"
+    error_message: "Hubo un error al crear tu organización. Por favor, inténtalo de nuevo." 

@@ -7,7 +7,7 @@ RSpec.describe Member, type: :model do
     it { should have_db_column(:name).of_type(:jsonb) }
     it { should have_db_column(:organization_id).of_type(:integer).with_options(null: false) }
     it { should have_db_column(:user_id).of_type(:integer) }
-    it { should have_db_column(:status).of_type(:string) }
+    it { should have_db_column(:status).of_type(:integer) }
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
     

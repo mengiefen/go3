@@ -23,23 +23,36 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(permitted_organization_params)
     
+    # Set name translation using Mobility
+    Mobility.with_locale(I18n.locale) do
+      @organization.name = params[:organization][:name]
+    end
+    
     # Set is_trial flag if user is not admin and creating top-level org
-    if !current_user.has_role?('GO3_Admin') && !@organization.parent_id.present?
+    if !current_user.is_go3_admin? && !@organization.parent_id.present?
       @organization.is_trial = true
     end
     
-    authorize @organization
-    
     if @organization.save
       # Add current user as admin of the organization
-      Member.create(
+      member = Member.new(
         user: current_user,
         organization: @organization,
-        permissions: ['Organization.admin']
-      ) unless current_user.has_role?('GO3_Admin')
-      
-      redirect_to @organization, notice: 'Organization was successfully created.'
+        email: current_user.email
+      ) unless current_user.is_go3_admin?
+
+      member.name = current_user.full_name
+      if member.save
+        redirect_to @organization, notice: 'Organization was successfully created.'
+      else
+        puts "---------------------------------"
+        puts member.errors.full_messages
+        puts "---------------------------------"
+      end
     else
+      puts "---------------------------------"
+      puts @organization.errors.full_messages
+      puts "---------------------------------"
       render :new
     end
   end
@@ -74,7 +87,9 @@ class OrganizationsController < ApplicationController
   private
 
   def set_organization
+    puts params
     @organization = Organization.unarchived.find(params[:id])
+    puts @organization.inspect
   rescue ActiveRecord::RecordNotFound
     # Attempt to find the record even if it's archived
     @organization = Organization.archived.find(params[:id])

@@ -95,4 +95,15 @@ ar:
     company_name: "GO3"
     all_rights_reserved: "جميع الحقوق محفوظة"
     best_regards: "مع أطيب التحيات"
-    company_team: "فريق GO3" 
+    company_team: "فريق GO3"
+
+  onboarding:
+    title: "مرحباً بك في GO3! دعنا نبدأ"
+    subtitle: "أنشئ مؤسستك الأولى لتبدأ رحلتك معنا"
+    organization_name_label: "ما هو اسم مؤسستك؟"
+    organization_name_placeholder: "أدخل اسم مؤسستك"
+    submit_button: "إنشاء المؤسسة"
+    random_name_button: "توليد اسم عشوائي"
+    description: "مؤسستك هي المكان الذي ستقوم فيه بإدارة فريقك ومشاريعك ومواردك. يمكنك تغيير هذا لاحقاً."
+    success_message: "تم إنشاء المؤسسة بنجاح! مرحباً بك!"
+    error_message: "حدث خطأ أثناء إنشاء مؤسستك. يرجى المحاولة مرة أخرى." 

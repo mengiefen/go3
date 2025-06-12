@@ -28,6 +28,7 @@ class Member < ApplicationRecord
 
   validate :name_has_at_least_one_translation
 
+  enum :status, { active: 1, inactive: 0 }
   # Scopes
   scope :active, -> { where(status: 'active') }
   scope :inactive, -> { where(status: 'inactive') }

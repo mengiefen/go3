@@ -1,4 +1,5 @@
 class Api::TranslationsController < ApplicationController
+  skip_before_action :authenticate_user!
   def index
     locale = params[:locale]
     keys = params[:keys].split(',')

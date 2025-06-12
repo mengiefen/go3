@@ -35,6 +35,16 @@ en:
     best_regards: "Best regards"
     company_team: "GO3 Team"
   hello: "Hello world"
+  onboarding:
+    title: "Welcome to GO3! Let's Get Started"
+    subtitle: "Create your first organization to begin your journey with us"
+    organization_name_label: "What's your organization's name?"
+    organization_name_placeholder: "Enter your organization name"
+    submit_button: "Create Organization"
+    random_name_button: "Generate Random Name"
+    description: "Your organization is where you'll manage your team, projects, and resources. You can always change this later."
+    success_message: "Organization created successfully! Welcome aboard!"
+    error_message: "There was an error creating your organization. Please try again."
   sign_up:
     title: "Create an account"
     first_name: "First Name"

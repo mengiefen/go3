@@ -61,4 +61,15 @@ ur:
     company_name: "GO3"
     all_rights_reserved: "جملہ حقوق محفوظ ہیں"
     best_regards: "آپ کا خیر مقدم"
-    company_team: "GO3 ٹیم" 
+    company_team: "GO3 ٹیم"
+
+  onboarding:
+    title: "GO3 میں خوش آمدید! آئیے شروع کرتے ہیں"
+    subtitle: "ہمارے ساتھ اپنی سفر کا آغاز کرنے کے لیے اپنی پہلی تنظیم بنائیں"
+    organization_name_label: "آپ کی تنظیم کا نام کیا ہے؟"
+    organization_name_placeholder: "اپنی تنظیم کا نام درج کریں"
+    submit_button: "تنظیم بنائیں"
+    random_name_button: "بے ترتیب نام بنائیں"
+    description: "آپ کی تنظیم وہ جگہ ہے جہاں آپ اپنی ٹیم، پروجیکٹس اور وسائل کا انتظام کریں گے۔ آپ اسے بعد میں کبھی بھی تبدیل کر سکتے ہیں۔"
+    success_message: "تنظیم کامیابی سے بن گئی! خوش آمدید!"
+    error_message: "آپ کی تنظیم بنانے میں ایک خرابی آئی۔ براہ کرم دوبارہ کوشش کریں۔" 

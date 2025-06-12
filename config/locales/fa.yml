@@ -61,4 +61,15 @@ fa:
     company_name: "GO3"
     all_rights_reserved: "تمامی حقوق محفوظ است"
     best_regards: "با احترام"
-    company_team: "تیم GO3" 
+    company_team: "تیم GO3"
+
+  onboarding:
+    title: "به GO3 خوش آمدید! بیایید شروع کنیم"
+    subtitle: "سازمان اول خود را ایجاد کنید تا سفر خود را با ما آغاز کنید"
+    organization_name_label: "نام سازمان شما چیست؟"
+    organization_name_placeholder: "نام سازمان خود را وارد کنید"
+    submit_button: "ایجاد سازمان"
+    random_name_button: "تولید نام تصادفی"
+    description: "سازمان شما جایی است که تیم، پروژه‌ها و منابع خود را مدیریت خواهید کرد. همیشه می‌توانید این را بعداً تغییر دهید."
+    success_message: "سازمان با موفقیت ایجاد شد! به ما خوش آمدید!"
+    error_message: "خطایی در ایجاد سازمان شما رخ داد. لطفاً دوباره تلاش کنید." 

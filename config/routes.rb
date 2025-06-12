@@ -84,4 +84,7 @@ Rails.application.routes.draw do
     get 'translations', to: 'translations#index'
   end
 
+  # Onboarding routes
+  resources :onboarding, only: [:new]
+
 end

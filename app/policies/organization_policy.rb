@@ -4,7 +4,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def show?
-    user.is_go3_admin? || user.member_of?(record)
+    user.organizations.include?(record)
   end
 
   def create?
@@ -26,7 +26,7 @@ class OrganizationPolicy < ApplicationPolicy
     if user.is_go3_admin?
       [:name, :description, :parent_id, :is_trial, :settings, :logo]
     else
-      [:name, :description]
+      [:is_trial]
     end
   end
 

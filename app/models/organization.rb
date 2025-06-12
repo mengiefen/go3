@@ -51,6 +51,16 @@ class Organization < ApplicationRecord
     chain
   end
 
+  TRIAL_DAYS = 15
+  
+  def trial_end_date
+    created_at + TRIAL_DAYS.days
+  end
+
+  def trial_active?
+    trial_end_date > Date.current
+  end
+
   private
 
   def archive_children
