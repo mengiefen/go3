@@ -30,6 +30,7 @@ class OrganizationsController < ApplicationController
     
     # Set is_trial flag if user is not admin and creating top-level org
     if !current_user.is_go3_admin? && !@organization.parent_id.present?
+      @organization.is_tenant = true
       @organization.is_trial = true
     end
     
@@ -38,21 +39,20 @@ class OrganizationsController < ApplicationController
       member = Member.new(
         user: current_user,
         organization: @organization,
-        email: current_user.email
+        email: current_user.email,
+        joined_at: DateTime.now
       ) unless current_user.is_go3_admin?
 
       member.name = current_user.full_name
       if member.save
+        Permission.create(
+          code: 'Organization.admin',
+          grantee: member,
+          organization: @organization
+        )
         redirect_to @organization, notice: 'Organization was successfully created.'
-      else
-        puts "---------------------------------"
-        puts member.errors.full_messages
-        puts "---------------------------------"
       end
     else
-      puts "---------------------------------"
-      puts @organization.errors.full_messages
-      puts "---------------------------------"
       render :new
     end
   end
@@ -87,9 +87,7 @@ class OrganizationsController < ApplicationController
   private
 
   def set_organization
-    puts params
     @organization = Organization.unarchived.find(params[:id])
-    puts @organization.inspect
   rescue ActiveRecord::RecordNotFound
     # Attempt to find the record even if it's archived
     @organization = Organization.archived.find(params[:id])

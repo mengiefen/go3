@@ -73,3 +73,19 @@ zh:
     description: "您的组织是您管理团队、项目和资源的地方。您可以随时更改。"
     success_message: "组织创建成功！欢迎加入！"
     error_message: "创建组织时出错。请重试。" 
+
+  models:
+    member:
+      status:
+        joined: 已加入
+        invited: 已邀请
+        not_invited: 未邀请
+        archived: 已归档
+  views:
+    members:
+      index:
+        list_of_members: 成员列表
+        add_a_new_member: 添加新成员
+        name: 姓名 
+        email: 邮箱
+        status: 状态

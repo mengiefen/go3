@@ -15,9 +15,12 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :check_onboarding
   before_action :handle_organization_redirect
-
+  around_action :switch_locale
+  
   helper ComponentHelper
   
+  helper_method :current_language
+
   protected
   
   def configure_permitted_parameters
@@ -148,7 +151,7 @@ class ApplicationController < ActionController::Base
       redirect_to new_onboarding_path unless onboarding_controller?
     elsif organizations.count == 1
       # If user has only one organization, redirect to it
-      redirect_to organization_path(organizations.first) unless current_page?(organization_path(organizations.first))
+      # redirect_to organization_path(organizations.first) unless current_page?(organization_path(organizations.first))
     else
       # If user has multiple organizations
       saved_org_id = session[:selected_organization_id]
@@ -165,5 +168,21 @@ class ApplicationController < ActionController::Base
 
   def current_page?(path)
     request.path == path
+  end
+
+  def current_organization
+    Organization.find(params[:organization_id])
+  end
+
+  def current_member
+    current_organization.members.find_by(user: current_user)
+  end
+
+  def current_language
+    current_user&.language || I18n.default_locale
+  end
+
+  def switch_locale(&action)
+    I18n.with_locale(current_language, &action)
   end
 end

@@ -1,0 +1,40 @@
+<table class="table-component">
+  <thead>
+    <tr>
+      <% @columns.each do |column| %>
+        <th class="table-header <%= column[:class] %>">
+          <%= column[:label] %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rows.each do |row| %>
+      <tr class="table-row">
+        <% row.each do |cell| %>
+          <td class="table-cell <%= cell[:class] %>">
+            <%= cell[:content] %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<style>
+  .table-component {
+    width: 100%;
+
+    thead {
+
+      tr{
+        background-color: silver;
+        height: 25px;
+
+        th {
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+  }
+</style>

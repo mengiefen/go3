@@ -73,3 +73,18 @@ fr:
     description: "Votre organisation est l'endroit où vous gérerez votre équipe, vos projets et vos ressources. Vous pourrez toujours modifier cela plus tard."
     success_message: "Organisation créée avec succès ! Bienvenue à bord !"
     error_message: "Une erreur s'est produite lors de la création de votre organisation. Veuillez réessayer."
+  models:
+    member:
+      status:
+        joined: "rejoint"
+        invited: "invité"
+        not_invited: "non invité"
+        archived: "archivé"
+  views:
+    members:
+      index:
+        list_of_members: Liste des membres  
+        add_a_new_member: Ajouter un nouveau membre  
+        name: Nom  
+        email: Email  
+        status: Statut  

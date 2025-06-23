@@ -107,3 +107,18 @@ ar:
     description: "مؤسستك هي المكان الذي ستقوم فيه بإدارة فريقك ومشاريعك ومواردك. يمكنك تغيير هذا لاحقاً."
     success_message: "تم إنشاء المؤسسة بنجاح! مرحباً بك!"
     error_message: "حدث خطأ أثناء إنشاء مؤسستك. يرجى المحاولة مرة أخرى." 
+  models:
+    member:
+      status:
+        joined: "منضم"
+        invited: "مدعو"
+        not_invited: "غير مدعو"
+        archived: "مؤرشف"
+  views:
+    members:
+      index:
+        list_of_members: قائمة الأعضاء
+        add_a_new_member: إضافة عضو جديد
+        name: الاسم
+        email: البريد الإلكتروني
+        status: الحالة

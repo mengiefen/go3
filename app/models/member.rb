@@ -1,6 +1,7 @@
 class Member < ApplicationRecord
   # Will enable PaperTrail later
   has_paper_trail
+  acts_as_archival
   
   # Enable Mobility for translations with fallback to English
   extend Mobility
@@ -42,6 +43,22 @@ class Member < ApplicationRecord
 
   def is_go3_admin?
     user.is_go3_admin?
+  end
+
+  def status
+    return 'archived' if self.archived?
+    return 'joined' if joined_at.present?
+    return 'invited' if invited_at.present?
+    'not_invited'
+  end
+
+  def localized_status
+    model_t("status.#{status}")
+  end
+
+  def has_permission?(code)
+    return true if is_go3_admin?
+    all_permissions.any? { |perm| perm.code == code && organization == perm.organization }
   end
 
   private

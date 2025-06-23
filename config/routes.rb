@@ -54,7 +54,9 @@ Rails.application.routes.draw do
     delete ':provider', to: 'users/social_connections#destroy', on: :collection, as: :destroy
   end
 
-  resources :organizations
+  resources :organizations do
+    resources :members
+  end
   
   namespace :admin do
     resources :organizations do

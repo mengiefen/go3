@@ -20,4 +20,10 @@ module ApplicationHelper
   def current_rtl?
     rtl_language?(I18n.locale)
   end
+
+  def view_t(key, **options)
+    controller_segments = controller_path.split('/')
+    action_segment = action_name
+    I18n.t("views.#{controller_segments.join('.')}.#{action_segment}.#{key}", **options )
+  end
 end

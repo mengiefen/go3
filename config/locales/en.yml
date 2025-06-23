@@ -101,3 +101,18 @@ en:
       not_found: "Resource not found"
       invalid: "Invalid data"
       server_error: "Server error occurred"
+  models:
+    Member:
+      status:
+        joined: joined
+        invited: invited
+        not_invited: not invited
+        archived: archived
+  views:
+    members:
+      index:
+        list_of_members: List of Members
+        add_a_new_member: Add a New Member
+        name: Name
+        email: Email
+        status: Status

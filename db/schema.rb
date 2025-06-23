@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_31_091809) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_23_183126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -78,6 +78,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_091809) do
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "invited_at"
+    t.string "invitation_key"
+    t.datetime "joined_at"
+    t.string "archive_number"
+    t.datetime "archived_at"
+    t.string "initial"
+    t.string "color"
     t.index ["email"], name: "index_members_on_email"
     t.index ["name"], name: "index_members_on_name", using: :gin
     t.index ["organization_id"], name: "index_members_on_organization_id"

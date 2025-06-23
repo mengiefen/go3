@@ -73,3 +73,18 @@ fa:
     description: "سازمان شما جایی است که تیم، پروژه‌ها و منابع خود را مدیریت خواهید کرد. همیشه می‌توانید این را بعداً تغییر دهید."
     success_message: "سازمان با موفقیت ایجاد شد! به ما خوش آمدید!"
     error_message: "خطایی در ایجاد سازمان شما رخ داد. لطفاً دوباره تلاش کنید." 
+  models:
+    member:
+      status:
+        joined: "پیوسته"
+        invited: "دعوت شده"
+        not_invited: "دعوت نشده"
+        archived: "بایگانی شده"
+  views:
+    members:
+      index:
+        list_of_members: لیست اعضا
+        add_a_new_member: افزودن عضو جدید
+        name: نام
+        email: ایمیل
+        status: وضعیت

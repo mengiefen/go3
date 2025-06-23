@@ -73,3 +73,18 @@ es:
     description: "Tu organización es donde administrarás tu equipo, proyectos y recursos. Siempre puedes cambiar esto más tarde."
     success_message: "¡Organización creada con éxito! ¡Bienvenido a bordo!"
     error_message: "Hubo un error al crear tu organización. Por favor, inténtalo de nuevo." 
+  models:
+    member:
+      status:
+        joined: "Unido"
+        invited: "Invitado"
+        not_invited: "No invitado"
+        archived: "Archivado"
+  views:
+    members:
+      index:
+        list_of_members: Lista de Miembros  
+        add_a_new_member: Agregar un Nuevo Miembro  
+        name: Nombre  
+        email: Correo Electrónico  
+        status: Estado  

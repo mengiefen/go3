@@ -35,8 +35,8 @@
     
     <meta name="turbo-cache-control" content="no-preview">
   </head>
-  <body class="h-full bg-gray-50">
-      <%= yield %>    
+  <body class="h-full bg-gray-50" dir=<%= supported_languages[current_language][:rtl] ? "rtl" : "ltr" %>>
+    <%= yield %>
     
     <!-- Include content from page_scripts block -->
     <%= yield :page_scripts if content_for?(:page_scripts) %>

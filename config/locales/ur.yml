@@ -73,3 +73,18 @@ ur:
     description: "آپ کی تنظیم وہ جگہ ہے جہاں آپ اپنی ٹیم، پروجیکٹس اور وسائل کا انتظام کریں گے۔ آپ اسے بعد میں کبھی بھی تبدیل کر سکتے ہیں۔"
     success_message: "تنظیم کامیابی سے بن گئی! خوش آمدید!"
     error_message: "آپ کی تنظیم بنانے میں ایک خرابی آئی۔ براہ کرم دوبارہ کوشش کریں۔" 
+  models:
+    member:
+      status:
+        joined: "شامل ہو گیا"
+        invited: "مدعو کیا گیا"
+        not_invited: "مدعو نہیں کیا گیا"
+        archived: "محفوظ شدہ"
+  views:
+    members:
+      index:
+        list_of_members: رکن کی فہرست
+        add_a_new_member: نیا رکن شامل کریں
+        name: نام
+        email: ای میل
+        status: حیثیت
