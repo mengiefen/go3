@@ -1,4 +1,10 @@
 fa:
+  common:
+    logo_alt: "لوگوی GO3"
+    company_name: "GO3"
+    all_rights_reserved: "تمامی حقوق محفوظ است"
+    best_regards: "با احترام"
+    company_team: "تیم GO3"
   sign_up:
     title: "ایجاد حساب کاربری"
     first_name: "نام"
@@ -12,7 +18,6 @@ fa:
     already_have_account: "قبلاً حساب کاربری دارید؟"
     sign_in: "ورود"
     minimum_password_length: "حداقل 6 کاراکتر"
-
   email_confirmation:
     title: "با تشکر از ثبت نام شما"
     message: "از ایجاد حساب کاربری با ما متشکریم. خوشحالیم که به ما پیوسته‌اید! برای شروع، لطفاً با کلیک روی لینکی که به %{email} ارسال کرده‌ایم، آدرس ایمیل خود را تایید کنید. اگر ایمیل را نمی‌بینید، لطفاً روی دکمه زیر کلیک کنید تا ایمیل تایید را مجدداً ارسال کنیم."
@@ -23,7 +28,16 @@ fa:
     confirmation_sent: "ایمیل تایید ارسال شد"
     resend_success: "ایمیل تایید مجدداً ارسال شد"
     resend_error: "امکان ارسال مجدد ایمیل تایید وجود ندارد"
-
+  onboarding:
+    title: "به GO3 خوش آمدید! بیایید شروع کنیم"
+    subtitle: "سازمان اول خود را ایجاد کنید تا سفر خود را با ما آغاز کنید"
+    organization_name_label: "نام سازمان شما چیست؟"
+    organization_name_placeholder: "نام سازمان خود را وارد کنید"
+    submit_button: "ایجاد سازمان"
+    random_name_button: "تولید نام تصادفی"
+    description: "سازمان شما جایی است که تیم، پروژه‌ها و منابع خود را مدیریت خواهید کرد. همیشه می‌توانید این را بعداً تغییر دهید."
+    success_message: "سازمان با موفقیت ایجاد شد! به ما خوش آمدید!"
+    error_message: "خطایی در ایجاد سازمان شما رخ داد. لطفاً دوباره تلاش کنید." 
   devise:
     confirmations:
       confirmed: "آدرس ایمیل شما با موفقیت تایید شد."
@@ -38,7 +52,6 @@ fa:
       updated: "حساب کاربری شما با موفقیت به‌روزرسانی شد."
       updated_but_not_signed_in: "حساب کاربری شما با موفقیت به‌روزرسانی شد، اما از آنجا که رمز عبور شما تغییر کرده است، باید دوباره وارد شوید."
       destroyed: "خداحافظ! حساب کاربری شما با موفقیت لغو شد. امیدواریم به زودی دوباره شما را ببینیم."
-
   flash:
     actions:
       create:
@@ -55,24 +68,6 @@ fa:
       not_found: "منبع یافت نشد"
       invalid: "داده نامعتبر"
       server_error: "خطای سرور"
-
-  common:
-    logo_alt: "لوگوی GO3"
-    company_name: "GO3"
-    all_rights_reserved: "تمامی حقوق محفوظ است"
-    best_regards: "با احترام"
-    company_team: "تیم GO3"
-
-  onboarding:
-    title: "به GO3 خوش آمدید! بیایید شروع کنیم"
-    subtitle: "سازمان اول خود را ایجاد کنید تا سفر خود را با ما آغاز کنید"
-    organization_name_label: "نام سازمان شما چیست؟"
-    organization_name_placeholder: "نام سازمان خود را وارد کنید"
-    submit_button: "ایجاد سازمان"
-    random_name_button: "تولید نام تصادفی"
-    description: "سازمان شما جایی است که تیم، پروژه‌ها و منابع خود را مدیریت خواهید کرد. همیشه می‌توانید این را بعداً تغییر دهید."
-    success_message: "سازمان با موفقیت ایجاد شد! به ما خوش آمدید!"
-    error_message: "خطایی در ایجاد سازمان شما رخ داد. لطفاً دوباره تلاش کنید." 
   models:
     member:
       status:

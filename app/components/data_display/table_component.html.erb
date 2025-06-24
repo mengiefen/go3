@@ -1,3 +1,4 @@
+<!-- app/components/data_display/table_component.html.erb -->
 <table class="table-component">
   <thead>
     <tr>
@@ -8,26 +9,20 @@
       <% end %>
     </tr>
   </thead>
-  <tbody>
-    <% @rows.each do |row| %>
-      <tr class="table-row">
-        <% row.each do |cell| %>
-          <td class="table-cell <%= cell[:class] %>">
-            <%= cell[:content] %>
-          </td>
-        <% end %>
-      </tr>
+  <tbody id="<%= @turbo_frame_target %>">
+    <% rows.each do |row| %>
+      <%= row %>
     <% end %>
   </tbody>
 </table>
 
 <style>
   .table-component {
+    padding: 10px;
     width: 100%;
 
     thead {
-
-      tr{
+      tr {
         background-color: silver;
         height: 25px;
 

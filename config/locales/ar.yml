@@ -1,4 +1,10 @@
 ar:
+  common:
+    logo_alt: "شعار GO3"
+    company_name: "GO3"
+    all_rights_reserved: "جميع الحقوق محفوظة"
+    best_regards: "مع أطيب التحيات"
+    company_team: "فريق GO3"
   sign_up:
     title: "إنشاء حساب"
     first_name: "الاسم الأول"
@@ -12,32 +18,6 @@ ar:
     already_have_account: "هل لديك حساب بالفعل؟"
     sign_in: "تسجيل الدخول"
     minimum_password_length: "الحد الأدنى 6 أحرف"
-    errors:
-      models:
-        user:
-          attributes:
-            email:
-              blank: "البريد الإلكتروني لا يمكن أن يكون فارغًا"
-              taken: "البريد الإلكتروني مستخدم بالفعل"
-              invalid: "البريد الإلكتروني غير صالح"
-            password:
-              blank: "كلمة المرور لا يمكن أن تكون فارغة"
-              too_short: "كلمة المرور قصيرة جدًا (الحد الأدنى %{count} أحرف)"
-              confirmation: "تأكيد كلمة المرور لا يتطابق مع كلمة المرور"
-            first_name:
-              blank: "الاسم الأول لا يمكن أن يكون فارغًا"
-            last_name:
-              blank: "الاسم الأخير لا يمكن أن يكون فارغًا"
-      messages:
-        record_invalid: "فشل التحقق: %{errors}"
-        restrict_dependent_destroy:
-          has_one: "لا يمكن حذف السجل لوجود %{record} تابع"
-          has_many: "لا يمكن حذف السجل لوجود سجلات تابعة %{record}"
-        taken: "مستخدم بالفعل"
-        blank: "لا يمكن أن يكون فارغًا"
-        too_short: "قصير جدًا (الحد الأدنى %{count} أحرف)"
-        confirmation: "لا يتطابق مع التأكيد"
-
   email_confirmation:
     title: "شكراً لتسجيلك معنا"
     message: "شكراً لإنشاء حساب معنا. يسعدنا انضمامك إلينا! للبدء، يرجى تأكيد عنوان بريدك الإلكتروني بالنقر على الرابط الذي أرسلناه إلى %{email}. إذا لم تجد البريد الإلكتروني، يرجى النقر على الزر أدناه لإعادة إرسال بريد التأكيد."
@@ -48,7 +28,16 @@ ar:
     confirmation_sent: "تم إرسال بريد التأكيد"
     resend_success: "تم إعادة إرسال بريد التأكيد"
     resend_error: "تعذر إعادة إرسال بريد التأكيد"
-
+  onboarding:
+    title: "مرحباً بك في GO3! دعنا نبدأ"
+    subtitle: "أنشئ مؤسستك الأولى لتبدأ رحلتك معنا"
+    organization_name_label: "ما هو اسم مؤسستك؟"
+    organization_name_placeholder: "أدخل اسم مؤسستك"
+    submit_button: "إنشاء المؤسسة"
+    random_name_button: "توليد اسم عشوائي"
+    description: "مؤسستك هي المكان الذي ستقوم فيه بإدارة فريقك ومشاريعك ومواردك. يمكنك تغيير هذا لاحقاً."
+    success_message: "تم إنشاء المؤسسة بنجاح! مرحباً بك!"
+    error_message: "حدث خطأ أثناء إنشاء مؤسستك. يرجى المحاولة مرة أخرى." 
   devise:
     confirmations:
       confirmed: "تم تأكيد عنوان بريدك الإلكتروني بنجاح."
@@ -63,16 +52,6 @@ ar:
       updated: "تم تحديث حسابك بنجاح."
       updated_but_not_signed_in: "تم تحديث حسابك بنجاح، ولكن نظرًا لتغيير كلمة المرور، تحتاج إلى تسجيل الدخول مرة أخرى."
       destroyed: "وداعًا! تم إلغاء حسابك بنجاح. نأمل أن نراك مرة أخرى قريبًا."
-    mailer:
-      confirmation_instructions:
-        subject: "تأكيد عنوان بريدك الإلكتروني"
-        welcome: "مرحباً بك في GO3!"
-        hello: "مرحباً %{email}!"
-        confirm_link: "شكراً لتسجيلك! لإكمال عملية التسجيل والوصول إلى حسابك، يرجى تأكيد عنوان بريدك الإلكتروني بالنقر على الزر أدناه."
-        confirm_button: "تأكيد عنوان بريدي الإلكتروني"
-        expiry_notice: "ستنتهي صلاحية رابط التأكيد خلال 24 ساعة. إذا لم تقم بإنشاء حساب، يرجى تجاهل هذا البريد الإلكتروني."
-        ignore_notice: "إذا لم تطلب هذا البريد الإلكتروني، يرجى تجاهله. لن يتم إنشاء حسابك حتى تقوم بتأكيد عنوان بريدك الإلكتروني."
-
   flash:
     actions:
       create:
@@ -89,24 +68,6 @@ ar:
       not_found: "لم يتم العثور على المورد المطلوب"
       invalid: "البيانات غير صالحة"
       server_error: "حدث خطأ في الخادم"
-
-  common:
-    logo_alt: "شعار GO3"
-    company_name: "GO3"
-    all_rights_reserved: "جميع الحقوق محفوظة"
-    best_regards: "مع أطيب التحيات"
-    company_team: "فريق GO3"
-
-  onboarding:
-    title: "مرحباً بك في GO3! دعنا نبدأ"
-    subtitle: "أنشئ مؤسستك الأولى لتبدأ رحلتك معنا"
-    organization_name_label: "ما هو اسم مؤسستك؟"
-    organization_name_placeholder: "أدخل اسم مؤسستك"
-    submit_button: "إنشاء المؤسسة"
-    random_name_button: "توليد اسم عشوائي"
-    description: "مؤسستك هي المكان الذي ستقوم فيه بإدارة فريقك ومشاريعك ومواردك. يمكنك تغيير هذا لاحقاً."
-    success_message: "تم إنشاء المؤسسة بنجاح! مرحباً بك!"
-    error_message: "حدث خطأ أثناء إنشاء مؤسستك. يرجى المحاولة مرة أخرى." 
   models:
     member:
       status:

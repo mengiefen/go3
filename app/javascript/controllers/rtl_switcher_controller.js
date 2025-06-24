@@ -17,15 +17,9 @@ export default class extends Controller {
     // Update the RTL value
     this.rtlValue = isRtl
     
-    // Update the document direction
-    document.documentElement.dir = isRtl ? 'rtl' : 'ltr'
-    
-    // Add or remove RTL-specific classes
-    if (isRtl) {
-      document.documentElement.classList.add('rtl')
-    } else {
-      document.documentElement.classList.remove('rtl')
-    }
+    // Update the body direction
+    let body = document.getElementsByTagName("body")[0]
+    body.setAttribute("dir", isRtl ? "rtl" : "ltr")
   }
 
   isRtlLanguage(code) {

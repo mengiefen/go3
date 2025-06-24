@@ -1,0 +1,8 @@
+<tr>
+  <td>
+    <%= render partial: "initial", locals: { initial: member.initial, color: member.color } %>
+    <%= member.name %>
+  </td>
+  <td class="text-center"><%= member.email %></td>
+  <td class="text-center"><%= member.localized_status %></td>
+</tr>

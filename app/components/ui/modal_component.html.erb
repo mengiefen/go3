@@ -1,7 +1,7 @@
 <%# filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/ui/modal_component.html.erb %>
 <div 
   id="<%= id %>"
-  class="hidden fixed inset-0 z-50 overflow-y-auto"
+  class="fixed inset-0 z-50 overflow-y-auto"
   aria-labelledby="<%= id %>-title"
   role="dialog"
   aria-modal="true"
@@ -9,7 +9,7 @@
   data-action="keydown.escape->modal#close"
 >
   <!-- Background overlay -->
-  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" data-action="click->modal#close"></div>
+  <div class="fixed inset-0 bg-[#00000060] transition-opacity" data-action="click->modal#close"></div>
   
   <!-- Modal panel -->
   <div class="relative min-h-screen flex items-center justify-center p-4">

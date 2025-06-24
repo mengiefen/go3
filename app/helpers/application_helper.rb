@@ -26,4 +26,19 @@ module ApplicationHelper
     action_segment = action_name
     I18n.t("views.#{controller_segments.join('.')}.#{action_segment}.#{key}", **options )
   end
+
+  def contrast_color(hex_color)
+    hex_color = "#ffffff" unless hex_color
+    hex_color = hex_color.gsub('#', '')
+  
+    # Parse the RGB components
+    r, g, b = hex_color.scan(/../).map(&:hex)
+  
+    # Calculate the relative luminance
+    brightness = (r * 299 + g * 587 + b * 114) / 1000
+  
+    # Return black for light backgrounds, white for dark ones
+    brightness > 128 ? 'black' : 'white'
+  end
+  
 end

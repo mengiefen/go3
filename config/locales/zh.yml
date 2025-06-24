@@ -1,4 +1,10 @@
 zh:
+  common:
+    logo_alt: "GO3标志"
+    company_name: "GO3"
+    all_rights_reserved: "版权所有"
+    best_regards: "此致"
+    company_team: "GO3团队"
   sign_up:
     title: "创建账户"
     first_name: "名字"
@@ -12,7 +18,6 @@ zh:
     already_have_account: "已有账户？"
     sign_in: "登录"
     minimum_password_length: "最少6个字符"
-
   email_confirmation:
     title: "感谢您的注册"
     message: "感谢您创建账户。我们很高兴您加入我们！要开始使用，请点击我们发送到%{email}的链接来确认您的电子邮箱地址。如果您没有收到邮件，请点击下面的按钮重新发送确认邮件。"
@@ -23,7 +28,16 @@ zh:
     confirmation_sent: "确认邮件已发送"
     resend_success: "确认邮件已重新发送"
     resend_error: "无法重新发送确认邮件"
-
+  onboarding:
+    title: "欢迎来到GO3！让我们开始吧"
+    subtitle: "创建您的第一个组织，开始与我们同行"
+    organization_name_label: "您的组织名称是什么？"
+    organization_name_placeholder: "输入您的组织名称"
+    submit_button: "创建组织"
+    random_name_button: "生成随机名称"
+    description: "您的组织是您管理团队、项目和资源的地方。您可以随时更改。"
+    success_message: "组织创建成功！欢迎加入！"
+    error_message: "创建组织时出错。请重试。"
   devise:
     confirmations:
       confirmed: "您的电子邮箱地址已成功确认。"
@@ -38,7 +52,6 @@ zh:
       updated: "您的账户已成功更新。"
       updated_but_not_signed_in: "您的账户已成功更新，但由于密码已更改，您需要重新登录。"
       destroyed: "再见！您的账户已成功注销。希望很快能再次见到您。"
-
   flash:
     actions:
       create:
@@ -55,25 +68,6 @@ zh:
       not_found: "未找到资源"
       invalid: "无效数据"
       server_error: "服务器错误"
-
-  common:
-    logo_alt: "GO3标志"
-    company_name: "GO3"
-    all_rights_reserved: "版权所有"
-    best_regards: "此致"
-    company_team: "GO3团队"
-
-  onboarding:
-    title: "欢迎来到GO3！让我们开始吧"
-    subtitle: "创建您的第一个组织，开始与我们同行"
-    organization_name_label: "您的组织名称是什么？"
-    organization_name_placeholder: "输入您的组织名称"
-    submit_button: "创建组织"
-    random_name_button: "生成随机名称"
-    description: "您的组织是您管理团队、项目和资源的地方。您可以随时更改。"
-    success_message: "组织创建成功！欢迎加入！"
-    error_message: "创建组织时出错。请重试。" 
-
   models:
     member:
       status:

@@ -1,4 +1,10 @@
 fr:
+  common:
+    logo_alt: "Logo GO3"
+    company_name: "GO3"
+    all_rights_reserved: "Tous droits réservés"
+    best_regards: "Cordialement"
+    company_team: "L'équipe GO3"
   sign_up:
     title: "Créer un compte"
     first_name: "Prénom"
@@ -12,7 +18,6 @@ fr:
     already_have_account: "Vous avez déjà un compte ?"
     sign_in: "Se connecter"
     minimum_password_length: "6 caractères minimum"
-
   email_confirmation:
     title: "Merci de vous être inscrit"
     message: "Merci d'avoir créé un compte avec nous. Nous sommes ravis de vous accueillir ! Pour commencer, veuillez confirmer votre adresse e-mail en cliquant sur le lien que nous avons envoyé à %{email}. Si vous ne voyez pas l'e-mail, veuillez cliquer sur le bouton ci-dessous pour renvoyer l'e-mail de confirmation."
@@ -23,7 +28,16 @@ fr:
     confirmation_sent: "L'e-mail de confirmation a été envoyé"
     resend_success: "L'e-mail de confirmation a été renvoyé"
     resend_error: "Impossible de renvoyer l'e-mail de confirmation"
-
+  onboarding:
+    title: "Bienvenue sur GO3 ! Commençons"
+    subtitle: "Créez votre première organisation pour commencer votre voyage avec nous"
+    organization_name_label: "Quel est le nom de votre organisation ?"
+    organization_name_placeholder: "Entrez le nom de votre organisation"
+    submit_button: "Créer l'Organisation"
+    random_name_button: "Générer un Nom Aléatoire"
+    description: "Votre organisation est l'endroit où vous gérerez votre équipe, vos projets et vos ressources. Vous pourrez toujours modifier cela plus tard."
+    success_message: "Organisation créée avec succès ! Bienvenue à bord !"
+    error_message: "Une erreur s'est produite lors de la création de votre organisation. Veuillez réessayer."
   devise:
     confirmations:
       confirmed: "Votre adresse e-mail a été confirmée avec succès."
@@ -38,7 +52,6 @@ fr:
       updated: "Votre compte a été mis à jour avec succès."
       updated_but_not_signed_in: "Votre compte a été mis à jour avec succès, mais comme votre mot de passe a été modifié, vous devez vous reconnecter."
       destroyed: "Au revoir ! Votre compte a été supprimé avec succès. Nous espérons vous revoir bientôt."
-
   flash:
     actions:
       create:
@@ -55,24 +68,6 @@ fr:
       not_found: "Ressource non trouvée"
       invalid: "Données invalides"
       server_error: "Erreur serveur"
-
-  common:
-    logo_alt: "Logo GO3"
-    company_name: "GO3"
-    all_rights_reserved: "Tous droits réservés"
-    best_regards: "Cordialement"
-    company_team: "L'équipe GO3"
-
-  onboarding:
-    title: "Bienvenue sur GO3 ! Commençons"
-    subtitle: "Créez votre première organisation pour commencer votre voyage avec nous"
-    organization_name_label: "Quel est le nom de votre organisation ?"
-    organization_name_placeholder: "Entrez le nom de votre organisation"
-    submit_button: "Créer l'Organisation"
-    random_name_button: "Générer un Nom Aléatoire"
-    description: "Votre organisation est l'endroit où vous gérerez votre équipe, vos projets et vos ressources. Vous pourrez toujours modifier cela plus tard."
-    success_message: "Organisation créée avec succès ! Bienvenue à bord !"
-    error_message: "Une erreur s'est produite lors de la création de votre organisation. Veuillez réessayer."
   models:
     member:
       status:

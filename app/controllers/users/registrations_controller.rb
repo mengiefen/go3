@@ -6,6 +6,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
+    if params[:invitation_key]
+      @member = Member.find_by(invitation_key: params[:invitation_key])
+      if @member
+        build_resource(email: @member.email)
+      else
+        flash[:alert] = "Invalid invitation link"
+      end
+    end
     super
   end
 
@@ -26,12 +34,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # Store email and language in session for confirmation pending page
       session[:user_email] = resource.email
       session[:user_language] = resource.language
-      
-      # Clear any existing flash messages
       flash.clear
+
+      if params[:invitation_key]
+        member = Member.find_by(invitation_key: params[:invitation_key])
+        if member 
+          member.update!(
+            user_id: resource.id,
+            joined_at: Time.current,
+            invitation_key: nil
+          )
+
+          resource.skip_confirmation!
+          resource.update(
+            confirmed_at: Time.current,
+            confirmation_token: nil,
+            confirmation_sent_at: nil
+          )
+        end
+        redirect_to ""
+      else
+        redirect_to confirmation_pending_path
+      end
       
-      # Redirect to confirmation pending page
-      redirect_to confirmation_pending_path
     else
       clean_up_passwords resource
       set_minimum_password_length

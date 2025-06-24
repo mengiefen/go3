@@ -1,4 +1,10 @@
 es:
+  common:
+    logo_alt: "Logo GO3"
+    company_name: "GO3"
+    all_rights_reserved: "Todos los derechos reservados"
+    best_regards: "Saludos cordiales"
+    company_team: "Equipo GO3"
   sign_up:
     title: "Crear una cuenta"
     first_name: "Nombre"
@@ -12,7 +18,6 @@ es:
     already_have_account: "¿Ya tienes una cuenta?"
     sign_in: "Iniciar sesión"
     minimum_password_length: "6 caracteres mínimo"
-
   email_confirmation:
     title: "Gracias por registrarte"
     message: "Gracias por crear una cuenta con nosotros. ¡Nos alegra tenerte a bordo! Para comenzar, por favor confirma tu dirección de correo electrónico haciendo clic en el enlace que te hemos enviado a %{email}. Si no ves el correo electrónico, haz clic en el botón de abajo para reenviar el correo de confirmación."
@@ -23,7 +28,16 @@ es:
     confirmation_sent: "Se ha enviado el correo de confirmación"
     resend_success: "Se ha reenviado el correo de confirmación"
     resend_error: "No se pudo reenviar el correo de confirmación"
-
+  onboarding:
+    title: "¡Bienvenido a GO3! Empecemos"
+    subtitle: "Crea tu primera organización para comenzar tu viaje con nosotros"
+    organization_name_label: "¿Cuál es el nombre de tu organización?"
+    organization_name_placeholder: "Ingresa el nombre de tu organización"
+    submit_button: "Crear Organización"
+    random_name_button: "Generar Nombre Aleatorio"
+    description: "Tu organización es donde administrarás tu equipo, proyectos y recursos. Siempre puedes cambiar esto más tarde."
+    success_message: "¡Organización creada con éxito! ¡Bienvenido a bordo!"
+    error_message: "Hubo un error al crear tu organización. Por favor, inténtalo de nuevo." 
   devise:
     confirmations:
       confirmed: "Tu dirección de correo electrónico ha sido confirmada con éxito."
@@ -38,7 +52,6 @@ es:
       updated: "Tu cuenta ha sido actualizada con éxito."
       updated_but_not_signed_in: "Tu cuenta ha sido actualizada con éxito, pero como tu contraseña fue cambiada, necesitas iniciar sesión nuevamente."
       destroyed: "¡Adiós! Tu cuenta ha sido cancelada con éxito. Esperamos verte pronto."
-
   flash:
     actions:
       create:
@@ -55,24 +68,6 @@ es:
       not_found: "Recurso no encontrado"
       invalid: "Datos inválidos"
       server_error: "Error del servidor"
-
-  common:
-    logo_alt: "Logo GO3"
-    company_name: "GO3"
-    all_rights_reserved: "Todos los derechos reservados"
-    best_regards: "Saludos cordiales"
-    company_team: "Equipo GO3"
-
-  onboarding:
-    title: "¡Bienvenido a GO3! Empecemos"
-    subtitle: "Crea tu primera organización para comenzar tu viaje con nosotros"
-    organization_name_label: "¿Cuál es el nombre de tu organización?"
-    organization_name_placeholder: "Ingresa el nombre de tu organización"
-    submit_button: "Crear Organización"
-    random_name_button: "Generar Nombre Aleatorio"
-    description: "Tu organización es donde administrarás tu equipo, proyectos y recursos. Siempre puedes cambiar esto más tarde."
-    success_message: "¡Organización creada con éxito! ¡Bienvenido a bordo!"
-    error_message: "Hubo un error al crear tu organización. Por favor, inténtalo de nuevo." 
   models:
     member:
       status:
@@ -83,8 +78,8 @@ es:
   views:
     members:
       index:
-        list_of_members: Lista de Miembros  
-        add_a_new_member: Agregar un Nuevo Miembro  
+        list_of_members: Lista de miembros  
+        add_a_new_member: Agregar un nuevo miembro  
         name: Nombre  
         email: Correo Electrónico  
         status: Estado  
