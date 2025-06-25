@@ -41,7 +41,8 @@ class OrganizationsController < ApplicationController
         organization: @organization,
         email: current_user.email,
         joined_at: DateTime.now,
-        initial: current_user.first_name[0].upcase + current_user.last_name.upcase
+        initial: current_user.first_name[0].upcase + current_user.last_name[0].upcase,
+        color: "#c9b12d"
       ) unless current_user.is_go3_admin?
 
       member.name = current_user.full_name
