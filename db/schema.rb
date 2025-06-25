@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_23_183126) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_25_204132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -101,6 +101,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_183126) do
     t.boolean "is_trial", default: false
     t.datetime "archived_at"
     t.integer "archive_number"
+    t.string "language", default: "en", null: false
     t.index ["archived_at"], name: "index_organizations_on_archived_at"
     t.index ["name"], name: "index_organizations_on_name", using: :gin
     t.index ["parent_id"], name: "index_organizations_on_parent_id"

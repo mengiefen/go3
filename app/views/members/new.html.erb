@@ -25,7 +25,7 @@
       <div class="flex justify-end space-x-2 pt-4">
         <%= link_to view_t("cancel"), "", onclick: "document.getElementById('modal').innerHTML = ''", class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50" %>
         <%= form.submit view_t("create"), class: "px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700" %>
-        <%= form.submit view_t("create_and_invite"), name: "invite", value: "Create and invite", id: "invite_button", disabled: true, class: "px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed" %>
+        <%= form.submit view_t("create_and_invite"), name: "invite", value: view_t("create_and_invite"), id: "invite_button", disabled: true, class: "px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed" %>
       </div>
     <% end %>
   <% end %>

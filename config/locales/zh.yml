@@ -122,6 +122,19 @@ zh:
       not_found: "未找到资源"
       invalid: "无效数据"
       server_error: "服务器错误"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "您被邀请加入%{organization_name}"
+        template:
+          join: "加入%{organization_name}"
+          hello: "您好"
+          accept_invitation: "接受邀请"
+          invitation: "您已被邀请加入<strong>%{organization_name}</strong>。"
+          instruction: "请点击以下链接注册并接受邀请："
+          accept_invitation: "接受邀请"
+          copy_link: "或者复制此网址到您的浏览器中："
+          already_a_member: "如果您已有账户，请先登录。"
   models:
     member:
       status:

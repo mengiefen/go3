@@ -122,6 +122,19 @@ es:
       not_found: "Recurso no encontrado"
       invalid: "Datos inválidos"
       server_error: "Error del servidor"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "Estás invitado a unirte a %{organization_name}"
+        template:
+          join: "Únete a %{organization_name}"
+          hello: "Hola"
+          accept_invitation: "Aceptar invitación"
+          invitation: "Has sido invitado a unirte a <strong>%{organization_name}</strong>."
+          instruction: "Haz clic en el siguiente enlace para registrarte y aceptar tu invitación:"
+          accept_invitation: "Aceptar invitación"
+          copy_link: "O copia y pega esta URL en tu navegador:"
+          already_a_member: "Si ya tienes una cuenta, por favor inicia sesión primero."
   models:
     member:
       status:

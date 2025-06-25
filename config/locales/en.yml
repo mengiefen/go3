@@ -122,6 +122,19 @@ en:
       not_found: "Resource not found"
       invalid: "Invalid data"
       server_error: "Server error occurred"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "You're invited to join %{organization_name}"
+        template:
+          join: "Join %{organization_name}"
+          hello: Hello,
+          accept_invitation: 
+          invitation: You've been invited to join <strong>%{organization_name}</strong>.
+          instruction: "Click the link below to sign up and accept your invitation:"
+          accept_invitation: Accept Invitation
+          copy_link: "Or copy and paste this URL into your browser:"
+          already_a_member: If you already have an account, please log in first.
   models:
     member:
       status:

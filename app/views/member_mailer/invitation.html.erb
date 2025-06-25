@@ -1,18 +1,16 @@
-<h1>Join <%= @organization.name %></h1>
+<h1><%= mailer_template_t("join", organization_name: @organization.name) %></h1>
 
-<p>Hello,</p>
+<p><%= mailer_template_t("hello") %></p>
 
-<p>You've been invited to join <strong><%= @organization.name %></strong>.</p>
+<p><%= simple_format(mailer_template_t("invitation", organization_name: @organization.name)) %></p>
 
-<p>Click the link below to sign up and accept your invitation:</p>
+<p><%= mailer_template_t("instruction", organization_name: @organization.name) %></p>
 
 <p>
-  <%= link_to "Accept Invitation", @signup_url %>
+  <%= link_to mailer_template_t("accept_invitation"), @signup_url %>
 </p>
 
-<p>Or copy and paste this URL into your browser:</p>
+<p><%= mailer_template_t("copy_link") %></p>
 <pre><%= @signup_url %></pre>
 
-<p>If you already have an account, please log in first.</p>
-
-<p>If you didn't request this invitation, you can safely ignore this email.</p>
+<p><%= mailer_template_t("already_a_member") %></p>

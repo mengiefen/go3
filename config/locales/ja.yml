@@ -122,6 +122,19 @@ ja:
       not_found: "リソースが見つかりません"
       invalid: "無効なデータです"
       server_error: "サーバーエラーが発生しました"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "%{organization_name}に招待されています"
+        template:
+          join: "%{organization_name}に参加"
+          hello: "こんにちは"
+          accept_invitation: "招待を受ける"
+          invitation: "<strong>%{organization_name}</strong>に参加するよう招待されました。"
+          instruction: "以下のリンクをクリックして登録し、招待を受け入れてください:"
+          accept_invitation: "招待を受ける"
+          copy_link: "またはこのURLをブラウザにコピーしてください:"
+          already_a_member: "すでにアカウントをお持ちの場合は、まずログインしてください。"
   models:
     member:
       status:

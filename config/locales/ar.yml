@@ -122,6 +122,19 @@ ar:
       not_found: "لم يتم العثور على المورد المطلوب"
       invalid: "البيانات غير صالحة"
       server_error: "حدث خطأ في الخادم"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "تمت دعوتك للانضمام إلى %{organization_name}"
+        template:
+          join: "انضم إلى %{organization_name}"
+          hello: "مرحبًا"
+          accept_invitation: "قبول الدعوة"
+          invitation: "لقد تمت دعوتك للانضمام إلى <strong>%{organization_name}</strong>."
+          instruction: "انقر على الرابط أدناه للتسجيل وقبول دعوتك:"
+          accept_invitation: "قبول الدعوة"
+          copy_link: "أو انسخ هذا الرابط والصقه في متصفحك:"
+          already_a_member: "إذا كان لديك حساب بالفعل، يرجى تسجيل الدخول أولاً."
   models:
     member:
       status:

@@ -122,6 +122,19 @@ fa:
       not_found: "منبع یافت نشد"
       invalid: "داده نامعتبر"
       server_error: "خطای سرور"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "شما به سازمان %{organization_name} دعوت شده اید"
+        template:
+          join: "به  %{organization_name} وارد شوید"
+          hello: سلام
+          accept_invitation: 
+          invitation: شما برای ورود به سازمان <strong>%{organization_name}</strong> دعوت شده اید.
+          instruction: "بر روی لینک زیر کلیک کنید و با تکمیل فرم ثبت نام دعوتنامه را بپذیرید:"
+          accept_invitation: پذیرش دعوتنامه
+          copy_link: "یا می توانید لینک زیر  را کپی و در مرور گر خود وارد کنید:"
+          already_a_member: اگر قبلا ثبت نام کرده اید لطفا ابتدا وارد شوید.
   models:
     member:
       status:

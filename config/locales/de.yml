@@ -122,6 +122,19 @@ de:
       not_found: "Ressource nicht gefunden"
       invalid: "Ungültige Daten"
       server_error: "Serverfehler aufgetreten"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "Sie sind eingeladen, %{organization_name} beizutreten"
+        template:
+          join: "%{organization_name} beitreten"
+          hello: "Hallo"
+          accept_invitation: "Einladung annehmen"
+          invitation: "Sie wurden eingeladen, <strong>%{organization_name}</strong> beizutreten."
+          instruction: "Klicken Sie auf den untenstehenden Link, um sich anzumelden und die Einladung anzunehmen:"
+          accept_invitation: "Einladung annehmen"
+          copy_link: "Oder kopieren Sie diese URL und fügen Sie sie in Ihren Browser ein:"
+          already_a_member: "Wenn Sie bereits ein Konto haben, melden Sie sich bitte zuerst an."
   models:
     member:
       status:

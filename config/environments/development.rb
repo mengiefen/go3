@@ -44,7 +44,7 @@ Rails.application.configure do
   config.action_mailer.default_options = { from: 'noreply@example.com' }
   
   # Set default URL options for ActionMailer
-  host = ENV.fetch('HOST') { 'localhost:3000' }
+  host = ENV.fetch('HOST') { 'localhost:5000' }
   config.action_mailer.default_url_options = { host: host, protocol: 'http' }
 
   # Print deprecation notices to the Rails logger.

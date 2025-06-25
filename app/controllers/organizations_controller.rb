@@ -32,6 +32,7 @@ class OrganizationsController < ApplicationController
     if !current_user.is_go3_admin? && !@organization.parent_id.present?
       @organization.is_tenant = true
       @organization.is_trial = true
+      @organization.language = current_user.language
     end
     
     if @organization.save

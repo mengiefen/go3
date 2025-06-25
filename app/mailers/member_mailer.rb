@@ -6,7 +6,7 @@ class MemberMailer < ApplicationMailer
     
     mail(
       to: @member.email,
-      subject: "You're invited to join #{@organization.name}"
+      subject: mailer_t("you_are_invited", organization_name: @organization.name)
     )
   end
 end

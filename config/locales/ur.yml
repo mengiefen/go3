@@ -122,6 +122,19 @@ ur:
       not_found: "وسیلہ نہیں ملا"
       invalid: "غلط ڈیٹا"
       server_error: "سرور خرابی"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "آپ کو %{organization_name} میں شامل ہونے کے لیے مدعو کیا گیا ہے"
+        template:
+          join: "%{organization_name} میں شامل ہوں"
+          hello: "سلام"
+          accept_invitation: "دعوت قبول کریں"
+          invitation: "آپ کو <strong>%{organization_name}</strong> میں شامل ہونے کے لیے مدعو کیا گیا ہے۔"
+          instruction: "رجسٹر ہونے اور اپنی دعوت قبول کرنے کے لیے نیچے دیے گئے لنک پر کلک کریں:"
+          accept_invitation: "دعوت قبول کریں"
+          copy_link: "یا اس یو آر ایل کو اپنے براؤزر میں کاپی اور پیسٹ کریں:"
+          already_a_member: "اگر آپ کے پاس پہلے سے اکاؤنٹ ہے، تو براہ کرم پہلے لاگ ان کریں۔"
   models:
     member:
       status:
