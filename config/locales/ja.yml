@@ -146,6 +146,7 @@ ja:
     members:
       index:
         list_of_members: メンバー一覧
+        search_placeholder: 名前またはメールアドレスでメンバーを検索 ...
         add_a_new_member: 新規メンバー追加
         name: 名前
         email: メールアドレス

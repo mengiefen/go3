@@ -29,7 +29,7 @@ module Go3
     config.i18n.available_locales = [:en, :fr, :es, :de, :zh, :ja, :ar, :fa, :ur]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = true
-    config.i18n.fallbacks = [I18n.default_locale]
+    config.i18n.fallbacks = [I18n.default_locale, :fr, :es, :de, :zh, :ja, :ar, :fa, :ur]
 
     # Configuration for the application, engines, and railties goes here.
     #

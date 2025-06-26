@@ -146,6 +146,7 @@ fa:
     members:
       index:
         list_of_members: لیست اعضا
+        search_placeholder: جستجوی اعضا بر اساس نام یا ایمیل ...
         add_a_new_member: افزودن عضو جدید
         name: نام
         email: ایمیل

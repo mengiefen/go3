@@ -146,6 +146,7 @@ ar:
     members:
       index:
         list_of_members: قائمة الأعضاء
+        search_placeholder: ابحث عن الأعضاء بالاسم أو البريد الإلكتروني ...
         add_a_new_member: إضافة عضو جديد
         name: الاسم
         email: البريد الإلكتروني

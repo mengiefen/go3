@@ -1,8 +1,10 @@
-<tr>
-  <td>
+<tr class="hover:bg-gray-100 transition-colors" data-search-member-target="row">
+  <td class="flex items-center space-x-3 py-3 px-4 font-medium text-gray-900">
     <%= render partial: "initial", locals: { initial: member.initial, color: member.color } %>
     <%= member.name %>
   </td>
-  <td class="text-center"><%= member.email %></td>
-  <td class="text-center"><%= member.localized_status %></td>
+  <td class="text-center text-gray-700"><%= member.email %></td>
+  <td class="text-center">
+    <div class="inline-flex align-center justify-center rounded-full px-4 py-2 text-md font-semibold bg-info text-gray-800"><%= member.localized_status %></div>
+  </td>
 </tr>

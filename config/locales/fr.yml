@@ -146,6 +146,7 @@ fr:
     members:
       index:
         list_of_members: Liste des membres  
+        search_placeholder: Rechercher des membres par nom ou e-mail ...
         add_a_new_member: Ajouter un nouveau membre  
         name: Nom  
         email: Email  

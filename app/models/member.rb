@@ -23,9 +23,9 @@ class Member < ApplicationRecord
   has_many :direct_permissions, as: :grantee, class_name: 'Permission'
 
   # Validations
-  validates :email, presence: true, 
-                    uniqueness: { scope: :organization_id },
-                    format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email,
+            uniqueness: { scope: :organization_id, allow_blank: true },
+            format: { with: URI::MailTo::EMAIL_REGEXP, allow_blank: true }
 
   validate :name_has_at_least_one_translation
 

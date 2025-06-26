@@ -146,6 +146,7 @@ ur:
     members:
       index:
         list_of_members: رکن کی فہرست
+        search_placeholder: نام یا ای میل کے ذریعے ممبرز تلاش کریں ...
         add_a_new_member: نیا رکن شامل کریں
         name: نام
         email: ای میل
