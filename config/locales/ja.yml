@@ -146,17 +146,32 @@ ja:
     members:
       index:
         list_of_members: メンバー一覧
-        search_placeholder: 名前またはメールアドレスでメンバーを検索 ...
-        add_a_new_member: 新規メンバー追加
+        search_placeholder: 名前またはメールでメンバーを検索 ...
+        add_a_new_member: 新しいメンバーを追加
         name: 名前
         email: メールアドレス
         status: ステータス
+        edit_member: メンバーを編集
+        set_as_admin: 管理者に設定
+        revoke_admin_permission: 管理者権限を取り消す
+        resend_invitation: 招待を再送信
+        archive: アーカイブ
+        unarchive: アーカイブを解除
       new:
         create_a_new_member: 新しいメンバーを作成
         full_name: フルネーム
-        email: メール (招待用)
+        email: メールアドレス（招待用）
         initials: イニシャル
         color: 色
         cancel: キャンセル
-        create: 作成
-        create_and_invite: 作成して招待
+        submit: 作成
+        submit_and_invite: 作成して招待
+      edit:
+        edit_member: メンバーを編集
+        full_name: フルネーム
+        email: メールアドレス（招待用）
+        initials: イニシャル
+        color: 色
+        cancel: キャンセル
+        submit: 更新
+        submit_and_invite: 更新して招待

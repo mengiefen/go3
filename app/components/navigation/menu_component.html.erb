@@ -1,0 +1,12 @@
+<div class="relative inline-block text-left" data-controller="menu">
+  <button type="button"
+          class="px-2 rounded-full hover:bg-gray-200 cursor-pointer"
+          data-action="click->menu#toggle">
+    <i class="fas fa-ellipsis-vertical"></i>
+  </button>
+
+  <ul data-menu-target="dropdown"
+      class="hidden absolute <%= helpers.current_rtl? ? "right" : "left" %>-0 mt-2 bg-white border rounded shadow-md z-50">
+    <%= content %>
+  </ul>
+</div>

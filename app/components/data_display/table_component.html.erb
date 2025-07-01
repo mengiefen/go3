@@ -1,9 +1,9 @@
 <!-- app/components/data_display/table_component.html.erb -->
-<table class="table-component">
-  <thead>
+<table class="table-component <%= @class_list %>">
+  <thead class="sticky top-0 bg-white z-10 shadow-sm">
     <tr>
       <% @columns.each do |column| %>
-        <th class="table-header <%= column[:class] %>">
+        <th class="table-header <%= column[:class] %>" width="<%= column[:width] || "auto"%>">
           <%= column[:label] %>
         </th>
       <% end %>

@@ -18,13 +18,17 @@ module ApplicationHelper
   end
 
   def current_rtl?
-    rtl_language?(I18n.locale)
+    rtl_language?(I18n.locale.to_s)
   end
 
-  def view_t(key, **options)
+  def language_dir
+    rtl_language?(I18n.locale.to_s) ? "rtl" : "ltr"
+  end
+
+  def view_t(key, action: nil, **options)
     controller_segments = controller_path.split('/')
-    action_segment = action_name
-    I18n.t("views.#{controller_segments.join('.')}.#{action_segment}.#{key}", **options )
+    action_segment = action || action_name
+    I18n.t("views.#{controller_segments.join('.')}.#{action_segment}.#{key}", **options)
   end
 
   def contrast_color(hex_color)
@@ -41,4 +45,7 @@ module ApplicationHelper
     brightness > 128 ? 'black' : 'white'
   end
   
+  def random_color
+    "#%06x" % rand(0..0xffffff)
+  end  
 end

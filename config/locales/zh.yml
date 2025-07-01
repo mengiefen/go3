@@ -146,11 +146,17 @@ zh:
     members:
       index:
         list_of_members: 成员列表
-        search_placeholder: 按姓名或电子邮件搜索成员 ...
+        search_placeholder: 按姓名或邮箱搜索成员 ...
         add_a_new_member: 添加新成员
-        name: 姓名 
+        name: 姓名
         email: 邮箱
         status: 状态
+        edit_member: 编辑成员
+        set_as_admin: 设为管理员
+        revoke_admin_permission: 撤销管理员权限
+        resend_invitation: 重新发送邀请
+        archive: 存档
+        unarchive: 取消存档
       new:
         create_a_new_member: 创建新成员
         full_name: 全名
@@ -158,5 +164,14 @@ zh:
         initials: 首字母
         color: 颜色
         cancel: 取消
-        create: 创建
-        create_and_invite: 创建并邀请
+        submit: 创建
+        submit_and_invite: 创建并邀请
+      edit:
+        edit_member: 编辑成员
+        full_name: 全名
+        email: 邮箱（用于邀请）
+        initials: 首字母
+        color: 颜色
+        cancel: 取消
+        submit: 更新
+        submit_and_invite: 更新并邀请

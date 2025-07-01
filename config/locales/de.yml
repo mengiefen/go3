@@ -151,6 +151,12 @@ de:
         name: Name
         email: E-Mail
         status: Status
+        edit_member: Mitglied bearbeiten
+        set_as_admin: Als Administrator festlegen
+        revoke_admin_permission: Administratorrechte entziehen
+        resend_invitation: Einladung erneut senden
+        archive: Archivieren
+        unarchive: Wiederherstellen
       new:
         create_a_new_member: Neues Mitglied erstellen
         full_name: Vollständiger Name
@@ -158,5 +164,15 @@ de:
         initials: Initialen
         color: Farbe
         cancel: Abbrechen
-        create: Erstellen
-        create_and_invite: Erstellen und Einladen
+        submit: Erstellen
+        submit_and_invite: Erstellen und Einladen
+      edit:
+        edit_member: Mitglied bearbeiten
+        full_name: Vollständiger Name
+        email: E-Mail (für Einladung)
+        initials: Initialen
+        color: Farbe
+        cancel: Abbrechen
+        submit: Aktualisieren
+        submit_and_invite: Aktualisieren und Einladen
+

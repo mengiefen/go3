@@ -145,18 +145,33 @@ fr:
   views:
     members:
       index:
-        list_of_members: Liste des membres  
-        search_placeholder: Rechercher des membres par nom ou e-mail ...
-        add_a_new_member: Ajouter un nouveau membre  
-        name: Nom  
-        email: Email  
-        status: Statut 
+        list_of_members: Liste des membres
+        search_placeholder: Rechercher des membres par nom ou email ...
+        add_a_new_member: Ajouter un nouveau membre
+        name: Nom
+        email: Email
+        status: Statut
+        edit_member: Modifier le membre
+        set_as_admin: Définir comme administrateur
+        revoke_admin_permission: Révoquer les droits d'administrateur
+        resend_invitation: Renvoyer l’invitation
+        archive: Archiver
+        unarchive: Désarchiver
       new:
         create_a_new_member: Créer un nouveau membre
         full_name: Nom complet
-        email: E-mail (pour invitation)
+        email: Email (pour l'invitation)
         initials: Initiales
         color: Couleur
         cancel: Annuler
-        create: Créer
-        create_and_invite: Créer et Inviter
+        submit: Créer
+        submit_and_invite: Créer et Inviter
+      edit:
+        edit_member: Modifier le membre
+        full_name: Nom complet
+        email: Email (pour l'invitation)
+        initials: Initiales
+        color: Couleur
+        cancel: Annuler
+        submit: Mettre à jour
+        submit_and_invite: Mettre à jour et Inviter

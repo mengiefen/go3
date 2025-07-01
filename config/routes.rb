@@ -55,7 +55,15 @@ Rails.application.routes.draw do
   end
 
   resources :organizations do
-    resources :members
+    resources :members do 
+      member do
+        patch :set_as_admin
+        patch :revoke_admin
+        post :resend_invitation
+        patch :archive
+        patch :unarchive
+      end
+    end
   end
   
   namespace :admin do

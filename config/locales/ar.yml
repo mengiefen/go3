@@ -151,12 +151,27 @@ ar:
         name: الاسم
         email: البريد الإلكتروني
         status: الحالة
-      new: 
+        edit_member: تعديل العضو
+        set_as_admin: تعيين كمسؤول
+        revoke_admin_permission: إلغاء صلاحية المسؤول
+        resend_invitation: إعادة إرسال الدعوة
+        archive: أرشفة
+        unarchive: إلغاء الأرشفة
+      new:
         create_a_new_member: إنشاء عضو جديد
         full_name: الاسم الكامل
         email: البريد الإلكتروني (للدعوة)
         initials: الأحرف الأولى
         color: اللون
         cancel: إلغاء
-        create: إنشاء
-        create_and_invite: إنشاء ودعوة
+        submit: إنشاء
+        submit_and_invite: إنشاء ودعوة
+      edit:
+        edit_member: تعديل العضو
+        full_name: الاسم الكامل
+        email: البريد الإلكتروني (للدعوة)
+        initials: الأحرف الأولى
+        color: اللون
+        cancel: إلغاء
+        submit: تحديث
+        submit_and_invite: تحديث ودعوة

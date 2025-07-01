@@ -145,18 +145,33 @@ fa:
   views:
     members:
       index:
-        list_of_members: لیست اعضا
+        list_of_members: فهرست اعضا
         search_placeholder: جستجوی اعضا بر اساس نام یا ایمیل ...
         add_a_new_member: افزودن عضو جدید
         name: نام
         email: ایمیل
         status: وضعیت
+        edit_member: ویرایش عضو
+        set_as_admin: تعیین به عنوان مدیر
+        revoke_admin_permission: لغو دسترسی مدیر
+        resend_invitation: ارسال مجدد دعوت‌نامه
+        archive: بایگانی
+        unarchive: خارج کردن از بایگانی
       new:
         create_a_new_member: ایجاد عضو جدید
         full_name: نام کامل
-        email: ایمیل (برای ارسال دعوتنامه)
-        initials: حروف اختصار
+        email: ایمیل (برای دعوت)
+        initials: حروف اختصاری
         color: رنگ
-        cancel: انصراف
-        create: ایجاد
-        create_and_invite: ایجاد و دعوت
+        cancel: لغو
+        submit: ایجاد
+        submit_and_invite: ایجاد و دعوت
+      edit:
+        edit_member: ویرایش عضو
+        full_name: نام کامل
+        email: ایمیل (برای دعوت)
+        initials: حروف اختصاری
+        color: رنگ
+        cancel: لغو
+        submit: به‌روزرسانی
+        submit_and_invite: به‌روزرسانی و دعوت

@@ -145,12 +145,18 @@ ur:
   views:
     members:
       index:
-        list_of_members: رکن کی فہرست
-        search_placeholder: نام یا ای میل کے ذریعے ممبرز تلاش کریں ...
+        list_of_members: اراکین کی فہرست
+        search_placeholder: نام یا ای میل سے اراکین تلاش کریں ...
         add_a_new_member: نیا رکن شامل کریں
         name: نام
         email: ای میل
         status: حیثیت
+        edit_member: رکن میں ترمیم کریں
+        set_as_admin: ایڈمن مقرر کریں
+        revoke_admin_permission: ایڈمن کی اجازت واپس لیں
+        resend_invitation: دعوت نامہ دوبارہ بھیجیں
+        archive: محفوظ کریں
+        unarchive: محفوظ شدہ سے نکالیں
       new:
         create_a_new_member: نیا رکن بنائیں
         full_name: مکمل نام
@@ -158,5 +164,14 @@ ur:
         initials: ابتدائی حروف
         color: رنگ
         cancel: منسوخ کریں
-        create: بنائیں
-        create_and_invite: بنائیں اور دعوت دیں
+        submit: بنائیں
+        submit_and_invite: بنائیں اور دعوت دیں
+      edit:
+        edit_member: رکن میں ترمیم کریں
+        full_name: مکمل نام
+        email: ای میل (دعوت کے لیے)
+        initials: ابتدائی حروف
+        color: رنگ
+        cancel: منسوخ کریں
+        submit: اپڈیٹ کریں
+        submit_and_invite: اپڈیٹ کریں اور دعوت دیں

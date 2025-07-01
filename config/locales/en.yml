@@ -151,6 +151,12 @@ en:
         name: Name
         email: Email
         status: Status
+        edit_member: Edit member
+        set_as_admin: Set as admin
+        revoke_admin_permission: Revoke admin permission
+        resend_invitation: Resend invitation
+        archive: Archive
+        unarchive: Unarchive
       new: 
         create_a_new_member: Create a new member
         full_name: Full name
@@ -158,5 +164,14 @@ en:
         initials: Initials
         color: Color
         cancel: Cancel
-        create: Create
-        create_and_invite: Create and Invite
+        submit: Create
+        submit_and_invite: Create and Invite
+      edit: 
+        edit_member: Edit member
+        full_name: Full name
+        email: Email (for invitation)
+        initials: Initials
+        color: Color
+        cancel: Cancel
+        submit: Update
+        submit_and_invite: Update and Invite

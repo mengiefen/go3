@@ -145,12 +145,18 @@ es:
   views:
     members:
       index:
-        list_of_members: Lista de miembros  
+        list_of_members: Lista de miembros
         search_placeholder: Buscar miembros por nombre o correo electrónico ...
-        add_a_new_member: Agregar un nuevo miembro  
-        name: Nombre  
-        email: Correo Electrónico  
+        add_a_new_member: Agregar un nuevo miembro
+        name: Nombre
+        email: Correo electrónico
         status: Estado
+        edit_member: Editar miembro
+        set_as_admin: Establecer como administrador
+        revoke_admin_permission: Revocar permiso de administrador
+        resend_invitation: Reenviar invitación
+        archive: Archivar
+        unarchive: Desarchivar
       new:
         create_a_new_member: Crear un nuevo miembro
         full_name: Nombre completo
@@ -158,5 +164,14 @@ es:
         initials: Iniciales
         color: Color
         cancel: Cancelar
-        create: Crear
-        create_and_invite: Crear e Invitar
+        submit: Crear
+        submit_and_invite: Crear e Invitar
+      edit:
+        edit_member: Editar miembro
+        full_name: Nombre completo
+        email: Correo electrónico (para invitación)
+        initials: Iniciales
+        color: Color
+        cancel: Cancelar
+        submit: Actualizar
+        submit_and_invite: Actualizar e Invitar

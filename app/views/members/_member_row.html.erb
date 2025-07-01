@@ -1,10 +1,72 @@
-<tr class="hover:bg-gray-100 transition-colors" data-search-member-target="row">
-  <td class="flex items-center space-x-3 py-3 px-4 font-medium text-gray-900">
+<tr id="member_row_<%= member.id %>" class="hover:bg-gray-100 transition-colors member-row <%= member.archived? ? "archived-member" : "" %>" data-search-member-target="row">
+  <td class="flex items-center space-x-3 py-3 px-4 font-medium">
     <%= render partial: "initial", locals: { initial: member.initial, color: member.color } %>
     <%= member.name %>
+    <% if member.org_admin? %>
+      <i class="fas fa-crown mx-4 text-white bg-yellow-300 p-2 rounded-full"></i>
+    <% end %>
   </td>
-  <td class="text-center text-gray-700"><%= member.email %></td>
+  <td>
+    <%= render Navigation::MenuComponent.new do %>
+      <li class="flex flex-col p-2 text-black">
+        <%= link_to view_t("edit_member", action: "index"), 
+            edit_organization_member_path(member.organization, member), 
+            class: "whitespace-nowrap w-full flex flex-start",
+            data: { turbo_frame: "modal" }
+        %>
+      </li>
+      <% if member.org_admin? %>
+        <li class="flex flex-col p-2 text-black">
+          <%= button_to view_t("revoke_admin_permission", action: "index"), 
+              revoke_admin_organization_member_path(member.organization, member), 
+              class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch, data: { turbo_frame: "member_row_#{member.id}" } 
+          %>
+        </li>
+      <% elsif !member.archived? %>
+        <li class="flex flex-col p-2 text-black">
+          <%= button_to view_t("set_as_admin", action: "index"), 
+              set_as_admin_organization_member_path(member.organization, member), 
+              class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch, data: { turbo_frame: "member_row_#{member.id}" } 
+          %>
+        </li>
+      <% end %>
+      <% if member.user.nil? && !member.archived? %>
+        <li class="flex flex-col p-2 text-black">
+          <%= button_to view_t("resend_invitation", action: "index"), 
+              resend_invitation_organization_member_path(member.organization, member), 
+              class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :post
+          %>
+        </li>
+      <% end %>
+      <% if member.archived? %> 
+        <li class="flex flex-col p-2 text-black">
+          <%= button_to view_t("unarchive", action: "index"), 
+              unarchive_organization_member_path(member.organization, member), 
+              class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch
+          %>
+        </li>
+      <% else %>
+        <li class="flex flex-col p-2 text-black">
+          <%= button_to view_t("archive", action: "index"), 
+              archive_organization_member_path(member.organization, member), 
+              class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch
+          %>
+        </li>
+      <% end %>
+    <% end %>
+  </td>
+  <td class="text-center"><%= member.email %></td>
   <td class="text-center">
-    <div class="inline-flex align-center justify-center rounded-full px-4 py-2 text-md font-semibold bg-info text-gray-800"><%= member.localized_status %></div>
+    <div class="inline-flex align-center justify-center rounded-full px-4 py-2 text-md font-semibold bg-info"><%= member.localized_status %></div>
   </td>
 </tr>
+
+<style>
+  tr.archived-member {
+    color: silver !important;
+  }
+
+  tr.member-row li:hover {
+    background-color: silver;
+  }
+</style>

@@ -42,7 +42,7 @@ class Member < ApplicationRecord
   end
 
   def is_go3_admin?
-    user.is_go3_admin?
+    user&.is_go3_admin?
   end
 
   def status
@@ -59,6 +59,10 @@ class Member < ApplicationRecord
   def has_permission?(code)
     return true if is_go3_admin?
     all_permissions.any? { |perm| perm.code == code && organization == perm.organization }
+  end
+
+  def org_admin?
+    return has_permission?(Permission::ORG_ADMIN)
   end
 
   private
