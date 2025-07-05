@@ -31,26 +31,35 @@ export default class extends Controller {
     let url, tabId;
 
     // Get tabs controller reference
+    const tabsElement = document.querySelector('[data-controller="vscode-tabs"]');
+    if (!tabsElement) {
+      console.error('No element with data-controller="vscode-tabs" found');
+      return;
+    }
+    
     const tabsController = this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller="vscode-tabs"]'),
+      tabsElement,
       'vscode-tabs'
     );
+    
+    if (!tabsController) {
+      console.error('VSCode tabs controller not found');
+      return;
+    }
 
     // Generate unique tab ID to support multiple instances
     if (contentType.startsWith('task_')) {
       const filterType = contentType.replace('task_', '');
-      tabId = tabsController ? tabsController.generateUniqueTabId(`tasks-${filterType}`, contentId) : `tab-tasks-${filterType}-${contentId}-${Date.now()}`;
+      tabId = tabsController.generateUniqueTabId(`tasks-${filterType}`, contentId);
       url = `/tasks/content/${filterType}/${contentId}?content_name=${encodeURIComponent(contentName)}&frame_id=frame-${tabId}`;
     } else {
-      tabId = tabsController ? tabsController.generateUniqueTabId(contentType, contentId) : `tab-${contentType}-${contentId}-${Date.now()}`;
+      tabId = tabsController.generateUniqueTabId(contentType, contentId);
       url = `/tab-demo/content/${contentType}/${contentId}?content_name=${encodeURIComponent(contentName)}&frame_id=frame-${tabId}`;
     }
 
     // Add tab to tab bar
-    if (tabsController) {
-      tabsController.addTab(tabId, contentName || `${contentType} ${contentId}`);
-      console.log('Tab added with ID:', tabId);
-    }
+    tabsController.addTab(tabId, contentName || `${contentType} ${contentId}`);
+    console.log('Tab added with ID:', tabId);
 
     // Small delay to ensure DOM is updated
     setTimeout(() => {
@@ -64,9 +73,7 @@ export default class extends Controller {
       // Add loading state to tab after it's created (optional, don't break if it fails)
       setTimeout(() => {
         try {
-          if (tabsController && tabsController.setTabLoading) {
-            tabsController.setTabLoading(tabId, true);
-          }
+          tabsController.setTabLoading(tabId, true);
         } catch (e) {
           console.warn('Could not set tab loading state:', e);
         }
@@ -89,12 +96,8 @@ export default class extends Controller {
         console.log('Frame loaded for tab:', tabId);
         // Remove loading states
         try {
-          if (tabsController && tabsController.setTabLoading) {
-            tabsController.setTabLoading(tabId, false);
-          }
-          if (tabsController) {
-            tabsController.setActiveTab(tabId);
-          }
+          tabsController.setTabLoading(tabId, false);
+          tabsController.setActiveTab(tabId);
         } catch (e) {
           console.warn('Error removing loading state:', e);
         }
@@ -105,9 +108,7 @@ export default class extends Controller {
       turboFrame.addEventListener('turbo:frame-missing', () => {
         console.error('Frame failed to load for tab:', tabId);
         try {
-          if (tabsController && tabsController.setTabLoading) {
-            tabsController.setTabLoading(tabId, false);
-          }
+          tabsController.setTabLoading(tabId, false);
         } catch (e) {
           console.warn('Error removing loading state on error:', e);
         }

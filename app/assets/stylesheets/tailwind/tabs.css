@@ -23,12 +23,59 @@
   overflow: hidden;
   position: relative;
   border-radius: 8px 8px 0 0;
-  margin: 0 -4px; /* Negative margin for overlapping tabs */
+  margin: 0 -6px; /* Overlap tabs */
+  isolation: isolate; /* Create new stacking context */
 }
 
 /* Add separator between tabs using a span element */
 .tab-separator {
   display: none; /* Hide separators for Chrome-style tabs */
+}
+
+/* Tab overlap borders - creates clean edges */
+.tab-item::before,
+.tab-item::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 0;
+  width: 1px;
+  opacity: 0.2;
+}
+
+.tab-item::before {
+  left: 0;
+  background: #94a3b8; /* slate-400 */
+}
+
+.tab-item::after {
+  right: 0;
+  background: #94a3b8; /* slate-400 */
+}
+
+/* Dark mode borders */
+@media (prefers-color-scheme: dark) {
+  .tab-item::before,
+  .tab-item::after {
+    background: #334155; /* slate-700 */
+    opacity: 0.5;
+  }
+}
+
+/* Hide borders for active tab */
+.tab-item.active::before,
+.tab-item.active::after {
+  opacity: 0;
+}
+
+/* Hide right border of tab before active tab */
+.tab-item:has(+ .tab-item.active)::after {
+  opacity: 0;
+}
+
+/* Hide left border of tab after active tab */
+.tab-item.active + .tab-item::before {
+  opacity: 0;
 }
 
 /* Tab content wrapper - ensure horizontal layout */
@@ -41,6 +88,11 @@
   padding: 8px 0; /* Vertical padding for better height */
   position: relative;
   width: 100%;
+}
+
+/* When no icon, adjust text margin */
+.tab-content-wrapper:not(:has(.tab-icon)) .tab-text {
+  margin-left: 0;
 }
 
 /* Icon styles */
@@ -128,17 +180,21 @@
 
 /* Active tab styles with Chrome-like design */
 .tab-item.active {
-  @apply bg-white relative shadow-md;
-  z-index: 20;
+  @apply bg-white relative;
+  z-index: 30;
   margin-bottom: -1px;
-  border-bottom: 1px solid white;
+  box-shadow: 
+    0 0 0 1px #e2e8f0,
+    0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Dark mode active tab */
 @media (prefers-color-scheme: dark) {
   .tab-item.active {
-    background-color: rgb(71 85 105); /* slate-600 */
-    border-bottom: 1px solid rgb(71 85 105); /* slate-600 */
+    background-color: rgb(30 41 59); /* slate-800 - matches content */
+    box-shadow: 
+      0 0 0 1px rgb(71 85 105), /* slate-600 border */
+      0 2px 8px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -159,8 +215,9 @@
 @media (prefers-color-scheme: dark) {
   .tab-item.active {
     box-shadow: 
-      0 1px 4px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(100, 116, 139, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -184,18 +241,18 @@
 
 /* Non-active tab styles */
 .tab-item:not(.active) {
-  @apply bg-slate-100;
-  border: 1px solid transparent;
+  @apply bg-slate-50/90;
+  z-index: 10;
 }
 
 .tab-item:not(.active):hover {
-  @apply bg-slate-50;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  @apply bg-white/80;
+  z-index: 20;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .tab-item:not(.active) .tab-text {
-  @apply text-slate-700;
+  @apply text-slate-600;
 }
 
 .tab-item:not(.active) .tab-icon svg {
@@ -204,21 +261,25 @@
 
 @media (prefers-color-scheme: dark) {
   .tab-item:not(.active) {
-    background-color: rgba(71, 85, 105, 0.7); /* slate-600/70 */
+    background-color: rgba(15, 23, 42, 0.8); /* slate-900/80 */
   }
   
   .tab-item:not(.active):hover {
-    background-color: rgb(71 85 105); /* slate-600 */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    background-color: rgba(51, 65, 85, 0.9); /* slate-700/90 */
+    z-index: 20;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   }
   
   .tab-item:not(.active) .tab-text {
+    color: rgb(148 163 184); /* slate-400 */
+  }
+  
+  .tab-item:not(.active):hover .tab-text {
     color: rgb(203 213 225); /* slate-300 */
   }
   
   .tab-item:not(.active) .tab-icon svg {
-    color: rgb(148 163 184); /* slate-400 */
+    color: rgb(100 116 139); /* slate-500 */
   }
 }
 
@@ -303,14 +364,14 @@
   @apply relative overflow-hidden;
   container-type: inline-size;
   border-bottom: 1px solid #e2e8f0;
-  background: #f8fafc; /* slate-50 */
+  background: #f1f5f9; /* slate-100 */
 }
 
 /* Dark mode tab bar */
 @media (prefers-color-scheme: dark) {
   .tab-bar-container {
     border-bottom: 1px solid rgb(51 65 85); /* slate-700 */
-    background: rgb(30 41 59); /* slate-800 */
+    background: rgb(15 23 42); /* slate-900 */
   }
 }
 
@@ -332,4 +393,31 @@
 /* Tab actions */
 [data-vscode-tabs-target="tabActions"] {
   @apply flex-shrink-0;
+}
+
+/* Sortable dragging styles */
+.tab-sortable-ghost {
+  opacity: 0.4;
+  background-color: #e2e8f0;
+}
+
+.tab-sortable-drag {
+  opacity: 0.9;
+  cursor: grabbing !important;
+}
+
+/* Add cursor style for draggable tabs */
+.tab-item .tab-content-wrapper {
+  cursor: grab;
+}
+
+.tab-item .tab-content-wrapper:active {
+  cursor: grabbing;
+}
+
+/* Dark mode sortable styles */
+@media (prefers-color-scheme: dark) {
+  .tab-sortable-ghost {
+    background-color: rgb(51 65 85); /* slate-700 */
+  }
 }

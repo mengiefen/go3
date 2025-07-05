@@ -1,16 +1,27 @@
 import { Controller } from '@hotwired/stimulus';
+import Sortable from 'sortablejs';
 
 export default class extends Controller {
   static targets = ['tabBar', 'contentAreas', 'tab', 'content', 'noTabsIndicator', 'tabActions'];
-  static values = { textHideThreshold: { type: Number, default: 100 } };
+  static values = { 
+    textHideThreshold: { type: Number, default: 100 },
+    showIcons: { type: Boolean, default: false }
+  };
 
   connect() {
     console.log('VSCode Tabs Controller connected');
     console.log('Available targets:', this.targets);
     console.log('Content areas element check:', document.getElementById('tab-content-areas'));
+    console.log('Has tab bar target:', this.hasTabBarTarget);
     
     this.openTabs = new Map(); // Store open tabs
     this.resizeObserver = null; // Store ResizeObserver instance
+    
+    // Load icon preference from localStorage
+    const savedIconPref = localStorage.getItem('showTabIcons');
+    if (savedIconPref !== null) {
+      this.showIconsValue = savedIconPref === 'true';
+    }
     
     // Handle browser back/forward navigation
     window.addEventListener('popstate', this.handlePopState.bind(this));
@@ -21,6 +32,12 @@ export default class extends Controller {
     
     // Setup resize observer for tab width detection
     this.setupTabWidthObserver();
+    
+    // Initialize sortable for drag-and-drop tab reordering
+    // Delay sortable initialization to ensure DOM is ready
+    setTimeout(() => {
+      this.initSortable();
+    }, 100);
     
     // Check URL for tabs to restore
     this.restoreTabsFromURL();
@@ -39,6 +56,11 @@ export default class extends Controller {
     // Clean up resize observer
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
+    }
+    
+    // Clean up sortable
+    if (this.sortable) {
+      this.sortable.destroy();
     }
   }
 
@@ -206,6 +228,12 @@ export default class extends Controller {
             this.setActiveTab(activeTabId);
           }, 100);
         }
+        
+        // Re-initialize sortable after restoring tabs
+        if (this.sortable) {
+          this.sortable.destroy();
+        }
+        this.initSortable();
       } catch (error) {
         console.error('Error restoring tabs from localStorage:', error);
         localStorage.removeItem('openTabs');
@@ -436,6 +464,16 @@ export default class extends Controller {
         }
       }
     });
+    
+    // Re-initialize sortable after restoring tabs from URL
+    if (tabsToRestore.length > 0) {
+      setTimeout(() => {
+        if (this.sortable) {
+          this.sortable.destroy();
+        }
+        this.initSortable();
+      }, 100);
+    }
   }
 
   // Close all tabs without updating history
@@ -463,8 +501,11 @@ export default class extends Controller {
 
   // Override addTab to save state
   addTab(tabId, tabName) {
+    console.log('addTab called with:', tabId, tabName);
+    
     // Don't add if tab already exists
     if (this.openTabs.has(tabId)) {
+      console.log('Tab already exists:', tabId);
       return;
     }
 
@@ -495,17 +536,19 @@ export default class extends Controller {
     tabElement.dataset.action = 'click->vscode-tabs#focusTab';
     tabElement.dataset.textHidden = 'false';
 
-    // Create tab content with icon
+    // Create tab content with optional icon
     const tabContent = document.createElement('div');
     tabContent.className = 'tab-content-wrapper';
     
-    // Add icon
-    const iconWrapper = document.createElement('div');
-    iconWrapper.className = 'tab-icon';
-    const icon = this.getIconForContentType(tabId, contentType);
-    icon.classList.add('text-slate-600');
-    iconWrapper.appendChild(icon);
-    tabContent.appendChild(iconWrapper);
+    // Add icon only if showIcons is true
+    if (this.showIconsValue) {
+      const iconWrapper = document.createElement('div');
+      iconWrapper.className = 'tab-icon';
+      const icon = this.getIconForContentType(tabId, contentType);
+      icon.classList.add('text-slate-600');
+      iconWrapper.appendChild(icon);
+      tabContent.appendChild(iconWrapper);
+    }
     
     // Add text
     const textSpan = document.createElement('span');
@@ -913,5 +956,95 @@ export default class extends Controller {
         tab.removeAttribute('title');
       }
     });
+  }
+
+  // Initialize sortable for drag-and-drop tab reordering
+  initSortable() {
+    try {
+      if (!this.hasTabBarTarget) {
+        console.log('No tab bar target, skipping sortable init');
+        return;
+      }
+      
+      this.sortable = Sortable.create(this.tabBarTarget, {
+        animation: 150,
+        ghostClass: 'tab-sortable-ghost',
+        dragClass: 'tab-sortable-drag',
+        draggable: '.tab-item',
+        handle: '.tab-content-wrapper', // Only drag from the content area, not close button
+        onEnd: this.handleTabReorder.bind(this)
+      });
+      console.log('Sortable initialized successfully');
+    } catch (error) {
+      console.error('Error initializing sortable:', error);
+    }
+  }
+
+  // Handle tab reordering after drag and drop
+  handleTabReorder(event) {
+    // Get the moved tab's ID
+    const movedTabId = event.item.dataset.tabId;
+    if (!movedTabId) return;
+    
+    // Update the order in our openTabs Map
+    const tabOrder = Array.from(this.tabBarTarget.querySelectorAll('.tab-item'))
+      .map(tab => tab.dataset.tabId)
+      .filter(id => id);
+    
+    // Rebuild openTabs Map with new order
+    const newOpenTabs = new Map();
+    tabOrder.forEach(tabId => {
+      if (this.openTabs.has(tabId)) {
+        newOpenTabs.set(tabId, this.openTabs.get(tabId));
+      }
+    });
+    
+    this.openTabs = newOpenTabs;
+    
+    // Save the new order to storage
+    this.saveTabsToStorage();
+    this.updateURL();
+  }
+
+  // Toggle icons on all tabs
+  toggleIcons() {
+    this.showIconsValue = !this.showIconsValue;
+    
+    // Update all existing tabs
+    this.tabTargets.forEach(tab => {
+      const tabContent = tab.querySelector('.tab-content-wrapper');
+      const existingIcon = tabContent.querySelector('.tab-icon');
+      
+      if (this.showIconsValue && !existingIcon) {
+        // Add icon
+        const tabId = tab.dataset.tabId;
+        const tabParts = tabId.split('-');
+        let contentType = tabParts[1];
+        
+        if (tabId.startsWith('tab-tasks-')) {
+          contentType = 'tasks';
+        } else if (tabId.startsWith('tab-task-edit-')) {
+          contentType = 'task-edit';
+        } else if (tabId.startsWith('tab-task-')) {
+          contentType = 'task';
+        }
+        
+        const iconWrapper = document.createElement('div');
+        iconWrapper.className = 'tab-icon';
+        const icon = this.getIconForContentType(tabId, contentType);
+        icon.classList.add('text-slate-600');
+        iconWrapper.appendChild(icon);
+        
+        // Insert icon before text
+        const textElement = tabContent.querySelector('.tab-text');
+        tabContent.insertBefore(iconWrapper, textElement);
+      } else if (!this.showIconsValue && existingIcon) {
+        // Remove icon
+        existingIcon.remove();
+      }
+    });
+    
+    // Save preference to localStorage
+    localStorage.setItem('showTabIcons', this.showIconsValue);
   }
 }
