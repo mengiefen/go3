@@ -58,6 +58,20 @@ export default class extends Controller {
       const contentContainer = document.getElementById(tabId);
       console.log('Looking for container:', tabId, 'Found:', contentContainer);
       if (contentContainer) {
+      // Add loading state to content immediately
+      contentContainer.classList.add('content-loading');
+      
+      // Add loading state to tab after it's created (optional, don't break if it fails)
+      setTimeout(() => {
+        try {
+          if (tabsController && tabsController.setTabLoading) {
+            tabsController.setTabLoading(tabId, true);
+          }
+        } catch (e) {
+          console.warn('Could not set tab loading state:', e);
+        }
+      }, 50);
+      
       // Create turbo frame for this tab
       const turboFrame = document.createElement('turbo-frame');
       turboFrame.id = `frame-${tabId}`;
@@ -65,12 +79,40 @@ export default class extends Controller {
       turboFrame.dataset.loadedTabId = tabId;
       turboFrame.dataset.turboFrameRequestsFormat = 'html';
       
+      // Listen for frame load start
+      turboFrame.addEventListener('turbo:before-frame-render', () => {
+        console.log('Frame starting to load for tab:', tabId);
+      });
+      
       // Listen for frame load event
-      turboFrame.addEventListener('turbo:frame-load', (event) => {
+      turboFrame.addEventListener('turbo:frame-load', () => {
         console.log('Frame loaded for tab:', tabId);
-        if (tabsController) {
-          tabsController.setActiveTab(tabId);
+        // Remove loading states
+        try {
+          if (tabsController && tabsController.setTabLoading) {
+            tabsController.setTabLoading(tabId, false);
+          }
+          if (tabsController) {
+            tabsController.setActiveTab(tabId);
+          }
+        } catch (e) {
+          console.warn('Error removing loading state:', e);
         }
+        contentContainer.classList.remove('content-loading');
+      });
+      
+      // Listen for frame error
+      turboFrame.addEventListener('turbo:frame-missing', () => {
+        console.error('Frame failed to load for tab:', tabId);
+        try {
+          if (tabsController && tabsController.setTabLoading) {
+            tabsController.setTabLoading(tabId, false);
+          }
+        } catch (e) {
+          console.warn('Error removing loading state on error:', e);
+        }
+        contentContainer.classList.remove('content-loading');
+        contentContainer.innerHTML = '<div class="p-4 text-red-600">Failed to load content</div>';
       });
       
       // Add frame to content container

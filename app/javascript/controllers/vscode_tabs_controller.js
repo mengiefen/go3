@@ -270,10 +270,29 @@ export default class extends Controller {
     // Create turbo frame for restored tab content
     if (url) {
       console.log('Creating turbo frame with URL:', url);
+      
+      // Add loading states
+      this.setTabLoading(tabId, true);
+      contentContainer.classList.add('content-loading');
+      
       const turboFrame = document.createElement('turbo-frame');
       turboFrame.id = `frame-${tabId}`;
       turboFrame.src = url;
       turboFrame.dataset.turboFrameRequestsFormat = 'html';
+      
+      // Listen for frame load completion
+      turboFrame.addEventListener('turbo:frame-load', () => {
+        this.setTabLoading(tabId, false);
+        contentContainer.classList.remove('content-loading');
+      });
+      
+      // Listen for frame errors
+      turboFrame.addEventListener('turbo:frame-missing', () => {
+        this.setTabLoading(tabId, false);
+        contentContainer.classList.remove('content-loading');
+        contentContainer.innerHTML = '<div class="p-4 text-red-600">Failed to load content</div>';
+      });
+      
       contentContainer.appendChild(turboFrame);
     } else {
       console.error('No URL generated for tab:', tabId);
@@ -824,6 +843,31 @@ export default class extends Controller {
     if ((event.metaKey || event.ctrlKey) && event.key === 'w') {
       event.preventDefault();
       this.closeActiveTab();
+    }
+  }
+
+  // Set loading state for a tab
+  setTabLoading(tabId, isLoading) {
+    const tabElement = this.tabBarTarget.querySelector(`[data-tab-id="${tabId}"]`);
+    if (!tabElement) {
+      console.warn(`Tab element not found for tabId: ${tabId}`);
+      return;
+    }
+    
+    if (isLoading) {
+      tabElement.classList.add('tab-loading');
+      // Optionally update the icon to a loading spinner
+      const iconElement = tabElement.querySelector('.tab-icon svg');
+      if (iconElement) {
+        iconElement.style.opacity = '0.5';
+      }
+    } else {
+      tabElement.classList.remove('tab-loading');
+      // Restore icon opacity
+      const iconElement = tabElement.querySelector('.tab-icon svg');
+      if (iconElement) {
+        iconElement.style.opacity = '1';
+      }
     }
   }
 
