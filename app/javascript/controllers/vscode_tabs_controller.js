@@ -856,18 +856,8 @@ export default class extends Controller {
     
     if (isLoading) {
       tabElement.classList.add('tab-loading');
-      // Optionally update the icon to a loading spinner
-      const iconElement = tabElement.querySelector('.tab-icon svg');
-      if (iconElement) {
-        iconElement.style.opacity = '0.5';
-      }
     } else {
       tabElement.classList.remove('tab-loading');
-      // Restore icon opacity
-      const iconElement = tabElement.querySelector('.tab-icon svg');
-      if (iconElement) {
-        iconElement.style.opacity = '1';
-      }
     }
   }
 
