@@ -42,17 +42,16 @@ export default class extends Controller {
       'top-0',
       handlePosition,
       'h-full',
-      'w-[1px]',
+      'w-1',
       'cursor-col-resize',
       'z-10',
-      'transition-opacity',
-      'duration-150',
-      'opacity-0',
-      'hover:opacity-100'
+      'bg-slate-600',
+      'opacity-50',
+      'hover:opacity-100',
+      'hover:bg-blue-400',
+      'transition-all',
+      'duration-150'
     );
-
-    // Add subtle styling
-    this.resizeHandle.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
     
     this.element.style.position = 'relative';
     this.element.appendChild(this.resizeHandle);
@@ -78,7 +77,8 @@ export default class extends Controller {
     // Add visual feedback during resize
     document.body.classList.add('resizing');
     document.body.style.cursor = 'col-resize';
-    this.resizeHandle.style.opacity = '1';
+    this.resizeHandle.classList.add('bg-blue-400', 'opacity-100');
+    this.resizeHandle.style.width = '4px';
 
     event.preventDefault();
   }
@@ -88,7 +88,8 @@ export default class extends Controller {
       this.isResizing = false;
       document.body.classList.remove('resizing');
       document.body.style.cursor = '';
-      this.resizeHandle.style.opacity = '0';
+      this.resizeHandle.classList.remove('bg-blue-400', 'opacity-100');
+      this.resizeHandle.style.width = '';
 
       // Save the current width preference to localStorage
       localStorage.setItem('sidebarWidth', this.element.style.width);

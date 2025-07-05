@@ -15,6 +15,10 @@ export default class extends Controller {
     // Handle browser back/forward navigation
     window.addEventListener('popstate', this.handlePopState.bind(this));
     
+    // Handle keyboard shortcuts
+    this.handleKeydown = this.handleKeydown.bind(this);
+    document.addEventListener('keydown', this.handleKeydown);
+    
     // Setup resize observer for tab width detection
     this.setupTabWidthObserver();
     
@@ -28,8 +32,9 @@ export default class extends Controller {
   }
 
   disconnect() {
-    // Clean up event listener
+    // Clean up event listeners
     window.removeEventListener('popstate', this.handlePopState.bind(this));
+    document.removeEventListener('keydown', this.handleKeydown);
     
     // Clean up resize observer
     if (this.resizeObserver) {
@@ -696,6 +701,130 @@ export default class extends Controller {
     
     // Update URL
     this.updateURL();
+  }
+
+  // Close active tab
+  closeActiveTab() {
+    // Find the active tab
+    let activeTabId = null;
+    this.openTabs.forEach((tabInfo, tabId) => {
+      if (tabInfo.active) {
+        activeTabId = tabId;
+      }
+    });
+    
+    if (activeTabId) {
+      this.closeTab({ currentTarget: { dataset: { tabId: activeTabId } }, stopPropagation: () => {} });
+    }
+  }
+
+  // Close all tabs except the active one
+  closeOtherTabs() {
+    // Find the active tab
+    let activeId = null;
+    this.openTabs.forEach((tabInfo, tabId) => {
+      if (tabInfo.active) {
+        activeId = tabId;
+      }
+    });
+    
+    if (!activeId) return;
+
+    // Get all tab IDs except the active one
+    const tabsToClose = Array.from(this.openTabs.keys()).filter(id => id !== activeId);
+    
+    // Close each tab without triggering history
+    tabsToClose.forEach(tabId => {
+      // Remove tab element
+      const tabElement = this.tabBarTarget.querySelector(`[data-tab-id="${tabId}"]`);
+      if (tabElement) tabElement.remove();
+      
+      // Remove content container
+      const contentContainer = document.getElementById(tabId);
+      if (contentContainer) contentContainer.remove();
+      
+      // Remove from openTabs map
+      this.openTabs.delete(tabId);
+    });
+    
+    // Save to localStorage and update URL
+    this.saveTabsToStorage();
+    this.updateURL();
+  }
+
+  // Close all tabs to the right of the active tab
+  closeTabsToRight() {
+    // Find the active tab
+    let activeId = null;
+    this.openTabs.forEach((tabInfo, tabId) => {
+      if (tabInfo.active) {
+        activeId = tabId;
+      }
+    });
+    
+    if (!activeId) {
+      console.log('No active tab found');
+      return;
+    }
+
+    // Find the active tab element
+    const activeTab = this.tabBarTarget.querySelector(`[data-tab-id="${activeId}"]`);
+    if (!activeTab) {
+      console.log('Active tab element not found');
+      return;
+    }
+
+    // Get all tabs after the active tab
+    let foundActive = false;
+    const tabsToClose = [];
+    
+    this.tabTargets.forEach(tab => {
+      if (foundActive) {
+        tabsToClose.push(tab.dataset.tabId);
+      } else if (tab.dataset.tabId === activeId) {
+        foundActive = true;
+      }
+    });
+
+    console.log('Tabs to close to the right:', tabsToClose);
+
+    // If no tabs to close, return early
+    if (tabsToClose.length === 0) {
+      console.log('No tabs to the right of active tab');
+      return;
+    }
+
+    // Close each tab without triggering history
+    tabsToClose.forEach(tabId => {
+      // Remove tab element
+      const tabElement = this.tabBarTarget.querySelector(`[data-tab-id="${tabId}"]`);
+      if (tabElement) tabElement.remove();
+      
+      // Remove content container
+      const contentContainer = document.getElementById(tabId);
+      if (contentContainer) contentContainer.remove();
+      
+      // Remove from openTabs map
+      this.openTabs.delete(tabId);
+    });
+    
+    // Save to localStorage and update URL
+    this.saveTabsToStorage();
+    this.updateURL();
+    
+    // Hide tab actions if no tabs left
+    if (this.openTabs.size === 0) {
+      this.showWelcomeMessage();
+    }
+  }
+
+  // Handle keyboard shortcuts
+  handleKeydown(event) {
+    // Cmd/Ctrl + W to close active tab
+    if ((event.metaKey || event.ctrlKey) && event.key === 'w') {
+      event.preventDefault();
+      this.closeActiveTab();
+    }
   }
 
   // Setup ResizeObserver to monitor tab bar width
