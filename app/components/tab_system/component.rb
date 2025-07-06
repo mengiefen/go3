@@ -34,9 +34,9 @@ module TabSystem
     def tab_bar_classes
       case theme
       when :enterprise
-        "relative h-12 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 overflow-hidden"
+        "relative h-9 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 overflow-visible"
       else
-        "relative h-14 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700"
+        "relative h-10 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 overflow-visible"
       end
     end
 
@@ -45,16 +45,11 @@ module TabSystem
     end
 
     def tab_scroll_area_classes
-      "flex-1 min-w-0 overflow-hidden"
+      "flex-1 min-w-0 overflow-x-auto overflow-y-visible"
     end
 
     def tab_list_classes
-      case theme
-      when :enterprise
-        "flex items-center overflow-x-auto h-full scrollbar-hide pl-2"
-      else
-        "flex items-center overflow-x-auto h-full scrollbar-hide"
-      end
+      "flex items-center overflow-x-auto h-full scrollbar-hide"
     end
 
     def tab_item_base_classes

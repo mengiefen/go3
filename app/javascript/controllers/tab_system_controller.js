@@ -104,11 +104,7 @@ export default class extends Controller {
 
     // Title
     const titleSpan = document.createElement('span');
-    if (this.themeValue === 'enterprise') {
-      titleSpan.className = 'flex-1 overflow-hidden text-ellipsis whitespace-nowrap max-w-[140px]';
-    } else {
-      titleSpan.className = 'flex-1 overflow-hidden text-ellipsis';
-    }
+    titleSpan.className = 'tab-title overflow-hidden text-ellipsis whitespace-nowrap flex-1 text-xs';
     titleSpan.textContent = tabData.title;
     tabContent.appendChild(titleSpan);
 
@@ -119,9 +115,9 @@ export default class extends Controller {
       // Different close button styles based on theme
       let closeButtonClasses = '';
       if (this.themeValue === 'enterprise') {
-        closeButtonClasses = 'w-4 h-4 ml-2 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-slate-300 dark:hover:bg-slate-600 hover:text-slate-800 dark:hover:text-slate-200';
+        closeButtonClasses = 'w-3.5 h-3.5 ml-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400';
       } else {
-        closeButtonClasses = 'w-4 h-4 ml-2 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-500 hover:text-white';
+        closeButtonClasses = 'w-3.5 h-3.5 ml-1.5 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-500 hover:text-white';
       }
       
       closeButton.className = closeButtonClasses;
@@ -129,14 +125,14 @@ export default class extends Controller {
       closeButton.setAttribute('data-tab-id', tabId);
       if (this.themeValue === 'enterprise') {
         closeButton.innerHTML = `
-          <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+          <svg class="w-2 h-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         `;
       } else {
         closeButton.innerHTML = `
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         `;
       }
@@ -159,7 +155,7 @@ export default class extends Controller {
 
   // Get tab classes based on theme and state
   getTabClasses(isActive) {
-    const baseClasses = 'group relative flex items-center h-full cursor-pointer transition-all duration-200 text-sm font-medium whitespace-nowrap';
+    const baseClasses = 'group relative flex items-center h-full cursor-pointer transition-all duration-200 text-xs font-medium whitespace-nowrap';
     
     let themeClasses = '';
     let activeClasses = '';
@@ -178,8 +174,8 @@ export default class extends Controller {
         activeClasses = 'text-slate-900 dark:text-white border-b-blue-500 dark:border-b-blue-400 px-4 min-w-[120px] max-w-[200px]';
         break;
       case 'enterprise':
-        themeClasses = 'text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-t-lg -mr-1 mt-1 px-4 py-2 min-w-[120px] max-w-[200px] border border-slate-300 dark:border-slate-600 border-b-0 relative';
-        activeClasses = 'text-blue-600 dark:text-blue-400 bg-white dark:bg-slate-900 rounded-t-lg -mr-1 mt-1 px-4 py-2 min-w-[120px] max-w-[200px] font-semibold shadow-lg border border-blue-200 dark:border-blue-500 border-b-0 relative z-20 ring-1 ring-blue-200 dark:ring-blue-500';
+        themeClasses = 'text-slate-600 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 rounded-t-md -mr-1 mt-0.5 px-3 py-1.5 min-w-[100px] max-w-[180px] border border-slate-200/60 dark:border-slate-600/60 border-b-0 relative transition-all duration-200 backdrop-blur-sm';
+        activeClasses = 'text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-900 rounded-t-md -mr-1 mt-0.5 px-3 py-1.5 min-w-[100px] max-w-[180px] font-semibold shadow-lg border border-blue-200 dark:border-blue-400 border-b-0 relative z-10 transition-all duration-200';
         break;
     }
 
@@ -782,4 +778,5 @@ export default class extends Controller {
       this.restoreTabsFromURL();
     }
   }
+
 }

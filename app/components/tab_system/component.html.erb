@@ -19,21 +19,21 @@
       
       <!-- Tab Actions Menu -->
       <% if show_actions_menu %>
-        <div class="<%= tab_actions_classes %>" data-tab-system-target="tabActions" data-<%= controller_name %>-target="tabActions" style="display: none;">
-          <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mr-2"></div>
-          <div class="relative inline-block text-left" 
+        <div class="flex items-center bg-slate-50 dark:bg-slate-800 flex-shrink-0" data-tab-system-target="tabActions" data-<%= controller_name %>-target="tabActions" style="display: none;">
+          <div class="w-px h-5 bg-slate-300 dark:bg-slate-600"></div>
+          <div class="relative inline-block text-left px-2" 
                data-controller="dropdown"
                data-dropdown-active-class="block"
                data-dropdown-inactive-class="hidden"
                data-action="click@window->dropdown#hide">
             
-            <button class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors group flex items-center" 
+            <button class="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors group flex items-center" 
                     title="Tab Actions"
                     data-action="click->dropdown#toggle"
                     data-dropdown-target="button"
                     aria-haspopup="true"
                     aria-expanded="false">
-              <svg class="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200" fill="currentColor" viewBox="0 0 24 24">
+              <svg class="w-3.5 h-3.5 text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200" fill="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="2"></circle>
                 <circle cx="12" cy="5" r="2"></circle>
                 <circle cx="12" cy="19" r="2"></circle>
@@ -139,5 +139,21 @@
     </div>
     
     <!-- Tab content containers will be dynamically added here -->
+  </div>
+</div>
+
+<style>
+  /* Basic tab title truncation */
+  .tab-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 140px;
+  }
+  
+  .tab-title:hover {
+    max-width: 120px;
+  }
+</style>
   </div>
 </div>
