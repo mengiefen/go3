@@ -7,27 +7,29 @@
       <% case active_tab %>
       <% when 'home' %>
         <%= render MobileHome::Component.new(
-          user_name: "John",
-          org_count: 12,
-          task_count: 5,
+          user_name: "Alex",
+          org_count: 8,
+          task_count: 12,
           recent_orgs: [
-            { id: 1, name: "Tech Solutions", member_count: 248, logo_url: nil },
-            { id: 2, name: "Acme Corp", member_count: 156, logo_url: nil }
+            { id: 1, name: "Global Tech Solutions", member_count: 324, logo_url: nil },
+            { id: 2, name: "Acme Manufacturing", member_count: 186, logo_url: nil }
           ],
           today_tasks: [
-            { title: "Review project proposals", time: "10:00 AM" },
-            { title: "Team standup meeting", time: "2:00 PM" },
-            { title: "Submit monthly reports" }
+            { title: "Review Q4 financial reports", time: "9:30 AM" },
+            { title: "Department budget meeting", time: "1:00 PM" },
+            { title: "Process employee onboarding", time: "3:30 PM" },
+            { title: "Update inventory levels" }
           ]
         ) %>
       <% when 'orgs' %>
         <%= render MobileOrganizations::Component.new(
           organizations: [
-            { id: 1, name: "Tech Solutions Inc", description: "Leading technology solutions provider", member_count: 248, status: 'active', favorite: true },
-            { id: 2, name: "Acme Corporation", description: "Global manufacturing and logistics", member_count: 156, status: 'active' },
-            { id: 3, name: "StartUp Labs", description: "Innovation incubator", member_count: 42, status: 'active' },
-            { id: 4, name: "Digital Agency Pro", description: "Creative digital services", member_count: 89, status: 'pending' },
-            { id: 5, name: "Cloud Systems", description: "Enterprise cloud solutions", member_count: 312, status: 'active' }
+            { id: 1, name: "Global Tech Solutions", description: "Enterprise technology and consulting services", member_count: 324, status: 'active', favorite: true },
+            { id: 2, name: "Acme Manufacturing Corp", description: "Industrial manufacturing and supply chain", member_count: 186, status: 'active' },
+            { id: 3, name: "FinanceFlow LLC", description: "Financial services and accounting", member_count: 67, status: 'active' },
+            { id: 4, name: "RetailMax Industries", description: "Retail operations and inventory management", member_count: 142, status: 'active' },
+            { id: 5, name: "Healthcare Systems Inc", description: "Medical equipment and healthcare solutions", member_count: 298, status: 'active' },
+            { id: 6, name: "Logistics Pro", description: "Transportation and logistics coordination", member_count: 89, status: 'pending' }
           ],
           active_org_id: 1,
           can_create: true
@@ -35,11 +37,12 @@
       <% when 'tasks' %>
         <%= render MobileTasks::Component.new(
           tasks: [
-            { id: 1, title: "Review project proposals", description: "Q4 project proposals need review and approval", status: 'pending', priority: 'high', due_date: Date.today, tags: ['review', 'q4'] },
-            { id: 2, title: "Team standup meeting", description: "Daily sync with the development team", status: 'in_progress', priority: 'medium', due_date: Date.today, assignee: { name: 'You' } },
-            { id: 3, title: "Submit monthly reports", status: 'pending', priority: 'urgent', due_date: Date.today - 1, tags: ['reports'] },
-            { id: 4, title: "Code review for feature branch", description: "Review PR #123 for the new dashboard", status: 'pending', priority: 'medium', due_date: Date.today + 2 },
-            { id: 5, title: "Update documentation", status: 'completed', priority: 'low', due_date: Date.today - 3, tags: ['docs'] }
+            { id: 1, title: "Process Q4 Financial Audit", description: "Review and approve quarterly financial statements for compliance", status: 'pending', priority: 'high', due_date: Date.today, tags: ['finance', 'audit'] },
+            { id: 2, title: "Update Employee Payroll", description: "Process monthly payroll for Global Tech Solutions", status: 'in_progress', priority: 'urgent', due_date: Date.today, assignee: { name: 'You' } },
+            { id: 3, title: "Inventory Count - Warehouse A", description: "Conduct monthly inventory count for manufacturing items", status: 'pending', priority: 'medium', due_date: Date.today + 1, tags: ['inventory', 'warehouse'] },
+            { id: 4, title: "Review Department Budgets", description: "Analyze and approve budget requests for Q1 2025", status: 'pending', priority: 'high', due_date: Date.today + 3, assignee: { name: 'Sarah Wilson' } },
+            { id: 5, title: "Complete Employee Onboarding", description: "Process new hire documentation for 3 employees", status: 'in_progress', priority: 'medium', due_date: Date.today + 2, tags: ['hr', 'onboarding'] },
+            { id: 6, title: "Generate Monthly Reports", description: "Create financial and operational reports for stakeholders", status: 'completed', priority: 'low', due_date: Date.today - 2, tags: ['reports'] }
           ],
           filter: params[:filter] || 'all',
           current_user: { id: 1 }
@@ -47,25 +50,28 @@
       <% when 'team' %>
         <%= render MobileTeam::Component.new(
           team_members: [
-            { id: 1, name: "John Doe", role: "Project Manager", department: "Engineering", is_online: true },
-            { id: 2, name: "Jane Smith", role: "Senior Developer", department: "Engineering", is_online: true },
-            { id: 3, name: "Mike Johnson", role: "UX Designer", department: "Design", is_online: false },
-            { id: 4, name: "Sarah Williams", role: "Product Owner", department: "Product", status: 'away' },
-            { id: 5, name: "Tom Brown", role: "DevOps Engineer", department: "Engineering", is_online: false },
-            { id: 6, name: "Emily Davis", role: "QA Engineer", department: "Quality", is_online: true },
-            { id: 7, name: "Chris Wilson", role: "Frontend Developer", department: "Engineering", is_online: true },
-            { id: 8, name: "Lisa Anderson", role: "Backend Developer", department: "Engineering", is_online: false }
+            { id: 1, name: "Alex Rodriguez", role: "Operations Manager", department: "Operations", is_online: true },
+            { id: 2, name: "Sarah Mitchell", role: "Financial Controller", department: "Finance", is_online: true },
+            { id: 3, name: "Marcus Chen", role: "HR Director", department: "Human Resources", is_online: false },
+            { id: 4, name: "Jennifer Walsh", role: "Supply Chain Manager", department: "Operations", status: 'away' },
+            { id: 5, name: "David Thompson", role: "Accountant", department: "Finance", is_online: false },
+            { id: 6, name: "Rachel Kim", role: "HR Specialist", department: "Human Resources", is_online: true },
+            { id: 7, name: "Antonio Silva", role: "Inventory Manager", department: "Operations", is_online: true },
+            { id: 8, name: "Michelle Carter", role: "Payroll Specialist", department: "Finance", is_online: false },
+            { id: 9, name: "Robert Zhang", role: "Compliance Officer", department: "Legal", is_online: true },
+            { id: 10, name: "Amanda Foster", role: "Department Head", department: "Operations", is_online: true }
           ],
           departments: [
-            { name: "Engineering", member_count: 5 },
-            { name: "Design", member_count: 2 },
-            { name: "Product", member_count: 1 }
+            { name: "Operations", member_count: 4 },
+            { name: "Finance", member_count: 3 },
+            { name: "Human Resources", member_count: 2 },
+            { name: "Legal", member_count: 1 }
           ],
           current_user: { id: 1 }
         ) %>
       <% when 'more' %>
         <%= render MobileMore::Component.new(
-          user: { name: "John Doe", email: "john@example.com" }
+          user: { name: "Alex Rodriguez", email: "alex.rodriguez@globaltechsolutions.com" }
         ) %>
       <% end %>
     <% end %>

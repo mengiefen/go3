@@ -1,1013 +1,416 @@
-# Real-World Examples
+# GO3 ERP Implementation Examples
 
-Practical examples and patterns for implementing the VSCode-style tabbed interface with URL-based state management in different scenarios.
+Practical examples and patterns for implementing the GO3 ERP tab system with mobile-first responsive design and enterprise workflows.
 
-## 📊 Task Management System
+## 📊 ERP Task Management System
 
-Complete example of a task management interface with categories, filters, and multiple instances.
+Complete example of an enterprise task management interface with ERP workflows, priorities, and department-based organization.
 
-### Sidebar Configuration
-
-```ruby
-# app/components/secondary_sidebar_component.rb
-class SecondarySidebarComponent < ViewComponent::Base
-  def initialize(sidebar_type: 'organizations')
-    @sidebar_type = sidebar_type
-  end
-
-  private
-
-  def task_sidebar_content
-    {
-      title: 'TASK MANAGEMENT',
-      categories: [
-        {
-          name: 'Categories',
-          collapsed: false,
-          items: [
-            { id: 'all-tasks', name: 'All Tasks', type: 'task_category', filter: 'all', icon: 'list' },
-            { id: 'development', name: 'Development', type: 'task_category', filter: 'development', icon: 'code' },
-            { id: 'design', name: 'Design', type: 'task_category', filter: 'design', icon: 'palette' },
-            { id: 'marketing', name: 'Marketing', type: 'task_category', filter: 'marketing', icon: 'megaphone' },
-            { id: 'sales', name: 'Sales', type: 'task_category', filter: 'sales', icon: 'chart' },
-            { id: 'support', name: 'Support', type: 'task_category', filter: 'support', icon: 'help' }
-          ]
-        },
-        {
-          name: 'Status Filters',
-          collapsed: true,
-          items: [
-            { id: 'pending', name: 'Pending', type: 'task_status', filter: 'pending', icon: 'clock' },
-            { id: 'in-progress', name: 'In Progress', type: 'task_status', filter: 'in_progress', icon: 'play' },
-            { id: 'review', name: 'Under Review', type: 'task_status', filter: 'review', icon: 'eye' },
-            { id: 'completed', name: 'Completed', type: 'task_status', filter: 'completed', icon: 'check' },
-            { id: 'cancelled', name: 'Cancelled', type: 'task_status', filter: 'cancelled', icon: 'x' }
-          ]
-        },
-        {
-          name: 'Priority Levels',
-          collapsed: true,
-          items: [
-            { id: 'urgent', name: 'Urgent', type: 'task_priority', filter: 'urgent', icon: 'fire' },
-            { id: 'high', name: 'High Priority', type: 'task_priority', filter: 'high', icon: 'arrow-up' },
-            { id: 'medium', name: 'Medium Priority', type: 'task_priority', filter: 'medium', icon: 'minus' },
-            { id: 'low', name: 'Low Priority', type: 'task_priority', filter: 'low', icon: 'arrow-down' }
-          ]
-        },
-        {
-          name: 'Team Views',
-          collapsed: true,
-          items: [
-            { id: 'my-tasks', name: 'My Tasks', type: 'task_assignee', filter: 'current_user', icon: 'user' },
-            { id: 'team-tasks', name: 'Team Tasks', type: 'task_assignee', filter: 'team', icon: 'users' },
-            { id: 'unassigned', name: 'Unassigned', type: 'task_assignee', filter: 'unassigned', icon: 'user-x' }
-          ]
-        }
-      ]
-    }
-  end
-end
-```
-
-### Enhanced Controller with Task-Specific Logic
+### Mobile Task Management Component
 
 ```ruby
-# app/controllers/tasks_controller.rb
-class TasksController < ApplicationController
-  before_action :set_organization
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :complete]
-
-  def index
-    # Main tabbed interface page
-  end
-
-  def tab_content
-    @filter_type = params[:filter_type]
-    @filter_value = params[:filter_value]
-    @content_name = params[:content_name]
-    @frame_id = params[:frame_id]
-    
-    # Build base query
-    @tasks = current_organization_tasks.includes(:user, :assignee)
-    
-    # Apply filters based on type
-    case @filter_type
-    when 'category'
-      @tasks = @filter_value == 'all' ? @tasks : @tasks.where(category: @filter_value)
-    when 'status'
-      @tasks = @tasks.where(status: @filter_value)
-    when 'priority'
-      @tasks = @tasks.where(priority: @filter_value)
-    when 'assignee'
-      @tasks = filter_by_assignee(@tasks, @filter_value)
-    when 'date_range'
-      @tasks = filter_by_date_range(@tasks, @filter_value)
+# app/components/mobile_tasks/component.rb
+module MobileTasks
+  class Component < ViewComponent::Base
+    def initialize(tasks: [], filter: 'all', current_user: nil)
+      @tasks = tasks
+      @filter = filter
+      @current_user = current_user
     end
-    
-    # Apply sorting and pagination
-    @tasks = @tasks.order(created_at: :desc).limit(50)
-    
-    # Calculate statistics
-    @task_stats = calculate_task_statistics(@tasks)
-    
-    respond_to do |format|
-      format.html { render 'tab_content' }
-    end
-  end
 
-  def sidebar_content
-    @sidebar_type = params[:sidebar_type]
-    
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.update("secondary-sidebar", 
-          render_to_string(SecondarySidebarComponent.new(sidebar_type: @sidebar_type))
-        )
+    private
+
+    attr_reader :tasks, :filter, :current_user
+
+    def filtered_tasks
+      case filter
+      when 'my_tasks'
+        tasks.select { |task| task[:assignee]&.dig(:name) == 'You' }
+      when 'urgent'
+        tasks.select { |task| task[:priority] == 'urgent' }
+      when 'pending'
+        tasks.select { |task| task[:status] == 'pending' }
+      else
+        tasks
+      end
+    end
+
+    def priority_color(priority)
+      case priority
+      when 'urgent' then 'bg-red-500'
+      when 'high' then 'bg-orange-500'
+      when 'medium' then 'bg-yellow-500'
+      when 'low' then 'bg-green-500'
+      else 'bg-gray-500'
+      end
+    end
+
+    def status_badge_class(status)
+      case status
+      when 'completed'
+        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+      when 'in_progress'
+        'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
+      when 'pending'
+        'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
+      else
+        'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
       end
     end
   end
-
-  private
-
-  def filter_by_assignee(tasks, filter_value)
-    case filter_value
-    when 'current_user'
-      tasks.where(assignee: current_user)
-    when 'team'
-      team_member_ids = current_user.team_members.pluck(:id)
-      tasks.where(assignee_id: team_member_ids)
-    when 'unassigned'
-      tasks.where(assignee: nil)
-    else
-      tasks
-    end
-  end
-
-  def filter_by_date_range(tasks, filter_value)
-    case filter_value
-    when 'today'
-      tasks.where(created_at: Date.current.beginning_of_day..Date.current.end_of_day)
-    when 'this_week'
-      tasks.where(created_at: Date.current.beginning_of_week..Date.current.end_of_week)
-    when 'this_month'
-      tasks.where(created_at: Date.current.beginning_of_month..Date.current.end_of_month)
-    when 'overdue'
-      tasks.where('due_date < ?', Date.current).where.not(status: ['completed', 'cancelled'])
-    else
-      tasks
-    end
-  end
-
-  def calculate_task_statistics(tasks)
-    {
-      total: tasks.count,
-      by_status: tasks.group(:status).count,
-      by_priority: tasks.group(:priority).count,
-      overdue: tasks.where('due_date < ?', Date.current).where.not(status: ['completed', 'cancelled']).count
-    }
-  end
-
-  def current_organization_tasks
-    @organization.tasks
-  end
-
-  def set_organization
-    @organization = current_user.organizations.first # Adjust based on your logic
-  end
-
-  def set_task
-    @task = current_organization_tasks.find(params[:id])
-  end
 end
 ```
 
-### Enhanced Tab Content with Statistics
+### Desktop Tab Content Template
 
 ```erb
-<!-- app/views/tasks/tab_content.html.erb -->
-<turbo-frame id="<%= @frame_id %>">
-  <div class="w-full h-full bg-white">
-    <div class="h-full flex flex-col">
-      <!-- Header with statistics -->
-      <div class="flex-shrink-0 p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h1 class="text-2xl font-bold text-slate-800 mb-2"><%= @content_name %></h1>
-            <div class="flex items-center space-x-6 text-sm text-slate-600">
-              <span><%= pluralize(@task_stats[:total], 'task') %> total</span>
-              <% if @task_stats[:overdue] > 0 %>
-                <span class="text-red-600 font-medium">
-                  <%= pluralize(@task_stats[:overdue], 'overdue task') %>
-                </span>
-              <% end %>
-            </div>
-          </div>
-          
-          <!-- Action buttons -->
-          <div class="flex space-x-3">
-            <%= link_to new_task_path, 
-                class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors",
-                data: { turbo_frame: "task_form_modal" } do %>
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-              </svg>
-              New Task
-            <% end %>
-            
-            <button class="inline-flex items-center px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-              </svg>
-              Filter
-            </button>
-          </div>
+<!-- app/views/reusable_tabs_demo/tab_contents/tasks.html.erb -->
+<%= turbo_frame_tag frame_id do %>
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+    <!-- Header with gradient -->
+    <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold"><%= content_name %></h2>
+          <p class="text-blue-100 mt-1">ERP task management and workflow tracking</p>
         </div>
-        
-        <!-- Quick stats -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <% @task_stats[:by_status].each do |status, count| %>
-            <div class="bg-white rounded-lg border border-slate-200 p-3">
-              <div class="text-lg font-semibold text-slate-900"><%= count %></div>
-              <div class="text-sm text-slate-600 capitalize"><%= status.humanize %></div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-      
-      <!-- Scrollable content area -->
-      <div class="flex-1 overflow-y-auto">
-        <div class="p-6">
-          <% if @tasks.any? %>
-            <%= render 'task_grid', tasks: @tasks %>
-          <% else %>
-            <%= render 'empty_state', filter_type: @filter_type, filter_value: @filter_value %>
-          <% end %>
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+          </svg>
         </div>
       </div>
     </div>
-  </div>
-</turbo-frame>
-```
 
-## 📁 File Manager Example
-
-Example of a file browser with folder navigation and file previews.
-
-### File Browser Controller
-
-```javascript
-// app/javascript/controllers/file_browser_controller.js
-import { Controller } from '@hotwired/stimulus';
-
-export default class extends Controller {
-  static targets = ['breadcrumb', 'fileList', 'preview'];
-  static values = { currentPath: String };
-
-  connect() {
-    this.loadDirectory(this.currentPathValue || '/');
-  }
-
-  openFolder(event) {
-    const folderPath = event.currentTarget.dataset.path;
-    const folderName = event.currentTarget.dataset.name;
-    
-    // Create tab for folder
-    const tabsController = this.getTabsController();
-    if (tabsController) {
-      const tabId = tabsController.generateUniqueTabId('folder', folderPath);
-      tabsController.addTab(tabId, folderName);
-      
-      // Load folder content
-      this.loadFolderInTab(tabId, folderPath);
-    }
-  }
-
-  openFile(event) {
-    const filePath = event.currentTarget.dataset.path;
-    const fileName = event.currentTarget.dataset.name;
-    const fileType = event.currentTarget.dataset.type;
-    
-    // Create tab for file
-    const tabsController = this.getTabsController();
-    if (tabsController) {
-      const tabId = tabsController.generateUniqueTabId('file', filePath);
-      tabsController.addTab(tabId, fileName);
-      
-      // Load file content based on type
-      this.loadFileInTab(tabId, filePath, fileType);
-    }
-  }
-
-  loadFolderInTab(tabId, folderPath) {
-    const container = document.getElementById(tabId);
-    if (container) {
-      const frame = document.createElement('turbo-frame');
-      frame.id = `frame-${tabId}`;
-      frame.src = `/files/browse?path=${encodeURIComponent(folderPath)}&frame_id=frame-${tabId}`;
-      
-      frame.addEventListener('turbo:frame-load', () => {
-        this.getTabsController()?.setActiveTab(tabId);
-      });
-      
-      container.appendChild(frame);
-    }
-  }
-
-  loadFileInTab(tabId, filePath, fileType) {
-    const container = document.getElementById(tabId);
-    if (container) {
-      const frame = document.createElement('turbo-frame');
-      frame.id = `frame-${tabId}`;
-      
-      // Different URLs based on file type
-      if (['image', 'video', 'audio'].includes(fileType)) {
-        frame.src = `/files/preview?path=${encodeURIComponent(filePath)}&frame_id=frame-${tabId}`;
-      } else if (['text', 'code'].includes(fileType)) {
-        frame.src = `/files/edit?path=${encodeURIComponent(filePath)}&frame_id=frame-${tabId}`;
-      } else {
-        frame.src = `/files/view?path=${encodeURIComponent(filePath)}&frame_id=frame-${tabId}`;
-      }
-      
-      frame.addEventListener('turbo:frame-load', () => {
-        this.getTabsController()?.setActiveTab(tabId);
-      });
-      
-      container.appendChild(frame);
-    }
-  }
-
-  getTabsController() {
-    return this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller="vscode-tabs"]'),
-      'vscode-tabs'
-    );
-  }
-}
-```
-
-### File Manager Layout
-
-```erb
-<!-- app/views/files/index.html.erb -->
-<div class="h-screen flex bg-slate-50" data-controller="vscode-tabs">
-  <!-- Sidebar with file tree -->
-  <div class="w-64 bg-slate-800 text-white" data-controller="file-browser">
-    <%= render 'file_tree' %>
-  </div>
-  
-  <!-- Main tabbed area -->
-  <div class="flex-1 flex flex-col">
-    <!-- Tab bar -->
-    <div class="h-12 bg-slate-100 border-b flex items-center" data-vscode-tabs-target="tabBar">
-      <div class="flex items-center h-full px-4 text-slate-500 text-sm">
-        No files open
-      </div>
-    </div>
-    
-    <!-- Content areas -->
-    <div class="flex-1 relative" id="tab-content-areas" data-vscode-tabs-target="contentAreas">
-      <div id="welcome-message" class="absolute inset-0 flex items-center justify-center">
-        <div class="text-center">
-          <h2 class="text-2xl font-bold text-slate-800 mb-4">File Manager</h2>
-          <p class="text-slate-600">Select a file or folder from the sidebar to get started.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-```
-
-## 🏪 E-commerce Product Comparison
-
-Example of comparing multiple products in separate tabs.
-
-### Product Comparison Setup
-
-```javascript
-// app/javascript/controllers/product_browser_controller.js
-export default class extends Controller {
-  compareProduct(event) {
-    const productId = event.currentTarget.dataset.productId;
-    const productName = event.currentTarget.dataset.productName;
-    
-    const tabsController = this.getTabsController();
-    if (tabsController) {
-      const tabId = tabsController.generateUniqueTabId('product', productId);
-      tabsController.addTab(tabId, `${productName} - Compare`);
-      
-      // Load product comparison view
-      this.loadProductComparison(tabId, productId);
-    }
-  }
-
-  loadProductComparison(tabId, productId) {
-    const container = document.getElementById(tabId);
-    if (container) {
-      const frame = document.createElement('turbo-frame');
-      frame.id = `frame-${tabId}`;
-      frame.src = `/products/${productId}/compare?frame_id=frame-${tabId}`;
-      
-      frame.addEventListener('turbo:frame-load', () => {
-        this.getTabsController()?.setActiveTab(tabId);
-        this.trackProductView(productId);
-      });
-      
-      container.appendChild(frame);
-    }
-  }
-
-  trackProductView(productId) {
-    // Analytics tracking
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'product_view', {
-        'product_id': productId,
-        'view_type': 'comparison_tab'
-      });
-    }
-  }
-}
-```
-
-## 📊 Dashboard with Multiple Data Views
-
-Example of a dashboard where users can open multiple data views simultaneously.
-
-### Dashboard Controller
-
-```ruby
-# app/controllers/dashboard_controller.rb
-class DashboardController < ApplicationController
-  def index
-    # Main dashboard page
-  end
-
-  def widget_content
-    @widget_type = params[:widget_type]
-    @widget_config = JSON.parse(params[:widget_config] || '{}')
-    @frame_id = params[:frame_id]
-    @time_range = params[:time_range] || '7d'
-    
-    @data = case @widget_type
-    when 'sales_chart'
-      fetch_sales_data(@time_range)
-    when 'user_analytics'
-      fetch_user_analytics(@time_range)
-    when 'revenue_breakdown'
-      fetch_revenue_data(@time_range)
-    when 'performance_metrics'
-      fetch_performance_metrics(@time_range)
-    else
-      {}
-    end
-    
-    respond_to do |format|
-      format.html { render "widgets/#{@widget_type}" }
-    end
-  end
-
-  private
-
-  def fetch_sales_data(time_range)
-    # Implement your data fetching logic
-    {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      datasets: [
-        {
-          label: 'Sales',
-          data: [120, 190, 300, 500, 200, 300, 450]
-        }
-      ]
-    }
-  end
-end
-```
-
-### Widget Dashboard Layout
-
-```erb
-<!-- app/views/dashboard/index.html.erb -->
-<div class="h-screen flex bg-slate-50" data-controller="vscode-tabs">
-  <!-- Widget sidebar -->
-  <div class="w-80 bg-white border-r" data-controller="dashboard-widgets">
+    <!-- ERP Task Content -->
     <div class="p-6">
-      <h2 class="text-lg font-bold mb-4">Dashboard Widgets</h2>
-      
-      <div class="space-y-2">
-        <% [
-          { type: 'sales_chart', name: 'Sales Overview', icon: 'chart-line' },
-          { type: 'user_analytics', name: 'User Analytics', icon: 'users' },
-          { type: 'revenue_breakdown', name: 'Revenue Breakdown', icon: 'dollar-sign' },
-          { type: 'performance_metrics', name: 'Performance Metrics', icon: 'activity' }
-        ].each do |widget| %>
-          <div class="p-3 border rounded-lg cursor-pointer hover:bg-slate-50"
-               data-action="click->dashboard-widgets#openWidget"
-               data-widget-type="<%= widget[:type] %>"
-               data-widget-name="<%= widget[:name] %>">
-            <div class="flex items-center">
-              <i class="fas fa-<%= widget[:icon] %> mr-3 text-blue-500"></i>
-              <span class="font-medium"><%= widget[:name] %></span>
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Workflows</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
             </div>
           </div>
-        <% end %>
+        </div>
+        <!-- Additional stats... -->
       </div>
-    </div>
-  </div>
-  
-  <!-- Main dashboard area -->
-  <div class="flex-1 flex flex-col">
-    <!-- Tab bar -->
-    <div class="h-12 bg-white border-b flex items-center" data-vscode-tabs-target="tabBar">
-      <div class="flex items-center h-full px-4 text-slate-500 text-sm">
-        No widgets open
-      </div>
-    </div>
-    
-    <!-- Widget content areas -->
-    <div class="flex-1 relative bg-slate-50" id="tab-content-areas" data-vscode-tabs-target="contentAreas">
-      <div id="welcome-message" class="absolute inset-0 flex items-center justify-center">
-        <div class="text-center">
-          <h2 class="text-3xl font-bold text-slate-800 mb-4">Analytics Dashboard</h2>
-          <p class="text-slate-600">Select widgets from the sidebar to build your custom dashboard.</p>
+
+      <!-- Recent ERP Tasks -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent ERP Workflows</h3>
+        <div class="space-y-3">
+          <% [
+            { title: "Process Q4 Financial Audit", priority: "high", status: "in_progress", assignee: "Sarah Mitchell", due: "Today" },
+            { title: "Employee Payroll Processing", priority: "urgent", status: "pending", assignee: "Michelle Carter", due: "Tomorrow" },
+            { title: "Inventory Reconciliation", priority: "medium", status: "completed", assignee: "Antonio Silva", due: "Yesterday" }
+          ].each do |task| %>
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <h4 class="font-medium text-gray-900 dark:text-white"><%= task[:title] %></h4>
+                  <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="flex items-center">
+                      <span class="w-2 h-2 rounded-full mr-2 <%= task[:priority] == 'urgent' ? 'bg-red-500' : task[:priority] == 'high' ? 'bg-orange-500' : 'bg-yellow-500' %>"></span>
+                      <%= task[:priority].capitalize %> priority
+                    </span>
+                    <span>Assigned to <%= task[:assignee] %></span>
+                    <span>Due <%= task[:due] %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
 ```
 
-## 🎨 Advanced Customizations
+### Organization Management Component
 
-### Custom Tab Icons Based on Content Type
+```ruby
+# app/components/mobile_organizations/component.rb
+module MobileOrganizations
+  class Component < ViewComponent::Base
+    def initialize(organizations: [], active_org_id: nil, can_create: false)
+      @organizations = organizations
+      @active_org_id = active_org_id
+      @can_create = can_create
+    end
 
-```javascript
-// Enhanced VSCodeTabsController with custom icons
-addTab(tabId, tabName, contentType = 'default') {
-  // ... existing code ...
-  
-  const iconHtml = this.getIconForContentType(contentType);
-  
-  tabElement.innerHTML = `
-    <div class="flex items-center">
-      ${iconHtml}
-      <span class="text-sm text-slate-700 font-medium mr-3 max-w-32 truncate">${tabName}</span>
-      <button class="opacity-0 group-hover:opacity-100 ml-1 p-1 rounded hover:bg-slate-300 transition-all duration-200" 
-              data-action="click->vscode-tabs#closeTab" 
-              data-tab-id="${tabId}">
-        <svg class="w-3 h-3 text-slate-500 hover:text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-  `;
-}
+    private
 
-getIconForContentType(contentType) {
-  const icons = {
-    'task_category': '<svg class="w-4 h-4 mr-2 text-blue-500">...</svg>',
-    'file_folder': '<svg class="w-4 h-4 mr-2 text-yellow-500">...</svg>',
-    'file_image': '<svg class="w-4 h-4 mr-2 text-green-500">...</svg>',
-    'file_code': '<svg class="w-4 h-4 mr-2 text-purple-500">...</svg>',
-    'product': '<svg class="w-4 h-4 mr-2 text-indigo-500">...</svg>',
-    'user': '<svg class="w-4 h-4 mr-2 text-pink-500">...</svg>',
-    'default': '<div class="w-3 h-3 bg-blue-400 rounded-full mr-3 opacity-60"></div>'
-  };
-  
-  return icons[contentType] || icons['default'];
-}
+    attr_reader :organizations, :active_org_id, :can_create
+
+    def status_badge_class(status)
+      case status
+      when 'active'
+        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+      when 'pending'
+        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+      when 'inactive'
+        'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
+      else
+        'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
+      end
+    end
+  end
+end
 ```
 
-### Tab Context Menu
+## 🏗️ Mobile Layout Integration
 
-```javascript
-// Add right-click context menu to tabs
-addTab(tabId, tabName, contentType = 'default') {
-  // ... existing code ...
-  
-  tabElement.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-    this.showTabContextMenu(event, tabId);
-  });
-}
+### Mobile Layout Component
 
-showTabContextMenu(event, tabId) {
-  const contextMenu = document.createElement('div');
-  contextMenu.className = 'absolute bg-white border border-slate-200 rounded-lg shadow-lg py-2 z-50';
-  contextMenu.style.left = `${event.clientX}px`;
-  contextMenu.style.top = `${event.clientY}px`;
-  
-  const menuItems = [
-    { label: 'Close Tab', action: () => this.closeTabById(tabId) },
-    { label: 'Close Others', action: () => this.closeOtherTabs(tabId) },
-    { label: 'Close All', action: () => this.closeAllTabs() },
-    { label: 'Duplicate Tab', action: () => this.duplicateTab(tabId) }
-  ];
-  
-  menuItems.forEach(item => {
-    const menuItem = document.createElement('div');
-    menuItem.className = 'px-4 py-2 hover:bg-slate-100 cursor-pointer text-sm';
-    menuItem.textContent = item.label;
-    menuItem.addEventListener('click', () => {
-      item.action();
-      document.body.removeChild(contextMenu);
-    });
-    contextMenu.appendChild(menuItem);
-  });
-  
-  document.body.appendChild(contextMenu);
-  
-  // Remove menu when clicking elsewhere
-  document.addEventListener('click', () => {
-    if (document.body.contains(contextMenu)) {
-      document.body.removeChild(contextMenu);
-    }
-  }, { once: true });
-}
+```ruby
+# app/components/mobile_layout/component.rb
+module MobileLayout
+  class Component < ViewComponent::Base
+    renders_one :main_content
+
+    def initialize(active_tab: 'home')
+      @active_tab = active_tab
+    end
+
+    private
+
+    attr_reader :active_tab
+
+    def navigation_items
+      [
+        { key: 'home', name: 'Home', icon: 'home-icon' },
+        { key: 'orgs', name: 'Organizations', icon: 'office-building' },
+        { key: 'tasks', name: 'Tasks', icon: 'clipboard-list' },
+        { key: 'team', name: 'Team', icon: 'users' },
+        { key: 'more', name: 'More', icon: 'dots-horizontal' }
+      ]
+    end
+
+    def active_tab?(key)
+      active_tab == key
+    end
+  end
+end
 ```
 
-## 🎯 Task Management with Click-to-Open Cards
-
-Example of task cards that open in new tabs when clicked, with edit functionality.
-
-### Task Card Controller
-
-```javascript
-// app/javascript/controllers/task_card_controller.js
-import { Controller } from '@hotwired/stimulus';
-
-export default class extends Controller {
-  static values = { id: Number, title: String };
-
-  openTab(event) {
-    // Prevent default link behavior
-    event.preventDefault();
-    
-    // Get VSCode tabs controller
-    const tabsController = this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller="vscode-tabs"]'),
-      'vscode-tabs'
-    );
-
-    if (!tabsController) return;
-
-    // Generate unique tab ID for this task
-    const tabId = tabsController.generateUniqueTabId('task', this.idValue);
-    
-    // Create the URL for loading task details
-    const url = `/tasks/${this.idValue}?frame_id=frame-${tabId}`;
-
-    // Add tab to tab bar
-    tabsController.addTab(tabId, this.titleValue || `Task #${this.idValue}`);
-
-    // Create and load content
-    setTimeout(() => {
-      const contentContainer = document.getElementById(tabId);
-      if (contentContainer) {
-        const turboFrame = document.createElement('turbo-frame');
-        turboFrame.id = `frame-${tabId}`;
-        turboFrame.src = url;
-        turboFrame.dataset.turboFrameRequestsFormat = 'html';
-        
-        turboFrame.addEventListener('turbo:frame-load', () => {
-          tabsController.setActiveTab(tabId);
-        });
-        
-        contentContainer.appendChild(turboFrame);
-      }
-    }, 10);
-  }
-
-  openEditTab(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    const taskId = event.currentTarget.dataset.taskId;
-    const taskTitle = event.currentTarget.dataset.taskTitle;
-    
-    const tabsController = this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller="vscode-tabs"]'),
-      'vscode-tabs'
-    );
-
-    if (!tabsController) return;
-
-    // Generate unique tab ID for editing
-    const tabId = tabsController.generateUniqueTabId('task-edit', taskId);
-    const url = `/tasks/${taskId}/edit?frame_id=frame-${tabId}`;
-
-    // Add edit tab
-    tabsController.addTab(tabId, `Edit: ${taskTitle || `Task #${taskId}`}`);
-
-    // Load edit form
-    setTimeout(() => {
-      const contentContainer = document.getElementById(tabId);
-      if (contentContainer) {
-        const turboFrame = document.createElement('turbo-frame');
-        turboFrame.id = `frame-${tabId}`;
-        turboFrame.src = url;
-        turboFrame.dataset.turboFrameRequestsFormat = 'html';
-        
-        turboFrame.addEventListener('turbo:frame-load', () => {
-          tabsController.setActiveTab(tabId);
-        });
-        
-        contentContainer.appendChild(turboFrame);
-      }
-    }, 10);
-  }
-
-  stopPropagation(event) {
-    event.stopPropagation();
-  }
-}
-```
-
-### Task Card View with Click Handler
+### Mobile Layout Template
 
 ```erb
-<!-- app/views/tasks/_task_card.html.erb -->
-<div id="<%= dom_id(task) %>" 
-     class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer"
-     data-controller="task-card"
-     data-action="click->task-card#openTab"
-     data-task-card-id-value="<%= task.id %>"
-     data-task-card-title-value="<%= task.title %>">
-  <div class="flex items-start justify-between">
-    <div class="flex-1 min-w-0">
-      <!-- Task Title -->
-      <h3 class="text-lg font-medium text-gray-900 truncate">
-        <span class="hover:text-blue-600"><%= task.title %></span>
-      </h3>
-      
-      <!-- Task Meta -->
-      <div class="flex items-center mt-3 space-x-3">
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= task.status_color %>-100 text-<%= task.status_color %>-800">
-          <%= task.status.humanize %>
-        </span>
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= task.priority_color %>-100 text-<%= task.priority_color %>-800">
-          <%= task.priority.humanize %>
-        </span>
+<!-- app/components/mobile_layout/component.html.erb -->
+<div class="h-screen flex flex-col bg-gray-50 dark:bg-gray-900" data-controller="mobile-layout">
+  <!-- Top Header -->
+  <div class="sticky top-0 z-20 backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 border-b border-gray-100 dark:border-gray-800">
+    <div class="px-4 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+            <span class="text-white text-sm font-bold">G3</span>
+          </div>
+          <h1 class="text-lg font-semibold text-gray-900 dark:text-white">GO3 Platform</h1>
+        </div>
+        <button class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          </svg>
+        </button>
       </div>
     </div>
-    
-    <!-- Action Buttons -->
-    <div class="flex flex-col ml-4 space-y-2" data-action="click->task-card#stopPropagation">
-      <!-- Edit Button -->
-      <button class="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-              title="Edit Task"
-              data-action="click->task-card#openEditTab"
-              data-task-id="<%= task.id %>"
-              data-task-title="<%= task.title %>"
-              type="button">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-        </svg>
-      </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 overflow-auto">
+    <%= main_content %>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg">
+    <div class="flex justify-around py-2">
+      <% navigation_items.each do |item| %>
+        <%= link_to reusable_tabs_demo_full_implementation_path(mobile_tab: item[:key]), 
+            class: "flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 #{active_tab?(item[:key]) ? 'bg-blue-50 dark:bg-blue-900/30' : ''}" do %>
+          <div class="w-6 h-6 mb-1 <%= active_tab?(item[:key]) ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400' %>">
+            <!-- Icon SVG -->
+          </div>
+          <span class="text-xs font-medium <%= active_tab?(item[:key]) ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400' %>">
+            <%= item[:name] %>
+          </span>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
 ```
 
-### Enhanced Controller with Tab Support
+## 🎯 Team Management Component
+
+### Team Component Implementation
 
 ```ruby
-# app/controllers/tasks_controller.rb
-class TasksController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_organization
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+# app/components/mobile_team/component.rb
+module MobileTeam
+  class Component < ViewComponent::Base
+    def initialize(team_members: [], departments: [], current_user: nil)
+      @team_members = team_members
+      @departments = departments
+      @current_user = current_user
+    end
 
-  def show
-    @frame_id = params[:frame_id]
-    
-    respond_to do |format|
-      format.html do
-        if @frame_id.present?
-          render 'show_tab', locals: {
-            task: @task,
-            frame_id: @frame_id
-          }, formats: [:html]
-        else
-          render :show
-        end
+    private
+
+    attr_reader :team_members, :departments, :current_user
+
+    def online_status_color(member)
+      if member[:is_online]
+        'bg-green-400'
+      elsif member[:status] == 'away'
+        'bg-yellow-400'
+      else
+        'bg-gray-400'
       end
     end
-  end
 
-  def edit
-    @frame_id = params[:frame_id]
-    
-    respond_to do |format|
-      format.html do
-        if @frame_id.present?
-          render 'edit_tab', locals: {
-            task: @task,
-            frame_id: @frame_id
-          }, formats: [:html]
-        else
-          render :edit
-        end
-      end
+    def department_member_count(department_name)
+      team_members.count { |member| member[:department] == department_name }
     end
-  end
-
-  def tab_content
-    @filter_type = params[:filter_type]
-    @filter_value = params[:filter_value]
-    @content_name = params[:content_name]
-    @frame_id = params[:frame_id]
-    
-    # Filter tasks based on type
-    @tasks = current_tasks.includes(:user)
-    case @filter_type
-    when 'category'
-      @tasks = @filter_value == 'all' ? @tasks : @tasks.by_category(@filter_value)
-    when 'status'
-      @tasks = @tasks.by_status(@filter_value)
-    when 'priority'
-      @tasks = @tasks.by_priority(@filter_value)
-    end
-    @tasks = @tasks.order(created_at: :desc)
-    
-    # Force HTML format for turbo-frame requests
-    render 'tab_content', locals: {
-      tasks: @tasks,
-      content_name: @content_name,
-      filter_type: @filter_type,
-      filter_value: @filter_value
-    }, formats: [:html]
   end
 end
 ```
 
-### Persistent Tab Restoration
+## 🔧 Desktop Tab System Integration
 
-```javascript
-// Enhanced loadRestoredTabContent in vscode_tabs_controller.js
-loadRestoredTabContent(tabId) {
-  const contentContainer = document.getElementById(tabId);
-  if (!contentContainer) return;
+### TabSystem Component Usage
 
-  let url;
-  
-  if (tabId.startsWith('tab-tasks-')) {
-    // Parse task category tab ID
-    const parts = tabId.split('-');
-    if (parts.length >= 4) {
-      const filterType = parts[2];
-      const filterValue = parts[3];
-      const tabInfo = this.openTabs.get(tabId);
-      const tabName = tabInfo ? tabInfo.name : `${filterType} ${filterValue}`;
-      url = `/tasks/content/${filterType}/${filterValue}?content_name=${encodeURIComponent(tabName)}&frame_id=frame-${tabId}`;
-    }
-  } else if (tabId.startsWith('tab-task-edit-')) {
-    // Parse task edit tab ID
-    const parts = tabId.split('-');
-    if (parts.length >= 4) {
-      const taskId = parts[3];
-      url = `/tasks/${taskId}/edit?frame_id=frame-${tabId}`;
-    }
-  } else if (tabId.startsWith('tab-task-')) {
-    // Parse individual task tab ID
-    const parts = tabId.split('-');
-    if (parts.length >= 3) {
-      const taskId = parts[2];
-      url = `/tasks/${taskId}?frame_id=frame-${tabId}`;
-    }
+```erb
+<!-- app/views/reusable_tabs_demo/full_implementation.html.erb -->
+<%= render TabSystem::Component.new(
+  theme: :enterprise,
+  show_icons: false,
+  show_close_buttons: true,
+  allow_reorder: true,
+  show_actions_menu: true,
+  controller_name: "tab-system",
+  classes: "shadow-xl"
+) %>
+```
+
+### Navigation Sidebar Integration
+
+```erb
+<%= render NavigationSidebar::Component.new(
+  navigation_type: 'organizations',
+  collapsible: true,
+  search_enabled: false,
+  controller_name: "reusable-navigation-sidebar"
+) %>
+```
+
+## 📱 Responsive Design Patterns
+
+### Mobile-First Approach
+
+```erb
+<!-- Mobile Layout (visible on mobile only) -->
+<div class="lg:hidden" data-controller="mobile-demo">
+  <%= render MobileLayout::Component.new(active_tab: active_tab) do |layout| %>
+    <% layout.with_main_content do %>
+      <!-- Mobile-specific components -->
+    <% end %>
+  <% end %>
+</div>
+
+<!-- Desktop Layout (hidden on mobile) -->
+<div class="hidden lg:flex h-screen flex-col bg-slate-50 dark:bg-slate-900">
+  <!-- Desktop tab system -->
+</div>
+```
+
+### ERP Data Structure
+
+```ruby
+# Example ERP task data
+tasks: [
+  {
+    id: 1,
+    title: "Process Q4 Financial Audit",
+    description: "Review and approve quarterly financial statements for compliance",
+    status: 'pending',
+    priority: 'high',
+    due_date: Date.today,
+    tags: ['finance', 'audit'],
+    assignee: { name: 'Sarah Mitchell', role: 'Financial Controller' }
+  },
+  {
+    id: 2,
+    title: "Update Employee Payroll",
+    description: "Process monthly payroll for Global Tech Solutions",
+    status: 'in_progress',
+    priority: 'urgent',
+    due_date: Date.today,
+    assignee: { name: 'You' }
   }
+]
 
-  // Create turbo frame for restored tab content
-  if (url) {
-    const turboFrame = document.createElement('turbo-frame');
-    turboFrame.id = `frame-${tabId}`;
-    turboFrame.src = url;
-    turboFrame.dataset.turboFrameRequestsFormat = 'html';
-    contentContainer.appendChild(turboFrame);
+# Example organization data
+organizations: [
+  {
+    id: 1,
+    name: "Global Tech Solutions",
+    description: "Enterprise technology and consulting services",
+    member_count: 324,
+    status: 'active',
+    favorite: true
+  },
+  {
+    id: 2,
+    name: "Acme Manufacturing Corp",
+    description: "Industrial manufacturing and supply chain",
+    member_count: 186,
+    status: 'active'
   }
-}
-
-// Enhanced canRestoreTab method
-canRestoreTab(tabId) {
-  // Restore all task-related tabs
-  return tabId.startsWith('tab-tasks-') || 
-         tabId.startsWith('tab-task-') || 
-         tabId.startsWith('tab-task-edit-');
-}
+]
 ```
 
-## 🔗 URL-Based Tab Examples
+## 🎨 Enterprise Styling
 
-### Bookmarkable Tab States
+### GO3 Color Palette
 
-The tab system now supports URL-based state management, making every tab configuration bookmarkable and shareable.
+```css
+/* Primary Colors */
+--go3-primary: #006DB3;
+--go3-info: #36AEFC;
+--go3-warning: #ffcc00;
+--go3-danger: #ff4100;
 
-#### Single Tab URL
-```
-/tab-demo?tab_0=organization:org-1:Acme%20Corporation
-```
-Opens a single organization tab for "Acme Corporation"
-
-#### Multiple Tabs with Active Selection
-```
-/tab-demo?tab_0=organization:org-1:Acme%20Corp&tab_1=user:user-42:John%20Doe&tab_2=department:dept-5:Engineering&active_tab=1
-```
-Opens three tabs with the user tab (John Doe) active
-
-#### Task-Specific URLs
-```
-/tasks?tab_0=tasks-category:development:Development%20Tasks&tab_1=task:123:Fix%20Login%20Bug&tab_2=task-edit:124:Edit%20Task%20124&active_tab=0
-```
-Opens task category, individual task view, and task edit tabs
-
-### Programmatic URL Management
-
-```javascript
-// Example: Open tabs programmatically with URL update
-function openMultipleTabs() {
-  const tabsController = getTabsController();
-  
-  // Open organization tab
-  const orgTabId = tabsController.generateUniqueTabId('organization', 'org-1');
-  tabsController.addTab(orgTabId, 'Acme Corporation');
-  
-  // Open user tab
-  const userTabId = tabsController.generateUniqueTabId('user', 'user-42');
-  tabsController.addTab(userTabId, 'John Doe');
-  
-  // URL automatically updates to:
-  // /tab-demo?tab_0=organization:org-1:Acme%20Corporation&tab_1=user:user-42:John%20Doe&active_tab=1
-}
-
-// Example: Share current state
-function shareCurrentTabs() {
-  const currentURL = window.location.href;
-  navigator.clipboard.writeText(currentURL);
-  alert('Tab state URL copied to clipboard!');
-}
+/* Usage in Tailwind */
+.bg-go3-primary { background-color: #006DB3; }
+.text-go3-info { color: #36AEFC; }
 ```
 
-### Deep Linking Examples
+### Component Styling Patterns
 
-```html
-<!-- Email template with tab links -->
-<p>Check out these important items:</p>
-<ul>
-  <li>
-    <a href="/tab-demo?tab_0=report:report-q4:Q4%20Sales%20Report">
-      Q4 Sales Report
-    </a>
-  </li>
-  <li>
-    <a href="/tasks?tab_0=task:456:Critical%20Bug&tab_1=task-edit:456:Edit%20Critical%20Bug&active_tab=1">
-      Critical Bug (opens in edit mode)
-    </a>
-  </li>
-  <li>
-    <a href="/tab-demo?tab_0=dashboard:main:Main%20Dashboard&tab_1=report:daily:Daily%20Stats&tab_2=settings:general:General%20Settings&active_tab=0">
-      Daily Dashboard View
-    </a>
-  </li>
-</ul>
+```erb
+<!-- Professional header with gradient -->
+<div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
+  <h2 class="text-2xl font-bold">ERP Dashboard</h2>
+</div>
+
+<!-- Card with subtle shadows -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+  <!-- Content -->
+</div>
+
+<!-- Status indicators -->
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+  Active
+</span>
 ```
 
-### Browser History Integration
-
-```javascript
-// The system automatically handles browser navigation
-// Users can use back/forward buttons to navigate through tab states
-
-// Example flow:
-// 1. User opens organization tab
-//    URL: /tab-demo?tab_0=organization:org-1:Acme
-// 
-// 2. User opens user tab
-//    URL: /tab-demo?tab_0=organization:org-1:Acme&tab_1=user:user-1:John&active_tab=1
-//
-// 3. User closes organization tab
-//    URL: /tab-demo?tab_0=user:user-1:John&active_tab=0
-//
-// 4. User clicks browser back button
-//    URL returns to: /tab-demo?tab_0=organization:org-1:Acme&tab_1=user:user-1:John&active_tab=1
-//    Both tabs are restored with user tab active
-```
-
-### URL Parameter Reference
-
-| Parameter | Format | Example | Description |
-|-----------|--------|---------|-------------|
-| `tab_N` | `type:id:name` | `tab_0=user:123:John%20Doe` | Defines a tab at index N |
-| `active_tab` | number | `active_tab=2` | Index of the active tab |
-
-### Special Tab Type Formats
-
-| Tab Type | URL Format | Example |
-|----------|------------|---------|
-| Organization | `organization:id:name` | `organization:org-1:Acme%20Corp` |
-| User | `user:id:name` | `user:user-42:Jane%20Smith` |
-| Task Category | `tasks-category:filter:name` | `tasks-category:development:Dev%20Tasks` |
-| Task View | `task:id:name` | `task:123:Fix%20Bug` |
-| Task Edit | `task-edit:id:name` | `task-edit:123:Edit%20Fix%20Bug` |
-| Department | `department:id:name` | `department:dept-5:Engineering` |
-| Report | `report:id:name` | `report:monthly:Monthly%20Report` |
-| Dashboard | `dashboard:id:name` | `dashboard:main:Main%20Dashboard` |
-
-These examples demonstrate the flexibility and power of the VSCode-style tabbed interface system with URL-based state management across different use cases and domains.
+This documentation covers the complete GO3 ERP tab system implementation with real examples from the codebase, showing both mobile and desktop patterns for enterprise resource planning workflows.

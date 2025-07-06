@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-2xl font-bold"><%= content_name %></h2>
-          <p class="text-blue-100 mt-1">Task management and tracking</p>
+          <p class="text-blue-100 mt-1">ERP task management and workflow tracking</p>
         </div>
         <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,8 +27,8 @@
               </svg>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Tasks</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">24</p>
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Workflows</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Completed</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">156</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">89</p>
             </div>
           </div>
         </div>
@@ -55,23 +55,24 @@
               </svg>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Overdue</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">3</p>
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Approval</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">7</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Recent Tasks -->
+      <!-- Recent ERP Tasks -->
       <div>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Tasks</h3>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent ERP Workflows</h3>
         <div class="space-y-3">
           <% [
-            { title: "Update project documentation", priority: "high", status: "in_progress", assignee: "John Doe", due: "Today" },
-            { title: "Review pull request #123", priority: "medium", status: "pending", assignee: "Jane Smith", due: "Tomorrow" },
-            { title: "Fix authentication bug", priority: "urgent", status: "completed", assignee: "Mike Johnson", due: "Yesterday" },
-            { title: "Implement new dashboard design", priority: "low", status: "pending", assignee: "Sarah Wilson", due: "Next week" },
-            { title: "Write unit tests for API", priority: "medium", status: "in_progress", assignee: "Tom Brown", due: "Friday" }
+            { title: "Process Q4 Financial Audit", priority: "high", status: "in_progress", assignee: "Sarah Mitchell", due: "Today" },
+            { title: "Employee Payroll Processing", priority: "urgent", status: "pending", assignee: "Michelle Carter", due: "Tomorrow" },
+            { title: "Inventory Reconciliation", priority: "medium", status: "completed", assignee: "Antonio Silva", due: "Yesterday" },
+            { title: "Budget Approval Workflow", priority: "high", status: "pending", assignee: "Alex Rodriguez", due: "This Week" },
+            { title: "Compliance Report Generation", priority: "medium", status: "in_progress", assignee: "Robert Zhang", due: "Friday" },
+            { title: "New Employee Onboarding", priority: "low", status: "pending", assignee: "Rachel Kim", due: "Next Week" }
           ].each do |task| %>
             <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
               <div class="flex items-center justify-between">
@@ -103,19 +104,19 @@
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
           </svg>
-          Create Task
+          Create Workflow
         </button>
         <button class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
           </svg>
-          Filter Tasks
+          Filter by Department
         </button>
         <button class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
           </svg>
-          Export
+          Generate Report
         </button>
       </div>
     </div>
