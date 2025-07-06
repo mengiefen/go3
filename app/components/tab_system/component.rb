@@ -63,25 +63,43 @@ module TabSystem
       when :vscode
         "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 " \
         "border-t-2 border-transparent border-r border-l border-slate-200 dark:border-slate-700 " \
-        "hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200"
+        "hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 " \
+        "transition-all duration-300 hover:transform hover:translate-y-[-1px] hover:shadow-md"
       when :chrome
         "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 " \
-        "rounded-t-lg mx-1 hover:bg-slate-200 dark:hover:bg-slate-700"
+        "rounded-t-lg mx-1 hover:bg-slate-200 dark:hover:bg-slate-700 " \
+        "transition-all duration-300 hover:transform hover:translate-y-[-1px] hover:shadow-md"
       when :minimal
         "text-slate-600 dark:text-slate-400 " \
-        "border-b-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600"
+        "border-b-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600 " \
+        "transition-all duration-300 hover:transform hover:translate-y-[-1px]"
+      when :enterprise
+        "text-slate-600 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/80 " \
+        "hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 " \
+        "rounded-t-md border border-slate-200/60 dark:border-slate-600/60 border-b-0 " \
+        "transition-all duration-300 backdrop-blur-sm hover:transform hover:translate-y-[-1px] " \
+        "hover:shadow-md hover:border-blue-200 dark:hover:border-blue-400"
+      else
+        "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 " \
+        "transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700"
       end
     end
 
     def tab_item_active_classes
       case theme
       when :vscode
-        "bg-white dark:bg-slate-900 text-slate-900 dark:text-white " \
-        "border-t-blue-500 dark:border-t-blue-400 shadow-sm z-10"
+        "tab-active bg-white dark:bg-slate-900 text-slate-900 dark:text-white " \
+        "border-t-blue-500 dark:border-t-blue-400 shadow-xl z-20 transform translate-y-[-1px]"
       when :chrome
-        "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-lg z-10"
+        "tab-active bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xl z-20 transform translate-y-[-1px]"
       when :minimal
-        "text-slate-900 dark:text-white border-b-blue-500 dark:border-b-blue-400"
+        "tab-active text-slate-900 dark:text-white border-b-blue-500 dark:border-b-blue-400 font-semibold"
+      when :enterprise
+        "tab-active " \
+        "rounded-t-md font-semibold shadow-xl border border-blue-200 dark:border-blue-400 " \
+        "border-b-0 z-20 transform translate-y-[-1px] relative"
+      else
+        "tab-active bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xl z-20"
       end
     end
 
@@ -99,7 +117,11 @@ module TabSystem
     end
 
     def tab_loading_classes
-      "absolute inset-0 flex items-center justify-center bg-white/90 dark:bg-slate-900/90"
+      "absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-50"
+    end
+    
+    def loading_overlay_classes
+      "absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-50 hidden"
     end
 
     def no_tabs_indicator_classes
@@ -143,6 +165,17 @@ module TabSystem
         "data-#{controller_name}-theme-value" => theme.to_s,
         "data-#{controller_name}-scroll-amount-value" => "200"
       }
+    end
+    
+    def loading_spinner_svg
+      '<svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>'.html_safe
+    end
+    
+    def enterprise_theme?
+      theme == :enterprise
     end
   end
 end

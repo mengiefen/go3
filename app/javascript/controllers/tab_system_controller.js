@@ -4,7 +4,7 @@ import Sortable from 'sortablejs';
 console.log('=== TAB SYSTEM CONTROLLER FILE LOADED ===');
 
 export default class extends Controller {
-  static targets = ['tabList', 'tabScrollArea', 'scrollLeftBtn', 'scrollRightBtn', 'noTabsIndicator', 'tabActions', 'contentArea', 'welcomeMessage'];
+  static targets = ['tabList', 'tabScrollArea', 'scrollLeftBtn', 'scrollRightBtn', 'noTabsIndicator', 'tabActions', 'contentArea', 'welcomeMessage', 'loadingOverlay', 'loadingText'];
   static values = {
     showIcons: { type: Boolean, default: false },
     showCloseButtons: { type: Boolean, default: true },
@@ -14,12 +14,21 @@ export default class extends Controller {
   };
 
   connect() {
-    console.log('TabSystem controller connected with professional scrolling');
+    console.log('TabSystem controller connected with modern loading');
     this.tabs = new Map(); // Map of tabId -> { title, icon, isActive, isLoading }
     this.activeTabId = null;
     this.tabCounter = 0;
     this.scrollPosition = 0;
     this.sortable = null;
+    this.loadingMessages = [
+      'Loading content...',
+      'Preparing workspace...',
+      'Fetching data...',
+      'Almost ready...',
+      'Finalizing...',
+    ];
+    this.currentLoadingMessageIndex = 0;
+    this.loadingMessageInterval = null;
     
     // Load persisted state
     this.loadPersistedState();
@@ -42,6 +51,9 @@ export default class extends Controller {
     if (this.sortable) {
       this.sortable.destroy();
     }
+    
+    // Clean up loading message rotation
+    this.stopLoadingMessageRotation();
   }
 
   // Add a new tab
@@ -186,7 +198,7 @@ export default class extends Controller {
 
   // Get tab classes based on theme and state
   getTabClasses(isActive) {
-    const baseClasses = 'group relative flex items-center h-full cursor-pointer transition-all duration-200 text-xs font-medium whitespace-nowrap flex-shrink-0';
+    const baseClasses = 'group relative flex items-center h-full cursor-pointer transition-all duration-300 text-xs font-medium whitespace-nowrap flex-shrink-0';
     
     let themeClasses = '';
     let activeClasses = '';
@@ -194,36 +206,41 @@ export default class extends Controller {
     switch (this.themeValue) {
       case 'vscode':
         themeClasses = 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-t-2 border-transparent border-r border-l border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 px-3 pr-2 mr-px';
-        activeClasses = 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-t-blue-500 dark:border-t-blue-400 shadow-sm z-10 px-3 pr-2 mr-px';
+        activeClasses = 'tab-active bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-t-blue-500 dark:border-t-blue-400 shadow-sm z-10 px-3 pr-2 mr-px';
         break;
       case 'chrome':
         themeClasses = 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-t-lg mx-1 hover:bg-slate-200 dark:hover:bg-slate-700 px-3 pr-2';
-        activeClasses = 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-lg z-10 px-3 pr-2 mx-1';
+        activeClasses = 'tab-active bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-lg z-10 px-3 pr-2 mx-1';
         break;
       case 'minimal':
         themeClasses = 'text-slate-600 dark:text-slate-400 border-b-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600 px-3 pr-2';
-        activeClasses = 'text-slate-900 dark:text-white border-b-blue-500 dark:border-b-blue-400 px-3 pr-2';
+        activeClasses = 'tab-active text-slate-900 dark:text-white border-b-blue-500 dark:border-b-blue-400 px-3 pr-2';
         break;
       case 'enterprise':
-        themeClasses = 'text-slate-600 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 rounded-t-md -mr-1 mt-0.5 pl-3 pr-2 py-1.5 border border-slate-200/60 dark:border-slate-600/60 border-b-0 relative transition-all duration-200 backdrop-blur-sm';
-        activeClasses = 'text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-900 rounded-t-md -mr-1 mt-0.5 pl-3 pr-2 py-1.5 font-semibold shadow-lg border border-blue-200 dark:border-blue-400 border-b-0 relative z-10 transition-all duration-200';
+        themeClasses = 'text-slate-600 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 rounded-t-md -mr-1 mt-0.5 pl-3 pr-2 py-1.5 border border-slate-200/60 dark:border-slate-600/60 border-b-0 relative transition-all duration-300 backdrop-blur-sm';
+        activeClasses = 'tab-active rounded-t-md -mr-1 mt-0 pl-3 pr-2 py-1.5 font-semibold shadow-xl border border-blue-200 dark:border-blue-400 border-b-0 relative z-20 transition-all duration-300';
         break;
     }
 
     return `${baseClasses} ${isActive ? activeClasses : themeClasses}`;
   }
 
-  // Set active tab
+  // Set active tab with enhanced animations
   setActiveTab(tabId) {
     if (!this.tabs.has(tabId)) return;
 
-    // Deactivate current active tab
+    // Deactivate current active tab with smooth transition
     if (this.activeTabId) {
       const prevTab = this.element.querySelector(`[data-tab-id="${this.activeTabId}"]`);
       const prevContent = document.getElementById(this.activeTabId);
       
       if (prevTab) {
+        // Add fade-out effect
+        prevTab.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         prevTab.className = this.getTabClasses(false);
+        
+        // Remove enhanced active styling
+        prevTab.classList.remove('tab-active');
       }
       
       if (prevContent) {
@@ -236,16 +253,37 @@ export default class extends Controller {
       }
     }
 
-    // Activate new tab
+    // Activate new tab with enhanced styling
     const newTab = this.element.querySelector(`[data-tab-id="${tabId}"]`);
     const newContent = document.getElementById(tabId);
     
     if (newTab) {
+      // Add smooth activation transition
+      newTab.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
       newTab.className = this.getTabClasses(true);
+      
+      // Add enhanced active styling
+      newTab.classList.add('tab-active');
+      
+      // Add brief pulse effect on activation
+      newTab.style.transform = 'translateY(-1px) scale(1.02)';
+      setTimeout(() => {
+        newTab.style.transform = 'translateY(-1px) scale(1)';
+      }, 200);
     }
     
     if (newContent) {
       newContent.classList.remove('hidden');
+      
+      // Add subtle content fade-in
+      newContent.style.opacity = '0';
+      newContent.style.transform = 'translateY(5px)';
+      newContent.style.transition = 'all 0.3s ease-out';
+      
+      requestAnimationFrame(() => {
+        newContent.style.opacity = '1';
+        newContent.style.transform = 'translateY(0)';
+      });
     }
     
     const newTabData = this.tabs.get(tabId);
@@ -266,7 +304,7 @@ export default class extends Controller {
     this.updateURL();
   }
 
-  // Set tab loading state
+  // Set tab loading state with enhanced animations
   setTabLoading(tabId, isLoading) {
     const tabData = this.tabs.get(tabId);
     if (!tabData) return;
@@ -276,24 +314,121 @@ export default class extends Controller {
     
     if (tabElement) {
       if (isLoading) {
-        tabElement.classList.add('animate-pulse');
-        const iconWrapper = tabElement.querySelector('.w-4.h-4.mr-2');
+        // Add shimmer effect to tab
+        tabElement.classList.add('tab-loading-shimmer');
+        
+        // Replace icon with animated spinner
+        const iconWrapper = tabElement.querySelector('.w-4, .h-4, .mr-2');
         if (iconWrapper) {
           iconWrapper.innerHTML = `
-            <svg class="animate-spin h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
+            <div class="relative w-4 h-4">
+              <div class="absolute inset-0 rounded-full border-2 border-transparent border-t-blue-500 border-r-blue-400 animate-spin"></div>
+              <div class="absolute inset-1 rounded-full bg-blue-100 dark:bg-blue-900/30 animate-pulse"></div>
+            </div>
           `;
         }
+        
+        // Show global loading overlay if this is the active tab
+        if (tabId === this.activeTabId) {
+          this.showLoadingOverlay();
+        }
       } else {
-        tabElement.classList.remove('animate-pulse');
-        const iconWrapper = tabElement.querySelector('.w-4.h-4.mr-2');
+        // Remove shimmer effect
+        tabElement.classList.remove('tab-loading-shimmer');
+        
+        // Restore original icon
+        const iconWrapper = tabElement.querySelector('.w-4, .h-4, .mr-2');
         if (iconWrapper && tabData.icon) {
           iconWrapper.innerHTML = tabData.icon;
         }
+        
+        // Hide global loading overlay
+        this.hideLoadingOverlay();
       }
     }
+  }
+  
+  // Show modern loading overlay
+  showLoadingOverlay() {
+    if (!this.hasLoadingOverlayTarget) return;
+    
+    this.loadingOverlayTarget.classList.remove('hidden');
+    this.loadingOverlayTarget.classList.add('loading-enter');
+    
+    // Start rotating loading messages
+    this.startLoadingMessageRotation();
+    
+    // Trigger entrance animation
+    requestAnimationFrame(() => {
+      this.loadingOverlayTarget.classList.remove('loading-enter');
+      this.loadingOverlayTarget.classList.add('loading-enter-active');
+    });
+  }
+  
+  // Hide loading overlay with smooth exit
+  hideLoadingOverlay() {
+    if (!this.hasLoadingOverlayTarget) return;
+    
+    // Stop message rotation
+    this.stopLoadingMessageRotation();
+    
+    this.loadingOverlayTarget.classList.remove('loading-enter-active');
+    this.loadingOverlayTarget.classList.add('loading-exit');
+    
+    // Trigger exit animation
+    requestAnimationFrame(() => {
+      this.loadingOverlayTarget.classList.remove('loading-exit');
+      this.loadingOverlayTarget.classList.add('loading-exit-active');
+      
+      // Hide after animation completes
+      setTimeout(() => {
+        this.loadingOverlayTarget.classList.add('hidden');
+        this.loadingOverlayTarget.classList.remove('loading-exit-active');
+      }, 300);
+    });
+  }
+  
+  // Start rotating loading messages
+  startLoadingMessageRotation() {
+    if (!this.hasLoadingTextTarget) return;
+    
+    this.currentLoadingMessageIndex = 0;
+    this.updateLoadingMessage();
+    
+    this.loadingMessageInterval = setInterval(() => {
+      this.currentLoadingMessageIndex = (this.currentLoadingMessageIndex + 1) % this.loadingMessages.length;
+      this.updateLoadingMessage();
+    }, 2000);
+  }
+  
+  // Stop loading message rotation
+  stopLoadingMessageRotation() {
+    if (this.loadingMessageInterval) {
+      clearInterval(this.loadingMessageInterval);
+      this.loadingMessageInterval = null;
+    }
+  }
+  
+  // Update loading message with typewriter effect
+  updateLoadingMessage() {
+    if (!this.hasLoadingTextTarget) return;
+    
+    const message = this.loadingMessages[this.currentLoadingMessageIndex];
+    const textElement = this.loadingTextTarget;
+    
+    // Clear current text
+    textElement.textContent = '';
+    
+    // Typewriter effect
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      if (charIndex < message.length) {
+        textElement.textContent += message[charIndex];
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 50);
   }
 
   // Select tab (click handler)
@@ -738,7 +873,7 @@ export default class extends Controller {
     
     console.log('Loading restored tab content:', url);
     
-    // Add loading state
+    // Add enhanced loading state
     this.setTabLoading(tabId, true);
     contentContainer.classList.add('content-loading');
     
@@ -752,15 +887,46 @@ export default class extends Controller {
     // Listen for frame load events
     turboFrame.addEventListener('turbo:frame-load', () => {
       console.log('Restored frame loaded for tab:', tabId);
-      this.setTabLoading(tabId, false);
-      contentContainer.classList.remove('content-loading');
+      
+      // Smooth loading completion
+      setTimeout(() => {
+        this.setTabLoading(tabId, false);
+        contentContainer.classList.remove('content-loading');
+        
+        // Add smooth fade-in effect for content
+        const content = turboFrame.querySelector('[data-turbo-frame]');
+        if (content) {
+          content.style.opacity = '0';
+          content.style.transform = 'translateY(10px)';
+          content.style.transition = 'all 0.3s ease-out';
+          
+          requestAnimationFrame(() => {
+            content.style.opacity = '1';
+            content.style.transform = 'translateY(0)';
+          });
+        }
+      }, 300); // Small delay for better UX
     });
     
     turboFrame.addEventListener('turbo:frame-missing', () => {
       console.error('Restored frame failed to load for tab:', tabId);
       this.setTabLoading(tabId, false);
       contentContainer.classList.remove('content-loading');
-      contentContainer.innerHTML = '<div class="p-4 text-red-600">Failed to load content</div>';
+      
+      // Show enhanced error message
+      contentContainer.innerHTML = `
+        <div class="flex items-center justify-center h-full">
+          <div class="text-center p-8">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+              <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.98-.833-2.75 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Failed to load content</h3>
+            <p class="text-slate-600 dark:text-slate-400">The requested content could not be loaded. Please try again.</p>
+          </div>
+        </div>
+      `;
     });
     
     contentContainer.appendChild(turboFrame);

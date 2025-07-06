@@ -99,8 +99,8 @@ group :development do
   # gem "rack-mini-profiler"
 
   # Preview email in the browser instead of sending it
-  # gem "letter_opener"
-  gem "mailcatcher"
+  gem "letter_opener"
+  # gem "mailcatcher" # Optional: Install separately with `gem install mailcatcher`
 end
 
 group :test do
