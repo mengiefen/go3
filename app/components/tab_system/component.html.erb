@@ -143,40 +143,112 @@
   
   <!-- Content Area -->
   <div class="<%= content_area_classes %>" data-tab-system-target="contentArea" data-<%= controller_name %>-target="contentArea">
-    <!-- Modern Loading Overlay -->
-    <div class="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-50 hidden" 
+    <!-- Modern Skeleton Loading Overlay -->
+    <div class="absolute inset-0 bg-white dark:bg-slate-900 z-50 hidden" 
          data-tab-system-target="loadingOverlay" data-<%= controller_name %>-target="loadingOverlay">
-      <div class="flex flex-col items-center space-y-6">
-        <!-- Main Loading Animation -->
-        <div class="relative">
-          <!-- Outer rotating ring -->
-          <div class="w-20 h-20 rounded-full border-4 border-transparent border-t-blue-500 border-r-blue-400 animate-spin"></div>
-          <!-- Inner pulsing circle -->
-          <div class="absolute inset-2 w-16 h-16 rounded-full bg-gradient-to-br from-blue-400/20 to-blue-600/20 animate-pulse"></div>
-          <!-- Center dot -->
-          <div class="absolute inset-1/2 w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500 animate-ping"></div>
-        </div>
-        
-        <!-- Loading Text with Typewriter Effect -->
-        <div class="text-center">
-          <div class="text-lg font-semibold text-slate-800 dark:text-white mb-2" data-tab-system-target="loadingText" data-<%= controller_name %>-target="loadingText">
-            Loading content...
-          </div>
-          <!-- Progress Dots -->
-          <div class="flex space-x-1 justify-center">
-            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style="animation-delay: 0ms"></div>
-            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style="animation-delay: 150ms"></div>
-            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style="animation-delay: 300ms"></div>
+      <div class="p-6 h-full overflow-auto">
+        <!-- Skeleton Header -->
+        <div class="bg-gradient-to-r from-gray-200 to-gray-300 dark:from-slate-700 dark:to-slate-600 rounded-lg p-6 mb-8 skeleton-shimmer">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="h-8 bg-gray-300 dark:bg-slate-600 rounded w-64 mb-2 skeleton-pulse"></div>
+              <div class="h-4 bg-gray-200 dark:bg-slate-700 rounded w-96 skeleton-pulse"></div>
+            </div>
+            <div class="w-16 h-16 bg-gray-300 dark:bg-slate-600 rounded-lg skeleton-pulse"></div>
           </div>
         </div>
         
-        <!-- Floating Particles Animation -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-          <div class="particle-float particle-1"></div>
-          <div class="particle-float particle-2"></div>
-          <div class="particle-float particle-3"></div>
-          <div class="particle-float particle-4"></div>
-          <div class="particle-float particle-5"></div>
+        <!-- Skeleton Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-gray-100 dark:bg-slate-800 rounded-lg p-4 skeleton-shimmer">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gray-300 dark:bg-slate-600 rounded-lg skeleton-pulse"></div>
+              <div class="ml-4 flex-1">
+                <div class="h-4 bg-gray-300 dark:bg-slate-600 rounded w-24 mb-2 skeleton-pulse"></div>
+                <div class="h-8 bg-gray-400 dark:bg-slate-500 rounded w-16 skeleton-pulse"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-100 dark:bg-slate-800 rounded-lg p-4 skeleton-shimmer">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gray-300 dark:bg-slate-600 rounded-lg skeleton-pulse"></div>
+              <div class="ml-4 flex-1">
+                <div class="h-4 bg-gray-300 dark:bg-slate-600 rounded w-20 mb-2 skeleton-pulse"></div>
+                <div class="h-8 bg-gray-400 dark:bg-slate-500 rounded w-12 skeleton-pulse"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-100 dark:bg-slate-800 rounded-lg p-4 skeleton-shimmer">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gray-300 dark:bg-slate-600 rounded-lg skeleton-pulse"></div>
+              <div class="ml-4 flex-1">
+                <div class="h-4 bg-gray-300 dark:bg-slate-600 rounded w-28 mb-2 skeleton-pulse"></div>
+                <div class="h-8 bg-gray-400 dark:bg-slate-500 rounded w-8 skeleton-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Skeleton Content List -->
+        <div>
+          <div class="h-6 bg-gray-300 dark:bg-slate-600 rounded w-48 mb-4 skeleton-pulse"></div>
+          <div class="space-y-3">
+            <!-- Skeleton List Items -->
+            <div class="bg-gray-100 dark:bg-slate-800 rounded-lg p-4 skeleton-shimmer">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <div class="h-5 bg-gray-300 dark:bg-slate-600 rounded w-80 mb-2 skeleton-pulse"></div>
+                  <div class="flex items-center space-x-4">
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-24 skeleton-pulse"></div>
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-32 skeleton-pulse"></div>
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-20 skeleton-pulse"></div>
+                  </div>
+                </div>
+                <div class="h-6 bg-gray-300 dark:bg-slate-600 rounded-full w-20 skeleton-pulse"></div>
+              </div>
+            </div>
+            <div class="bg-gray-100 dark:bg-slate-800 rounded-lg p-4 skeleton-shimmer">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <div class="h-5 bg-gray-300 dark:bg-slate-600 rounded w-72 mb-2 skeleton-pulse"></div>
+                  <div class="flex items-center space-x-4">
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-20 skeleton-pulse"></div>
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-28 skeleton-pulse"></div>
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-24 skeleton-pulse"></div>
+                  </div>
+                </div>
+                <div class="h-6 bg-gray-300 dark:bg-slate-600 rounded-full w-20 skeleton-pulse"></div>
+              </div>
+            </div>
+            <div class="bg-gray-100 dark:bg-slate-800 rounded-lg p-4 skeleton-shimmer">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <div class="h-5 bg-gray-300 dark:bg-slate-600 rounded w-64 mb-2 skeleton-pulse"></div>
+                  <div class="flex items-center space-x-4">
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-16 skeleton-pulse"></div>
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-36 skeleton-pulse"></div>
+                    <div class="h-3 bg-gray-200 dark:bg-slate-700 rounded w-28 skeleton-pulse"></div>
+                  </div>
+                </div>
+                <div class="h-6 bg-gray-300 dark:bg-slate-600 rounded-full w-20 skeleton-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Skeleton Action Buttons -->
+        <div class="mt-6 flex flex-wrap gap-3">
+          <div class="h-10 bg-gray-300 dark:bg-slate-600 rounded-lg w-32 skeleton-pulse"></div>
+          <div class="h-10 bg-gray-200 dark:bg-slate-700 rounded-lg w-40 skeleton-pulse"></div>
+          <div class="h-10 bg-gray-200 dark:bg-slate-700 rounded-lg w-36 skeleton-pulse"></div>
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div class="fixed bottom-6 right-6 bg-white dark:bg-slate-800 rounded-full p-3 shadow-lg border border-gray-200 dark:border-slate-600">
+          <div class="flex items-center space-x-2">
+            <div class="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Loading...</span>
+          </div>
         </div>
       </div>
     </div>
@@ -215,116 +287,103 @@
 </div>
 
 <style>
-  /* Modern Loading Animations */
+  /* Modern Skeleton Loading Animations */
   
-  /* Floating particles animation */
-  .particle-float {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: linear-gradient(45deg, #3b82f6, #60a5fa);
-    border-radius: 50%;
-    opacity: 0.6;
-    animation: float 3s ease-in-out infinite;
+  /* Skeleton pulse animation */
+  .skeleton-pulse {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
   }
   
-  .particle-1 {
-    top: 20%;
-    left: 20%;
-    animation-delay: 0s;
-    animation-duration: 3s;
-  }
-  
-  .particle-2 {
-    top: 40%;
-    right: 30%;
-    animation-delay: 0.6s;
-    animation-duration: 2.5s;
-  }
-  
-  .particle-3 {
-    bottom: 30%;
-    left: 30%;
-    animation-delay: 1.2s;
-    animation-duration: 3.5s;
-  }
-  
-  .particle-4 {
-    top: 60%;
-    right: 20%;
-    animation-delay: 1.8s;
-    animation-duration: 2.8s;
-  }
-  
-  .particle-5 {
-    bottom: 20%;
-    right: 40%;
-    animation-delay: 2.4s;
-    animation-duration: 3.2s;
-  }
-  
-  @keyframes float {
+  @keyframes skeleton-pulse {
     0%, 100% {
-      transform: translateY(0px) scale(1);
-      opacity: 0.6;
-    }
-    25% {
-      transform: translateY(-20px) scale(1.1);
-      opacity: 0.8;
+      opacity: 1;
     }
     50% {
-      transform: translateY(-10px) scale(0.9);
-      opacity: 0.4;
-    }
-    75% {
-      transform: translateY(-15px) scale(1.05);
-      opacity: 0.7;
+      opacity: 0.6;
     }
   }
   
-  /* Enhanced spinner with gradient */
-  @keyframes gradient-spin {
+  /* Skeleton shimmer wave effect */
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .skeleton-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    animation: skeleton-shimmer 2s ease-in-out infinite;
+  }
+  
+  .dark .skeleton-shimmer::before {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+  }
+  
+  @keyframes skeleton-shimmer {
     0% {
-      transform: rotate(0deg);
-      border-image: linear-gradient(0deg, #3b82f6, #60a5fa, #93c5fd) 1;
-    }
-    33% {
-      transform: rotate(120deg);
-      border-image: linear-gradient(120deg, #60a5fa, #93c5fd, #3b82f6) 1;
-    }
-    66% {
-      transform: rotate(240deg);
-      border-image: linear-gradient(240deg, #93c5fd, #3b82f6, #60a5fa) 1;
+      left: -100%;
     }
     100% {
-      transform: rotate(360deg);
-      border-image: linear-gradient(360deg, #3b82f6, #60a5fa, #93c5fd) 1;
+      left: 100%;
     }
   }
   
-  /* Smooth backdrop blur entrance */
+  /* Skeleton loading entrance animation */
   [data-tab-system-target="loadingOverlay"] {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: skeleton-fade-in 0.3s ease-out;
   }
   
-  [data-tab-system-target="loadingOverlay"].loading-enter {
-    opacity: 0;
-    transform: scale(0.95);
+  @keyframes skeleton-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
-  [data-tab-system-target="loadingOverlay"].loading-enter-active {
-    opacity: 1;
-    transform: scale(1);
+  /* Skeleton loading responsive adjustments */
+  @media (max-width: 768px) {
+    .skeleton-shimmer {
+      animation-duration: 1.5s;
+    }
+    
+    .skeleton-pulse {
+      animation-duration: 1.2s;
+    }
   }
   
-  [data-tab-system-target="loadingOverlay"].loading-exit {
-    opacity: 1;
-    transform: scale(1);
+  /* Skeleton loading exit animation */
+  [data-tab-system-target="loadingOverlay"].skeleton-exit {
+    animation: skeleton-fade-out 0.3s ease-in forwards;
   }
   
-  [data-tab-system-target="loadingOverlay"].loading-exit-active {
-    opacity: 0;
-    transform: scale(1.05);
+  @keyframes skeleton-fade-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
   }
   
   /* Enhanced Active Tab Styles */
@@ -424,23 +483,10 @@
     }
   }
   
-  /* Tab loading shimmer effect */
-  .tab-loading-shimmer {
-    background: linear-gradient(90deg, 
-      rgba(59, 130, 246, 0.1) 0%, 
-      rgba(59, 130, 246, 0.3) 50%, 
-      rgba(59, 130, 246, 0.1) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s ease-in-out infinite;
-  }
-  
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
+  /* Tab loading pulse effect */
+  [data-tab-id].skeleton-pulse {
+    opacity: 0.7;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
   }
   
   /* Content loading skeleton */

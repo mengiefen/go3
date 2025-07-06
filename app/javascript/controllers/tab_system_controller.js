@@ -4,7 +4,7 @@ import Sortable from 'sortablejs';
 console.log('=== TAB SYSTEM CONTROLLER FILE LOADED ===');
 
 export default class extends Controller {
-  static targets = ['tabList', 'tabScrollArea', 'scrollLeftBtn', 'scrollRightBtn', 'noTabsIndicator', 'tabActions', 'contentArea', 'welcomeMessage', 'loadingOverlay', 'loadingText'];
+  static targets = ['tabList', 'tabScrollArea', 'scrollLeftBtn', 'scrollRightBtn', 'noTabsIndicator', 'tabActions', 'contentArea', 'welcomeMessage', 'loadingOverlay'];
   static values = {
     showIcons: { type: Boolean, default: false },
     showCloseButtons: { type: Boolean, default: true },
@@ -14,21 +14,12 @@ export default class extends Controller {
   };
 
   connect() {
-    console.log('TabSystem controller connected with modern loading');
+    console.log('TabSystem controller connected with skeleton loading');
     this.tabs = new Map(); // Map of tabId -> { title, icon, isActive, isLoading }
     this.activeTabId = null;
     this.tabCounter = 0;
     this.scrollPosition = 0;
     this.sortable = null;
-    this.loadingMessages = [
-      'Loading content...',
-      'Preparing workspace...',
-      'Fetching data...',
-      'Almost ready...',
-      'Finalizing...',
-    ];
-    this.currentLoadingMessageIndex = 0;
-    this.loadingMessageInterval = null;
     
     // Load persisted state
     this.loadPersistedState();
@@ -51,9 +42,6 @@ export default class extends Controller {
     if (this.sortable) {
       this.sortable.destroy();
     }
-    
-    // Clean up loading message rotation
-    this.stopLoadingMessageRotation();
   }
 
   // Add a new tab
@@ -314,27 +302,24 @@ export default class extends Controller {
     
     if (tabElement) {
       if (isLoading) {
-        // Add shimmer effect to tab
-        tabElement.classList.add('tab-loading-shimmer');
+        // Add subtle loading effect to tab
+        tabElement.classList.add('skeleton-pulse');
         
-        // Replace icon with animated spinner
+        // Replace icon with simple loading indicator
         const iconWrapper = tabElement.querySelector('.w-4, .h-4, .mr-2');
         if (iconWrapper) {
           iconWrapper.innerHTML = `
-            <div class="relative w-4 h-4">
-              <div class="absolute inset-0 rounded-full border-2 border-transparent border-t-blue-500 border-r-blue-400 animate-spin"></div>
-              <div class="absolute inset-1 rounded-full bg-blue-100 dark:bg-blue-900/30 animate-pulse"></div>
-            </div>
+            <div class="w-4 h-4 bg-blue-200 dark:bg-blue-800 rounded animate-pulse"></div>
           `;
         }
         
-        // Show global loading overlay if this is the active tab
+        // Show skeleton loading overlay if this is the active tab
         if (tabId === this.activeTabId) {
           this.showLoadingOverlay();
         }
       } else {
-        // Remove shimmer effect
-        tabElement.classList.remove('tab-loading-shimmer');
+        // Remove loading effect
+        tabElement.classList.remove('skeleton-pulse');
         
         // Restore original icon
         const iconWrapper = tabElement.querySelector('.w-4, .h-4, .mr-2');
@@ -342,93 +327,35 @@ export default class extends Controller {
           iconWrapper.innerHTML = tabData.icon;
         }
         
-        // Hide global loading overlay
+        // Hide skeleton loading overlay
         this.hideLoadingOverlay();
       }
     }
   }
   
-  // Show modern loading overlay
+  // Show skeleton loading overlay
   showLoadingOverlay() {
     if (!this.hasLoadingOverlayTarget) return;
     
     this.loadingOverlayTarget.classList.remove('hidden');
-    this.loadingOverlayTarget.classList.add('loading-enter');
     
-    // Start rotating loading messages
-    this.startLoadingMessageRotation();
-    
-    // Trigger entrance animation
-    requestAnimationFrame(() => {
-      this.loadingOverlayTarget.classList.remove('loading-enter');
-      this.loadingOverlayTarget.classList.add('loading-enter-active');
-    });
+    // Add entrance animation
+    this.loadingOverlayTarget.style.animation = 'skeleton-fade-in 0.3s ease-out';
   }
   
-  // Hide loading overlay with smooth exit
+  // Hide skeleton loading overlay
   hideLoadingOverlay() {
     if (!this.hasLoadingOverlayTarget) return;
     
-    // Stop message rotation
-    this.stopLoadingMessageRotation();
+    // Add exit animation
+    this.loadingOverlayTarget.classList.add('skeleton-exit');
     
-    this.loadingOverlayTarget.classList.remove('loading-enter-active');
-    this.loadingOverlayTarget.classList.add('loading-exit');
-    
-    // Trigger exit animation
-    requestAnimationFrame(() => {
-      this.loadingOverlayTarget.classList.remove('loading-exit');
-      this.loadingOverlayTarget.classList.add('loading-exit-active');
-      
-      // Hide after animation completes
-      setTimeout(() => {
-        this.loadingOverlayTarget.classList.add('hidden');
-        this.loadingOverlayTarget.classList.remove('loading-exit-active');
-      }, 300);
-    });
-  }
-  
-  // Start rotating loading messages
-  startLoadingMessageRotation() {
-    if (!this.hasLoadingTextTarget) return;
-    
-    this.currentLoadingMessageIndex = 0;
-    this.updateLoadingMessage();
-    
-    this.loadingMessageInterval = setInterval(() => {
-      this.currentLoadingMessageIndex = (this.currentLoadingMessageIndex + 1) % this.loadingMessages.length;
-      this.updateLoadingMessage();
-    }, 2000);
-  }
-  
-  // Stop loading message rotation
-  stopLoadingMessageRotation() {
-    if (this.loadingMessageInterval) {
-      clearInterval(this.loadingMessageInterval);
-      this.loadingMessageInterval = null;
-    }
-  }
-  
-  // Update loading message with typewriter effect
-  updateLoadingMessage() {
-    if (!this.hasLoadingTextTarget) return;
-    
-    const message = this.loadingMessages[this.currentLoadingMessageIndex];
-    const textElement = this.loadingTextTarget;
-    
-    // Clear current text
-    textElement.textContent = '';
-    
-    // Typewriter effect
-    let charIndex = 0;
-    const typeInterval = setInterval(() => {
-      if (charIndex < message.length) {
-        textElement.textContent += message[charIndex];
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-      }
-    }, 50);
+    // Hide after animation completes
+    setTimeout(() => {
+      this.loadingOverlayTarget.classList.add('hidden');
+      this.loadingOverlayTarget.classList.remove('skeleton-exit');
+      this.loadingOverlayTarget.style.animation = '';
+    }, 300);
   }
 
   // Select tab (click handler)
