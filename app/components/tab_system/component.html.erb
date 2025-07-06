@@ -1,11 +1,34 @@
 <div class="<%= container_classes %>" data-controller="tab-system <%= controller_name %>" <%= tag.attributes(controller_attributes) %>>
   <!-- Tab Bar -->
   <div class="<%= tab_bar_classes %>">
+    <!-- Left Scroll Button -->
+    <button class="flex-shrink-0 w-8 h-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors opacity-50 pointer-events-none hidden" 
+            data-tab-system-target="scrollLeftBtn" data-<%= controller_name %>-target="scrollLeftBtn"
+            data-action="click-><%= controller_name %>#scrollLeft"
+            title="Scroll tabs left">
+      <svg class="w-4 h-4 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+
+    <!-- Tab Container -->
     <div class="<%= tab_wrapper_classes %>">
       <!-- Tab Scroll Area -->
-      <div class="<%= tab_scroll_area_classes %>">
+      <div class="<%= tab_scroll_area_classes %>" data-tab-system-target="tabScrollArea" data-<%= controller_name %>-target="tabScrollArea">
         <div class="<%= tab_list_classes %>" data-tab-system-target="tabList" data-<%= controller_name %>-target="tabList">
           <!-- Tabs will be dynamically added here -->
+          <!-- Tab template structure (for reference when creating tabs in JS):
+          <div data-tab-id="tab-id" class="tab-classes">
+            <div class="flex items-center w-full">
+              <span class="tab-title">Tab Title</span>
+              <button class="tab-close ml-2 w-4 h-4..." 
+                      data-action="click-><%= controller_name %>#closeTab"
+                      data-tab-id="tab-id">
+                <svg>...</svg>
+              </button>
+            </div>
+          </div>
+          -->
           
           <!-- No tabs indicator -->
           <div class="<%= no_tabs_indicator_classes %>" data-tab-system-target="noTabsIndicator" data-<%= controller_name %>-target="noTabsIndicator">
@@ -16,11 +39,22 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Right Scroll Button -->
+    <button class="flex-shrink-0 w-8 h-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors opacity-50 pointer-events-none hidden" 
+            data-tab-system-target="scrollRightBtn" data-<%= controller_name %>-target="scrollRightBtn"
+            data-action="click-><%= controller_name %>#scrollRight"
+            title="Scroll tabs right">
+      <svg class="w-4 h-4 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
       
-      <!-- Tab Actions Menu -->
-      <% if show_actions_menu %>
-        <div class="flex items-center bg-slate-50 dark:bg-slate-800 flex-shrink-0" data-tab-system-target="tabActions" data-<%= controller_name %>-target="tabActions" style="display: none;">
-          <div class="w-px h-5 bg-slate-300 dark:bg-slate-600"></div>
+    <!-- Tab Actions Menu - Always Fixed -->
+    <% if show_actions_menu %>
+      <div class="flex items-center bg-slate-50 dark:bg-slate-800 flex-shrink-0 border-l border-slate-200 dark:border-slate-600" data-tab-system-target="tabActions" data-<%= controller_name %>-target="tabActions" style="display: none;">
+        <div class="w-px h-5 bg-slate-300 dark:bg-slate-600 mr-2"></div>
           <div class="relative inline-block text-left px-2" 
                data-controller="dropdown"
                data-dropdown-active-class="block"
@@ -104,7 +138,6 @@
           </div>
         </div>
       <% end %>
-    </div>
   </div>
   
   <!-- Content Area -->
@@ -143,16 +176,86 @@
 </div>
 
 <style>
-  /* Basic tab title truncation */
-  .tab-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 140px;
+  /* Professional tab scrolling styles */
+  
+  /* Container constraints */
+  [data-controller~="tab-system"] {
+    min-width: 0;
   }
   
-  .tab-title:hover {
-    max-width: 120px;
+  /* Tab wrapper constraints */
+  [data-tab-system-target="tabScrollArea"] {
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Tab list with transform scrolling */
+  [data-tab-system-target="tabList"] {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
+  
+  /* Tab title */
+  .tab-title {
+    white-space: nowrap;
+  }
+  
+  /* Ensure proper tab sizing */
+  [data-tab-id] {
+    flex-shrink: 0;
+  }
+  
+  /* Scrollbar hiding */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Sortable drag-and-drop styles */
+  .tab-ghost {
+    opacity: 0.4;
+    background: rgba(59, 130, 246, 0.1);
+  }
+  
+  .tab-dragging {
+    opacity: 0.9;
+    cursor: grabbing !important;
+    z-index: 100;
+  }
+  
+  /* Tab draggable cursor */
+  [data-tab-id] {
+    cursor: grab;
+  }
+  
+  [data-tab-id]:active {
+    cursor: grabbing;
+  }
+  
+  /* Prevent dragging on close button */
+  [data-tab-id] .tab-close {
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Ensure tab content is properly laid out */
+  [data-tab-id] > div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Tab close button hover state for better visibility */
+  [data-tab-id]:hover .tab-close {
+    opacity: 1;
   }
 </style>
   </div>

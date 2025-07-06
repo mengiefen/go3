@@ -1,26 +1,47 @@
 import { Controller } from '@hotwired/stimulus';
+import Sortable from 'sortablejs';
 
 console.log('=== TAB SYSTEM CONTROLLER FILE LOADED ===');
 
 export default class extends Controller {
-  static targets = ['tabList', 'noTabsIndicator', 'tabActions', 'contentArea', 'welcomeMessage'];
+  static targets = ['tabList', 'tabScrollArea', 'scrollLeftBtn', 'scrollRightBtn', 'noTabsIndicator', 'tabActions', 'contentArea', 'welcomeMessage'];
   static values = {
     showIcons: { type: Boolean, default: false },
     showCloseButtons: { type: Boolean, default: true },
     allowReorder: { type: Boolean, default: true },
-    theme: { type: String, default: 'enterprise' }
+    theme: { type: String, default: 'enterprise' },
+    scrollAmount: { type: Number, default: 200 }
   };
 
   connect() {
-    console.log('TabSystem controller connected to element:', this.element);
-    console.log('Element data-controller:', this.element.dataset.controller);
-    console.log('Available targets:', this.targets);
+    console.log('TabSystem controller connected with professional scrolling');
     this.tabs = new Map(); // Map of tabId -> { title, icon, isActive, isLoading }
     this.activeTabId = null;
     this.tabCounter = 0;
+    this.scrollPosition = 0;
+    this.sortable = null;
     
     // Load persisted state
     this.loadPersistedState();
+    
+    // Setup scroll behavior
+    this.setupScrollBehavior();
+    
+    // Setup resize observer to handle window resize
+    this.setupResizeObserver();
+    
+    // Initialize sortable for drag-and-drop
+    this.initializeSortable();
+  }
+
+  disconnect() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+    
+    if (this.sortable) {
+      this.sortable.destroy();
+    }
   }
 
   // Add a new tab
@@ -77,6 +98,16 @@ export default class extends Controller {
     // Activate the new tab
     this.setActiveTab(tabId);
     
+    // Auto-scroll to the newly added tab
+    this.scrollToTab(tabId);
+    
+    // Update scroll buttons state after DOM update
+    setTimeout(() => {
+      this.updateScrollButtons();
+      // Re-initialize sortable to include new tab
+      this.reinitializeSortable();
+    }, 50);
+    
     // Persist state and update URL
     this.persistState();
     this.updateURL();
@@ -90,9 +121,9 @@ export default class extends Controller {
     tab.className = this.getTabClasses(false);
     tab.setAttribute('data-action', 'click->tab-system#selectTab');
 
-    // Tab content wrapper
+    // Tab content wrapper - ensure full width
     const tabContent = document.createElement('div');
-    tabContent.className = 'flex items-center';
+    tabContent.className = 'flex items-center w-full';
 
     // Icon
     if (this.showIconsValue && tabData.icon) {
@@ -104,7 +135,7 @@ export default class extends Controller {
 
     // Title
     const titleSpan = document.createElement('span');
-    titleSpan.className = 'tab-title overflow-hidden text-ellipsis whitespace-nowrap flex-1 text-xs';
+    titleSpan.className = 'tab-title whitespace-nowrap text-xs';
     titleSpan.textContent = tabData.title;
     tabContent.appendChild(titleSpan);
 
@@ -155,27 +186,27 @@ export default class extends Controller {
 
   // Get tab classes based on theme and state
   getTabClasses(isActive) {
-    const baseClasses = 'group relative flex items-center h-full cursor-pointer transition-all duration-200 text-xs font-medium whitespace-nowrap';
+    const baseClasses = 'group relative flex items-center h-full cursor-pointer transition-all duration-200 text-xs font-medium whitespace-nowrap flex-shrink-0';
     
     let themeClasses = '';
     let activeClasses = '';
 
     switch (this.themeValue) {
       case 'vscode':
-        themeClasses = 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-t-2 border-transparent border-r border-l border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 px-4 mr-px min-w-[120px] max-w-[200px]';
-        activeClasses = 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-t-blue-500 dark:border-t-blue-400 shadow-sm z-10 px-4 mr-px min-w-[120px] max-w-[200px]';
+        themeClasses = 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-t-2 border-transparent border-r border-l border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 px-3 pr-2 mr-px';
+        activeClasses = 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-t-blue-500 dark:border-t-blue-400 shadow-sm z-10 px-3 pr-2 mr-px';
         break;
       case 'chrome':
-        themeClasses = 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-t-lg mx-1 hover:bg-slate-200 dark:hover:bg-slate-700 px-4 min-w-[120px] max-w-[200px]';
-        activeClasses = 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-lg z-10 px-4 mx-1 min-w-[120px] max-w-[200px]';
+        themeClasses = 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-t-lg mx-1 hover:bg-slate-200 dark:hover:bg-slate-700 px-3 pr-2';
+        activeClasses = 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-lg z-10 px-3 pr-2 mx-1';
         break;
       case 'minimal':
-        themeClasses = 'text-slate-600 dark:text-slate-400 border-b-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600 px-4 min-w-[120px] max-w-[200px]';
-        activeClasses = 'text-slate-900 dark:text-white border-b-blue-500 dark:border-b-blue-400 px-4 min-w-[120px] max-w-[200px]';
+        themeClasses = 'text-slate-600 dark:text-slate-400 border-b-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600 px-3 pr-2';
+        activeClasses = 'text-slate-900 dark:text-white border-b-blue-500 dark:border-b-blue-400 px-3 pr-2';
         break;
       case 'enterprise':
-        themeClasses = 'text-slate-600 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 rounded-t-md -mr-1 mt-0.5 px-3 py-1.5 min-w-[100px] max-w-[180px] border border-slate-200/60 dark:border-slate-600/60 border-b-0 relative transition-all duration-200 backdrop-blur-sm';
-        activeClasses = 'text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-900 rounded-t-md -mr-1 mt-0.5 px-3 py-1.5 min-w-[100px] max-w-[180px] font-semibold shadow-lg border border-blue-200 dark:border-blue-400 border-b-0 relative z-10 transition-all duration-200';
+        themeClasses = 'text-slate-600 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200 rounded-t-md -mr-1 mt-0.5 pl-3 pr-2 py-1.5 border border-slate-200/60 dark:border-slate-600/60 border-b-0 relative transition-all duration-200 backdrop-blur-sm';
+        activeClasses = 'text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-900 rounded-t-md -mr-1 mt-0.5 pl-3 pr-2 py-1.5 font-semibold shadow-lg border border-blue-200 dark:border-blue-400 border-b-0 relative z-10 transition-all duration-200';
         break;
     }
 
@@ -223,6 +254,9 @@ export default class extends Controller {
     }
 
     this.activeTabId = tabId;
+
+    // Auto-scroll to the active tab
+    this.scrollToTab(tabId);
 
     // Dispatch event
     this.dispatch('tab:activated', { detail: { tabId } });
@@ -318,6 +352,9 @@ export default class extends Controller {
     // Dispatch event
     this.dispatch('tab:closed', { detail: { tabId } });
     
+    // Update scroll buttons state
+    this.updateScrollButtons();
+    
     // Persist state and update URL
     this.persistState();
     this.updateURL();
@@ -325,19 +362,12 @@ export default class extends Controller {
 
   // Close active tab
   closeActiveTab() {
-    console.log('=== closeActiveTab called ===');
-    console.log('Active tab ID:', this.activeTabId);
     if (this.activeTabId) {
-      // Find the active tab
-      const tabElement = this.element.querySelector(`[data-tab-id="${this.activeTabId}"]`);
-      console.log('Found tab element:', tabElement);
-      if (tabElement) {
-        // Simulate closeTab event
-        this.closeTab({ 
-          stopPropagation: () => {},
-          currentTarget: { dataset: { tabId: this.activeTabId } }
-        });
-      }
+      // Simulate closeTab event
+      this.closeTab({ 
+        stopPropagation: () => {},
+        currentTarget: { dataset: { tabId: this.activeTabId } }
+      });
     }
   }
 
@@ -777,6 +807,251 @@ export default class extends Controller {
       console.warn('Could not load persisted tab state:', e);
       this.restoreTabsFromURL();
     }
+  }
+
+  // Setup professional scroll behavior
+  setupScrollBehavior() {
+    console.log('Setting up professional scroll behavior...');
+    
+    // Initial scroll button state update
+    this.updateScrollButtons();
+    
+    // Add wheel event for horizontal scrolling
+    if (this.hasTabScrollAreaTarget) {
+      this.tabScrollAreaTarget.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+          e.preventDefault();
+          this.scrollBy(e.deltaX);
+        }
+      });
+    }
+    
+    console.log('Professional scroll behavior setup complete');
+  }
+
+  // Setup resize observer
+  setupResizeObserver() {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateScrollButtons();
+    });
+    
+    if (this.hasTabScrollAreaTarget) {
+      this.resizeObserver.observe(this.tabScrollAreaTarget);
+    }
+  }
+
+  // Professional scroll methods
+  
+  // Scroll left button handler
+  scrollLeft() {
+    console.log('Scrolling left by', this.scrollAmountValue);
+    this.scrollBy(-this.scrollAmountValue);
+  }
+
+  // Scroll right button handler  
+  scrollRight() {
+    console.log('Scrolling right by', this.scrollAmountValue);
+    this.scrollBy(this.scrollAmountValue);
+  }
+
+  // Scroll by a specific amount with bounds checking
+  scrollBy(deltaX) {
+    if (!this.hasTabListTarget || !this.hasTabScrollAreaTarget) return;
+    
+    const maxScroll = this.getMaxScrollPosition();
+    const newPosition = Math.max(0, Math.min(maxScroll, this.scrollPosition + deltaX));
+    
+    if (newPosition !== this.scrollPosition) {
+      this.scrollToPosition(newPosition);
+    }
+  }
+
+  // Get maximum scroll position
+  getMaxScrollPosition() {
+    if (!this.hasTabListTarget || !this.hasTabScrollAreaTarget) return 0;
+    
+    const containerWidth = this.tabScrollAreaTarget.clientWidth;
+    const contentWidth = this.tabListTarget.scrollWidth;
+    
+    console.log('Scroll calculations:', {
+      containerWidth,
+      contentWidth,
+      maxScroll: contentWidth - containerWidth,
+      tabCount: this.tabs.size
+    });
+    
+    return Math.max(0, contentWidth - containerWidth);
+  }
+
+  // Smooth scroll to a specific position
+  scrollToPosition(targetPosition) {
+    const maxScroll = this.getMaxScrollPosition();
+    targetPosition = Math.max(0, Math.min(maxScroll, targetPosition));
+    
+    if (Math.abs(targetPosition - this.scrollPosition) < 1) {
+      this.updateScrollButtons();
+      return;
+    }
+    
+    const startPosition = this.scrollPosition;
+    const distance = targetPosition - startPosition;
+    const duration = 250; // milliseconds
+    const startTime = performance.now();
+    
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function (ease-out cubic)
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      
+      this.scrollPosition = startPosition + distance * easeOut;
+      this.updateScrollPosition();
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        this.updateScrollButtons();
+      }
+    };
+    
+    requestAnimationFrame(animate);
+  }
+
+  // Update scroll position and transform
+  updateScrollPosition() {
+    if (!this.hasTabListTarget) return;
+    this.tabListTarget.style.transform = `translateX(-${this.scrollPosition}px)`;
+  }
+
+  // Update scroll button states
+  updateScrollButtons() {
+    if (!this.hasScrollLeftBtnTarget || !this.hasScrollRightBtnTarget) return;
+    
+    const maxScroll = this.getMaxScrollPosition();
+    const hasOverflow = maxScroll > 0;
+    const canScrollLeft = this.scrollPosition > 0;
+    const canScrollRight = this.scrollPosition < maxScroll;
+    
+    // Show/hide scroll buttons based on overflow
+    if (hasOverflow) {
+      this.scrollLeftBtnTarget.classList.remove('hidden');
+      this.scrollRightBtnTarget.classList.remove('hidden');
+    } else {
+      this.scrollLeftBtnTarget.classList.add('hidden');
+      this.scrollRightBtnTarget.classList.add('hidden');
+    }
+    
+    // Left button state
+    if (canScrollLeft) {
+      this.scrollLeftBtnTarget.classList.remove('opacity-50', 'pointer-events-none');
+      this.scrollLeftBtnTarget.classList.add('opacity-100', 'pointer-events-auto');
+    } else {
+      this.scrollLeftBtnTarget.classList.add('opacity-50', 'pointer-events-none');
+      this.scrollLeftBtnTarget.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+    
+    // Right button state
+    if (canScrollRight) {
+      this.scrollRightBtnTarget.classList.remove('opacity-50', 'pointer-events-none');
+      this.scrollRightBtnTarget.classList.add('opacity-100', 'pointer-events-auto');
+    } else {
+      this.scrollRightBtnTarget.classList.add('opacity-50', 'pointer-events-none');
+      this.scrollRightBtnTarget.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+    
+    console.log('Scroll buttons updated:', { hasOverflow, canScrollLeft, canScrollRight, maxScroll, currentPosition: this.scrollPosition });
+  }
+
+  // Scroll to a specific tab (enhanced version)
+  scrollToTab(tabId) {
+    if (!this.hasTabListTarget || !this.hasTabScrollAreaTarget) return;
+    
+    const tabElement = this.element.querySelector(`[data-tab-id="${tabId}"]`);
+    if (!tabElement) return;
+    
+    const containerWidth = this.tabScrollAreaTarget.clientWidth;
+    const tabLeft = tabElement.offsetLeft;
+    const tabWidth = tabElement.offsetWidth;
+    const tabRight = tabLeft + tabWidth;
+    
+    let newScrollPosition = this.scrollPosition;
+    
+    // Add padding for better visibility
+    const padding = 20;
+    
+    // If tab is completely to the left of visible area
+    if (tabLeft < this.scrollPosition + padding) {
+      newScrollPosition = Math.max(0, tabLeft - padding);
+    }
+    // If tab is completely to the right of visible area
+    else if (tabRight > this.scrollPosition + containerWidth - padding) {
+      newScrollPosition = tabRight - containerWidth + padding;
+    }
+    
+    // Smooth scroll to the new position
+    if (newScrollPosition !== this.scrollPosition) {
+      this.scrollToPosition(newScrollPosition);
+    }
+  }
+
+  // Initialize Sortable.js for drag-and-drop
+  initializeSortable() {
+    if (!this.hasTabListTarget || !this.allowReorderValue) return;
+    
+    // Delay initialization to ensure DOM is ready
+    setTimeout(() => {
+      try {
+        this.sortable = Sortable.create(this.tabListTarget, {
+          animation: 150,
+          ghostClass: 'tab-ghost',
+          dragClass: 'tab-dragging',
+          handle: '[data-tab-id]',
+          draggable: '[data-tab-id]',
+          filter: '.tab-close, [data-tab-system-target="noTabsIndicator"]',
+          preventOnFilter: true,
+          onEnd: this.handleTabReorder.bind(this)
+        });
+        console.log('Sortable initialized successfully');
+      } catch (error) {
+        console.error('Error initializing sortable:', error);
+      }
+    }, 100);
+  }
+
+  // Handle tab reordering after drag-and-drop
+  handleTabReorder(event) {
+    const movedTabId = event.item.dataset.tabId;
+    if (!movedTabId) return;
+    
+    console.log('Tab reordered:', movedTabId, 'from index', event.oldIndex, 'to', event.newIndex);
+    
+    // Update the order in our tabs Map
+    const tabOrder = Array.from(this.tabListTarget.querySelectorAll('[data-tab-id]'))
+      .map(tab => tab.dataset.tabId)
+      .filter(id => id && this.tabs.has(id));
+    
+    // Rebuild tabs Map with new order
+    const newTabs = new Map();
+    tabOrder.forEach(tabId => {
+      if (this.tabs.has(tabId)) {
+        newTabs.set(tabId, this.tabs.get(tabId));
+      }
+    });
+    
+    this.tabs = newTabs;
+    
+    // Persist the new order
+    this.persistState();
+    this.updateURL();
+  }
+
+  // Re-initialize sortable after adding/removing tabs
+  reinitializeSortable() {
+    if (this.sortable) {
+      this.sortable.destroy();
+    }
+    this.initializeSortable();
   }
 
 }

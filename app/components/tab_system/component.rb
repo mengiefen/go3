@@ -27,34 +27,34 @@ module TabSystem
                 :show_actions_menu, :controller_name, :classes
 
     def container_classes
-      base = "flex-1 flex flex-col bg-white dark:bg-slate-900 shadow-xl"
+      base = "flex-1 flex flex-col bg-white dark:bg-slate-900 shadow-xl min-w-0"
       "#{base} #{classes}".strip
     end
 
     def tab_bar_classes
       case theme
       when :enterprise
-        "relative h-9 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 overflow-visible"
+        "h-9 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center"
       else
-        "relative h-10 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 overflow-visible"
+        "h-10 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center"
       end
     end
 
     def tab_wrapper_classes
-      "flex items-center h-full w-full"
+      "flex-1 min-w-0 overflow-hidden"
     end
 
     def tab_scroll_area_classes
-      "flex-1 min-w-0 overflow-x-auto overflow-y-visible"
+      "h-full"
     end
 
     def tab_list_classes
-      "flex items-center overflow-x-auto h-full scrollbar-hide"
+      "flex items-center h-full transition-transform duration-200 ease-in-out"
     end
 
     def tab_item_base_classes
       base = "group relative flex items-center h-full px-4 mr-px cursor-pointer transition-all duration-200"
-      base += " min-w-[120px] max-w-[200px] text-sm font-medium whitespace-nowrap"
+      base += " flex-shrink-0 text-sm font-medium whitespace-nowrap"
       base
     end
 
@@ -90,7 +90,7 @@ module TabSystem
     end
 
     def tab_text_classes
-      "flex-1 overflow-hidden text-ellipsis"
+      "flex-1 whitespace-nowrap"
     end
 
     def tab_close_button_classes
@@ -136,8 +136,12 @@ module TabSystem
         "data-tab-system-show-close-buttons-value" => show_close_buttons.to_s,
         "data-tab-system-allow-reorder-value" => allow_reorder.to_s,
         "data-tab-system-theme-value" => theme.to_s,
+        "data-tab-system-scroll-amount-value" => "200",
         "data-#{controller_name}-show-icons-value" => show_icons.to_s,
-        "data-#{controller_name}-theme-value" => theme.to_s
+        "data-#{controller_name}-show-close-buttons-value" => show_close_buttons.to_s,
+        "data-#{controller_name}-allow-reorder-value" => allow_reorder.to_s,
+        "data-#{controller_name}-theme-value" => theme.to_s,
+        "data-#{controller_name}-scroll-amount-value" => "200"
       }
     end
   end
