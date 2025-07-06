@@ -1,0 +1,106 @@
+<%= turbo_frame_tag frame_id do %>
+  <div class="p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6 text-white">
+          <h1 class="text-2xl font-bold">Task Status: <%= content_name || content_id %></h1>
+          <p class="text-emerald-100 mt-2">Tasks filtered by <%= content_name || content_id %> status</p>
+        </div>
+        
+        <div class="p-6 space-y-6">
+          <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Filter: <%= content_name || content_id.humanize %></h3>
+            <p class="text-slate-600 dark:text-slate-400">Showing all tasks with status: <strong><%= content_name || content_id.humanize %></strong></p>
+          </div>
+          
+          <div class="space-y-4">
+            <% 
+              # Sample tasks based on status
+              case (content_name || content_id).downcase
+              when 'pending'
+                tasks = [
+                  { title: 'Review pull request #123', priority: 'high', assignee: 'John Doe', due: '2 days' },
+                  { title: 'Update documentation', priority: 'medium', assignee: 'Jane Smith', due: '1 week' },
+                  { title: 'Test new feature', priority: 'low', assignee: 'Bob Wilson', due: '3 days' }
+                ]
+              when 'in_progress', 'in progress'
+                tasks = [
+                  { title: 'Implement user dashboard', priority: 'high', assignee: 'Alice Johnson', due: 'Today' },
+                  { title: 'Fix authentication bug', priority: 'critical', assignee: 'Mike Brown', due: 'Tomorrow' },
+                  { title: 'Optimize database queries', priority: 'medium', assignee: 'Sarah Davis', due: '5 days' }
+                ]
+              when 'completed'
+                tasks = [
+                  { title: 'Setup CI/CD pipeline', priority: 'high', assignee: 'Tom Wilson', completed: '2 hours ago' },
+                  { title: 'Security audit', priority: 'critical', assignee: 'Emma Taylor', completed: '1 day ago' },
+                  { title: 'Mobile responsive design', priority: 'medium', assignee: 'Chris Lee', completed: '3 days ago' }
+                ]
+              else
+                tasks = [
+                  { title: 'Sample task 1', priority: 'medium', assignee: 'Team Member', due: 'Soon' },
+                  { title: 'Sample task 2', priority: 'low', assignee: 'Another Member', due: 'Later' }
+                ]
+              end
+            %>
+            
+            <% tasks.each_with_index do |task, index| %>
+              <div class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex-1">
+                    <h4 class="font-medium text-slate-900 dark:text-white"><%= task[:title] %></h4>
+                    <div class="flex items-center space-x-4 mt-2 text-sm text-slate-600 dark:text-slate-400">
+                      <span>Assignee: <%= task[:assignee] %></span>
+                      <% if task[:due] %>
+                        <span>Due: <%= task[:due] %></span>
+                      <% elsif task[:completed] %>
+                        <span>Completed: <%= task[:completed] %></span>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <% 
+                      priority_colors = {
+                        'critical' => 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
+                        'high' => 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+                        'medium' => 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+                        'low' => 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                      }
+                    %>
+                    <span class="px-2 py-1 <%= priority_colors[task[:priority]] || priority_colors['medium'] %> text-xs rounded-full">
+                      <%= task[:priority].capitalize %>
+                    </span>
+                    <% 
+                      status_colors = {
+                        'pending' => 'bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200',
+                        'in_progress' => 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+                        'completed' => 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                      }
+                      status_key = (content_name || content_id).downcase.gsub(' ', '_')
+                    %>
+                    <span class="px-2 py-1 <%= status_colors[status_key] || status_colors['pending'] %> text-xs rounded-full">
+                      <%= (content_name || content_id).humanize %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="border-t border-slate-200 dark:border-slate-600 pt-6">
+            <div class="flex items-center justify-between">
+              <p class="text-slate-600 dark:text-slate-400">Showing <%= tasks.length %> tasks</p>
+              <div class="flex space-x-2">
+                <button class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors">
+                  Export
+                </button>
+                <button class="px-3 py-1 bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-300 text-sm rounded hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors">
+                  Filter
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

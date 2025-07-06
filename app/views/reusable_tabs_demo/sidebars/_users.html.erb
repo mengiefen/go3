@@ -1,0 +1,27 @@
+<%= render NavigationSidebar::Component.new(
+  navigation_type: :users,
+  title: "USERS",
+  search_enabled: true,
+  collapsible: true,
+  categories: [
+    {
+      name: 'Active Users',
+      icon: 'users',
+      collapsed: false,
+      items: [
+        { id: 'user-1', name: 'John Doe', type: 'user', badge: nil },
+        { id: 'user-2', name: 'Jane Smith', type: 'user', badge: 'new' },
+        { id: 'user-3', name: 'Bob Wilson', type: 'user', badge: nil }
+      ]
+    },
+    {
+      name: 'Admins',
+      icon: 'shield',
+      collapsed: true,
+      items: [
+        { id: 'admin-1', name: 'Admin User', type: 'admin', badge: nil },
+        { id: 'admin-2', name: 'Super Admin', type: 'admin', badge: nil }
+      ]
+    }
+  ]
+) %>

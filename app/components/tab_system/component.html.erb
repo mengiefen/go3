@@ -1,0 +1,143 @@
+<div class="<%= container_classes %>" data-controller="tab-system <%= controller_name %>" <%= tag.attributes(controller_attributes) %>>
+  <!-- Tab Bar -->
+  <div class="<%= tab_bar_classes %>">
+    <div class="<%= tab_wrapper_classes %>">
+      <!-- Tab Scroll Area -->
+      <div class="<%= tab_scroll_area_classes %>">
+        <div class="<%= tab_list_classes %>" data-tab-system-target="tabList" data-<%= controller_name %>-target="tabList">
+          <!-- Tabs will be dynamically added here -->
+          
+          <!-- No tabs indicator -->
+          <div class="<%= no_tabs_indicator_classes %>" data-tab-system-target="noTabsIndicator" data-<%= controller_name %>-target="noTabsIndicator">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            No tabs open
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tab Actions Menu -->
+      <% if show_actions_menu %>
+        <div class="<%= tab_actions_classes %>" data-tab-system-target="tabActions" data-<%= controller_name %>-target="tabActions" style="display: none;">
+          <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mr-2"></div>
+          <div class="relative inline-block text-left" 
+               data-controller="dropdown"
+               data-dropdown-active-class="block"
+               data-dropdown-inactive-class="hidden"
+               data-action="click@window->dropdown#hide">
+            
+            <button class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors group flex items-center" 
+                    title="Tab Actions"
+                    data-action="click->dropdown#toggle"
+                    data-dropdown-target="button"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              <svg class="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200" fill="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="2"></circle>
+                <circle cx="12" cy="5" r="2"></circle>
+                <circle cx="12" cy="19" r="2"></circle>
+              </svg>
+            </button>
+            
+            <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black dark:ring-white ring-opacity-5 dark:ring-opacity-10 focus:outline-none z-50"
+                 data-dropdown-target="menu"
+                 role="menu">
+              <div class="py-1" role="none">
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click-><%= controller_name %>#closeActiveTab"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                  <span>Close Active Tab</span>
+                </button>
+                
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click-><%= controller_name %>#closeAllTabs"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2m14 0V5a2 2 0 00-2-2M5 7V5a2 2 0 012-2m0 0h10a2 2 0 012 2v2"></path>
+                  </svg>
+                  <span>Close All Tabs</span>
+                </button>
+                
+                <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click-><%= controller_name %>#closeOtherTabs"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                  </svg>
+                  <span>Close Other Tabs</span>
+                </button>
+                
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click-><%= controller_name %>#closeTabsToRight"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                  </svg>
+                  <span>Close Tabs to the Right</span>
+                </button>
+                
+                <% if show_icons %>
+                  <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                  
+                  <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                          data-action="click->dropdown#select click-><%= controller_name %>#toggleIcons"
+                          data-dropdown-target="item"
+                          role="menuitem">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                    </svg>
+                    <span>Toggle Tab Icons</span>
+                  </button>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Content Area -->
+  <div class="<%= content_area_classes %>" data-tab-system-target="contentArea" data-<%= controller_name %>-target="contentArea">
+    <!-- Welcome message when no tabs are open -->
+    <div class="<%= welcome_message_classes %>" data-tab-system-target="welcomeMessage" data-<%= controller_name %>-target="welcomeMessage">
+      <div class="text-center max-w-md">
+        <div class="mx-auto w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-6 shadow-lg">
+          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">Welcome to Reusable Components</h2>
+        <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+          Select an item from the sidebar to open a new tab and start exploring your workspace.
+        </p>
+        <div class="mt-6 flex items-center justify-center space-x-4 text-sm text-slate-500 dark:text-slate-400">
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+            Click sidebar icons
+          </div>
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+            Select items
+          </div>
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+            Open tabs
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tab content containers will be dynamically added here -->
+  </div>
+</div>
