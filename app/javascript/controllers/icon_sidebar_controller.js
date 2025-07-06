@@ -1,96 +1,116 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ["activeIndicator"]
-  
   connect() {
-    // Check localStorage for previously active sidebar
-    const savedSidebarType = localStorage.getItem('activeSidebarType')
+    // Load active item from localStorage or use default
+    const savedActive = localStorage.getItem('iconSidebarActive') || 'organizations';
+    this.setActiveItem(savedActive);
     
-    if (savedSidebarType) {
-      // Restore saved state
-      const savedSidebarItem = this.element.querySelector(`[data-sidebar-type="${savedSidebarType}"]`)
-      if (savedSidebarItem) {
-        this.selectSidebar({ currentTarget: savedSidebarItem })
-        return
-      }
-    }
-    
-    // Check if there's already an active sidebar item, if not, initialize with first one
-    const activeItem = this.element.querySelector('.bg-gradient-to-br.from-blue-500.to-blue-600')
-    if (activeItem) {
-      // There's already an active item set by the component, load its sidebar
-      const sidebarType = activeItem.dataset.sidebarType
-      // Save this to localStorage
-      localStorage.setItem('activeSidebarType', sidebarType)
-      this.loadSecondarySidebar(sidebarType)
-    } else {
-      // No active item, initialize with the first sidebar
-      const defaultSidebar = this.element.querySelector('[data-sidebar-type="organizations"]')
-      this.selectSidebar({ currentTarget: defaultSidebar })
+    // Load the saved sidebar content on page load
+    const activeButton = this.element.querySelector(`button[data-item-id="${savedActive}"]`);
+    if (activeButton && activeButton.dataset.sidebarType) {
+      // Trigger sidebar load for the saved active item
+      this.loadSidebar(activeButton.dataset.sidebarType);
     }
   }
 
   selectSidebar(event) {
-    const sidebarType = event.currentTarget.dataset.sidebarType
+    event.preventDefault();
+    const button = event.currentTarget;
+    const itemId = button.dataset.itemId;
+    const sidebarType = button.dataset.sidebarType;
+    
+    // Update active state
+    this.setActiveItem(itemId);
     
     // Save to localStorage
-    localStorage.setItem('activeSidebarType', sidebarType)
+    localStorage.setItem('iconSidebarActive', itemId);
     
-    // Update active state - remove active from all items
-    this.element.querySelectorAll('.icon-sidebar-item').forEach(item => {
-      item.classList.remove('bg-gradient-to-br', 'from-blue-500', 'to-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/25')
-      item.classList.add('text-slate-400', 'hover:bg-slate-700', 'hover:text-white')
-      
-      // Hide active indicator
-      const indicator = item.querySelector('[data-icon-sidebar-target="activeIndicator"]')
-      if (indicator) {
-        indicator.classList.remove('opacity-100')
-        indicator.classList.add('opacity-0')
-      }
-    })
+    // Dispatch event for sidebar change
+    this.dispatch('item:selected', { 
+      detail: { 
+        itemId, 
+        sidebarType 
+      } 
+    });
     
-    // Add active state to clicked item
-    event.currentTarget.classList.remove('text-slate-400', 'hover:bg-slate-700', 'hover:text-white')
-    event.currentTarget.classList.add('bg-gradient-to-br', 'from-blue-500', 'to-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/25')
-    
-    // Show active indicator for clicked item
-    const activeIndicator = event.currentTarget.querySelector('[data-icon-sidebar-target="activeIndicator"]')
-    if (activeIndicator) {
-      activeIndicator.classList.remove('opacity-0')
-      activeIndicator.classList.add('opacity-100')
+    // Update secondary sidebar using turbo stream
+    if (sidebarType) {
+      this.loadSidebar(sidebarType);
     }
-    
-    // Load secondary sidebar content
-    this.loadSecondarySidebar(sidebarType)
   }
 
-  loadSecondarySidebar(sidebarType) {
-    let url
+  goHome(event) {
+    window.location.href = '/';
+  }
+
+  setActiveItem(itemId) {
+    // Remove active state from all buttons
+    this.element.querySelectorAll('button[data-item-id]').forEach(btn => {
+      btn.classList.remove('bg-blue-500', 'text-white');
+      btn.classList.add('hover:bg-slate-200', 'dark:hover:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+      
+      // Remove active indicator
+      const indicator = btn.querySelector('.absolute.left-0');
+      if (indicator) {
+        indicator.remove();
+      }
+    });
     
-    // Route to appropriate controller based on sidebar type
-    switch(sidebarType) {
-      case 'tasks':
-        url = `/tasks/sidebar/${sidebarType}`
-        break
-      default:
-        url = `/tab-demo/sidebar/${sidebarType}`
-        break
+    // Add active state to selected button
+    const activeButton = this.element.querySelector(`button[data-item-id="${itemId}"]`);
+    if (activeButton) {
+      activeButton.classList.add('bg-blue-500', 'text-white');
+      activeButton.classList.remove('hover:bg-slate-200', 'dark:hover:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+      
+      // Add active indicator
+      const indicator = document.createElement('div');
+      indicator.className = 'absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-500 rounded-r-full -ml-4';
+      activeButton.appendChild(indicator);
+    }
+  }
+  
+  loadSidebar(sidebarType) {
+    const currentPath = window.location.pathname;
+    let sidebarUrl = '';
+    
+    if (currentPath.includes('tab-demo')) {
+      sidebarUrl = `/tab-demo/sidebar/${sidebarType}`;
+    } else if (currentPath.includes('reusable-tabs-demo')) {
+      sidebarUrl = `/reusable-tabs-demo/sidebar/${sidebarType}`;
     }
     
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Accept': 'text/vnd.turbo-stream.html',
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    })
-    .then(response => response.text())
-    .then(html => {
-      Turbo.renderStreamMessage(html)
-    })
-    .catch(error => {
-      console.error('Error loading secondary sidebar:', error)
-    })
+    console.log('Loading sidebar:', { sidebarType, currentPath });
+    console.log('Determined sidebar URL:', sidebarUrl);
+    
+    if (sidebarUrl) {
+      console.log('Fetching sidebar content from:', sidebarUrl);
+      fetch(sidebarUrl, {
+        headers: {
+          'Accept': 'text/vnd.turbo-stream.html',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then(turboStream => {
+        console.log('Received turbo stream response:', turboStream.substring(0, 200) + '...');
+        
+        // Apply the turbo stream
+        if (window.Turbo && turboStream.trim()) {
+          window.Turbo.renderStreamMessage(turboStream);
+          console.log('Turbo stream applied successfully');
+        } else {
+          console.error('No Turbo available or empty response');
+        }
+      })
+      .catch(error => {
+        console.error('Error loading sidebar content:', error);
+      });
+    }
   }
 }

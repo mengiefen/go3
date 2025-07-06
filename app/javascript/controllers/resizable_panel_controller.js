@@ -1,115 +1,216 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
+  static targets = ['panel', 'handle'];
   static values = {
-    minWidth: { type: Number, default: 200 },
-    maxWidth: { type: Number, default: 500 },
-    rtl: { type: Boolean, default: false }
+    direction: { type: String, default: 'horizontal' },
+    minSize: { type: Number, default: 200 },
+    maxSize: { type: Number, default: 600 },
+    defaultSize: { type: Number, default: 300 },
+    handlePosition: { type: String, default: 'end' },
+    persistSize: { type: Boolean, default: true },
+    storageKey: { type: String, default: 'resizable_panel' }
   };
 
   connect() {
-    this.initialWidth = this.element.offsetWidth;
-    
-    // Check if we're in an RTL layout
-    this.isRTL = this.rtlValue || document.querySelector('html').dir === 'rtl' || 
-                 this.element.closest('.rtl') !== null;
-    
-    this.createResizeHandle();
-    
-    // Load saved width from localStorage if available
-    const savedWidth = localStorage.getItem('sidebarWidth');
-    if (savedWidth && !this.element.classList.contains('panel-collapsed')) {
-      this.element.style.width = savedWidth;
-    }
+    this.isResizing = false;
+    this.setupPanel();
+    this.loadSavedSize();
+    this.setupEventListeners();
   }
 
   disconnect() {
-    if (this.resizeHandle) {
-      this.resizeHandle.remove();
-    }
-    document.removeEventListener('mouseup', this.boundStopResize);
-    document.removeEventListener('mousemove', this.boundResize);
+    this.removeEventListeners();
   }
 
-  createResizeHandle() {
-    this.resizeHandle = document.createElement('div');
-    
-    // Position handle on the correct side based on RTL setting
-    const handlePosition = this.isRTL ? 'left-0' : 'right-0';
-    
-    this.resizeHandle.classList.add(
-      'absolute',
-      'top-0',
-      handlePosition,
-      'h-full',
-      'w-[1px]',
-      'cursor-col-resize',
-      'z-10',
-      'transition-opacity',
-      'duration-150',
-      'opacity-0',
-      'hover:opacity-100'
-    );
+  setupPanel() {
+    // Ensure panel has relative positioning for handle
+    if (this.hasPanelTarget) {
+      this.panelTarget.style.position = 'relative';
+    }
+  }
 
-    // Add subtle styling
-    this.resizeHandle.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+  loadSavedSize() {
+    if (!this.persistSizeValue) return;
     
-    this.element.style.position = 'relative';
-    this.element.appendChild(this.resizeHandle);
+    const savedSize = localStorage.getItem(this.storageKeyValue);
+    if (savedSize) {
+      const size = parseInt(savedSize, 10);
+      if (size >= this.minSizeValue && size <= this.maxSizeValue) {
+        this.setSize(size);
+      }
+    }
+  }
 
-    // Bind event handlers
-    this.boundStartResize = this.startResize.bind(this);
-    this.boundStopResize = this.stopResize.bind(this);
-    this.boundResize = this.resize.bind(this);
+  setupEventListeners() {
+    // Bind methods
+    this.boundMouseMove = this.handleMouseMove.bind(this);
+    this.boundMouseUp = this.handleMouseUp.bind(this);
+    this.boundTouchMove = this.handleTouchMove.bind(this);
+    this.boundTouchEnd = this.handleTouchEnd.bind(this);
+    
+    // Mouse events
+    document.addEventListener('mousemove', this.boundMouseMove);
+    document.addEventListener('mouseup', this.boundMouseUp);
+    
+    // Touch events for mobile
+    document.addEventListener('touchmove', this.boundTouchMove, { passive: false });
+    document.addEventListener('touchend', this.boundTouchEnd);
+  }
 
-    this.resizeHandle.addEventListener('mousedown', this.boundStartResize);
-    document.addEventListener('mouseup', this.boundStopResize);
-    document.addEventListener('mousemove', this.boundResize);
+  removeEventListeners() {
+    document.removeEventListener('mousemove', this.boundMouseMove);
+    document.removeEventListener('mouseup', this.boundMouseUp);
+    document.removeEventListener('touchmove', this.boundTouchMove);
+    document.removeEventListener('touchend', this.boundTouchEnd);
   }
 
   startResize(event) {
-    // Don't resize if panel is collapsed
-    if (this.element.classList.contains('panel-collapsed')) return;
-    
-    this.isResizing = true;
-    this.startX = event.clientX;
-    this.startWidth = this.element.offsetWidth;
-
-    // Add visual feedback during resize
-    document.body.classList.add('resizing');
-    document.body.style.cursor = 'col-resize';
-    this.resizeHandle.style.opacity = '1';
-
     event.preventDefault();
+    this.isResizing = true;
+    
+    // Get initial position
+    if (event.type === 'mousedown') {
+      this.startPos = this.isHorizontal() ? event.clientX : event.clientY;
+    } else if (event.type === 'touchstart') {
+      const touch = event.touches[0];
+      this.startPos = this.isHorizontal() ? touch.clientX : touch.clientY;
+    }
+    
+    // Get initial size
+    this.startSize = this.getCurrentSize();
+    
+    // Add resizing class for visual feedback
+    document.body.classList.add('resizing');
+    document.body.style.userSelect = 'none';
+    
+    if (this.isHorizontal()) {
+      document.body.style.cursor = 'col-resize';
+    } else {
+      document.body.style.cursor = 'row-resize';
+    }
+    
+    // Add active state to handle
+    if (this.hasHandleTarget) {
+      this.handleTarget.classList.add('bg-blue-500/40', 'dark:bg-blue-400/40');
+    }
+  }
+
+  handleMouseMove(event) {
+    if (!this.isResizing) return;
+    this.resize(event.clientX, event.clientY);
+  }
+
+  handleMouseUp() {
+    if (!this.isResizing) return;
+    this.stopResize();
+  }
+
+  handleTouchMove(event) {
+    if (!this.isResizing) return;
+    event.preventDefault();
+    const touch = event.touches[0];
+    this.resize(touch.clientX, touch.clientY);
+  }
+
+  handleTouchEnd() {
+    if (!this.isResizing) return;
+    this.stopResize();
+  }
+
+  resize(clientX, clientY) {
+    const currentPos = this.isHorizontal() ? clientX : clientY;
+    let delta = currentPos - this.startPos;
+    
+    // Adjust delta based on handle position
+    if (this.handlePositionValue === 'start') {
+      delta = -delta;
+    }
+    
+    // Calculate new size
+    let newSize = this.startSize + delta;
+    
+    // Apply constraints
+    newSize = Math.max(this.minSizeValue, Math.min(this.maxSizeValue, newSize));
+    
+    // Apply size
+    this.setSize(newSize);
+    
+    // Dispatch resize event
+    this.dispatch('resize', { detail: { size: newSize } });
   }
 
   stopResize() {
-    if (this.isResizing) {
-      this.isResizing = false;
-      document.body.classList.remove('resizing');
-      document.body.style.cursor = '';
-      this.resizeHandle.style.opacity = '0';
+    this.isResizing = false;
+    
+    // Remove visual feedback
+    document.body.classList.remove('resizing');
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
+    
+    // Remove active state from handle
+    if (this.hasHandleTarget) {
+      this.handleTarget.classList.remove('bg-blue-500/40', 'dark:bg-blue-400/40');
+    }
+    
+    // Save size if persistence is enabled
+    if (this.persistSizeValue) {
+      const currentSize = this.getCurrentSize();
+      localStorage.setItem(this.storageKeyValue, currentSize.toString());
+    }
+    
+    // Dispatch resize end event
+    this.dispatch('resize:end', { detail: { size: this.getCurrentSize() } });
+  }
 
-      // Save the current width preference to localStorage
-      localStorage.setItem('sidebarWidth', this.element.style.width);
+  getCurrentSize() {
+    if (this.hasPanelTarget) {
+      return this.isHorizontal() 
+        ? this.panelTarget.offsetWidth 
+        : this.panelTarget.offsetHeight;
+    }
+    return this.defaultSizeValue;
+  }
+
+  setSize(size) {
+    if (this.hasPanelTarget) {
+      if (this.isHorizontal()) {
+        this.panelTarget.style.width = `${size}px`;
+      } else {
+        this.panelTarget.style.height = `${size}px`;
+      }
     }
   }
 
-  resize(event) {
-    if (!this.isResizing) return;
+  isHorizontal() {
+    return this.directionValue === 'horizontal';
+  }
 
-    let deltaX = event.clientX - this.startX;
-    
-    // Invert the direction for RTL
-    if (this.isRTL) {
-      deltaX = -deltaX;
-    }
-    
-    const width = this.startWidth + deltaX;
+  // Touch event handlers
+  handleTouchStart(event) {
+    this.startResize(event);
+  }
 
-    // Apply min/max constraints
-    if (width >= this.minWidthValue && width <= this.maxWidthValue) {
-      this.element.style.width = `${width}px`;
+  // Public methods for external control
+  collapse() {
+    const minSize = this.isHorizontal() ? 50 : 40;
+    this.setSize(minSize);
+    this.dispatch('collapse');
+  }
+
+  expand() {
+    this.setSize(this.defaultSizeValue);
+    this.dispatch('expand');
+  }
+
+  toggleCollapse() {
+    const currentSize = this.getCurrentSize();
+    const minSize = this.isHorizontal() ? 50 : 40;
+    
+    if (currentSize <= minSize) {
+      this.expand();
+    } else {
+      this.collapse();
     }
   }
 }

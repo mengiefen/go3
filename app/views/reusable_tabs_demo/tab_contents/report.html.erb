@@ -1,0 +1,74 @@
+<%= turbo_frame_tag frame_id do %>
+  <div class="p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6 text-white">
+          <h1 class="text-2xl font-bold">Report: <%= content_name || content_id %></h1>
+          <p class="text-indigo-100 mt-2">Analytics and performance insights</p>
+        </div>
+        
+        <div class="p-6 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Total Views</h3>
+              <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">89.2K</p>
+              <p class="text-xs text-green-600 dark:text-green-400">+15% from last month</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Unique Users</h3>
+              <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">12.4K</p>
+              <p class="text-xs text-green-600 dark:text-green-400">+8% from last month</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Bounce Rate</h3>
+              <p class="text-2xl font-bold text-red-600 dark:text-red-400">24.5%</p>
+              <p class="text-xs text-red-600 dark:text-red-400">-3% from last month</p>
+            </div>
+          </div>
+          
+          <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Report Period</h3>
+            <div class="text-slate-600 dark:text-slate-400">
+              <p><strong>From:</strong> January 1, 2024</p>
+              <p><strong>To:</strong> December 31, 2024</p>
+              <p><strong>Generated:</strong> <%= Time.current.strftime("%B %d, %Y at %I:%M %p") %></p>
+            </div>
+          </div>
+          
+          <div class="border-t border-slate-200 dark:border-slate-600 pt-6">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Key Insights</h3>
+            <div class="space-y-4">
+              <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 p-4">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h4 class="text-sm font-medium text-blue-800 dark:text-blue-200">Peak Usage Hours</h4>
+                    <p class="text-sm text-blue-700 dark:text-blue-300">Most active between 2:00 PM - 4:00 PM EST</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-400 p-4">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h4 class="text-sm font-medium text-green-800 dark:text-green-200">Top Performing Content</h4>
+                    <p class="text-sm text-green-700 dark:text-green-300">Blog posts generating 60% more engagement than average</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
