@@ -1,0 +1,80 @@
+<!-- Professional mobile header -->
+<div class="<%= container_classes %>" data-controller="mobile-menu">
+  <!-- Main header -->
+  <div class="h-14 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-700">
+    <!-- Left section -->
+    <div class="flex items-center space-x-3">
+      <% if show_back %>
+        <button 
+          class="p-2 -ml-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          data-action="click->mobile-menu#goBack"
+          aria-label="Go back">
+          <svg class="w-5 h-5 text-slate-700 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+      <% else %>
+        <button 
+          class="p-2 -ml-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          data-action="click->mobile-menu#toggleSidebar"
+          aria-label="Toggle menu">
+          <svg class="w-5 h-5 text-slate-700 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      <% end %>
+      
+      <!-- Logo/Title -->
+      <div class="flex items-center space-x-2">
+        <div class="w-7 h-7 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-sm">G3</span>
+        </div>
+        <h1 class="text-lg font-semibold text-slate-800 dark:text-white"><%= title %></h1>
+      </div>
+    </div>
+
+    <!-- Right section -->
+    <div class="flex items-center space-x-2">
+      <% if actions %>
+        <%= actions %>
+      <% else %>
+        <!-- Default actions -->
+        <button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <svg class="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+        <button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors relative">
+          <svg class="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          </svg>
+          <span class="absolute top-1 right-1 block h-2 w-2 bg-red-500 rounded-full"></span>
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Context bar -->
+  <% if current_context %>
+    <div class="h-10 flex items-center px-4 bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+      <div class="flex items-center space-x-2 text-sm">
+        <span class="text-slate-500 dark:text-slate-400">You're in:</span>
+        <span class="font-medium text-slate-700 dark:text-slate-300"><%= current_context %></span>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- Mobile/Tablet navigation panel -->
+<div 
+  class="lg:hidden fixed inset-y-0 left-0 w-80 max-w-[85vw] bg-white dark:bg-slate-900 shadow-xl z-50 transform -translate-x-full transition-transform duration-300"
+  data-mobile-menu-target="navigationPanel">
+  <!-- Navigation content will go here -->
+</div>
+
+<!-- Overlay backdrop -->
+<div 
+  class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+  data-mobile-menu-target="backdrop"
+  data-action="click->mobile-menu#closeSidebar">
+</div>

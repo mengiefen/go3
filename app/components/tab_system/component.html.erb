@@ -1,4 +1,5 @@
-<div class="<%= container_classes %>" data-controller="tab-system <%= controller_name %>" <%= tag.attributes(controller_attributes) %>>
+<!-- Tab system - visible on tablet and desktop -->
+<div class="<%= container_classes %> hidden sm:flex" data-controller="tab-system <%= controller_name %>" <%= tag.attributes(controller_attributes) %>>
   <!-- Tab Bar -->
   <div class="<%= tab_bar_classes %>">
     <!-- Left Scroll Button -->
@@ -203,6 +204,29 @@
     white-space: nowrap;
   }
   
+  /* Responsive tab widths */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    [data-tab-id] {
+      max-width: 150px;
+    }
+    
+    .tab-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    [data-tab-id] {
+      max-width: 240px;
+    }
+    
+    .tab-title {
+      max-width: 200px;
+    }
+  }
+  
   /* Ensure proper tab sizing */
   [data-tab-id] {
     flex-shrink: 0;
@@ -256,6 +280,25 @@
   /* Tab close button hover state for better visibility */
   [data-tab-id]:hover .tab-close {
     opacity: 1;
+  }
+  
+  /* Touch-friendly close buttons on tablet */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .tab-close {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-left: 0.5rem;
+    }
+    
+    /* Always show close button on tablet for touch */
+    [data-tab-id] .tab-close {
+      opacity: 0.7;
+    }
+    
+    /* Increase tab height for better touch targets */
+    [data-tab-id] {
+      min-height: 44px;
+    }
   }
 </style>
   </div>

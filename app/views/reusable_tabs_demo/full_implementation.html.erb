@@ -1,6 +1,82 @@
-<div class="h-screen flex flex-col bg-slate-50 dark:bg-slate-900">
-  <!-- Fixed Header -->
-  <header class="fixed top-0 left-0 right-0 h-12 bg-white dark:bg-slate-800 text-slate-900 dark:text-white z-50 flex items-center px-4 shadow-lg border-b border-slate-200 dark:border-slate-700">
+<!-- Mobile Layout -->
+<div class="lg:hidden" data-controller="mobile-demo">
+  <% active_tab = params[:mobile_tab] || 'home' %>
+  
+  <%= render MobileLayout::Component.new(active_tab: active_tab) do |layout| %>
+    <% layout.with_main_content do %>
+      <% case active_tab %>
+      <% when 'home' %>
+        <%= render MobileHome::Component.new(
+          user_name: "John",
+          org_count: 12,
+          task_count: 5,
+          recent_orgs: [
+            { id: 1, name: "Tech Solutions", member_count: 248, logo_url: nil },
+            { id: 2, name: "Acme Corp", member_count: 156, logo_url: nil }
+          ],
+          today_tasks: [
+            { title: "Review project proposals", time: "10:00 AM" },
+            { title: "Team standup meeting", time: "2:00 PM" },
+            { title: "Submit monthly reports" }
+          ]
+        ) %>
+      <% when 'orgs' %>
+        <%= render MobileOrganizations::Component.new(
+          organizations: [
+            { id: 1, name: "Tech Solutions Inc", description: "Leading technology solutions provider", member_count: 248, status: 'active', favorite: true },
+            { id: 2, name: "Acme Corporation", description: "Global manufacturing and logistics", member_count: 156, status: 'active' },
+            { id: 3, name: "StartUp Labs", description: "Innovation incubator", member_count: 42, status: 'active' },
+            { id: 4, name: "Digital Agency Pro", description: "Creative digital services", member_count: 89, status: 'pending' },
+            { id: 5, name: "Cloud Systems", description: "Enterprise cloud solutions", member_count: 312, status: 'active' }
+          ],
+          active_org_id: 1,
+          can_create: true
+        ) %>
+      <% when 'tasks' %>
+        <%= render MobileTasks::Component.new(
+          tasks: [
+            { id: 1, title: "Review project proposals", description: "Q4 project proposals need review and approval", status: 'pending', priority: 'high', due_date: Date.today, tags: ['review', 'q4'] },
+            { id: 2, title: "Team standup meeting", description: "Daily sync with the development team", status: 'in_progress', priority: 'medium', due_date: Date.today, assignee: { name: 'You' } },
+            { id: 3, title: "Submit monthly reports", status: 'pending', priority: 'urgent', due_date: Date.today - 1, tags: ['reports'] },
+            { id: 4, title: "Code review for feature branch", description: "Review PR #123 for the new dashboard", status: 'pending', priority: 'medium', due_date: Date.today + 2 },
+            { id: 5, title: "Update documentation", status: 'completed', priority: 'low', due_date: Date.today - 3, tags: ['docs'] }
+          ],
+          filter: params[:filter] || 'all',
+          current_user: { id: 1 }
+        ) %>
+      <% when 'team' %>
+        <%= render MobileTeam::Component.new(
+          team_members: [
+            { id: 1, name: "John Doe", role: "Project Manager", department: "Engineering", is_online: true },
+            { id: 2, name: "Jane Smith", role: "Senior Developer", department: "Engineering", is_online: true },
+            { id: 3, name: "Mike Johnson", role: "UX Designer", department: "Design", is_online: false },
+            { id: 4, name: "Sarah Williams", role: "Product Owner", department: "Product", status: 'away' },
+            { id: 5, name: "Tom Brown", role: "DevOps Engineer", department: "Engineering", is_online: false },
+            { id: 6, name: "Emily Davis", role: "QA Engineer", department: "Quality", is_online: true },
+            { id: 7, name: "Chris Wilson", role: "Frontend Developer", department: "Engineering", is_online: true },
+            { id: 8, name: "Lisa Anderson", role: "Backend Developer", department: "Engineering", is_online: false }
+          ],
+          departments: [
+            { name: "Engineering", member_count: 5 },
+            { name: "Design", member_count: 2 },
+            { name: "Product", member_count: 1 }
+          ],
+          current_user: { id: 1 }
+        ) %>
+      <% when 'more' %>
+        <%= render MobileMore::Component.new(
+          user: { name: "John Doe", email: "john@example.com" }
+        ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<!-- Desktop Layout -->
+<div class="hidden lg:flex h-screen flex-col bg-slate-50 dark:bg-slate-900">
+  
+  <!-- Fixed Header - only visible on desktop -->
+  <header class="hidden lg:flex fixed top-0 left-0 right-0 h-12 bg-white dark:bg-slate-800 text-slate-900 dark:text-white z-50 items-center px-4 shadow-lg border-b border-slate-200 dark:border-slate-700">
     <div class="flex items-center space-x-4">
       <!-- Logo/Brand -->
       <div class="flex items-center">
@@ -41,12 +117,14 @@
     </div>
   </header>
   
-  <!-- Main content area with top padding for fixed header -->
-  <div class="flex flex-1 pt-12 bg-slate-50 dark:bg-slate-900">
-    <!-- Primary Icon Sidebar -->
-    <%= render(IconSidebar::Component.new(active_item: nil)) %>
+  <!-- Main content area with responsive padding -->
+  <div class="flex flex-1 pt-16 lg:pt-12 pb-16 lg:pb-0 bg-slate-50 dark:bg-slate-900 relative">
+    <!-- Primary Icon Sidebar - visible on tablet and desktop -->
+    <div class="hidden sm:block">
+      <%= render(IconSidebar::Component.new(active_item: nil)) %>
+    </div>
   
-    <!-- Secondary Sidebar -->
+    <!-- Secondary Sidebar - hidden on mobile/tablet, shown as overlay when triggered -->
     <%= render ResizablePanel::Component.new(
       direction: :horizontal,
       min_size: 200,
@@ -55,7 +133,7 @@
       handle_position: :end,
       persist_size: true,
       storage_key: 'reusable_secondary_sidebar',
-      classes: 'border-r border-slate-200 dark:border-slate-700'
+      classes: 'hidden lg:block border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800'
     ) do %>
       <div id="secondary-sidebar">
         <%= render NavigationSidebar::Component.new(
@@ -67,7 +145,7 @@
       </div>
     <% end %>
   
-    <!-- Main Content Area with Tab System -->
+    <!-- Main Content Area with Tab System - hidden on mobile -->
     <%= render TabSystem::Component.new(
       theme: :enterprise,
       show_icons: false,
@@ -77,5 +155,6 @@
       controller_name: "tab-system",
       classes: "shadow-xl"
     ) %>
+    
   </div>
 </div>
