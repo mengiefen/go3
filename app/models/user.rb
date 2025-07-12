@@ -16,8 +16,7 @@ class User < ApplicationRecord
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :first_name, :last_name, presence: true, on: :update
-  validates :first_name, :last_name, length: { minimum: 2, maximum: 50 }, 
-                                       format: { with: /\A[a-zA-Z\s\-']+\z/, message: "can only contain letters, spaces, hyphens, and apostrophes" }, 
+  validates :first_name, :last_name, length: { minimum: 2, maximum: 50 },  
                                        allow_blank: true
   validate :password_complexity, if: -> { encrypted_password_changed? || new_record? }
   validate :acceptable_avatar, if: -> { avatar.attached? }
