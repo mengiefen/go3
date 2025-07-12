@@ -52,7 +52,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
             confirmation_sent_at: nil
           )
         end
-        redirect_to ""
+        sign_in(resource)
+        redirect_to organization_path(member.organization_id)
       else
         redirect_to confirmation_pending_path
       end
