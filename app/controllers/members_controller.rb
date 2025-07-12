@@ -89,6 +89,23 @@ class MembersController < ApplicationController
     @member.unarchive!
     stream_updated_row
   end
+  
+  def export
+    authorize current_member
+    @members = current_organization.members.to_a.sort_by do |member|
+      [
+        member.archived? ? 1 : 0,       # unarchived first
+        member.org_admin? ? 0 : 1,      # admins first
+        -member.created_at.to_i         # newer first
+      ]
+    end
+
+    respond_to do |format|
+      format.xlsx do
+        response.headers['Content-Disposition'] = "attachment; filename=members_#{current_organization.name.parameterize}_#{Date.current}.xlsx"
+      end
+    end
+  end
 
   private
 

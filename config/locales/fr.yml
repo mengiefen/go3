@@ -148,6 +148,7 @@ fr:
         list_of_members: Liste des membres
         search_placeholder: Rechercher des membres par nom ou email ...
         add_a_new_member: Ajouter un nouveau membre
+        export_to_excel: Exporter vers Excel
         name: Nom
         email: Email
         status: Statut
@@ -175,3 +176,9 @@ fr:
         cancel: Annuler
         submit: Mettre à jour
         submit_and_invite: Mettre à jour et Inviter
+      export:
+        name: Nom
+        email: Email
+        status: Statut
+        admin: Administrateur
+        created_at: Créé le

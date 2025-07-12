@@ -56,6 +56,9 @@ Rails.application.routes.draw do
 
   resources :organizations do
     resources :members do 
+      collection do
+        get :export
+      end
       member do
         patch :set_as_admin
         patch :revoke_admin

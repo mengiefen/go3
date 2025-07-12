@@ -148,6 +148,7 @@ es:
         list_of_members: Lista de miembros
         search_placeholder: Buscar miembros por nombre o correo electrónico ...
         add_a_new_member: Agregar un nuevo miembro
+        export_to_excel: Exportar a Excel
         name: Nombre
         email: Correo electrónico
         status: Estado
@@ -175,3 +176,9 @@ es:
         cancel: Cancelar
         submit: Actualizar
         submit_and_invite: Actualizar e Invitar
+      export:
+        name: Nombre
+        email: Correo electrónico
+        status: Estado
+        admin: Administrador
+        created_at: Fecha de creación

@@ -39,6 +39,10 @@ class MemberPolicy < ApplicationPolicy
     is_org_admin?
   end
 
+  def export?
+    is_org_admin?
+  end
+
   private 
   
   def is_org_admin?
