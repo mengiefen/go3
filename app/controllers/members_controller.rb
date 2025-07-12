@@ -102,7 +102,8 @@ class MembersController < ApplicationController
     MemberMailer.invitation(
       member_id: @member.id,
       organization_id: current_organization.id,
-      invitation_key: invitation_key
+      invitation_key: invitation_key,
+      language: @member.organization.language
     ).deliver_later
   end
   

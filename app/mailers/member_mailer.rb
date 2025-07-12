@@ -1,8 +1,8 @@
 class MemberMailer < ApplicationMailer
-  def invitation(member_id:, organization_id:, invitation_key:)
+  def invitation(member_id:, organization_id:, invitation_key:, language:)
     @member = Member.find(member_id)
     @organization = Organization.find(organization_id)
-    @signup_url = new_user_registration_url(invitation_key: invitation_key)
+    @signup_url = new_user_registration_url(invitation_key: invitation_key, language: language)
     
     mail(
       to: @member.email,

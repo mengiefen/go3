@@ -6,6 +6,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
+    @selected_language = params[:language]
+    @selected_language = 'en' unless helpers.supported_languages.key?(@selected_language)
+
     if params[:invitation_key]
       @member = Member.find_by(invitation_key: params[:invitation_key])
       if @member
