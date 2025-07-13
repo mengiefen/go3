@@ -102,6 +102,8 @@ group :development do
   # Preview email in the browser instead of sending it
   gem "letter_opener"
   # gem "mailcatcher" # Optional: Install separately with `gem install mailcatcher`
+  gem "rubocop", "~> 1.75"
+  gem "lefthook"
 end
 
 group :test do

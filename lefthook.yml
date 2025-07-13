@@ -1,0 +1,9 @@
+pre-commit:
+  parallel: true
+  commands:
+    rubocop:
+      glob: "*.rb"
+      run: rubocop {staged_files}
+    eslint:
+      glob: "app/javascript/**/*.js"
+      run: yarn eslint {staged_files}
