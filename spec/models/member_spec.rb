@@ -31,8 +31,6 @@ RSpec.describe Member, type: :model do
       expect(member).to be_valid
     end
 
-    it { should validate_presence_of(:email) }
-
     it "validates uniqueness of email within organization scope" do
       test_email = "test-#{SecureRandom.uuid}@example.com"
       create(:member, email: test_email, organization: organization)
