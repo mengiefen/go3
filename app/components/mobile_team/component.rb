@@ -21,16 +21,16 @@ module MobileTeam
     end
 
     def member_status(member)
-      return 'active' if member[:is_online]
-      return 'away' if member[:status] == 'away'
-      'offline'
+      return "active" if member[:is_online]
+      return "away" if member[:status] == "away"
+      "offline"
     end
 
     def status_color(status)
       case status
-      when 'active' then 'bg-green-400'
-      when 'away' then 'bg-yellow-400'
-      else 'bg-gray-400'
+      when "active" then "bg-green-400"
+      when "away" then "bg-yellow-400"
+      else "bg-gray-400"
       end
     end
   end

@@ -3,9 +3,9 @@ module Ui
   class TabsModalComponent < ViewComponent::Base
     renders_many :tabs, "TabComponent"
     renders_many :panels, "PanelComponent"
-    
+
     attr_reader :id, :title, :active_tab, :size, :full_screen
-    
+
     def initialize(id:, title:, active_tab: nil, size: :md, full_screen: false)
       @id = id
       @title = title
@@ -13,7 +13,7 @@ module Ui
       @size = size
       @full_screen = full_screen
     end
-    
+
     def modal_size_class
       case @size
       when :sm then "max-w-sm"
@@ -30,14 +30,14 @@ module Ui
       else "max-w-md"
       end
     end
-    
+
     def full_screen_classes
       @full_screen ? "fixed inset-0 p-0" : "relative p-6"
     end
-    
+
     class TabComponent < ViewComponent::Base
       attr_reader :id, :label, :icon, :panel_id, :active
-      
+
       def initialize(id:, label:, icon: nil, active: false)
         @id = id
         @label = label
@@ -45,7 +45,7 @@ module Ui
         @panel_id = "#{id}-panel"
         @active = active
       end
-      
+
       def call
         content_tag :button,
           type: "button",
@@ -63,15 +63,15 @@ module Ui
           end
       end
     end
-    
+
     class PanelComponent < ViewComponent::Base
       attr_reader :id, :lazy_load_url
-      
+
       def initialize(id:, lazy_load_url: nil)
         @id = "#{id}-panel"
         @lazy_load_url = lazy_load_url
       end
-      
+
       def call
         panel_content = if lazy_load_url.present?
           tag.turbo_frame(
@@ -87,7 +87,7 @@ module Ui
         else
           content
         end
-        
+
         content_tag :div,
           id: id,
           class: "hidden",

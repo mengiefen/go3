@@ -5,7 +5,7 @@ module BottomSheet
     renders_one :header
     renders_one :content
     renders_one :actions
-    
+
     def initialize(
       id: "bottom-sheet",
       height: :auto, # :auto, :half, :full
@@ -27,13 +27,13 @@ module BottomSheet
     def container_classes
       base = "fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out"
       height_classes = case height
-                      when :half
+      when :half
                         "h-1/2"
-                      when :full
+      when :full
                         "h-full"
-                      else
+      else
                         "max-h-[90vh]"
-                      end
+      end
       "#{base} #{height_classes} #{classes}".strip
     end
 

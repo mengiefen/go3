@@ -8,7 +8,7 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
-  
+
   # Custom matchers
   RSpec::Matchers.define :be_versioned do
     match do |actual|

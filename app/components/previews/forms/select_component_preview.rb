@@ -12,7 +12,7 @@ class Forms::SelectComponentPreview < ViewComponent::Preview
   )
     render Forms::SelectComponent.new(
       name: "playground_select",
-      options: [["Option 1", 1], ["Option 2", 2], ["Option 3", 3]],
+      options: [ [ "Option 1", 1 ], [ "Option 2", 2 ], [ "Option 3", 3 ] ],
       prompt: "Select an option",
       required: required,
       disabled: disabled,
@@ -28,7 +28,7 @@ class Forms::SelectComponentPreview < ViewComponent::Preview
   def default
     render Forms::SelectComponent.new(
       name: "default_select",
-      options: [["Option 1", 1], ["Option 2", 2], ["Option 3", 3]],
+      options: [ [ "Option 1", 1 ], [ "Option 2", 2 ], [ "Option 3", 3 ] ],
       prompt: "Select an option"
     ) do |component|
       component.with_label { "Default Select" }
@@ -38,15 +38,15 @@ class Forms::SelectComponentPreview < ViewComponent::Preview
   def variants
     render_with_template
   end
-  
+
   def states
     render_with_template
   end
-  
+
   def with_hints_and_errors
     render_with_template
   end
-  
+
   def multiple_select
     render_with_template
   end

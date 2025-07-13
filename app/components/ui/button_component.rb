@@ -48,7 +48,7 @@ module Ui
     end
 
     def call
-      content_tag :button, 
+      content_tag :button,
         button_content,
         **button_attributes
     end
@@ -73,24 +73,24 @@ module Ui
 
     def icon_with_content
       if @icon_position == :left
-        safe_join([icon_element, content_with_spacing])
+        safe_join([ icon_element, content_with_spacing ])
       else
-        safe_join([content_with_spacing, icon_element])
+        safe_join([ content_with_spacing, icon_element ])
       end
     end
 
     def icon_with_content_and_spinner
       if @icon_position == :left
-        safe_join([spinner, content_with_spacing])
+        safe_join([ spinner, content_with_spacing ])
       else
-        safe_join([content_with_spacing, spinner])
+        safe_join([ content_with_spacing, spinner ])
       end
     end
 
     def spinner_with_content
-      safe_join([spinner, content_with_spacing])
+      safe_join([ spinner, content_with_spacing ])
     end
-    
+
     def spinner
       tag.span class: "spinner-border animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" do
         tag.span(class: "sr-only") { "Loading..." }
@@ -99,7 +99,7 @@ module Ui
 
     def content_with_spacing
       return content unless content.present?
-      
+
       tag.span class: "mx-1" do
         content
       end

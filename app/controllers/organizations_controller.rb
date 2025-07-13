@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [ :show, :edit, :update, :destroy ]
 
   def index
     authorize Organization
@@ -22,19 +22,19 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new(permitted_organization_params)
-    
+
     # Set name translation using Mobility
     Mobility.with_locale(I18n.locale) do
       @organization.name = params[:organization][:name]
     end
-    
+
     # Set is_trial flag if user is not admin and creating top-level org
     if !current_user.is_go3_admin? && !@organization.parent_id.present?
       @organization.is_tenant = true
       @organization.is_trial = true
       @organization.language = current_user.language
     end
-    
+
     if @organization.save
       # Add current user as admin of the organization
       member = Member.new(
@@ -49,11 +49,11 @@ class OrganizationsController < ApplicationController
       member.name = current_user.full_name
       if member.save
         Permission.create(
-          code: 'Organization.admin',
+          code: "Organization.admin",
           grantee: member,
           organization: @organization
         )
-        redirect_to @organization, notice: 'Organization was successfully created.'
+        redirect_to @organization, notice: "Organization was successfully created."
       end
     else
       render :new
@@ -62,9 +62,9 @@ class OrganizationsController < ApplicationController
 
   def update
     authorize @organization
-    
+
     if @organization.update(permitted_organization_params)
-      redirect_to @organization, notice: 'Organization was successfully updated.'
+      redirect_to @organization, notice: "Organization was successfully updated."
     else
       render :edit
     end
@@ -72,17 +72,17 @@ class OrganizationsController < ApplicationController
 
   def destroy
     authorize @organization
-    
+
     ActiveRecord::Base.transaction do
-      if @organization.is_trial? || current_user.has_role?('GO3_Admin')
+      if @organization.is_trial? || current_user.has_role?("GO3_Admin")
         # Explicitly archive rather than destroy
         if @organization.archive
-          redirect_to organizations_path, notice: 'Organization was successfully archived.'
+          redirect_to organizations_path, notice: "Organization was successfully archived."
         else
-          redirect_to organizations_path, alert: 'Failed to archive organization.'
+          redirect_to organizations_path, alert: "Failed to archive organization."
         end
       else
-        redirect_to organizations_path, alert: 'Only trial organizations can be archived by organization admins.'
+        redirect_to organizations_path, alert: "Only trial organizations can be archived by organization admins."
       end
     end
   end
@@ -94,10 +94,10 @@ class OrganizationsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     # Attempt to find the record even if it's archived
     @organization = Organization.archived.find(params[:id])
-    redirect_to organizations_path, alert: 'The organization you are looking for has been archived.' if @organization.archived?
+    redirect_to organizations_path, alert: "The organization you are looking for has been archived." if @organization.archived?
   end
 
   def permitted_organization_params
     params.require(:organization).permit(*policy(@organization || Organization).permitted_attributes)
   end
-end 
+end

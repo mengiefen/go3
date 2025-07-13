@@ -34,25 +34,25 @@ Rails.application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
-  
+
   # Configure email delivery method based on environment variable
-  if ENV['USE_MAILCATCHER'] == 'true'
+  if ENV["USE_MAILCATCHER"] == "true"
     # Use MailCatcher (install separately: gem install mailcatcher)
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = { address: '127.0.0.1', port: 1025 }
+    config.action_mailer.smtp_settings = { address: "127.0.0.1", port: 1025 }
   else
     # Use letter_opener by default
     config.action_mailer.delivery_method = :letter_opener
   end
   config.action_mailer.perform_deliveries = true
-  
+
   # Set default from address for mailer
-  config.action_mailer.default_options = { from: 'noreply@example.com' }
-  
+  config.action_mailer.default_options = { from: "noreply@example.com" }
+
   # Set default URL options for ActionMailer
-  port = ENV.fetch('PORT', 5000)
-  host = ENV.fetch('HOST') { "localhost:#{port}" }
-  config.action_mailer.default_url_options = { host: host, protocol: 'http' }
+  port = ENV.fetch("PORT", 5000)
+  host = ENV.fetch("HOST") { "localhost:#{port}" }
+  config.action_mailer.default_url_options = { host: host, protocol: "http" }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

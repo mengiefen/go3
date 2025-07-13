@@ -4,4 +4,4 @@ class Current < ActiveSupport::CurrentAttributes
   attribute :user_agent
   attribute :request_id
   attribute :organization
-end 
+end

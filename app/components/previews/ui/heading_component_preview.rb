@@ -16,15 +16,15 @@ class Ui::HeadingComponentPreview < ViewComponent::Preview
       "Default h1 Heading"
     end
   end
-  
+
   def all_levels
     render_with_template
   end
-  
+
   def color_variants
     render_with_template
   end
-  
+
   def with_custom_classes
     render Ui::HeadingComponent.new(
       tag: :h2,
@@ -33,7 +33,7 @@ class Ui::HeadingComponentPreview < ViewComponent::Preview
       "Custom Styled Heading"
     end
   end
-  
+
   def with_attributes
     render Ui::HeadingComponent.new(
       tag: :h2,

@@ -5,7 +5,7 @@ wb.add_worksheet(name: "Members") do |sheet|
   if current_rtl?
     sheet.sheet_view.right_to_left = true
   end
-  
+
   # Add header row
   header_style = wb.styles.add_style(
     bg_color: "366092",
@@ -13,12 +13,12 @@ wb.add_worksheet(name: "Members") do |sheet|
     b: true,
     alignment: { horizontal: :center }
   )
-  
+
   sheet.add_row [
-    view_t('name'),
-    view_t('email'),
-    view_t('status'),
-    view_t('admin')
+    view_t("name"),
+    view_t("email"),
+    view_t("status"),
+    view_t("admin")
   ], style: header_style
 
   # Add data rows
@@ -27,10 +27,10 @@ wb.add_worksheet(name: "Members") do |sheet|
       member.name,
       member.email,
       member.status,
-      member.org_admin? ? 'Yes' : 'No'
+      member.org_admin? ? "Yes" : "No"
     ]
   end
 
   # Auto-fit columns
   sheet.column_widths 30, 30, 15, 10, 20
-end 
+end

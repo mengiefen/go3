@@ -104,9 +104,9 @@ class Containers::CardComponentPreview < ViewComponent::Preview
   #   <% c.header_actions do %>
   #     <%= Button(variant: :ghost, icon: edit_icon) { "Edit" } %>
   #   <% end %>
-  #   
+  #
   #   <p>Card content here</p>
-  #   
+  #
   #   <% c.footer_actions do %>
   #     <%= Button(variant: :primary) { "Save" } %>
   #   <% end %>
@@ -247,4 +247,4 @@ class Containers::CardComponentPreview < ViewComponent::Preview
   end
 
   # @!endgroup
-end 
+end

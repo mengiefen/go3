@@ -24,7 +24,7 @@ class MembersController < ApplicationController
 
   def create
     authorize current_member
-    
+
     @member = Member.new(organization: current_organization)
     @member.assign_attributes(member_params)
     if @member.save
@@ -52,7 +52,6 @@ class MembersController < ApplicationController
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
       ]
     end
-
   end
 
   def set_as_admin
@@ -89,7 +88,7 @@ class MembersController < ApplicationController
     @member.unarchive!
     stream_updated_row
   end
-  
+
   def export
     authorize current_member
     @members = current_organization.members.to_a.sort_by do |member|
@@ -102,7 +101,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.xlsx do
-        response.headers['Content-Disposition'] = "attachment; filename=members_#{current_organization.name.parameterize}_#{Date.current}.xlsx"
+        response.headers["Content-Disposition"] = "attachment; filename=members_#{current_organization.name.parameterize}_#{Date.current}.xlsx"
       end
     end
   end
@@ -115,7 +114,7 @@ class MembersController < ApplicationController
       invited_at: Time.current,
       invitation_key: invitation_key
     )
-    
+
     MemberMailer.invitation(
       member_id: @member.id,
       organization_id: current_organization.id,
@@ -123,7 +122,7 @@ class MembersController < ApplicationController
       language: @member.organization.language
     ).deliver_later
   end
-  
+
   def member_params
     params.require(:member).permit(
       :name,

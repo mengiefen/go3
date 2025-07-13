@@ -3,7 +3,7 @@
 module MobileActionSheet
   class Component < ViewComponent::Base
     renders_many :actions
-    
+
     def initialize(
       title: nil,
       cancel_text: "Cancel",

@@ -5,4 +5,4 @@ PaperTrail.config.version_limit = 10  # Limit the number of versions per record
 PaperTrail.enabled = true
 
 # Configure serialization for object changes
-PaperTrail.serializer = PaperTrail::Serializers::JSON 
+PaperTrail.serializer = PaperTrail::Serializers::JSON
