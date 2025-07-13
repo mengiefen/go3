@@ -23,6 +23,7 @@
   </div>
 
   <%= turbo_frame_tag "modal" %>
+  <%= turbo_stream_from "members_list" %>
 
   <div class="bg-white shadow overflow-x-hidden flex-1 overflow-y-auto">
     <%= render DataDisplay::TableComponent.new( 

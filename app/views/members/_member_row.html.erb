@@ -1,6 +1,6 @@
 <tr id="member_row_<%= member.id %>" class="hover:bg-gray-100 transition-colors member-row <%= member.archived? ? "archived-member" : "" %>" data-search-member-target="row">
   <td class="flex items-center space-x-3 py-3 px-4 font-medium">
-    <%= render partial: "initial", locals: { initial: member.initial, color: member.color } %>
+    <%= render partial: "members/initial", locals: { initial: member.initial, color: member.color } %>
     <%= member.name %>
     <% if member.org_admin? %>
       <i class="fas fa-crown mx-4 text-white bg-yellow-300 p-2 rounded-full"></i>
@@ -9,7 +9,7 @@
   <td>
     <%= render Navigation::MenuComponent.new do %>
       <li class="flex flex-col p-2 text-black">
-        <%= link_to view_t("edit_member", action: "index"), 
+        <%= link_to view_t("edit_member", action: "index", controller: "members"), 
             edit_organization_member_path(member.organization, member), 
             class: "whitespace-nowrap w-full flex flex-start",
             data: { turbo_frame: "modal" }
@@ -17,14 +17,14 @@
       </li>
       <% if member.org_admin? %>
         <li class="flex flex-col p-2 text-black">
-          <%= button_to view_t("revoke_admin_permission", action: "index"), 
+          <%= button_to view_t("revoke_admin_permission", action: "index", controller: "members"), 
               revoke_admin_organization_member_path(member.organization, member), 
               class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch, data: { turbo_frame: "member_row_#{member.id}" } 
           %>
         </li>
       <% elsif !member.archived? %>
         <li class="flex flex-col p-2 text-black">
-          <%= button_to view_t("set_as_admin", action: "index"), 
+          <%= button_to view_t("set_as_admin", action: "index", controller: "members"), 
               set_as_admin_organization_member_path(member.organization, member), 
               class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch, data: { turbo_frame: "member_row_#{member.id}" } 
           %>
@@ -32,7 +32,7 @@
       <% end %>
       <% if member.user.nil? && !member.archived? %>
         <li class="flex flex-col p-2 text-black">
-          <%= button_to view_t("resend_invitation", action: "index"), 
+          <%= button_to view_t("resend_invitation", action: "index", controller: "members"), 
               resend_invitation_organization_member_path(member.organization, member), 
               class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :post
           %>
@@ -40,14 +40,14 @@
       <% end %>
       <% if member.archived? %> 
         <li class="flex flex-col p-2 text-black">
-          <%= button_to view_t("unarchive", action: "index"), 
+          <%= button_to view_t("unarchive", action: "index", controller: "members"), 
               unarchive_organization_member_path(member.organization, member), 
               class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch
           %>
         </li>
       <% else %>
         <li class="flex flex-col p-2 text-black">
-          <%= button_to view_t("archive", action: "index"), 
+          <%= button_to view_t("archive", action: "index", controller: "members"), 
               archive_organization_member_path(member.organization, member), 
               class: "whitespace-nowrap cursor-pointer w-full flex flex-start", method: :patch
           %>

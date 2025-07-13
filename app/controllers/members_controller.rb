@@ -32,6 +32,13 @@ class MembersController < ApplicationController
         invite
       end
 
+      Turbo::StreamsChannel.broadcast_append_to(
+        "members_list",
+        target: "members_list",
+        partial: "members/member_row",
+        locals: { member: @member }
+      )
+
       render turbo_stream: [
         turbo_stream.append("members_list", partial: "members/member_row", locals: { member: @member }),
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
@@ -47,6 +54,8 @@ class MembersController < ApplicationController
         invite
       end
 
+      broadcast_member_update
+
       render turbo_stream: [
         updated_row,
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
@@ -58,6 +67,7 @@ class MembersController < ApplicationController
     authorize current_member
     @member = Member.find_by(id: params[:id])
     Permission.find_or_create_by(organization: @member.organization, grantee: @member, code: Permission::ORG_ADMIN)
+    broadcast_member_update
     stream_updated_row
   end
 
@@ -65,6 +75,7 @@ class MembersController < ApplicationController
     authorize current_member
     @member = Member.find_by(id: params[:id])
     Permission.where(organization: @member.organization, grantee: @member, code: Permission::ORG_ADMIN).destroy_all
+    broadcast_member_update
     stream_updated_row
   end
 
@@ -72,6 +83,7 @@ class MembersController < ApplicationController
     authorize current_member
     @member = Member.find_by(id: params[:id])
     invite
+    broadcast_member_update
     stream_updated_row
   end
 
@@ -79,6 +91,7 @@ class MembersController < ApplicationController
     authorize current_member
     @member = Member.find_by(id: params[:id])
     @member.archive!
+    broadcast_member_update
     stream_updated_row
   end
 
@@ -86,6 +99,7 @@ class MembersController < ApplicationController
     authorize current_member
     @member = Member.find_by(id: params[:id])
     @member.unarchive!
+    broadcast_member_update
     stream_updated_row
   end
 
@@ -139,6 +153,15 @@ class MembersController < ApplicationController
   def updated_row
     turbo_stream.replace(
       "member_row_#{@member.id}",
+      partial: "members/member_row",
+      locals: { member: @member }
+    )
+  end
+
+  def broadcast_member_update
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "members_list",
+      target: "member_row_#{@member.id}",
       partial: "members/member_row",
       locals: { member: @member }
     )

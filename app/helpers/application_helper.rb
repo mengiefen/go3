@@ -25,10 +25,10 @@ module ApplicationHelper
     rtl_language?(I18n.locale.to_s) ? "rtl" : "ltr"
   end
 
-  def view_t(key, action: nil, **options)
-    controller_segments = controller_path.split("/")
+  def view_t(key, action: nil, controller: nil, **options)
+    controller_segments = controller || controller_path.split("/").join(".")
     action_segment = action || action_name
-    I18n.t("views.#{controller_segments.join('.')}.#{action_segment}.#{key}", **options)
+    I18n.t("views.#{controller_segments}.#{action_segment}.#{key}", **options)
   end
 
   def contrast_color(hex_color)
