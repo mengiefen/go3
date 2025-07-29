@@ -3,6 +3,7 @@ pre-commit:
   commands:
     rubocop:
       glob: "*.rb"
+      exclude: "db/schema.rb"
       run: rubocop {staged_files}
     eslint:
       glob: "app/javascript/**/*.js"
