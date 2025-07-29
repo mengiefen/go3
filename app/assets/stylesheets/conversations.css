@@ -1,0 +1,4 @@
+.conversations-contacts li.selected {
+  background-color: green;
+  color: white;
+}

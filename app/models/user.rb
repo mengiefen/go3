@@ -13,6 +13,12 @@ class User < ApplicationRecord
   has_many :organizations, through: :members
   has_many :tasks, dependent: :destroy
 
+  # Messaging
+  has_many :conversation_participants
+  has_many :conversations, through: :conversation_participants
+  has_many :messages
+  has_many :message_receipts
+
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :first_name, :last_name, presence: true, on: :update

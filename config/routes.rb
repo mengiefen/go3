@@ -67,6 +67,21 @@ Rails.application.routes.draw do
         patch :unarchive
       end
     end
+
+    resources :conversations do
+      member do
+        post :reply
+        post :add_participant
+        post :remove_participant
+        post :leave
+      end
+
+      collection do
+        get :contacts
+      end
+    end
+
+    resources :messages
   end
 
   namespace :admin do

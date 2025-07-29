@@ -1,0 +1,49 @@
+<%= turbo_stream_from "conversations_list_user_#{current_user.id}" %>
+<div class="conversations bg-gray-50 text-gray-800 h-screen p-6 flex">
+  <div class="conversations-list w-[300px] max-w-md flex flex-col">
+    <div class="bg-white rounded-lg shadow-sm flex flex-col" style="height: calc(100vh - 3rem);">
+      <!-- Fixed Header with Title and Search -->
+      <div class="flex-shrink-0 p-6 pb-4">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">Conversations</h1>
+        <input 
+          type="text" 
+          class="search w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-400" 
+          placeholder="Search conversations..." 
+        />
+      </div>
+      
+      <!-- Scrollable Conversation List -->
+      <%= turbo_frame_tag "conversations_list" do %>
+        <% if @conversations.count.zero? %> 
+          <p class="text-gray-600 mb-4">There are no conversations yet.</p>
+        <% else %> 
+          <ul class="space-y-2">
+            <% @conversations.each do |conversation| %>
+              <%= render partial: "conversations/conversation", locals: { conversation: conversation, current_user: current_user, organization: @organization } %>
+            <% end %>
+          </ul>
+        <% end %>
+      <% end %>
+      
+      <!-- Fixed Footer with Start New Chat Button -->
+      <div class="flex-shrink-0 p-6 pt-4">
+        <%= link_to "Start New Chat",
+            contacts_organization_conversations_path(@organization),
+            method: :get,
+            data: { turbo_frame: "conversation_contacts_modal" },
+            class: "btn bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 w-full text-center" 
+        %>
+      </div>
+    </div>
+  </div>
+
+  <div class="conversation ml-6 flex-1 bg-white rounded-lg shadow-sm p-6">
+    <%= turbo_frame_tag "conversation" do %>
+      <div class="flex items-center justify-center h-full text-gray-500">
+        <p>Select a conversation or start a new one</p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= turbo_frame_tag "conversation_contacts_modal" %>
