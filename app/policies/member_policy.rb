@@ -34,14 +34,18 @@ class MemberPolicy < ApplicationPolicy
   def archive?
     is_org_admin?
   end
-  
+
   def unarchive?
     is_org_admin?
   end
 
-  private 
-  
+  def export?
+    is_org_admin?
+  end
+
+  private
+
   def is_org_admin?
-    record.has_permission?('Organization.admin')
+    record.has_permission?("Organization.admin")
   end
 end

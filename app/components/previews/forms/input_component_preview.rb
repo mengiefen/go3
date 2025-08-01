@@ -34,23 +34,23 @@ class Forms::InputComponentPreview < ViewComponent::Preview
       component.with_label { "Default Input" }
     end
   end
-  
+
   def input_types
     render_with_template
   end
-  
+
   def sizes
     render_with_template
   end
-  
+
   def states
     render_with_template
   end
-  
+
   def with_prefix_and_suffix
     render_with_template
   end
-  
+
   def with_error
     render(Forms::InputComponent.new(
       name: "error_example",

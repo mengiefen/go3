@@ -83,7 +83,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
       end
     end
   end
-  
+
   # @label Scrolling Test
   #
   # @description Tests independent scrolling of side panel and main content with many items
@@ -102,12 +102,12 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
           <nav class="space-y-1">
             #{(1..30).map do |i|
               item_icon = case i % 5
-                         when 0 then "fa-file"
-                         when 1 then "fa-folder"
-                         when 2 then "fa-chart-bar"
-                         when 3 then "fa-user"
-                         when 4 then "fa-cog"
-                         end
+              when 0 then "fa-file"
+              when 1 then "fa-folder"
+              when 2 then "fa-chart-bar"
+              when 3 then "fa-user"
+              when 4 then "fa-cog"
+              end
 
               %(<a href="#item-#{i}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-50 flex items-center">
                 <i class="fas #{item_icon} mr-2"></i>
@@ -124,10 +124,10 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
           # Header section
           tag.div(class: "mb-8") do
             tag.h2("Scrollable Content Test", class: "text-2xl font-bold text-gray-900")
-            tag.p("This example tests the independent scrolling behavior of the side panel and main content area.", 
+            tag.p("This example tests the independent scrolling behavior of the side panel and main content area.",
               class: "text-gray-600 mt-2")
           end
-          
+
           # Generate many content sections to test scrolling
           sections = (1..20).map do |i|
             tag.div(id: "item-#{i}", class: "p-6 bg-white rounded-lg shadow-md") do
@@ -138,7 +138,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
                     "Section #{i}"
                   ])
                 end,
-                tag.p("This is content section #{i}. It contains text that should be scrollable independently from the side panel.", 
+                tag.p("This is content section #{i}. It contains text that should be scrollable independently from the side panel.",
                   class: "text-gray-600 mb-4"),
                 tag.div(class: "flex space-x-2") do
                   safe_join([
@@ -170,7 +170,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
       end
     end
   end
-  
+
   # @label RTL Layout With Scrolling
   #
   # @description Tests RTL support with scrollable content
@@ -189,12 +189,12 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
           <nav class="space-y-1">
             #{(1..30).map do |i|
               item_icon = case i % 5
-                         when 0 then "fa-file"
-                         when 1 then "fa-folder"
-                         when 2 then "fa-chart-bar"
-                         when 3 then "fa-user"
-                         when 4 then "fa-cog"
-                         end
+              when 0 then "fa-file"
+              when 1 then "fa-folder"
+              when 2 then "fa-chart-bar"
+              when 3 then "fa-user"
+              when 4 then "fa-cog"
+              end
 
               %(<a href="#rtl-item-#{i}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-50 flex items-center justify-end">
                 <span class="ml-2">عنصر القائمة #{i}</span>
@@ -213,7 +213,7 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
             <h2 class="text-2xl font-bold text-gray-900">اختبار المحتوى القابل للتمرير</h2>
             <p class="text-gray-600 mt-2">يختبر هذا المثال سلوك التمرير المستقل للوحة الجانبية ومنطقة المحتوى الرئيسية.</p>
           </div>
-          
+        #{'  '}
           #{(1..20).map do |i|
             %(
             <div id="rtl-item-#{i}" class="p-6 bg-white rounded-lg shadow-md">
@@ -244,5 +244,4 @@ class Containers::PageLayoutComponentPreview < ViewComponent::Preview
       end
     end
   end
-end 
-
+end

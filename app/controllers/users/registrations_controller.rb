@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :configure_sign_up_params, only: [:create]
-  before_action :configure_account_update_params, only: [:update]
+  before_action :configure_sign_up_params, only: [ :create ]
+  before_action :configure_account_update_params, only: [ :update ]
 
   # GET /resource/sign_up
   def new
+    @selected_language = params[:language]
+    @selected_language = "en" unless helpers.supported_languages.key?(@selected_language)
+
     if params[:invitation_key]
       @member = Member.find_by(invitation_key: params[:invitation_key])
       if @member
@@ -23,14 +26,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if params[:user][:timezone].blank?
       params[:user][:timezone] = "UTC" # Default to UTC if no timezone detected
     end
-    
+
     build_resource(sign_up_params)
     resource.save
-    
+
     if resource.persisted?
       # Store the user's language preference
       resource.update(language: params[:user][:language]) if params[:user][:language].present?
-      
+
       # Store email and language in session for confirmation pending page
       session[:user_email] = resource.email
       session[:user_language] = resource.language
@@ -38,7 +41,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
       if params[:invitation_key]
         member = Member.find_by(invitation_key: params[:invitation_key])
-        if member 
+        if member
           member.update!(
             user_id: resource.id,
             joined_at: Time.current,
@@ -52,11 +55,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
             confirmation_sent_at: nil
           )
         end
-        redirect_to ""
+        sign_in(resource)
+        redirect_to organization_path(member.organization_id)
       else
         redirect_to confirmation_pending_path
       end
-      
+
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -69,7 +73,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # Get email and language from session or params
     @email = session[:user_email] || params[:email]
     @language = session[:user_language] || params[:language] || I18n.default_locale
-    
+
     # Set the locale for this request
     I18n.locale = @language.to_sym
   end
@@ -78,18 +82,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def resend_confirmation
     @email = params[:user][:email]
     @language = session[:user_language] || I18n.default_locale
-    
+
     # Set the locale for this request
     I18n.locale = @language.to_sym
-    
+
     # Find the user and resend confirmation
     if user = User.find_by(email: @email)
       user.send_confirmation_instructions
-      flash[:notice] = t('email_confirmation.resend_success')
+      flash[:notice] = t("email_confirmation.resend_success")
     else
-      flash[:alert] = t('email_confirmation.resend_error')
+      flash[:alert] = t("email_confirmation.resend_error")
     end
-    
+
     redirect_to confirmation_pending_path
   end
 
@@ -141,19 +145,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # Check if user is a social user without a password
   def skip_current_password_for_social_user?
-    current_user.provider.present? && current_user.uid.present? && 
-    (current_user.encrypted_password.blank? || 
+    current_user.provider.present? && current_user.uid.present? &&
+    (current_user.encrypted_password.blank? ||
      (!current_user.encrypted_password.blank? && params[:user][:current_password].blank? && params[:user][:password].present?))
   end
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :timezone, :language])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :first_name, :last_name, :timezone, :language ])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :avatar, :timezone])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :first_name, :last_name, :avatar, :timezone ])
   end
 
   # Account update params without password fields

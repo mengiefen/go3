@@ -3,9 +3,9 @@
 module MobileLayout
   class Component < ViewComponent::Base
     renders_one :main_content
-    
+
     def initialize(
-      active_tab: 'home',
+      active_tab: "home",
       show_search: true,
       classes: ""
     )

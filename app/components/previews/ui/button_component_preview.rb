@@ -7,10 +7,10 @@ class Ui::ButtonComponentPreview < ViewComponent::Preview
   # @param disabled [Boolean] toggle
   # @param loading [Boolean] toggle
   def playground(
-    variant: :primary, 
-    size: :md, 
-    full_width: false, 
-    disabled: false, 
+    variant: :primary,
+    size: :md,
+    full_width: false,
+    disabled: false,
     loading: false
   )
     render Ui::ButtonComponent.new(

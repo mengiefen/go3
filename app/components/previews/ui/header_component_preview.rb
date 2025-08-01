@@ -120,4 +120,4 @@ class Ui::HeaderComponentPreview < ViewComponent::Preview
       end
     end
   end
-end 
+end

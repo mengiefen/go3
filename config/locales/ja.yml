@@ -148,6 +148,7 @@ ja:
         list_of_members: メンバー一覧
         search_placeholder: 名前またはメールでメンバーを検索 ...
         add_a_new_member: 新しいメンバーを追加
+        export_to_excel: Excel にエクスポート
         name: 名前
         email: メールアドレス
         status: ステータス
@@ -175,3 +176,9 @@ ja:
         cancel: キャンセル
         submit: 更新
         submit_and_invite: 更新して招待
+      export:
+        name: 名前
+        email: メールアドレス
+        status: ステータス
+        admin: 管理者
+        created_at: 作成日時

@@ -148,6 +148,7 @@ en:
         list_of_members: List of members
         search_placeholder: Search members by name or email ...
         add_a_new_member: Add a new member
+        export_to_excel: Export to Excel
         name: Name
         email: Email
         status: Status
@@ -175,3 +176,9 @@ en:
         cancel: Cancel
         submit: Update
         submit_and_invite: Update and Invite
+      export: 
+        name: Name
+        email: Email
+        status: Status
+        admin: Admin
+        created_at: Created At

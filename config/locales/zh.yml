@@ -148,6 +148,7 @@ zh:
         list_of_members: 成员列表
         search_placeholder: 按姓名或邮箱搜索成员 ...
         add_a_new_member: 添加新成员
+        export_to_excel: 导出到 Excel
         name: 姓名
         email: 邮箱
         status: 状态
@@ -175,3 +176,9 @@ zh:
         cancel: 取消
         submit: 更新
         submit_and_invite: 更新并邀请
+      export:
+        name: 姓名
+        email: 邮箱
+        status: 状态
+        admin: 管理员
+        created_at: 创建时间

@@ -20,23 +20,23 @@ class Ui::TextComponentPreview < ViewComponent::Preview
       "This is a default text paragraph with normal size, weight, and line height."
     end
   end
-  
+
   def sizes
     render_with_template
   end
-  
+
   def colors
     render_with_template
   end
-  
+
   def weights
     render_with_template
   end
-  
+
   def line_heights
     render_with_template
   end
-  
+
   def combinations
     render_with_template
   end

@@ -44,7 +44,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[8.0]
       t.string   :otp_backup_codes
       t.string   :phone_number
       t.boolean  :phone_verified, default: false
-      
+
       ## User Profile
       t.string   :first_name
       t.string   :last_name
@@ -56,7 +56,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[8.0]
       t.jsonb    :preferences, default: {}, null: false
       t.boolean  :active, default: true
       t.datetime :deactivated_at
-      
+
       ## Security
       t.datetime :password_changed_at
       t.string   :security_audit_log
@@ -71,8 +71,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[8.0]
     add_index :users, :confirmation_token,   unique: true
     add_index :users, :unlock_token,         unique: true
     add_index :users, :otp_secret,           unique: true
-    add_index :users, [:provider, :uid],     unique: true, where: "provider IS NOT NULL AND uid IS NOT NULL"
-    add_index :users, [:first_name, :last_name]
+    add_index :users, [ :provider, :uid ],     unique: true, where: "provider IS NOT NULL AND uid IS NOT NULL"
+    add_index :users, [ :first_name, :last_name ]
     add_index :users, :phone_number
     add_index :users, :active
   end

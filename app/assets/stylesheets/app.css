@@ -6,6 +6,8 @@
 @import "components";
 @import "tailwind/tabs";
 
+@import "conversations"
+
 /* Global styles for Font Awesome integration */
 .sidebar-icon {
   width: 20px;

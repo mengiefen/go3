@@ -14,8 +14,8 @@ class Role < ApplicationRecord
   # Associations
   belongs_to :organization, optional: false
   belongs_to :department, optional: true
-  belongs_to :parent, class_name: 'Role', optional: true
-  has_many :children, class_name: 'Role', foreign_key: 'parent_id'
+  belongs_to :parent, class_name: "Role", optional: true
+  has_many :children, class_name: "Role", foreign_key: "parent_id"
   has_many :permissions, as: :grantee
   has_many :role_assignments
   # has_one :member, -> { active }, class_name: 'Member', through: :role_assignments
@@ -30,19 +30,19 @@ class Role < ApplicationRecord
 
   # Methods
   def ancestors
-    chain = [self]
+    chain = [ self ]
     current = self
-    
+
     while current.parent.present?
       current = current.parent
       chain << current
     end
-    
+
     chain
   end
 
   def descendants
-    chain = [self]
+    chain = [ self ]
     current = self
     while current.children.present?
       current.children.each do |child|
@@ -60,18 +60,18 @@ class Role < ApplicationRecord
 
   def assign_member(member)
     return false if member.nil? || member.organization_id != organization_id
-    
+
     # Close previous assignment if exists
     role_assignments.active.each do |assignment|
       assignment.update(finish_date: Time.current)
     end
-    
+
     # Create new assignment
     role_assignments.create(
       member: member,
       start_date: Time.current
     )
-    
+
     true
   end
 
@@ -114,7 +114,7 @@ class Role < ApplicationRecord
 
   def no_circular_references
     return unless parent_id_changed? && parent_id.present?
-    
+
     current_parent = parent
     while current_parent.present?
       if current_parent.id == id

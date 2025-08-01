@@ -1,6 +1,6 @@
 class OnboardingController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_organization_exists, only: [:new]
+  before_action :check_organization_exists, only: [ :new ]
 
   def new
     @organization = Organization.new
@@ -13,4 +13,4 @@ class OnboardingController < ApplicationController
       redirect_to root_path
     end
   end
-end 
+end

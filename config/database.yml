@@ -15,15 +15,12 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
 
 development:
   <<: *default
   database: go3_development
-  username: postgres
-  password: password
   host: localhost
   port: 5432
 
@@ -60,8 +57,6 @@ development:
 test:
   <<: *default
   database: go3_test
-  username: postgres
-  password: password
   host: localhost
   port: 5432
 

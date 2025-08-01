@@ -14,7 +14,7 @@ module Ui
 
     attr_reader :id, :position, :width, :align, :searchable, :selected_class, :update_button_text
 
-    def initialize(id: nil, position: :bottom, width: :auto, align: :start, searchable: false, selected_class: 'bg-indigo-100', update_button_text: false)
+    def initialize(id: nil, position: :bottom, width: :auto, align: :start, searchable: false, selected_class: "bg-indigo-100", update_button_text: false)
       @id = id || "dropdown-#{SecureRandom.hex(4)}"
       @position = position.to_sym # can be :bottom, :top, :left, :right
       @width = width # can be :auto, :full or a specific value like "200px"

@@ -20,7 +20,7 @@ module MobileOrganizations
 
     def filtered_organizations
       return organizations unless search_query.present?
-      
+
       organizations.select do |org|
         org[:name].downcase.include?(search_query.downcase) ||
         org[:description]&.downcase&.include?(search_query.downcase)
@@ -38,10 +38,10 @@ module MobileOrganizations
 
     def org_status_color(status)
       case status
-      when 'active' then 'bg-green-100 text-green-800'
-      when 'inactive' then 'bg-gray-100 text-gray-800'
-      when 'pending' then 'bg-yellow-100 text-yellow-800'
-      else 'bg-gray-100 text-gray-800'
+      when "active" then "bg-green-100 text-green-800"
+      when "inactive" then "bg-gray-100 text-gray-800"
+      when "pending" then "bg-yellow-100 text-yellow-800"
+      else "bg-gray-100 text-gray-800"
       end
     end
   end

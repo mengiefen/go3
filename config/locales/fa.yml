@@ -148,6 +148,7 @@ fa:
         list_of_members: فهرست اعضا
         search_placeholder: جستجوی اعضا بر اساس نام یا ایمیل ...
         add_a_new_member: افزودن عضو جدید
+        export_to_excel: ارسال به اکسل
         name: نام
         email: ایمیل
         status: وضعیت
@@ -175,3 +176,9 @@ fa:
         cancel: لغو
         submit: به‌روزرسانی
         submit_and_invite: به‌روزرسانی و دعوت
+      export:
+        name: نام
+        email: ایمیل
+        status: وضعیت
+        admin: مدیر
+        created_at: تاریخ ایجاد

@@ -25,4 +25,4 @@ module Shoulda
       end
     end
   end
-end 
+end

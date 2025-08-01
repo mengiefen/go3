@@ -1,7 +1,7 @@
 # OmniAuth security configuration
 
 # Allow both GET and POST requests, but POST is recommended for security
-OmniAuth.config.allowed_request_methods = [:get, :post]
+OmniAuth.config.allowed_request_methods = [ :get, :post ]
 
 # Protect against request forgery for all providers
 OmniAuth.config.logger = Rails.logger
@@ -12,7 +12,7 @@ OmniAuth.config.on_failure = proc { |env|
 }
 
 # Explicitly require LinkedIn OAuth2 strategy
-require 'omniauth-linkedin-oauth2'
+require "omniauth-linkedin-oauth2"
 
 # LinkedIn OAuth2 strategy specific configuration
 module OmniAuth
@@ -31,4 +31,4 @@ end
 if Rails.env.test?
   OmniAuth.config.test_mode = true
   # Add mock responses as needed for tests
-end 
+end
