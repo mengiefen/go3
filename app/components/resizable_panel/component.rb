@@ -28,19 +28,19 @@ module ResizablePanel
 
     private
 
-    attr_reader :direction, :min_size, :max_size, :default_size, 
+    attr_reader :direction, :min_size, :max_size, :default_size,
                 :handle_position, :persist_size, :storage_key,
                 :controller_name, :classes, :handle_classes
 
     def panel_classes
       base_classes = "relative"
-      
+
       size_classes = if horizontal?
         "h-full"
       else
         "w-full"
       end
-      
+
       "#{base_classes} #{size_classes} #{classes}".strip
     end
 

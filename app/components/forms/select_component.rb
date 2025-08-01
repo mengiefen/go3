@@ -2,7 +2,7 @@ class Forms::SelectComponent < ViewComponent::Base
   renders_one :label
   renders_one :hint
   renders_one :error
-  
+
   def initialize(
     name: nil,
     id: nil,
@@ -27,7 +27,7 @@ class Forms::SelectComponent < ViewComponent::Base
     **attrs
   )
     @name = name
-    @id = id || name&.to_s&.gsub(/[\[\]]+/, '_')&.sub(/_$/, '')
+    @id = id || name&.to_s&.gsub(/[\[\]]+/, "_")&.sub(/_$/, "")
     @options = options
     @selected = selected
     @prompt = prompt
@@ -48,21 +48,21 @@ class Forms::SelectComponent < ViewComponent::Base
     @variant = variant
     @attrs = attrs
   end
-  
+
   private
-  
+
   def select_classes
     [
       "block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 transition duration-150 ease-in-out",
       "focus:ring-#{@color}-500",
       @error_state ? "pr-10 text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500" : "",
-      @disabled ? "bg-gray-50 text-gray-500 cursor-not-allowed" : "",      
+      @disabled ? "bg-gray-50 text-gray-500 cursor-not-allowed" : "",
       @multiple && @enhanced ? "" : "appearance-none",
       @enhanced ? "sr-only" : "", # Hide the original select for enhanced UI but keep it accessible
       @classes
     ].compact.join(" ")
   end
-  
+
   def select_attributes
     {
       name: @name,
@@ -79,13 +79,13 @@ class Forms::SelectComponent < ViewComponent::Base
       **@attrs
     }.compact
   end
-  
+
   def trigger_classes
     base_classes = [
       "relative w-full rounded-md py-2 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset focus:outline-none focus:ring-2 sm:text-sm sm:leading-6 transition-all duration-150 ease-in-out",
-      "focus:ring-#{@color}-500 dark:focus:ring-#{@color}-400",
+      "focus:ring-#{@color}-500 dark:focus:ring-#{@color}-400"
     ]
-    
+
     case @variant
     when "default"
       base_classes << "bg-white dark:bg-gray-800 ring-gray-300 dark:ring-gray-700"
@@ -101,12 +101,12 @@ class Forms::SelectComponent < ViewComponent::Base
       base_classes << "w-full border-0 border-b-2 border-gray-300 dark:border-gray-700 bg-transparent py-2 pl-0 pr-10 focus:border-#{@color}-500 dark:focus:border-#{@color}-400 focus:ring-0"
       base_classes << (@error_state ? "border-red-300 dark:border-red-700 text-red-900 dark:text-red-400 focus:border-red-500" : "")
     end
-    
+
     base_classes << (@disabled ? "bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 cursor-not-allowed opacity-75" : "cursor-pointer")
-    
+
     base_classes.compact.join(" ")
   end
-  
+
   def options_panel_classes
     [
       "absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm",
@@ -114,7 +114,7 @@ class Forms::SelectComponent < ViewComponent::Base
       "animate-dropdown-in"
     ].compact.join(" ")
   end
-  
+
   def search_input_classes
     [
       "block w-full rounded-md px-3 py-2 text-sm leading-5 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500",
@@ -122,7 +122,7 @@ class Forms::SelectComponent < ViewComponent::Base
       "bg-transparent transition-all duration-150 ease-in-out"
     ].compact.join(" ")
   end
-  
+
   def option_item_classes
     [
       "relative cursor-pointer select-none",
@@ -131,14 +131,14 @@ class Forms::SelectComponent < ViewComponent::Base
       "flex items-center"
     ].compact.join(" ")
   end
-  
+
   def checkbox_classes
     [
       "h-4 w-4 rounded mr-2 transition-colors duration-150 ease-in-out",
       "text-#{@color}-600 dark:text-#{@color}-500 border-gray-300 dark:border-gray-600 focus:ring-#{@color}-500 dark:focus:ring-#{@color}-400"
     ].compact.join(" ")
   end
-  
+
   def badge_classes
     [
       "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium mr-1.5 mb-1",
@@ -146,7 +146,7 @@ class Forms::SelectComponent < ViewComponent::Base
       "transition-all duration-150 ease-in-out"
     ].compact.join(" ")
   end
-  
+
   def badge_remove_button_classes
     [
       "ml-1 h-4 w-4 rounded-full inline-flex items-center justify-center",
@@ -155,7 +155,7 @@ class Forms::SelectComponent < ViewComponent::Base
       "transition-colors duration-150 ease-in-out"
     ].compact.join(" ")
   end
-  
+
   def clear_button_classes
     [
       "absolute inset-y-0 right-0 flex items-center pr-8",
@@ -163,15 +163,15 @@ class Forms::SelectComponent < ViewComponent::Base
       "transition-colors duration-150 ease-in-out"
     ].compact.join(" ")
   end
-  
+
   def has_selected_options?
     @selected.present? && @selected != [] && @selected != ""
   end
-  
+
   def should_show_clear_button?
     @clear_button && !@disabled && has_selected_options?
   end
-  
+
   def stimulus_controller_data
     {
       controller: "select",
@@ -180,7 +180,7 @@ class Forms::SelectComponent < ViewComponent::Base
       select_close_on_select_value: @close_on_select
     }
   end
-  
+
   def dropdown_icon
     <<-SVG.strip
       <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -188,7 +188,7 @@ class Forms::SelectComponent < ViewComponent::Base
       </svg>
     SVG
   end
-  
+
   def clear_icon
     <<-SVG.strip
       <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -196,7 +196,7 @@ class Forms::SelectComponent < ViewComponent::Base
       </svg>
     SVG
   end
-  
+
   def search_icon
     <<-SVG.strip
       <svg class="h-4 w-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -205,4 +205,3 @@ class Forms::SelectComponent < ViewComponent::Base
     SVG
   end
 end
-

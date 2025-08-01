@@ -148,6 +148,7 @@ ar:
         list_of_members: قائمة الأعضاء
         search_placeholder: ابحث عن الأعضاء بالاسم أو البريد الإلكتروني ...
         add_a_new_member: إضافة عضو جديد
+        export_to_excel: تصدير إلى Excel
         name: الاسم
         email: البريد الإلكتروني
         status: الحالة
@@ -175,3 +176,9 @@ ar:
         cancel: إلغاء
         submit: تحديث
         submit_and_invite: تحديث ودعوة
+      export:
+        name: الاسم
+        email: البريد الإلكتروني
+        status: الحالة
+        admin: المسؤول
+        created_at: تاريخ الإنشاء

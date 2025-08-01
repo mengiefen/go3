@@ -7,9 +7,9 @@ FactoryBot.define do
     last_name { "Doe" }
     tenant
     role { nil }
-    
+
     trait :admin do
       role { 'GO3_ADMIN' }
     end
   end
-end 
+end

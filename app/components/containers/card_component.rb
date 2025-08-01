@@ -4,7 +4,7 @@ module Containers
     renders_one :footer
     renders_one :header_actions
     renders_one :footer_actions
-    
+
     def initialize(
       padding: true,
       shadow: :md,
@@ -24,9 +24,9 @@ module Containers
       @title = title
       @variant = variant
     end
-    
+
     private
-    
+
     def container_classes
       [
         "bg-white",
@@ -36,11 +36,11 @@ module Containers
         @classes
       ].compact.join(" ")
     end
-    
+
     def content_classes
       @padding ? "p-4" : ""
     end
-    
+
     def shadow_class
       case @shadow
       when :none then ""
@@ -52,7 +52,7 @@ module Containers
       else "shadow"
       end
     end
-    
+
     def rounded_class
       case @rounded
       when :none then ""
@@ -64,7 +64,7 @@ module Containers
       else "rounded-md"
       end
     end
-    
+
     def border_class
       @border ? "border border-gray-200" : ""
     end

@@ -10,32 +10,32 @@ class OrganizationPolicy < ApplicationPolicy
   def create?
     # GO3_Admins can always create organizations
     return true if user.is_go3_admin?
-    
+
     # Normal users can create if they have trial flag
-    return user.has_flag?('trial') if !record.parent_id.present?
-    
+    return user.has_flag?("trial") if !record.parent_id.present?
+
     # Users with Organization.admin permission on parent org can create sub-orgs
-    record.parent_id.present? && user.has_permission?('Organization.admin', record.parent)
+    record.parent_id.present? && user.has_permission?("Organization.admin", record.parent)
   end
 
   def update?
-    user.is_go3_admin? || user.has_permission?('Organization.admin', record)
+    user.is_go3_admin? || user.has_permission?("Organization.admin", record)
   end
 
   def permitted_attributes
     if user.is_go3_admin?
-      [:name, :description, :parent_id, :is_trial, :settings, :logo]
+      [ :name, :description, :parent_id, :is_trial, :settings, :logo ]
     else
-      [:is_trial]
+      [ :is_trial ]
     end
   end
 
   def destroy?
     # GO3_Admins can destroy any organization
     return true if user.is_go3_admin?
-    
+
     # Organization admins can only destroy trial organizations
-    record.is_trial? && user.has_permission?('Organization.admin', record)
+    record.is_trial? && user.has_permission?("Organization.admin", record)
   end
 
   def archive?
@@ -56,4 +56,4 @@ class OrganizationPolicy < ApplicationPolicy
       end
     end
   end
-end 
+end

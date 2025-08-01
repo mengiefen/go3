@@ -130,26 +130,26 @@ module Ui
     def with_icons
       render_with_template
     end
-    
+
     # @label Button Text Update Test
     def button_text_update_test
       render_with_template
     end
-    
+
     # @label Simple Button Update
     def simple_button_update
       render_with_template
     end
-    
+
     # @label Basic Update Test
     def basic_update_test
       render_with_template
     end
 
     # @!endgroup
-    
+
     # @!group Special Features
-    
+
     # @label With Search
     def with_search
       render(Ui::DropdownComponent.new(searchable: true)) do |dropdown|
@@ -163,7 +163,7 @@ module Ui
         dropdown.item { render_item("Grape", "#grape") }
       end
     end
-    
+
     # @label With Button Text Update
     def with_button_text_update
       render(Ui::DropdownComponent.new(update_button_text: true)) do |dropdown|
@@ -173,7 +173,7 @@ module Ui
         dropdown.item { render_item("Sign out", "#sign-out", "sign-out") }
       end
     end
-    
+
     # @label With Search and Button Text Update
     def with_search_and_button_text_update
       render(Ui::DropdownComponent.new(searchable: true, update_button_text: true)) do |dropdown|
@@ -185,7 +185,7 @@ module Ui
         dropdown.item { render_item("Elderberry", "#elderberry", "elderberry") }
       end
     end
-    
+
     # @!endgroup
 
     private
@@ -201,13 +201,13 @@ module Ui
 
     def render_item(text, href = "#", data_value = nil)
       options = {
-        href: href, 
-        class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100", 
+        href: href,
+        class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100",
         role: "menuitem"
       }
-      
+
       options["data-value"] = data_value if data_value
-      
+
       tag.a(text, **options)
     end
   end

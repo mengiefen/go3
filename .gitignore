@@ -40,3 +40,6 @@ scripts/
 
 # Ignore Claude development documentation
 CLAUDE.md
+
+node_modules
+coverage

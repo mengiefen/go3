@@ -41,7 +41,7 @@ module ComponentHelper
     class_name = name.to_s.camelize
 
     # Try to find the component in common namespaces
-    namespaces = ["UI", "Containers", "DataDisplay", "Feedback"]
+    namespaces = [ "UI", "Containers", "DataDisplay", "Feedback" ]
 
     namespaces.each do |namespace|
       begin
@@ -53,9 +53,9 @@ module ComponentHelper
 
     # Try without namespace
     begin
-      return "#{class_name}Component".constantize
+      "#{class_name}Component".constantize
     rescue NameError
       raise "Could not find component: #{name}"
     end
   end
-end 
+end

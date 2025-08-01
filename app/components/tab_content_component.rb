@@ -12,17 +12,17 @@ class TabContentComponent < ViewComponent::Base
 
   def generate_content_name
     case content_type
-    when 'organization'
+    when "organization"
       "Organization #{content_id}"
-    when 'user'
+    when "user"
       "User #{content_id}"
-    when 'campaign'
+    when "campaign"
       "Campaign #{content_id}"
-    when 'report'
+    when "report"
       "Report #{content_id}"
-    when 'dashboard'
+    when "dashboard"
       "Dashboard #{content_id}"
-    when 'settings'
+    when "settings"
       "Settings #{content_id}"
     else
       "Content #{content_id}"
@@ -31,17 +31,17 @@ class TabContentComponent < ViewComponent::Base
 
   def content_html
     case content_type
-    when 'organization'
+    when "organization"
       organization_content
-    when 'user'
+    when "user"
       user_content
-    when 'campaign'
+    when "campaign"
       campaign_content
-    when 'report'
+    when "report"
       report_content
-    when 'dashboard'
+    when "dashboard"
       dashboard_content
-    when 'settings'
+    when "settings"
       settings_content
     else
       default_content
@@ -73,7 +73,7 @@ class TabContentComponent < ViewComponent::Base
             end
           end
         end +
-        
+
         # Content grid
         content_tag(:div, class: "grid grid-cols-1 lg:grid-cols-3 gap-6") do
           # Main info card
@@ -102,7 +102,7 @@ class TabContentComponent < ViewComponent::Base
               end
             end
           end +
-          
+
           # Stats card
           content_tag(:div, class: "space-y-6") do
             content_tag(:div, class: "bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200") do

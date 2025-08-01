@@ -11,9 +11,9 @@ class Devise::Mailer < Devise.parent_mailer.constantize
       @resource = record
       @email = record.email
       @confirmation_url = user_confirmation_url(confirmation_token: @token)
-      
+
       # Use the localized template
-      mail(to: @email, subject: I18n.t('devise.mailer.confirmation_instructions.subject'))
+      mail(to: @email, subject: I18n.t("devise.mailer.confirmation_instructions.subject"))
     end
   end
-end 
+end

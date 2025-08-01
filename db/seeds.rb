@@ -33,7 +33,7 @@ task_titles = [
   "Setup development environment",
   "Design user interface mockups",
   "Implement user authentication",
-  "Write API documentation", 
+  "Write API documentation",
   "Create database migration scripts",
   "Setup automated testing pipeline",
   "Optimize application performance",
@@ -119,7 +119,7 @@ descriptions = [
 50.times do |i|
   title = task_titles[i] || "Sample Task #{i + 1}"
   description = descriptions[i % descriptions.length]
-  
+
   # Create realistic due dates - some past, some future, some nil
   due_date = case i % 4
   when 0
@@ -131,15 +131,15 @@ descriptions = [
   when 3
     rand(1..7).days.from_now  # Near future
   end
-  
+
   # Create varied completion dates for completed tasks
   completed_at = nil
   status = Task::STATUSES.sample
-  
+
   if status == 'completed'
     completed_at = rand(1..30).days.ago
   end
-  
+
   Task.find_or_create_by!(
     title: title,
     user: user,
@@ -165,14 +165,14 @@ puts "Created #{Task.count} tasks for demonstration"
     u.last_name = "Smith"
     u.confirmed_at = Time.current
   end
-  
+
   test_member = Member.find_by(user: test_user, organization: org)
   unless test_member
     test_member = Member.new(user: test_user, organization: org, email: test_user.email)
     test_member.write_attribute(:name, { "en" => test_user.full_name })
     test_member.save!
   end
-  
+
   # Create 10 tasks for each test user
   10.times do |j|
     Task.find_or_create_by!(

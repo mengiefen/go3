@@ -3,7 +3,7 @@ class Forms::TextareaComponent < ViewComponent::Base
   renders_one :label
   renders_one :hint
   renders_one :error
-  
+
   def initialize(
     name: nil,
     id: nil,
@@ -22,7 +22,7 @@ class Forms::TextareaComponent < ViewComponent::Base
     **attrs
   )
     @name = name
-    @id = id || name&.to_s&.gsub(/[\[\]]+/, '_')&.sub(/_$/, '')
+    @id = id || name&.to_s&.gsub(/[\[\]]+/, "_")&.sub(/_$/, "")
     @value = value
     @placeholder = placeholder
     @required = required
@@ -37,9 +37,9 @@ class Forms::TextareaComponent < ViewComponent::Base
     @container_classes = container_classes
     @attrs = attrs
   end
-  
+
   private
-  
+
   def textarea_classes
     [
       "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
@@ -49,7 +49,7 @@ class Forms::TextareaComponent < ViewComponent::Base
       @classes
     ].compact.join(" ")
   end
-  
+
   def resize_class
     case @resize
     when :none then "resize-none"
@@ -59,7 +59,7 @@ class Forms::TextareaComponent < ViewComponent::Base
     else "resize-y"
     end
   end
-  
+
   def textarea_attributes
     {
       name: @name,
@@ -79,5 +79,3 @@ class Forms::TextareaComponent < ViewComponent::Base
     }.compact
   end
 end
-  
-

@@ -3,7 +3,7 @@ FactoryBot.define do
     organization { Organization.first || create(:organization) }
 
     name { "Group #{SecureRandom.uuid}" }
-    
+
     after(:build) do |group, evaluator|
       if evaluator.name.is_a?(String)
         Mobility.with_locale(:en) { group.name = evaluator.name }

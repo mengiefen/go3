@@ -148,6 +148,7 @@ ur:
         list_of_members: اراکین کی فہرست
         search_placeholder: نام یا ای میل سے اراکین تلاش کریں ...
         add_a_new_member: نیا رکن شامل کریں
+        export_to_excel: ایکسسل میں برآمد کریں
         name: نام
         email: ای میل
         status: حیثیت
@@ -175,3 +176,9 @@ ur:
         cancel: منسوخ کریں
         submit: اپڈیٹ کریں
         submit_and_invite: اپڈیٹ کریں اور دعوت دیں
+      export:
+        name: نام
+        email: ای میل
+        status: حیثیت
+        admin: منتظم
+        created_at: تخلیق کی تاریخ

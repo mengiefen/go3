@@ -34,4 +34,4 @@ module Ui
     # @return [String, nil] Additional CSS classes for the header
     attr_reader :classes
   end
-end 
+end

@@ -1,0 +1,15 @@
+<%= form_with url: locals[:path], method: :post, class: "w-full" do |form| %>
+  <%= hidden_field_tag :user_ids, params[:user_ids] %>
+  <%= hidden_field_tag :conversation_id, @conversation.id %>
+  
+  <div class="flex gap-3 align-center">
+    <div class="flex-1">
+      <%= form.text_area :body, 
+            placeholder: "Type your message...", 
+            class: "w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-400 bg-white shadow-sm" %>
+    </div>
+    
+      <%= form.submit "Send", 
+            class: "flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm" %>
+  </div>
+<% end %>

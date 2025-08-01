@@ -3,4 +3,4 @@ class AddRoleToUsers < ActiveRecord::Migration[8.0]
     add_column :users, :role, :string, default: nil
     add_index :users, :role
   end
-end 
+end

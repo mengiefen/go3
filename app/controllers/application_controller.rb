@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   include Pundit::Authorization
   include ComponentHelper
-  
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :set_current_attributes
@@ -16,31 +16,31 @@ class ApplicationController < ActionController::Base
   before_action :check_onboarding
   before_action :handle_organization_redirect
   around_action :switch_locale
-  
+
   helper ComponentHelper
-  
+
   helper_method :current_language
 
   protected
-  
+
   def configure_permitted_parameters
     # Sign up params
     devise_parameter_sanitizer.permit(:sign_up, keys: [
       :first_name, :last_name, :email, :password, :password_confirmation
     ])
-    
+
     # Account update params
     devise_parameter_sanitizer.permit(:account_update, keys: [
-      :first_name, :last_name, :email, :password, :password_confirmation, 
+      :first_name, :last_name, :email, :password, :password_confirmation,
       :current_password, :job_title, :avatar, :timezone, :preferred_locale
     ])
-    
+
     # Sign in params
     devise_parameter_sanitizer.permit(:sign_in, keys: [
       :email, :password, :otp_code_attempt, :backup_code
     ])
   end
-  
+
   # Redirect after sign in
   def after_sign_in_path_for(resource)
     # If user has 2FA enabled but not yet verified for this session
@@ -49,25 +49,25 @@ class ApplicationController < ActionController::Base
     else
       # Track sign in activity
       resource.track_activity("sign_in")
-      
+
       # Log security event
       resource.log_security_event("sign_in_success", {
         ip_address: request.ip,
         user_agent: request.user_agent
       })
-      
+
       # Return to stored location or default
       stored_location_for(resource) || root_path
     end
   end
-  
+
   private
-  
+
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
     redirect_to(request.referrer || root_path)
   end
-  
+
   def set_current_attributes
     Current.ip_address = request.ip
     Current.user_agent = request.user_agent
@@ -79,22 +79,22 @@ class ApplicationController < ActionController::Base
     # Get locale from user preference, params, or default
     locale = if user_signed_in?
                current_user.language
-             elsif params[:locale]
+    elsif params[:locale]
                params[:locale]
-             else
+    else
                I18n.default_locale
-             end
+    end
 
     # Ensure the locale is valid
     locale = I18n.default_locale unless I18n.available_locales.include?(locale.to_sym)
-    
+
     # Set the locale for this request
     I18n.locale = locale.to_sym
-    
+
     # Store the locale in the session for future requests
     session[:locale] = locale
   end
-  
+
   def translate_flash_messages
     flash.each do |type, message|
       if message.is_a?(String)
@@ -110,38 +110,38 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
-  
+
   def store_user_location!
     store_location_for(:user, request.fullpath)
   end
-  
+
   def turbo_frame_request?
     request.headers["Turbo-Frame"].present?
   end
 
   def check_onboarding
-    if user_signed_in? && 
-       current_user.confirmed? && 
-       !current_user.organizations.exists? && 
+    if user_signed_in? &&
+       current_user.confirmed? &&
+       !current_user.organizations.exists? &&
        !onboarding_controller? &&
-       !(controller_name == 'organizations' && action_name == 'create')
+       !(controller_name == "organizations" && action_name == "create")
       redirect_to new_onboarding_path
     end
   end
 
   def onboarding_controller?
-    controller_name == 'onboarding'
+    controller_name == "onboarding"
   end
 
   def handle_organization_redirect
     return unless user_signed_in?
     return if devise_controller?
-    return if controller_name == 'onboarding'
-    return if controller_name == 'organizations' && action_name == 'create'
+    return if controller_name == "onboarding"
+    return if controller_name == "organizations" && action_name == "create"
     return if request.xhr? || request.format.json?
 
     # Get user's organizations
@@ -155,7 +155,7 @@ class ApplicationController < ActionController::Base
     else
       # If user has multiple organizations
       saved_org_id = session[:selected_organization_id]
-      
+
       if saved_org_id && organizations.exists?(saved_org_id)
         # Use saved organization if it exists and is valid
         redirect_to organization_path(saved_org_id) unless current_page?(organization_path(saved_org_id))

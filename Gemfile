@@ -31,7 +31,7 @@ gem "omniauth-rails_csrf_protection" # CSRF protection for OmniAuth
 
 # Multi-Factor Authentication
 gem "rotp", "~> 6.0"
-gem "rqrcode", "~> 2.0"
+gem "rqrcode", "~> 3.1"
 gem "twilio-ruby" # Twilio API client for SMS-based verification
 
 # Security
@@ -81,7 +81,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  
+
   # Testing
   gem "rspec-rails", "~> 6.1.0"
   gem "factory_bot_rails"
@@ -102,12 +102,15 @@ group :development do
   # Preview email in the browser instead of sending it
   gem "letter_opener"
   # gem "mailcatcher" # Optional: Install separately with `gem install mailcatcher`
+  gem "rubocop", "~> 1.75"
+  gem "lefthook"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver", "~> 4.12"
+  gem "simplecov", require: false
 end
 
 gem "tailwindcss-rails", "~> 4.2"
@@ -122,3 +125,7 @@ gem "net-pop", require: false
 # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
 # gem "spring"
 gem "view_component", "~> 3.21"
+
+# Excel generation
+gem "axlsx", "~> 1.3.6"
+gem "axlsx_rails", "~> 0.6"
