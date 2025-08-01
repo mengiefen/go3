@@ -31,7 +31,7 @@ gem "omniauth-rails_csrf_protection" # CSRF protection for OmniAuth
 
 # Multi-Factor Authentication
 gem "rotp", "~> 6.0"
-gem "rqrcode", "~> 2.0"
+gem "rqrcode", "~> 3.1"
 gem "twilio-ruby" # Twilio API client for SMS-based verification
 
 # Security
