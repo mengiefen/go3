@@ -113,7 +113,7 @@ group :test do
   gem "simplecov", require: false
 end
 
-gem "tailwindcss-rails", "~> 4.2"
+gem "tailwindcss-rails", "~> 4.3"
 gem "tailwindcss-ruby", "~> 4.1"
 
 # Email SMTP delivery
