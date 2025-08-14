@@ -159,6 +159,7 @@ export default class extends Controller {
   createContentDiv(tabId, url, tabElement) {
     const contentDiv = document.createElement('div')
     contentDiv.dataset.tabId = tabId
+    contentDiv.classList.add('h-full')
     contentDiv.style.display = 'none'
     contentDiv.innerHTML = '<div class="flex items-center justify-center py-8"><div class="text-gray-500">Content will load here...</div></div>'
     

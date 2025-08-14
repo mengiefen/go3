@@ -12,7 +12,7 @@ class OrganizationPolicy < ApplicationPolicy
     return true if user.is_go3_admin?
 
     # Normal users can create if they have trial flag
-    return user.has_flag?("trial") if !record.parent_id.present?
+    # return user.has_flag?("trial") if !record.parent_id.present?
 
     # Users with Organization.admin permission on parent org can create sub-orgs
     record.parent_id.present? && user.has_permission?("Organization.admin", record.parent)

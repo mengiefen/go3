@@ -92,6 +92,7 @@ class OrganizationsController < ApplicationController
   private
 
   def set_organization
+    puts params
     @organization = Organization.unarchived.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     # Attempt to find the record even if it's archived

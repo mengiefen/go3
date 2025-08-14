@@ -2,7 +2,8 @@
   <%= render Ui::ModalComponent.new(id: "new_member_modal", title: view_t("create_a_new_member")) do %>
     <%= form_with(
       model: @member, 
-      url: organization_members_path, 
+      url: organization_members_path,
+      data: { action: "submit->modal#close" },
       html: { 
         id: "new_member_form", 
         class: "space-y-2 bg-white rounded-xl" 

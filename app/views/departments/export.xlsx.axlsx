@@ -33,4 +33,4 @@ wb.add_worksheet(name: "Departments") do |sheet|
 
   # Auto-fit columns
   sheet.column_widths 30, 15, 40, 15
-end 
+end

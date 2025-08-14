@@ -2,7 +2,7 @@ module TabContent
   extend ActiveSupport::Concern
 
   included do
-    before_action :handle_tab_content_request, if: -> { request.headers['X-Tab-Content'] }
+    before_action :handle_tab_content_request, if: -> { request.headers["X-Tab-Content"] }
   end
 
   def handle_tab_content_request

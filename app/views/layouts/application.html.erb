@@ -53,6 +53,16 @@
               title: "New Organization",
               tab_id: "new_organization"
             } %></li>
+            <li><%= link_to "Members", organization_members_path(2), data: { 
+              action: "click->tabs#handleSidebarClick",
+              title: "Members",
+              tab_id: "members"
+            } %></li>
+            <li><%= link_to "Departments", organization_departments_path(2), data: { 
+              action: "click->tabs#handleSidebarClick",
+              title: "Departments",
+              tab_id: "departments"
+            } %></li>
           </ul>
         <% end %>
         <%= pl.with_main_content do %><% end %>

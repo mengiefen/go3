@@ -32,7 +32,8 @@
       class: "px-5 py-2 text-sm font-semibold text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700 transition width-100 cursor-pointer",
       data: { action: "modal#close"}
   %>
-  <%= link_to view_t("cancel"), "", onclick: "document.getElementById('modal').innerHTML = ''", 
+  <%= link_to view_t("cancel"), "#", 
+      data: { action: "click->modal#close" },
       class: "px-5 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition text-center" 
   %>
 </div>

@@ -1,4 +1,5 @@
 class MembersController < ApplicationController
+  include TabContent
   before_action :authenticate_user!
 
   def index
