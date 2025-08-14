@@ -31,7 +31,7 @@ gem "omniauth-rails_csrf_protection" # CSRF protection for OmniAuth
 
 # Multi-Factor Authentication
 gem "rotp", "~> 6.0"
-gem "rqrcode", "~> 2.0"
+gem "rqrcode", "~> 3.1"
 gem "twilio-ruby" # Twilio API client for SMS-based verification
 
 # Security
@@ -109,12 +109,12 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver", "~> 4.12"
+  gem "selenium-webdriver", "~> 4.34"
   gem "simplecov", require: false
 end
 
-gem "tailwindcss-rails", "~> 4.2"
-gem "tailwindcss-ruby", "~> 4.0"
+gem "tailwindcss-rails", "~> 4.3"
+gem "tailwindcss-ruby", "~> 4.1"
 
 # Email SMTP delivery
 gem "net-smtp", require: false
