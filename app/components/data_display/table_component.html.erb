@@ -1,0 +1,34 @@
+<!-- app/components/data_display/table_component.html.erb -->
+<table class="table-component <%= @class_list %>">
+  <thead class="sticky top-0 bg-white z-10 shadow-sm">
+    <tr>
+      <% @columns.each do |column| %>
+        <th class="table-header <%= column[:class] %>" width="<%= column[:width] || "auto"%>">
+          <%= column[:label] %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody id="<%= @turbo_frame_target %>">
+    <% rows.each do |row| %>
+      <%= row %>
+    <% end %>
+  </tbody>
+</table>
+
+<style>
+  .table-component {
+    padding: 10px;
+    width: 100%;
+
+    thead {
+      tr {
+        height: 50px;
+
+        th {
+          border-bottom: 1px solid silver;
+        }
+      }
+    }
+  }
+</style>

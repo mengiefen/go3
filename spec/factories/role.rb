@@ -15,9 +15,9 @@ FactoryBot.define do
         end
       end
     end
-    
+
     trait :inactive do
       active { false }
     end
   end
-end 
+end

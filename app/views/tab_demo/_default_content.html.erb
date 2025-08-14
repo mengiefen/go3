@@ -1,0 +1,82 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-6">
+    <div class="flex items-start justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900 mb-2"><%= name %></h1>
+        <div class="flex items-center space-x-4 text-sm text-slate-600">
+          <div class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <%= content_type.humanize %>
+          </div>
+          <span>•</span>
+          <div>ID: <%= content_id %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Placeholder Content -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+    <div class="text-center">
+      <div class="mx-auto w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+        <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+      </div>
+      <h2 class="text-xl font-semibold text-slate-900 mb-2"><%= content_type.humanize %> Content</h2>
+      <p class="text-slate-600 max-w-md mx-auto">
+        This is a placeholder for <%= content_type.humanize %> content. 
+        Custom views can be created for each content type to display relevant information.
+      </p>
+      
+      <div class="mt-6">
+        <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Create New <%= content_type.humanize %>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sample Data Grid -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 mt-6 overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-200">
+      <h2 class="text-lg font-semibold text-slate-900">Sample Data</h2>
+    </div>
+    <table class="min-w-full divide-y divide-slate-200">
+      <thead class="bg-slate-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Created</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-slate-200">
+        <% 5.times do |i| %>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
+              Sample <%= content_type.humanize %> <%= i + 1 %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+              <%= content_type.humanize %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                Active
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+              <%= (Date.today - i.days).strftime("%B %d, %Y") %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

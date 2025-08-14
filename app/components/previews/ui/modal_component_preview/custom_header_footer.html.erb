@@ -1,0 +1,71 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/modal_component_preview/custom_header_footer.html.erb %>
+<div class="p-4 space-y-4">
+  <h2 class="text-xl font-bold">Modal with Custom Header and Footer</h2>
+  
+  <p class="text-gray-600">
+    This example demonstrates how to create a modal with custom header and footer content.
+    The ModalComponent allows you to fully customize these sections.
+  </p>
+  
+  <button 
+    type="button" 
+    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+    data-modal-target="<%= id %>"
+  >
+    Open Custom Modal
+  </button>
+  
+  <%= render Ui::ModalComponent.new(id: id, size: size) do |modal| %>
+    <% modal.with_header do %>
+      <div class="flex items-center space-x-2">
+        <div class="bg-indigo-100 p-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium">Custom Header Example</h3>
+      </div>
+    <% end %>
+    
+    <% modal.with_body do %>
+      <div class="space-y-4">
+        <p>This modal has a custom header with an icon and custom footer with multiple buttons.</p>
+        <p>Use the <code>with_header</code>, <code>with_body</code>, and <code>with_footer</code> methods to fully customize these sections.</p>
+        <div class="bg-gray-50 p-4 rounded">
+          <p class="text-sm">Modal content can be anything you need, from simple text to complex interactive elements.</p>
+        </div>
+      </div>
+    <% end %>
+    
+    <% modal.with_footer do %>
+      <div class="flex justify-between w-full">
+        <button type="button" class="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 focus:outline-none">
+          Learn More
+        </button>
+        <div class="space-x-2">
+          <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 focus:outline-none" data-action="modal#close">
+            Cancel
+          </button>
+          <button type="button" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none">
+            Confirm
+          </button>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<script>
+  // Helper script to make the demo work
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-modal-target]').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const modalId = button.getAttribute('data-modal-target');
+        const modal = document.getElementById(modalId);
+        if (modal && modal.querySelector('[data-controller="modal"]')) {
+          modal.querySelector('[data-controller="modal"]').controller.open();
+        }
+      });
+    });
+  });
+</script>

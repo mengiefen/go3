@@ -1,0 +1,40 @@
+<div class="lg:hidden fixed inset-0 z-50 flex items-end" data-controller="mobile-action-sheet">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black bg-opacity-50" 
+       data-action="click->mobile-action-sheet#close"
+       data-mobile-action-sheet-target="backdrop"></div>
+  
+  <!-- Action Sheet -->
+  <div class="relative w-full transform translate-y-full transition-transform duration-300 ease-out"
+       data-mobile-action-sheet-target="sheet">
+    <div class="bg-white dark:bg-gray-800 rounded-t-2xl overflow-hidden">
+      <% if title %>
+        <div class="px-4 py-3 text-center border-b border-gray-200 dark:border-gray-700">
+          <p class="text-sm text-gray-500 dark:text-gray-400"><%= title %></p>
+        </div>
+      <% end %>
+      
+      <!-- Actions -->
+      <div class="divide-y divide-gray-200 dark:divide-gray-700">
+        <% actions.each do |action| %>
+          <%= action %>
+        <% end %>
+        
+        <% if destructive_action %>
+          <button class="w-full px-4 py-4 text-red-600 dark:text-red-400 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  data-action="click-><%= destructive_action[:action] %>">
+            <%= destructive_action[:text] %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- Cancel button -->
+    <div class="bg-white dark:bg-gray-800 mt-2 rounded-2xl mx-2 mb-2">
+      <button class="w-full px-4 py-4 font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-2xl transition-colors"
+              data-action="click->mobile-action-sheet#close">
+        <%= cancel_text %>
+      </button>
+    </div>
+  </div>
+</div>

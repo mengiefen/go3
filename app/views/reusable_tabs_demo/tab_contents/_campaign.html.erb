@@ -1,0 +1,92 @@
+<div class="p-6 bg-white dark:bg-slate-900">
+  <div class="flex items-center space-x-3 mb-6">
+    <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+      <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+      </svg>
+    </div>
+    <div>
+      <h1 class="text-xl font-semibold text-slate-900 dark:text-white">Campaign: <%= params[:content_name] || content_id %></h1>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Marketing campaign overview and analytics</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+      <h3 class="font-medium text-slate-900 dark:text-white mb-2">Impressions</h3>
+      <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">1.2M</div>
+      <p class="text-xs text-slate-500 dark:text-slate-400">+12% from last week</p>
+    </div>
+    
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+      <h3 class="font-medium text-slate-900 dark:text-white mb-2">Clicks</h3>
+      <div class="text-2xl font-bold text-green-600 dark:text-green-400">24.8K</div>
+      <p class="text-xs text-slate-500 dark:text-slate-400">+8% from last week</p>
+    </div>
+    
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+      <h3 class="font-medium text-slate-900 dark:text-white mb-2">CTR</h3>
+      <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">2.1%</div>
+      <p class="text-xs text-slate-500 dark:text-slate-400">-0.3% from last week</p>
+    </div>
+    
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+      <h3 class="font-medium text-slate-900 dark:text-white mb-2">Conversions</h3>
+      <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">1.2K</div>
+      <p class="text-xs text-slate-500 dark:text-slate-400">+15% from last week</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+      <h3 class="font-medium text-slate-900 dark:text-white mb-4">Campaign Timeline</h3>
+      <div class="space-y-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+          <div class="flex-1">
+            <div class="text-sm font-medium text-slate-900 dark:text-white">Campaign launched</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">January 15, 2025</div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+          <div class="flex-1">
+            <div class="text-sm font-medium text-slate-900 dark:text-white">Creative updated</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">January 20, 2025</div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+          <div class="flex-1">
+            <div class="text-sm font-medium text-slate-900 dark:text-white">Budget increased</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">January 25, 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+      <h3 class="font-medium text-slate-900 dark:text-white mb-4">Campaign Details</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-500 dark:text-slate-400">Status</span>
+          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+            Active
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-500 dark:text-slate-400">Budget</span>
+          <span class="text-sm font-medium text-slate-900 dark:text-white">$50,000</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-500 dark:text-slate-400">Spent</span>
+          <span class="text-sm font-medium text-slate-900 dark:text-white">$32,450</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-500 dark:text-slate-400">End Date</span>
+          <span class="text-sm font-medium text-slate-900 dark:text-white">February 15, 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-require 'devise/strategies/authenticatable'
+require "devise/strategies/authenticatable"
 
 module Devise
   module Strategies
@@ -10,7 +10,7 @@ module Devise
 
       def authenticate!
         resource = mapping.to.find_for_database_authentication(authentication_hash)
-        
+
         if resource && resource.otp_required_for_login? && validate_otp(resource)
           success!(resource)
         else
@@ -22,7 +22,7 @@ module Devise
       private
 
       def validate_otp(resource)
-        if params.dig(:user, :otp_code_attempt) == 'backup_code'
+        if params.dig(:user, :otp_code_attempt) == "backup_code"
           resource.verify_backup_code(params.dig(:user, :backup_code))
         else
           resource.verify_otp(params.dig(:user, :otp_code_attempt))
@@ -32,4 +32,4 @@ module Devise
   end
 end
 
-Warden::Strategies.add(:two_factor_authenticatable, Devise::Strategies::TwoFactorAuthenticatable) 
+Warden::Strategies.add(:two_factor_authenticatable, Devise::Strategies::TwoFactorAuthenticatable)

@@ -9,4 +9,4 @@ class ConvertToActsAsArchival < ActiveRecord::Migration[7.1]
     add_column :organizations, :archive_number, :integer
     add_index :organizations, :archived_at
   end
-end 
+end

@@ -1,0 +1,42 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/modal_component_preview/basic.html.erb %>
+<div class="p-4 space-y-4">
+  <h2 class="text-xl font-bold">Basic Modal Example</h2>
+  
+  <p class="text-gray-600">
+    This demonstrates a basic modal with a title and simple content.
+    Click the button below to open the modal.
+  </p>
+  
+  <button 
+    type="button" 
+    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+    data-action="click->modal#open"
+    data-modal-target="<%= id %>"
+  >
+    Open Basic Modal
+  </button>
+  
+  <%= render Ui::ModalComponent.new(
+    id: id, 
+    title: title,
+    size: size
+  ) do %>
+    <p>This is a basic modal with just some simple content.</p>
+    <p class="mt-4">Modals are useful for focusing the user's attention on a specific task or piece of content.</p>
+  <% end %>
+</div>
+
+<script>
+  // Helper script to make the demo work
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-modal-target]').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const modalId = button.getAttribute('data-modal-target');
+        const modal = document.getElementById(modalId);
+        if (modal && modal.querySelector('[data-controller="modal"]')) {
+          modal.querySelector('[data-controller="modal"]').controller.open();
+        }
+      });
+    });
+  });
+</script>

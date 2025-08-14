@@ -8,7 +8,7 @@ class CreateDepartments < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :departments, :name, using: :gin
   end
 end

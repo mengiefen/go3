@@ -5,9 +5,9 @@ FactoryBot.define do
 
     start_date { Time.current }
     finish_date { nil }
-    
+
     trait :inactive do
       finish_date { 1.day.ago }
     end
   end
-end 
+end

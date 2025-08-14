@@ -1,0 +1,17 @@
+<div class="<%= panel_classes %>" 
+     style="<%= initial_style %>"
+     <%= tag.attributes(controller_attributes) %>
+     data-<%= controller_name %>-target="panel">
+  
+  <!-- Content -->
+  <div class="w-full h-full overflow-auto">
+    <%= content %>
+  </div>
+  
+  <!-- Resize Handle -->
+  <div class="<%= handle_base_classes %> <%= handle_position_classes %> <%= handle_classes %>"
+       data-<%= controller_name %>-target="handle"
+       data-action="mousedown-><%= controller_name %>#startResize">
+    <div class="<%= handle_indicator_classes %>"></div>
+  </div>
+</div>

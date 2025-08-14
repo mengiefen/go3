@@ -1,14 +1,14 @@
 class Organization < ApplicationRecord
   # Use acts_as_archival for soft delete
   acts_as_archival
-  
+
   # Callbacks for archiving
   before_archive :archive_children
   after_unarchive :handle_unarchive
-  
+
   # Remove default_scope and use explicit scopes for better control
   scope :active, -> { unarchived }
-  
+
   # Will enable PaperTrail later
   has_paper_trail
 
@@ -25,12 +25,14 @@ class Organization < ApplicationRecord
   before_validation :initialize_name
 
   # Associations
-  belongs_to :parent, class_name: 'Organization', optional: true
-  has_many :children, class_name: 'Organization', foreign_key: 'parent_id', dependent: :nullify
+  belongs_to :parent, class_name: "Organization", optional: true
+  has_many :children, class_name: "Organization", foreign_key: "parent_id", dependent: :nullify
   has_many :departments, dependent: :nullify
   has_many :groups, dependent: :nullify
   has_many :roles, dependent: :nullify
   has_many :members, dependent: :destroy
+  has_many :users, through: :members
+  has_many :tasks, dependent: :destroy
 
   # Validations
   validate :no_circular_references
@@ -39,15 +41,25 @@ class Organization < ApplicationRecord
 
   # Methods
   def ancestors
-    chain = [self]
+    chain = [ self ]
     current = self
-    
+
     while current.parent.present?
       current = current.parent
       chain << current
     end
-    
+
     chain
+  end
+
+  TRIAL_DAYS = 15
+
+  def trial_end_date
+    created_at + TRIAL_DAYS.days
+  end
+
+  def trial_active?
+    trial_end_date > Date.current
   end
 
   private
@@ -60,7 +72,7 @@ class Organization < ApplicationRecord
     # groups.each(&:archive)
     # roles.each(&:archive)
   end
-  
+
   def handle_unarchive
     # You might want to implement logic to unarchive related records here
     # For now, we'll leave it up to the admin to manually restore related records
@@ -70,7 +82,7 @@ class Organization < ApplicationRecord
   def initialize_name
     write_attribute(:name, {}) if read_attribute(:name).nil?
   end
-  
+
   def name_has_at_least_one_translation
     return if Mobility.available_locales.any? { |loc| name(locale: loc).present? }
     errors.add(:name, "must contain at least one translation")
@@ -78,7 +90,7 @@ class Organization < ApplicationRecord
 
   def no_circular_references
     return unless parent_id_changed? && parent_id.present?
-    
+
     current_parent = parent
     while current_parent.present?
       if current_parent.id == id

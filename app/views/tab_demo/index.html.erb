@@ -1,0 +1,291 @@
+<div class="h-screen flex flex-col bg-slate-50 dark:bg-slate-900" data-controller="vscode-tabs">
+  <!-- Fixed Header -->
+  <header class="fixed top-0 left-0 right-0 h-12 bg-white dark:bg-slate-800 text-slate-900 dark:text-white z-50 flex items-center px-4 shadow-lg border-b border-slate-200 dark:border-slate-700">
+    <div class="flex items-center space-x-4">
+      <!-- Logo/Brand -->
+      <div class="flex items-center">
+        <%= image_tag "logo.png", alt: "GO3 Platform", class: "h-8 w-auto" %>
+      </div>
+    </div>
+    
+    <!-- Center section - could be used for breadcrumbs or current context -->
+    <div class="flex-1 flex items-center justify-center">
+      <span class="text-xs text-slate-500 dark:text-slate-400">Workspace</span>
+    </div>
+    
+    <!-- Right section - user info and actions -->
+    <div class="flex items-center space-x-3">
+      <!-- Settings -->
+      <button class="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Settings">
+        <svg class="w-4 h-4 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+      </button>
+      
+      <!-- Notifications -->
+      <button class="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors relative" title="Notifications">
+        <svg class="w-4 h-4 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+        </svg>
+        <span class="absolute top-0 right-0 block h-2 w-2 bg-blue-500 rounded-full"></span>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="flex items-center space-x-2 pl-3 border-l border-slate-300 dark:border-slate-700">
+        <div class="w-7 h-7 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-xs font-medium text-white">
+          U
+        </div>
+        <span class="text-sm text-slate-700 dark:text-slate-300">User</span>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main content area with top padding for fixed header -->
+  <div class="flex flex-1 pt-12 bg-slate-50 dark:bg-slate-900">
+    <!-- Primary Icon Sidebar -->
+    <%= render(IconSidebarComponent.new) %>
+  
+  <!-- Secondary Sidebar -->
+  <%= turbo_frame_tag "secondary-sidebar" do %>
+    <%= render(SecondarySidebarComponent.new(sidebar_type: 'organizations')) %>
+  <% end %>
+  
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col bg-white dark:bg-slate-900 shadow-xl">
+    <!-- Tab Bar -->
+    <div class="relative h-14 bg-slate-50 tab-bar-container">
+      <div class="flex items-center h-full w-full">
+        <div class="flex-1 min-w-0 overflow-hidden">
+          <div class="flex items-center overflow-x-auto tab-bar-scroll scrollbar-hide h-full" data-vscode-tabs-target="tabBar">
+            <!-- Tabs will be added here dynamically -->
+            <div class="flex items-center h-full px-4 text-slate-500 dark:text-slate-400 text-sm font-medium whitespace-nowrap" data-vscode-tabs-target="noTabsIndicator">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              No tabs open
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tab Actions -->
+        <div class="flex items-center px-3 space-x-2 bg-slate-50 dark:bg-slate-800 flex-shrink-0" data-vscode-tabs-target="tabActions" style="display: none;">
+          <div class="w-px h-6 bg-slate-300 dark:bg-slate-600 mr-2"></div>
+          <div class="relative inline-block text-left" 
+               data-controller="dropdown"
+               data-dropdown-active-class="block"
+               data-dropdown-inactive-class="hidden"
+               data-action="click@window->dropdown#hide">
+            
+            <button class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors group flex items-center" 
+                    title="Tab Actions"
+                    data-action="click->dropdown#toggle"
+                    data-dropdown-target="button"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              <svg class="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200" fill="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="2"></circle>
+                <circle cx="12" cy="5" r="2"></circle>
+                <circle cx="12" cy="19" r="2"></circle>
+              </svg>
+            </button>
+            
+            <div class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black dark:ring-white ring-opacity-5 dark:ring-opacity-10 focus:outline-none z-50"
+                 data-dropdown-target="menu"
+                 role="menu">
+              <div class="py-1" role="none">
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click->vscode-tabs#closeActiveTab"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                  <span>Close Active Tab</span>
+                </button>
+                
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click->vscode-tabs#closeAllTabs"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2m14 0V5a2 2 0 00-2-2M5 7V5a2 2 0 012-2m0 0h10a2 2 0 012 2v2"></path>
+                  </svg>
+                  <span>Close All Tabs</span>
+                </button>
+                
+                <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click->vscode-tabs#closeOtherTabs"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                  </svg>
+                  <span>Close Other Tabs</span>
+                </button>
+                
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click->vscode-tabs#closeTabsToRight"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                  </svg>
+                  <span>Close Tabs to the Right</span>
+                </button>
+                
+                <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                
+                <button class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        data-action="click->dropdown#select click->vscode-tabs#toggleIcons"
+                        data-dropdown-target="item"
+                        role="menuitem">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                  </svg>
+                  <span>Toggle Tab Icons</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Content Areas Container -->
+    <div class="flex-1 overflow-auto relative" 
+         id="tab-content-areas"
+         data-vscode-tabs-target="contentAreas">
+      
+      <!-- Welcome message when no tabs are open -->
+      <div id="welcome-message" class="absolute inset-0 flex items-center justify-center">
+        <div class="text-center max-w-md">
+          <div class="mx-auto w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-6 shadow-lg">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+          </div>
+          <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">Welcome to Tab Demo</h2>
+          <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+            Select an item from the sidebar to open a new tab and start exploring your workspace.
+          </p>
+          <div class="mt-6 flex items-center justify-center space-x-4 text-sm text-slate-500 dark:text-slate-400">
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+              Click sidebar icons
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+              Select items
+            </div>
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+              Open tabs
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Individual tab content containers will be dynamically added here -->
+    </div>
+  </div>
+  </div>
+</div>
+
+<style>
+  /* Ensure tab items have relative positioning */
+  .tab-item {
+    position: relative;
+  }
+  
+  /* Tab loading animation - Chrome style */
+  .tab-loading .tab-icon {
+    position: relative;
+  }
+  
+  .tab-loading .tab-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid #e2e8f0;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: tab-loading-spin 0.8s linear infinite;
+  }
+  
+  /* Dark mode loading spinner */
+  @media (prefers-color-scheme: dark) {
+    .tab-loading .tab-icon::after {
+      border-color: #475569;
+      border-top-color: #60a5fa;
+    }
+  }
+  
+  .tab-loading .tab-icon svg {
+    opacity: 0;
+  }
+  
+  @keyframes tab-loading-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Content loading overlay */
+  .content-loading {
+    position: relative;
+  }
+  
+  .content-loading::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(241, 245, 249, 0.8);
+    z-index: 10;
+  }
+  
+  /* Dark mode content loading overlay */
+  @media (prefers-color-scheme: dark) {
+    .content-loading::before {
+      background: rgba(15, 23, 42, 0.8);
+    }
+  }
+  
+  .content-loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    border: 3px solid #cbd5e1;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: content-spin 0.8s linear infinite;
+    z-index: 11;
+  }
+  
+  /* Dark mode content spinner */
+  @media (prefers-color-scheme: dark) {
+    .content-loading::after {
+      border-color: #475569;
+      border-top-color: #60a5fa;
+    }
+  }
+  
+  @keyframes content-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

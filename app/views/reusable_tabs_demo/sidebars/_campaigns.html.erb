@@ -1,0 +1,26 @@
+<%= render NavigationSidebar::Component.new(
+  navigation_type: :campaigns,
+  title: "CAMPAIGNS",
+  search_enabled: false,
+  collapsible: true,
+  categories: [
+    {
+      name: 'Active Campaigns',
+      icon: 'megaphone',
+      collapsed: false,
+      items: [
+        { id: 'camp-1', name: 'Summer Sale', type: 'campaign', badge: 'live' },
+        { id: 'camp-2', name: 'Product Launch', type: 'campaign', badge: nil }
+      ]
+    },
+    {
+      name: 'Draft Campaigns',
+      icon: 'folder',
+      collapsed: true,
+      items: [
+        { id: 'draft-1', name: 'Holiday Campaign', type: 'campaign', badge: 'draft' },
+        { id: 'draft-2', name: 'Brand Awareness', type: 'campaign', badge: 'draft' }
+      ]
+    }
+  ]
+) %>

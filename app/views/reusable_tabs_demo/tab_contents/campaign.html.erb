@@ -1,0 +1,66 @@
+<%= turbo_frame_tag frame_id do %>
+  <div class="p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6 text-white">
+          <h1 class="text-2xl font-bold">Campaign: <%= content_name || content_id %></h1>
+          <p class="text-orange-100 mt-2">Marketing campaign performance and analytics</p>
+        </div>
+        
+        <div class="p-6 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Impressions</h3>
+              <p class="text-2xl font-bold text-orange-600 dark:text-orange-400">45.2K</p>
+              <p class="text-xs text-green-600 dark:text-green-400">+12% from last week</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Clicks</h3>
+              <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">2.8K</p>
+              <p class="text-xs text-green-600 dark:text-green-400">+8% from last week</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">CTR</h3>
+              <p class="text-2xl font-bold text-green-600 dark:text-green-400">6.2%</p>
+              <p class="text-xs text-green-600 dark:text-green-400">+0.5% from last week</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Conversions</h3>
+              <p class="text-2xl font-bold text-purple-600 dark:text-purple-400">142</p>
+              <p class="text-xs text-green-600 dark:text-green-400">+18% from last week</p>
+            </div>
+          </div>
+          
+          <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Campaign Status</h3>
+            <div class="flex items-center space-x-4">
+              <span class="inline-block px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded-full">Active</span>
+              <span class="text-slate-600 dark:text-slate-400">Running until Dec 31, 2024</span>
+            </div>
+          </div>
+          
+          <div class="border-t border-slate-200 dark:border-slate-600 pt-6">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Recent Performance</h3>
+            <div class="space-y-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span class="text-slate-600 dark:text-slate-300">Daily goal achieved - 150% of target conversions</span>
+                <span class="text-sm text-slate-400">Today</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                <span class="text-slate-600 dark:text-slate-300">Ad creative B performing 20% better than A</span>
+                <span class="text-sm text-slate-400">Yesterday</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                <span class="text-slate-600 dark:text-slate-300">Budget increased to $500/day</span>
+                <span class="text-sm text-slate-400">2 days ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

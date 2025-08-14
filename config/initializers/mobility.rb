@@ -13,4 +13,4 @@ end
 
 # Configure I18n fallbacks
 require "i18n/backend/fallbacks"
-I18n.fallbacks.map(fr: :en) 
+I18n.fallbacks.map(fr: :en)

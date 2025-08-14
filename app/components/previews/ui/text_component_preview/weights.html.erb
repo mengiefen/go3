@@ -1,0 +1,69 @@
+<%# filepath: /home/baloz/uV/side-projects/Collab/go3/spec/components/previews/ui/text_component_preview/weights.html.erb %>
+<div class="p-4 space-y-6">
+  <h2 class="text-xl font-bold">Text Weights</h2>
+  
+  <div class="space-y-4">
+    <div>
+      <p class="text-sm font-medium mb-1">Thin</p>
+      <%= render(Ui::TextComponent.new(weight: :thin)) do %>
+        This text uses the thin font weight (100).
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Extra Light</p>
+      <%= render(Ui::TextComponent.new(weight: :extralight)) do %>
+        This text uses the extra light font weight (200).
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Light</p>
+      <%= render(Ui::TextComponent.new(weight: :light)) do %>
+        This text uses the light font weight (300).
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Normal</p>
+      <%= render(Ui::TextComponent.new(weight: :normal)) do %>
+        This text uses the normal font weight (400). This is the default.
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Medium</p>
+      <%= render(Ui::TextComponent.new(weight: :medium)) do %>
+        This text uses the medium font weight (500).
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Semi Bold</p>
+      <%= render(Ui::TextComponent.new(weight: :semibold)) do %>
+        This text uses the semi-bold font weight (600).
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Bold</p>
+      <%= render(Ui::TextComponent.new(weight: :bold)) do %>
+        This text uses the bold font weight (700).
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Extra Bold</p>
+      <%= render(Ui::TextComponent.new(weight: :extrabold)) do %>
+        This text uses the extra bold font weight (800).
+      <% end %>
+    </div>
+    
+    <div>
+      <p class="text-sm font-medium mb-1">Black</p>
+      <%= render(Ui::TextComponent.new(weight: :black)) do %>
+        This text uses the black font weight (900).
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,31 +1,216 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  common:
+    logo_alt: "GO3 Logo"
+    company_name: "GO3"
+    all_rights_reserved: "All rights reserved"
+    best_regards: "Best regards"
+    company_team: "GO3 Team"
+  sign_up:
+    title: "Create an account"
+    first_name: "First Name"
+    last_name: "Last Name"
+    email: "Email"
+    language: "Language"
+    password: "Password"
+    password_confirmation: "Password Confirmation"
+    submit: "Sign Up"
+    or_continue_with: "Or continue with"
+    already_have_account: "Already have an account?"
+    sign_in: "Sign In"
+    minimum_password_length: "6 characters minimum"
+  email_confirmation:
+    title: "Thank You for Signing Up"
+    message: "Thank you for creating an account with us. We're excited to have you on board! To get started, please confirm your email address by clicking the link we've sent to %{email}. If you don't see the email, please click the button below to resend the confirmation email."
+    message_html: "Thank you for creating an account with us. We're excited to have you on board! To get started, please confirm your email address by clicking the link we've sent to %{email}. If you don't see the email, please click the button below to resend the confirmation email."
+    resend_button: "Resend Confirmation Email"
+    sign_up_again: "Sign Up with Different Email"
+    check_spam: "Check Spam Folder"
+    confirmation_sent: "Confirmation email has been sent"
+    resend_success: "Confirmation email has been resent"
+    resend_error: "Unable to resend confirmation email"
+  onboarding:
+    title: "Welcome to GO3! Let's Get Started"
+    subtitle: "Create your first organization to begin your journey with us"
+    organization_name_label: "What's your organization's name?"
+    organization_name_placeholder: "Enter your organization name"
+    submit_button: "Create Organization"
+    random_name_button: "Generate Random Name"
+    description: "Your organization is where you'll manage your team, projects, and resources. You can always change this later."
+    success_message: "Organization created successfully! Welcome aboard!"
+    error_message: "There was an error creating your organization. Please try again."
+  devise:
+    confirmations:
+      confirmed: "Your email address has been successfully confirmed."
+      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+    failure:
+      already_authenticated: "You are already signed in."
+      inactive: "Your account is not activated yet."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "Invalid %{authentication_keys} or password."
+      timeout: "Your session expired. Please sign in again to continue."
+      unauthenticated: "You need to sign in or sign up before continuing."
+      unconfirmed: "You have to confirm your email address before continuing."
+    mailer:
+      confirmation_instructions:
+        subject: "Confirm your email address"
+        welcome: "Welcome to GO3!"
+        hello: "Hello %{email}!"
+        confirm_link: "Thank you for signing up! To complete your registration and access your account, please confirm your email address by clicking the button below."
+        confirm_button: "Confirm my email address"
+        expiry_notice: "This confirmation link will expire in 24 hours. If you did not create an account, please ignore this email."
+        ignore_notice: "If you did not request this email, please ignore it. Your account will not be created until you confirm your email address."
+      reset_password_instructions:
+        subject: "Reset password instructions"
+      unlock_instructions:
+        subject: "Unlock instructions"
+      email_changed:
+        subject: "Email Changed"
+      password_change:
+        subject: "Password Changed"
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
+    passwords:
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password has been changed successfully. You are now signed in."
+      updated_not_active: "Your password has been changed successfully."
+    registrations:
+      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address."
+      updated: "Your account has been updated successfully."
+      updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again."
+    sessions:
+      signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully."
+      already_signed_out: "Signed out successfully."
+    unlocks:
+      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"
+  flash:
+    actions:
+      create:
+        success: "Successfully created"
+        error: "Error occurred while creating"
+      update:
+        success: "Successfully updated"
+        error: "Error occurred while updating"
+      destroy:
+        success: "Successfully deleted"
+        error: "Error occurred while deleting"
+    errors:
+      not_authorized: "You are not authorized to perform this action"
+      not_found: "Resource not found"
+      invalid: "Invalid data"
+      server_error: "Server error occurred"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "You're invited to join %{organization_name}"
+        template:
+          join: "Join %{organization_name}"
+          hello: Hello,
+          accept_invitation: 
+          invitation: You've been invited to join <strong>%{organization_name}</strong>.
+          instruction: "Click the link below to sign up and accept your invitation:"
+          accept_invitation: Accept Invitation
+          copy_link: "Or copy and paste this URL into your browser:"
+          already_a_member: If you already have an account, please log in first.
+  models:
+    member:
+      status:
+        joined: joined
+        invited: invited
+        not_invited: not invited
+        archived: archived
+  views:
+    members:
+      index:
+        list_of_members: List of members
+        search_placeholder: Search members by name or email ...
+        add_a_new_member: Add a new member
+        export_to_excel: Export to Excel
+        name: Name
+        email: Email
+        status: Status
+        edit_member: Edit member
+        set_as_admin: Set as admin
+        revoke_admin_permission: Revoke admin permission
+        resend_invitation: Resend invitation
+        archive: Archive
+        unarchive: Unarchive
+      new: 
+        create_a_new_member: Create a new member
+        full_name: Full name
+        email: Email (for invitation)
+        initials: Initials
+        color: Color
+        cancel: Cancel
+        submit: Create
+        submit_and_invite: Create and Invite
+      edit: 
+        edit_member: Edit member
+        full_name: Full name
+        email: Email (for invitation)
+        initials: Initials
+        color: Color
+        cancel: Cancel
+        submit: Update
+        submit_and_invite: Update and Invite
+      export: 
+        name: Name
+        email: Email
+        status: Status
+        admin: Admin
+        created_at: Created At
+    departments:
+      index:
+        list_of_departments: List of departments
+        search_placeholder: Search departments by name or description ...
+        add_a_new_department: Add a new department
+        export_to_excel: Export to Excel
+        name: Name
+        abbreviation: Abbreviation
+        description: Description
+        members: Members
+        edit_department: Edit department
+        delete_department: Delete department
+      new: 
+        create_a_new_department: Create a new department
+        department_name: Department Name
+        abbreviation: Abbreviation
+        description: Description
+        cancel: Cancel
+        submit: Create
+      edit: 
+        edit_department: Edit department
+        department_name: Department Name
+        abbreviation: Abbreviation
+        description: Description
+        cancel: Cancel
+        submit: Update
+      export: 
+        name: Name
+        abbreviation: Abbreviation
+        description: Description
+        members_count: Members Count
+        created_at: Created At

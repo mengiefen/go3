@@ -1,0 +1,147 @@
+<%= PageLayout do |c| %>
+  <% c.header do %>
+    <div class="p-4 flex items-center justify-between">
+      <h1 class="text-xl font-bold">GO3 Dashboard</h1>
+      <div class="flex items-center space-x-4">
+        <%= SearchInput(placeholder: "Search...") %>
+        <button class="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+        <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+          JS
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% c.side_panel do %>
+    <div class="p-4">
+      <nav class="space-y-1">
+        <a href="#" class="block px-3 py-2 rounded-md bg-blue-50 text-blue-700 font-medium">
+          Dashboard
+        </a>
+        <a href="#" class="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50 font-medium">
+          Organizations
+        </a>
+        <a href="#" class="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50 font-medium">
+          Users
+        </a>
+        <a href="#" class="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50 font-medium">
+          Settings
+        </a>
+      </nav>
+    </div>
+  <% end %>
+  <% c.main_content do %>
+    <div class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <%= Card(title: "Organizations") do |c| %>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-3xl font-bold">24</span>
+              <span class="text-sm text-green-600">↑ 8% from last month</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="bg-blue-500 h-2 rounded-full" style="width: 75%"></div>
+            </div>
+            <p class="text-sm text-gray-500">75% of your organization quota used</p>
+          </div>
+          <% c.footer_actions do %>
+            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View all organizations →</a>
+          <% end %>
+        <% end %>
+        <%= Card(title: "Active Users") do |c| %>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-3xl font-bold">1,342</span>
+              <span class="text-sm text-green-600">↑ 12% from last month</span>
+            </div>
+            <div class="flex -space-x-2 overflow-hidden">
+              <% 5.times do |i| %>
+                <div class="h-8 w-8 rounded-full border-2 border-white bg-gray-<%= 300 + i*100 %> flex items-center justify-center text-xs text-white">
+                  U<%= i+1 %>
+                </div>
+              <% end %>
+              <div class="h-8 w-8 rounded-full border-2 border-white bg-gray-800 flex items-center justify-center text-xs text-white">
+                +10
+              </div>
+            </div>
+          </div>
+          <% c.footer_actions do %>
+            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View all users →</a>
+          <% end %>
+        <% end %>
+        <%= Card(title: "System Status", variant: :highlighted) do %>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium">API</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Operational</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium">Web App</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Operational</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium">Database</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Operational</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium">Background Jobs</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Degraded</span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <%= Card(title: "Recent Activity") do |c| %>
+        <% c.header_actions do %>
+          <div class="flex items-center">
+            <select class="text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+              <option>Today</option>
+              <option>Yesterday</option>
+              <option selected>Last 7 days</option>
+              <option>Last 30 days</option>
+            </select>
+          </div>
+        <% end %>
+        <div class="flow-root">
+          <ul class="-mb-8">
+            <% 5.times do |i| %>
+              <li>
+                <div class="relative pb-8">
+                  <% if i < 4 %>
+                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                  <% end %>
+                  <div class="relative flex space-x-3">
+                    <div>
+                      <span class="h-8 w-8 rounded-full bg-<%= ['blue', 'green', 'red', 'yellow', 'indigo'][i] %>-100 flex items-center justify-center ring-8 ring-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-<%= ['blue', 'green', 'red', 'yellow', 'indigo'][i] %>-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= ['M12 6v6m0 0v6m0-6h6m-6 0H6', 'M9 12l2 2 4-4', 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16', 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z', 'M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207'][i] %>" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                      <div>
+                        <p class="text-sm text-gray-800">
+                          <%= ['New organization created', 'User account approved', 'Organization subscription canceled', 'System alert: High CPU usage', 'New support ticket opened'][i] %>
+                        </p>
+                          </div>
+                          <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                            <time><%= i == 0 ? '2 hours ago' : (i == 1 ? 'Yesterday' : "#{i+1} days ago") %></time>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+            <% c.footer_actions do %>
+              <div class="flex justify-end">
+                <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View all activity →</a>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>

@@ -43,4 +43,4 @@ class RoleAssignment < ApplicationRecord
       errors.add(:role_id, "Role already assigned to this member")
     end
   end
-end 
+end

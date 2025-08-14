@@ -1,0 +1,80 @@
+<div class="flex h-screen flex-col w-screen <%= @rtl ? 'rtl' : 'ltr' %>" 
+     data-controller="collapsible-panel"
+     data-collapsible-panel-mobile-breakpoint-value="768">
+  <!-- Header - Fixed in desktop, scroll with content in mobile -->
+  <header class="border-b border-gray-200 z-40 bg-white print:hidden
+                md:sticky md:top-0 shadow-sm">
+    <div class="flex items-center justify-between p-4">
+      <!-- Toggle button for mobile view -->
+      <button data-action="collapsible-panel#toggle" 
+              data-collapsible-panel-target="toggle"
+              class="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              aria-label="Toggle navigation menu">
+        <i class="fas fa-bars" data-collapsible-panel-target="icon"></i>
+      </button>
+      
+      <!-- Header content -->
+      <div class="flex-1 <%= @rtl ? 'mr-4' : 'ml-4' %> md:m-0">
+        <%= header %>
+      </div>
+    </div>
+  </header>
+  
+  <div class="flex flex-1 overflow-hidden <%= @rtl ? 'flex-row-reverse' : '' %>" data-controller="tabs">
+    <% if @show_side_panel %>
+      <!-- Side Panel with collapsible and resizable functionality -->
+      <aside data-controller="resizable-panel"
+             data-resizable-panel-min-width-value="<%= @min_side_panel_width %>"
+             data-resizable-panel-max-width-value="<%= @max_side_panel_width %>"
+             data-resizable-panel-rtl-value="<%= @rtl %>"
+             data-collapsible-panel-target="panel"
+             class="transition-all duration-200 ease-in-out <%= @rtl ? 'border-l' : 'border-r' %> border-gray-200 bg-white shadow-sm relative flex flex-col w-72">
+        
+        <!-- Side Panel Header with Toggle Button -->
+        <div class="py-3 px-1 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10 min-h-[3rem]">
+          <% if !@rtl %>
+            <h3 class="font-medium text-gray-700 truncate flex-1 text-center ml-1 collapse-when-narrow">Navigation</h3>
+            <!-- Toggle button inside the panel -->
+            <button data-action="collapsible-panel#toggle"
+                    class="p-2 rounded-md hover:bg-gray-100 focus:outline-none cursor-pointer"
+                    aria-label="Toggle panel">
+              <i class="fas fa-chevron-left text-gray-500" data-collapsible-panel-target="icon"></i>
+            </button>
+          <% else %>
+            <!-- Toggle button inside the panel (RTL) -->
+            <button data-action="collapsible-panel#toggle"
+                    class="p-2 rounded-md hover:bg-gray-100 focus:outline-none cursor-pointer"
+                    aria-label="Toggle panel">
+              <i class="fas fa-chevron-right text-gray-500" data-collapsible-panel-target="icon"></i>
+            </button>
+            <h3 class="font-medium text-gray-700 truncate flex-1 text-center mr-1 collapse-when-narrow">Navigation</h3>
+          <% end %>
+        </div>
+        
+        <!-- Side Panel Content -->
+        <div class="overflow-y-auto flex-1 collapse-when-narrow p-4">
+          <%= side_panel %>
+        </div>
+      </aside>
+    <% end %>
+    
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto bg-white">
+    <!-- Tab Navigation -->
+      <div class="tab-navigation bg-gray-100 border-b" id="tab-navigation" data-tabs-target="navigation" style="display: block;">
+        <ul class="flex list-none m-0 p-0" id="tab-list" data-tabs-target="tabList">
+
+        </ul>
+      </div>
+
+      <!-- Tab Content Container -->
+      <div class="tab-content-container" data-tabs-target="contentContainer">
+        <turbo-frame id="main_panel">
+          <%= main_content %>
+        </turbo-frame>
+        <!-- Additional tab content frames will be added here dynamically -->
+      </div>
+      
+    </main>
+  </div>
+</div>

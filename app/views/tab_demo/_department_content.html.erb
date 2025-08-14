@@ -1,0 +1,78 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Department Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-6">
+    <div class="flex items-start justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900 mb-2"><%= name %></h1>
+        <div class="flex items-center space-x-4 text-sm text-slate-600">
+          <div class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            Department
+          </div>
+          <span>•</span>
+          <div>ID: <%= department_id %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Department Stats -->
+    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-4">Department Statistics</h2>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">Team Members</span>
+          <span class="text-lg font-semibold text-slate-900">24</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">Active Projects</span>
+          <span class="text-lg font-semibold text-slate-900">7</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">Completed Tasks</span>
+          <span class="text-lg font-semibold text-slate-900">142</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-600">Department Budget</span>
+          <span class="text-lg font-semibold text-slate-900">$450K</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Department Head -->
+    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-4">Department Head</h2>
+      <div class="flex items-center">
+        <div class="w-16 h-16 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-full flex items-center justify-center text-white text-xl font-bold mr-4">
+          JD
+        </div>
+        <div>
+          <h3 class="font-semibold text-slate-900">John Doe</h3>
+          <p class="text-sm text-slate-600">Director of <%= name %></p>
+          <p class="text-sm text-slate-500 mt-1">john.doe@example.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team Members -->
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mt-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-4">Team Members</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% ['Alice Johnson', 'Bob Smith', 'Carol Williams', 'David Brown', 'Emma Davis', 'Frank Wilson'].each do |member| %>
+        <div class="flex items-center p-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+          <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-slate-600 text-sm font-medium mr-3">
+            <%= member.split.map(&:first).join %>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-slate-900"><%= member %></p>
+            <p class="text-xs text-slate-500">Team Member</p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

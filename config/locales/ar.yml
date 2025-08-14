@@ -1,0 +1,216 @@
+ar:
+  common:
+    logo_alt: "شعار GO3"
+    company_name: "GO3"
+    all_rights_reserved: "جميع الحقوق محفوظة"
+    best_regards: "مع أطيب التحيات"
+    company_team: "فريق GO3"
+  sign_up:
+    title: "إنشاء حساب"
+    first_name: "الاسم الأول"
+    last_name: "الاسم الأخير"
+    email: "البريد الإلكتروني"
+    language: "اللغة"
+    password: "كلمة المرور"
+    password_confirmation: "تأكيد كلمة المرور"
+    submit: "تسجيل"
+    or_continue_with: "أو المتابعة باستخدام"
+    already_have_account: "هل لديك حساب بالفعل؟"
+    sign_in: "تسجيل الدخول"
+    minimum_password_length: "الحد الأدنى 6 أحرف"
+  email_confirmation:
+    title: "شكراً لتسجيلك معنا"
+    message: "شكراً لإنشاء حساب معنا. يسعدنا انضمامك إلينا! للبدء، يرجى تأكيد عنوان بريدك الإلكتروني بالنقر على الرابط الذي أرسلناه إلى %{email}. إذا لم تجد البريد الإلكتروني، يرجى النقر على الزر أدناه لإعادة إرسال بريد التأكيد."
+    message_html: "شكراً لإنشاء حساب معنا. يسعدنا انضمامك إلينا! للبدء، يرجى تأكيد عنوان بريدك الإلكتروني بالنقر على الرابط الذي أرسلناه إلى %{email}. إذا لم تجد البريد الإلكتروني، يرجى النقر على الزر أدناه لإعادة إرسال بريد التأكيد."
+    resend_button: "إعادة إرسال بريد التأكيد"
+    sign_up_again: "التسجيل ببريد إلكتروني مختلف"
+    check_spam: "التحقق من مجلد البريد العشوائي"
+    confirmation_sent: "تم إرسال بريد التأكيد"
+    resend_success: "تم إعادة إرسال بريد التأكيد"
+    resend_error: "تعذر إعادة إرسال بريد التأكيد"
+  onboarding:
+    title: "مرحباً بك في GO3! دعنا نبدأ"
+    subtitle: "أنشئ مؤسستك الأولى لتبدأ رحلتك معنا"
+    organization_name_label: "ما هو اسم مؤسستك؟"
+    organization_name_placeholder: "أدخل اسم مؤسستك"
+    submit_button: "إنشاء المؤسسة"
+    random_name_button: "توليد اسم عشوائي"
+    description: "مؤسستك هي المكان الذي ستقوم فيه بإدارة فريقك ومشاريعك ومواردك. يمكنك تغيير هذا لاحقاً."
+    success_message: "تم إنشاء المؤسسة بنجاح! مرحباً بك!"
+    error_message: "حدث خطأ أثناء إنشاء مؤسستك. يرجى المحاولة مرة أخرى." 
+  devise:
+    confirmations:
+      confirmed: "تم تأكيد بريدك الإلكتروني بنجاح."
+      send_instructions: "ستتلقى رسالة بريد إلكتروني تحتوي على تعليمات لتأكيد بريدك الإلكتروني خلال دقائق."
+      send_paranoid_instructions: "إذا كان بريدك الإلكتروني موجوداً في قاعدة بياناتنا، ستتلقى رسالة بريد إلكتروني تحتوي على تعليمات لتأكيد بريدك الإلكتروني خلال دقائق."
+    failure:
+      already_authenticated: "أنت مسجل الدخول بالفعل."
+      inactive: "حسابك لم يتم تفعيله بعد."
+      invalid: "%{authentication_keys} أو كلمة المرور غير صحيحة."
+      locked: "تم قفل حسابك."
+      last_attempt: "لديك محاولة واحدة متبقية قبل قفل الحساب."
+      not_found_in_database: "%{authentication_keys} أو كلمة المرور غير صحيحة."
+      timeout: "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى للمتابعة."
+      unauthenticated: "يجب عليك تسجيل الدخول أو إنشاء حساب للمتابعة."
+      unconfirmed: "يجب عليك تأكيد بريدك الإلكتروني قبل المتابعة."
+    mailer:
+      confirmation_instructions:
+        subject: "تأكيد عنوان بريدك الإلكتروني"
+        welcome: "مرحباً بك في GO3!"
+        hello: "مرحباً %{email}!"
+        confirm_link: "شكراً لتسجيلك! لإكمال التسجيل والوصول إلى حسابك، يرجى تأكيد بريدك الإلكتروني بالنقر على الزر أدناه."
+        confirm_button: "تأكيد عنوان بريدي الإلكتروني"
+        expiry_notice: "ستنتهي صلاحية رابط التأكيد خلال 24 ساعة. إذا لم تقم بإنشاء حساب، يرجى تجاهل هذه الرسالة."
+        ignore_notice: "إذا لم تطلب هذه الرسالة، يرجى تجاهلها. لن يتم إنشاء حسابك حتى تؤكد بريدك الإلكتروني."
+      reset_password_instructions:
+        subject: "تعليمات إعادة تعيين كلمة المرور"
+      unlock_instructions:
+        subject: "تعليمات فتح الحساب"
+      email_changed:
+        subject: "تم تغيير البريد الإلكتروني"
+      password_change:
+        subject: "تم تغيير كلمة المرور"
+    omniauth_callbacks:
+      failure: "تعذر التحقق من هويتك من %{kind} بسبب \"%{reason}\"."
+      success: "تم التحقق من هويتك بنجاح من حساب %{kind}."
+    passwords:
+      no_token: "لا يمكنك الوصول إلى هذه الصفحة إلا من خلال رابط إعادة تعيين كلمة المرور المرسل إلى بريدك الإلكتروني. إذا أتيت من البريد الإلكتروني، يرجى التأكد من استخدام الرابط الكامل."
+      send_instructions: "ستتلقى رسالة بريد إلكتروني تحتوي على تعليمات لإعادة تعيين كلمة المرور خلال دقائق."
+      send_paranoid_instructions: "إذا كان بريدك الإلكتروني موجوداً في قاعدة بياناتنا، ستتلقى رابط استعادة كلمة المرور على بريدك الإلكتروني خلال دقائق."
+      updated: "تم تغيير كلمة المرور بنجاح. أنت الآن مسجل الدخول."
+      updated_not_active: "تم تغيير كلمة المرور بنجاح."
+    registrations:
+      destroyed: "وداعاً! تم إلغاء حسابك بنجاح. نأمل أن نراك قريباً."
+      signed_up: "مرحباً! تم التسجيل بنجاح."
+      signed_up_but_inactive: "تم التسجيل بنجاح، ولكن لم نتمكن من تسجيل دخولك لأن حسابك غير مفعل بعد."
+      signed_up_but_locked: "تم التسجيل بنجاح، ولكن لم نتمكن من تسجيل دخولك لأن حسابك مقفل."
+      signed_up_but_unconfirmed: "تم إرسال رسالة تحتوي على رابط التأكيد إلى بريدك الإلكتروني. يرجى اتباع الرابط لتفعيل حسابك."
+      update_needs_confirmation: "تم تحديث حسابك بنجاح، ولكن نحتاج لتأكيد بريدك الإلكتروني الجديد. يرجى التحقق من بريدك واتباع رابط التأكيد."
+      updated: "تم تحديث حسابك بنجاح."
+      updated_but_not_signed_in: "تم تحديث حسابك بنجاح، ولكن نظراً لتغيير كلمة المرور يجب عليك تسجيل الدخول مرة أخرى."
+    sessions:
+      signed_in: "تم تسجيل الدخول بنجاح."
+      signed_out: "تم تسجيل الخروج بنجاح."
+      already_signed_out: "تم تسجيل الخروج بنجاح."
+    unlocks:
+      send_instructions: "ستتلقى رسالة بريد إلكتروني تحتوي على تعليمات لفتح حسابك خلال دقائق."
+      send_paranoid_instructions: "إذا كان حسابك موجوداً، ستتلقى رسالة بريد إلكتروني تحتوي على تعليمات لفتحه خلال دقائق."
+      unlocked: "تم فتح حسابك بنجاح. يرجى تسجيل الدخول للمتابعة."
+  errors:
+    messages:
+      already_confirmed: "تم التأكيد مسبقاً، يرجى محاولة تسجيل الدخول"
+      confirmation_period_expired: "يجب تأكيده خلال %{period}، يرجى طلب رابط جديد"
+      expired: "انتهت صلاحيته، يرجى طلب رابط جديد"
+      not_found: "غير موجود"
+      not_locked: "لم يكن مقفلاً"
+      not_saved:
+        one: "حدث خطأ واحد منع %{resource} من الحفظ:"
+        other: "%{count} أخطاء منعت %{resource} من الحفظ:"
+  flash:
+    actions:
+      create:
+        success: "تم الإنشاء بنجاح"
+        error: "حدث خطأ أثناء الإنشاء"
+      update:
+        success: "تم التحديث بنجاح"
+        error: "حدث خطأ أثناء التحديث"
+      destroy:
+        success: "تم الحذف بنجاح"
+        error: "حدث خطأ أثناء الحذف"
+    errors:
+      not_authorized: "غير مصرح لك بالقيام بهذا الإجراء"
+      not_found: "لم يتم العثور على المورد المطلوب"
+      invalid: "البيانات غير صالحة"
+      server_error: "حدث خطأ في الخادم"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "تمت دعوتك للانضمام إلى %{organization_name}"
+        template:
+          join: "انضم إلى %{organization_name}"
+          hello: "مرحبًا"
+          accept_invitation: "قبول الدعوة"
+          invitation: "لقد تمت دعوتك للانضمام إلى <strong>%{organization_name}</strong>."
+          instruction: "انقر على الرابط أدناه للتسجيل وقبول دعوتك:"
+          accept_invitation: "قبول الدعوة"
+          copy_link: "أو انسخ هذا الرابط والصقه في متصفحك:"
+          already_a_member: "إذا كان لديك حساب بالفعل، يرجى تسجيل الدخول أولاً."
+  models:
+    member:
+      status:
+        joined: "منضم"
+        invited: "مدعو"
+        not_invited: "غير مدعو"
+        archived: "مؤرشف"
+  views:
+    members:
+      index:
+        list_of_members: قائمة الأعضاء
+        search_placeholder: ابحث عن الأعضاء بالاسم أو البريد الإلكتروني ...
+        add_a_new_member: إضافة عضو جديد
+        export_to_excel: تصدير إلى Excel
+        name: الاسم
+        email: البريد الإلكتروني
+        status: الحالة
+        edit_member: تعديل العضو
+        set_as_admin: تعيين كمسؤول
+        revoke_admin_permission: إلغاء صلاحية المسؤول
+        resend_invitation: إعادة إرسال الدعوة
+        archive: أرشفة
+        unarchive: إلغاء الأرشفة
+      new:
+        create_a_new_member: إنشاء عضو جديد
+        full_name: الاسم الكامل
+        email: البريد الإلكتروني (للدعوة)
+        initials: الأحرف الأولى
+        color: اللون
+        cancel: إلغاء
+        submit: إنشاء
+        submit_and_invite: إنشاء ودعوة
+      edit:
+        edit_member: تعديل العضو
+        full_name: الاسم الكامل
+        email: البريد الإلكتروني (للدعوة)
+        initials: الأحرف الأولى
+        color: اللون
+        cancel: إلغاء
+        submit: تحديث
+        submit_and_invite: تحديث ودعوة
+      export:
+        name: الاسم
+        email: البريد الإلكتروني
+        status: الحالة
+        admin: المسؤول
+        created_at: تاريخ الإنشاء
+    departments:
+      index:
+        list_of_departments: قائمة الأقسام
+        search_placeholder: ابحث عن الأقسام بالاسم أو الوصف ...
+        add_a_new_department: إضافة قسم جديد
+        export_to_excel: تصدير إلى Excel
+        name: الاسم
+        abbreviation: الاختصار
+        description: الوصف
+        members: الأعضاء
+        edit_department: تعديل القسم
+        delete_department: حذف القسم
+      new: 
+        create_a_new_department: إنشاء قسم جديد
+        department_name: اسم القسم
+        abbreviation: الاختصار
+        description: الوصف
+        cancel: إلغاء
+        submit: إنشاء
+      edit: 
+        edit_department: تعديل القسم
+        department_name: اسم القسم
+        abbreviation: الاختصار
+        description: الوصف
+        cancel: إلغاء
+        submit: تحديث
+      export: 
+        name: الاسم
+        abbreviation: الاختصار
+        description: الوصف
+        members_count: عدد الأعضاء
+        created_at: تاريخ الإنشاء

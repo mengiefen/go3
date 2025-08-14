@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_19_122431) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "conversation_participants", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "joined_at", null: false
+    t.boolean "include_past_messages", default: false
+    t.datetime "left_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id", "user_id"], name: "index_conversation_participants_on_conversation_id_and_user_id", unique: true
+    t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
+    t.index ["user_id"], name: "index_conversation_participants_on_user_id"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.boolean "is_group", default: false, null: false
+    t.string "name"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_conversations_on_organization_id"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -75,13 +97,43 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
     t.jsonb "name"
     t.bigint "organization_id", null: false
     t.bigint "user_id"
-    t.string "status"
+    t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "invited_at"
+    t.string "invitation_key"
+    t.datetime "joined_at"
+    t.string "archive_number"
+    t.datetime "archived_at"
+    t.string "initial"
+    t.string "color"
     t.index ["email"], name: "index_members_on_email"
     t.index ["name"], name: "index_members_on_name", using: :gin
     t.index ["organization_id"], name: "index_members_on_organization_id"
     t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "message_receipts", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_message_receipts_on_message_id"
+    t.index ["user_id"], name: "index_message_receipts_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.string "sender_type", null: false
+    t.bigint "sender_id", null: false
+    t.text "body"
+    t.bigint "reply_to_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["reply_to_id"], name: "index_messages_on_reply_to_id"
+    t.index ["sender_type", "sender_id"], name: "index_messages_on_sender"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -94,6 +146,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
     t.boolean "is_trial", default: false
     t.datetime "archived_at"
     t.integer "archive_number"
+    t.string "language", default: "en", null: false
     t.index ["archived_at"], name: "index_organizations_on_archived_at"
     t.index ["name"], name: "index_organizations_on_name", using: :gin
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
@@ -142,6 +195,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
     t.index ["parent_id"], name: "index_roles_on_parent_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.string "status", default: "pending"
+    t.string "priority", default: "medium"
+    t.string "category", default: "general"
+    t.datetime "due_date"
+    t.datetime "completed_at"
+    t.bigint "user_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_tasks_on_category"
+    t.index ["due_date"], name: "index_tasks_on_due_date"
+    t.index ["organization_id"], name: "index_tasks_on_organization_id"
+    t.index ["status", "priority"], name: "index_tasks_on_status_and_priority"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -188,6 +260,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
     t.text "address"
     t.string "language", default: "en"
     t.string "role"
+    t.boolean "use_tabbed_navigation", default: true
     t.index ["active"], name: "index_users_on_active"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -213,13 +286,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_191627) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversation_participants", "conversations"
+  add_foreign_key "conversation_participants", "users"
   add_foreign_key "departments", "organizations"
   add_foreign_key "groups", "organizations"
   add_foreign_key "members", "organizations"
   add_foreign_key "members", "users"
+  add_foreign_key "message_receipts", "messages"
+  add_foreign_key "message_receipts", "users"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "messages", column: "reply_to_id"
   add_foreign_key "permissions", "organizations"
   add_foreign_key "role_assignments", "members"
   add_foreign_key "role_assignments", "roles"
   add_foreign_key "roles", "departments"
   add_foreign_key "roles", "organizations"
+  add_foreign_key "tasks", "organizations"
+  add_foreign_key "tasks", "users"
 end

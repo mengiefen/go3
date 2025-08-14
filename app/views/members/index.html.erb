@@ -1,0 +1,46 @@
+<div data-controller="search-member" class="h-screen flex flex-col">
+  <div class="container mx-auto p-6 flex gap-16 items-center justify-between">
+    <h2 class="text-2xl font-bold text-gray-900 tracking-tight"><%= view_t("list_of_members") %></h2>
+    <input
+      type="text"
+      placeholder="<%= view_t("search_placeholder") %>"
+      data-search-member-target="input"
+      data-action="input->search-member#filter"
+      class="flex-1 bg-white px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+    />
+    
+    <div class="flex items-center gap-3">
+      <%= link_to raw('<i class="fas fa-file-excel"></i>'), export_organization_members_path(format: :xlsx), 
+          title: view_t("export_to_excel"),
+          class: "inline-flex items-center justify-center w-10 h-10 border border-transparent text-sm font-semibold rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition" 
+      %>
+      
+      <%= link_to raw('<i class="fas fa-add mx-2"></i>' + view_t("add_a_new_member")), new_organization_member_path, 
+          data: { turbo_frame: "modal" },
+          class: "inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-sm text-white bg-indigo-500 hover:indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition" 
+      %>
+    </div>
+  </div>
+
+  <%= turbo_frame_tag "modal" %>
+  <%= turbo_stream_from "members_list" %>
+
+  <div class="bg-white shadow overflow-x-hidden flex-1 overflow-y-auto">
+    <%= render DataDisplay::TableComponent.new( 
+      columns: [
+        { label: view_t('name'), width: "500px"},
+        { label: '', width: "40px"},
+        { label: view_t('email')},
+        { label: view_t('status'), class: 'text-center' }
+      ],
+      class_list: "table-auto",
+      turbo_frame_target: "members_list"
+    ) do |table| %>
+      <% @members.each do |member| %>
+        <% table.with_row do %>
+          <%= render partial: "member_row", locals: { member: member } %>
+        <% end %>
+        <% end %>
+    <% end %>
+  </div>
+</div>

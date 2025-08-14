@@ -1,0 +1,29 @@
+<div class="<%= @variant == :default ? container_classes : card_classes %>" <%= @attrs.map { |k, v| "#{k}=\"#{v}\"" }.join(" ") %>>
+  <% if @title || header_actions? || header? %>
+    <div class="border-b border-gray-200 <%= @padding ? 'px-4 py-3' : '' %> flex items-center justify-between">
+      <% if @title %>
+        <h3 class="text-base font-semibold text-gray-900"><%= @title %></h3>
+      <% elsif header? %>
+        <%= header %>
+      <% end %>
+      <% if header_actions? %>
+        <div class="flex items-center space-x-2">
+          <%= header_actions %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="<%= content_classes %>">
+    <%= content %>
+  </div>
+  <% if footer_actions? || footer? %>
+    <div class="border-t border-gray-200 <%= @padding ? 'px-4 py-3' : '' %> <%= footer_actions? ? 'bg-gray-50' : '' %>">
+      <% if footer? %>
+        <%= footer %>
+      <% end %>
+      <% if footer_actions? %>
+        <%= footer_actions %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

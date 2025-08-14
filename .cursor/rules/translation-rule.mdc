@@ -1,0 +1,6 @@
+---
+alwaysApply: true
+---
+We use I18n for internationalization and we are very restricy about locale files. We never use hard coded text in English but we use locale files to load translated value based on the user language.
+
+We stor locale files in config/locales total number of lines for each locale file should be always the same and the stracture and keys in files should eactly match.

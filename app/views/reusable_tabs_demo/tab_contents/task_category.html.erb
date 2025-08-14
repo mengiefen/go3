@@ -1,0 +1,99 @@
+<%= turbo_frame_tag frame_id do %>
+  <div class="p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6 text-white">
+          <h1 class="text-2xl font-bold">Tasks: <%= content_name || content_id %></h1>
+          <p class="text-purple-100 mt-2">Task management and workflow tracking</p>
+        </div>
+        
+        <div class="p-6 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Total Tasks</h3>
+              <p class="text-2xl font-bold text-purple-600 dark:text-purple-400">156</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">In Progress</h3>
+              <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">42</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Completed</h3>
+              <p class="text-2xl font-bold text-green-600 dark:text-green-400">98</p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+              <h3 class="font-semibold text-slate-900 dark:text-white">Overdue</h3>
+              <p class="text-2xl font-bold text-red-600 dark:text-red-400">16</p>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Recent Tasks</h3>
+            
+            <div class="space-y-3">
+              <div class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                    <div>
+                      <h4 class="font-medium text-slate-900 dark:text-white">Update user dashboard</h4>
+                      <p class="text-sm text-slate-600 dark:text-slate-400">Due: Tomorrow</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs rounded-full">In Progress</span>
+                </div>
+              </div>
+              
+              <div class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                    <div>
+                      <h4 class="font-medium text-slate-900 dark:text-white">Fix authentication bug</h4>
+                      <p class="text-sm text-slate-600 dark:text-slate-400">Completed: 2 hours ago</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Completed</span>
+                </div>
+              </div>
+              
+              <div class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                    <div>
+                      <h4 class="font-medium text-slate-900 dark:text-white">Review security patches</h4>
+                      <p class="text-sm text-slate-600 dark:text-slate-400">Overdue: 3 days</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-xs rounded-full">Overdue</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="border-t border-slate-200 dark:border-slate-600 pt-6">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Task Activity</h3>
+            <div class="space-y-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span class="text-slate-600 dark:text-slate-300">Task "Authentication fix" marked as completed</span>
+                <span class="text-sm text-slate-400">2 hours ago</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                <span class="text-slate-600 dark:text-slate-300">New task "Dashboard update" assigned</span>
+                <span class="text-sm text-slate-400">4 hours ago</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-purple-400 rounded-full"></div>
+                <span class="text-slate-600 dark:text-slate-300">Task priority updated for "Security review"</span>
+                <span class="text-sm text-slate-400">1 day ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
