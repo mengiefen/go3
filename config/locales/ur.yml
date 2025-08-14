@@ -182,3 +182,35 @@ ur:
         status: حیثیت
         admin: منتظم
         created_at: تخلیق کی تاریخ
+    departments:
+      index:
+        list_of_departments: شعبوں کی فہرست
+        search_placeholder: نام یا تفصیل کے ذریعے شعبے تلاش کریں ...
+        add_a_new_department: نیا شعبہ شامل کریں
+        export_to_excel: ایکسل میں برآمد کریں
+        name: نام
+        abbreviation: مخفف
+        description: تفصیل
+        members: اراکین
+        edit_department: شعبہ ترمیم کریں
+        delete_department: شعبہ حذف کریں
+      new: 
+        create_a_new_department: نیا شعبہ بنائیں
+        department_name: شعبے کا نام
+        abbreviation: مخفف
+        description: تفصیل
+        cancel: منسوخ کریں
+        submit: بنائیں
+      edit: 
+        edit_department: شعبہ ترمیم کریں
+        department_name: شعبے کا نام
+        abbreviation: مخفف
+        description: تفصیل
+        cancel: منسوخ کریں
+        submit: اپ ڈیٹ کریں
+      export: 
+        name: نام
+        abbreviation: مخفف
+        description: تفصیل
+        members_count: اراکین کی تعداد
+        created_at: تخلیق کی تاریخ

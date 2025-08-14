@@ -64,7 +64,7 @@ class Department < ApplicationRecord
     name_translations.each do |locale, name_value|
       next if name_value.blank?
       Mobility.with_locale(locale) do
-        if organization.departments.where.not(id: id).where("name ->> ? = ?", locale.to_s, name_value).exists?
+        if organization.departments.where.not(id: id).where("name ->> ? = ?", locale.to_s, name_value.to_s).exists?
           errors.add(:name, "must be unique within the organization for locale #{locale}")
         end
       end

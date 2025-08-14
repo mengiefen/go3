@@ -1,7 +1,7 @@
 <%# filepath: /home/baloz/uV/side-projects/Collab/go3/app/components/ui/modal_component.html.erb %>
 <div 
   id="<%= id %>"
-  class="fixed inset-0 z-50 overflow-y-auto"
+  class="fixed inset-0 z-50 overflow-y-auto <%=@hidden ? 'hidden' : '' %> "
   aria-labelledby="<%= id %>-title"
   role="dialog"
   aria-modal="true"

@@ -68,6 +68,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :departments do
+      collection do
+        get :export
+      end
+    end
+
     resources :conversations do
       member do
         post :reply

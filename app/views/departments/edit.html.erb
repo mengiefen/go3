@@ -1,0 +1,13 @@
+<%= turbo_frame_tag "modal" do %>
+  <%= render Ui::ModalComponent.new(id: "edit_department_modal", title: view_t("edit_department")) do %>
+    <%= form_with(
+      model: @department, 
+      url: organization_department_path(@department.organization, @department), 
+      html: { 
+        id: "edit_department_form", 
+        class: "space-y-2 bg-white rounded-xl"  
+      }) do |form| %>
+      <%= render partial: "form_content", locals: { form: form } %>
+    <% end %>
+  <% end %>
+<% end %> 

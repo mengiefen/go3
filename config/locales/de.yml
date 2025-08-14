@@ -182,3 +182,35 @@ de:
         status: Status
         admin: Administrator
         created_at: Erstellt am
+    departments:
+      index:
+        list_of_departments: Abteilungsliste
+        search_placeholder: Abteilungen nach Name oder Beschreibung suchen ...
+        add_a_new_department: Neue Abteilung hinzufügen
+        export_to_excel: In Excel exportieren
+        name: Name
+        abbreviation: Abkürzung
+        description: Beschreibung
+        members: Mitglieder
+        edit_department: Abteilung bearbeiten
+        delete_department: Abteilung löschen
+      new: 
+        create_a_new_department: Neue Abteilung erstellen
+        department_name: Abteilungsname
+        abbreviation: Abkürzung
+        description: Beschreibung
+        cancel: Abbrechen
+        submit: Erstellen
+      edit: 
+        edit_department: Abteilung bearbeiten
+        department_name: Abteilungsname
+        abbreviation: Abkürzung
+        description: Beschreibung
+        cancel: Abbrechen
+        submit: Aktualisieren
+      export: 
+        name: Name
+        abbreviation: Abkürzung
+        description: Beschreibung
+        members_count: Mitgliederanzahl
+        created_at: Erstellt am

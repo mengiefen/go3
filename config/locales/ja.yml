@@ -182,3 +182,35 @@ ja:
         status: ステータス
         admin: 管理者
         created_at: 作成日時
+    departments:
+      index:
+        list_of_departments: 部署一覧
+        search_placeholder: 部署名または説明で検索 ...
+        add_a_new_department: 新しい部署を追加
+        export_to_excel: Excelにエクスポート
+        name: 名前
+        abbreviation: 略称
+        description: 説明
+        members: メンバー
+        edit_department: 部署を編集
+        delete_department: 部署を削除
+      new: 
+        create_a_new_department: 新しい部署を作成
+        department_name: 部署名
+        abbreviation: 略称
+        description: 説明
+        cancel: キャンセル
+        submit: 作成
+      edit: 
+        edit_department: 部署を編集
+        department_name: 部署名
+        abbreviation: 略称
+        description: 説明
+        cancel: キャンセル
+        submit: 更新
+      export: 
+        name: 名前
+        abbreviation: 略称
+        description: 説明
+        members_count: メンバー数
+        created_at: 作成日

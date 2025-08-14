@@ -1,5 +1,5 @@
-<tr id="member_row_<%= member.id %>" class="hover:bg-gray-100 transition-colors member-row <%= member.archived? ? "archived-member" : "" %>" data-search-member-target="row">
-  <td class="flex items-center space-x-3 py-3 px-4 font-medium">
+<tr id="member_row_<%= member.id %>" class="border-b border-gray-300 hover:bg-gray-100 transition-colors member-row <%= member.archived? ? "archived-member" : "" %>" data-search-member-target="row">
+  <td class="flex items-center space-x-3 py-2 px-4 font-medium">
     <%= render partial: "members/initial", locals: { initial: member.initial, color: member.color } %>
     <%= member.name %>
     <% if member.org_admin? %>
@@ -55,8 +55,8 @@
       <% end %>
     <% end %>
   </td>
-  <td class="text-center"><%= member.email %></td>
-  <td class="text-center">
+  <td class="text-center py-2"><%= member.email %></td>
+  <td class="text-center py-2">
     <div class="inline-flex align-center justify-center rounded-full px-4 py-2 text-md font-semibold bg-info"><%= member.localized_status %></div>
   </td>
 </tr>

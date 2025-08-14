@@ -182,3 +182,35 @@ es:
         status: Estado
         admin: Administrador
         created_at: Fecha de creación
+    departments:
+      index:
+        list_of_departments: Lista de departamentos
+        search_placeholder: Buscar departamentos por nombre o descripción ...
+        add_a_new_department: Agregar un nuevo departamento
+        export_to_excel: Exportar a Excel
+        name: Nombre
+        abbreviation: Abreviatura
+        description: Descripción
+        members: Miembros
+        edit_department: Editar departamento
+        delete_department: Eliminar departamento
+      new: 
+        create_a_new_department: Crear un nuevo departamento
+        department_name: Nombre del departamento
+        abbreviation: Abreviatura
+        description: Descripción
+        cancel: Cancelar
+        submit: Crear
+      edit: 
+        edit_department: Editar departamento
+        department_name: Nombre del departamento
+        abbreviation: Abreviatura
+        description: Descripción
+        cancel: Cancelar
+        submit: Actualizar
+      export: 
+        name: Nombre
+        abbreviation: Abreviatura
+        description: Descripción
+        members_count: Cantidad de miembros
+        created_at: Fecha de creación

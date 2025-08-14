@@ -182,3 +182,35 @@ zh:
         status: 状态
         admin: 管理员
         created_at: 创建时间
+    departments:
+      index:
+        list_of_departments: 部门列表
+        search_placeholder: 按名称或描述搜索部门 ...
+        add_a_new_department: 添加新部门
+        export_to_excel: 导出到Excel
+        name: 名称
+        abbreviation: 缩写
+        description: 描述
+        members: 成员
+        edit_department: 编辑部门
+        delete_department: 删除部门
+      new: 
+        create_a_new_department: 创建新部门
+        department_name: 部门名称
+        abbreviation: 缩写
+        description: 描述
+        cancel: 取消
+        submit: 创建
+      edit: 
+        edit_department: 编辑部门
+        department_name: 部门名称
+        abbreviation: 缩写
+        description: 描述
+        cancel: 取消
+        submit: 更新
+      export: 
+        name: 名称
+        abbreviation: 缩写
+        description: 描述
+        members_count: 成员数量
+        created_at: 创建时间

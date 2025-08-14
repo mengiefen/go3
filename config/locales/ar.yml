@@ -182,3 +182,35 @@ ar:
         status: الحالة
         admin: المسؤول
         created_at: تاريخ الإنشاء
+    departments:
+      index:
+        list_of_departments: قائمة الأقسام
+        search_placeholder: ابحث عن الأقسام بالاسم أو الوصف ...
+        add_a_new_department: إضافة قسم جديد
+        export_to_excel: تصدير إلى Excel
+        name: الاسم
+        abbreviation: الاختصار
+        description: الوصف
+        members: الأعضاء
+        edit_department: تعديل القسم
+        delete_department: حذف القسم
+      new: 
+        create_a_new_department: إنشاء قسم جديد
+        department_name: اسم القسم
+        abbreviation: الاختصار
+        description: الوصف
+        cancel: إلغاء
+        submit: إنشاء
+      edit: 
+        edit_department: تعديل القسم
+        department_name: اسم القسم
+        abbreviation: الاختصار
+        description: الوصف
+        cancel: إلغاء
+        submit: تحديث
+      export: 
+        name: الاسم
+        abbreviation: الاختصار
+        description: الوصف
+        members_count: عدد الأعضاء
+        created_at: تاريخ الإنشاء

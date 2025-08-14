@@ -182,3 +182,35 @@ fa:
         status: وضعیت
         admin: مدیر
         created_at: تاریخ ایجاد
+    departments:
+      index:
+        list_of_departments: فهرست بخش‌ها
+        search_placeholder: جستجوی بخش‌ها بر اساس نام یا توضیحات ...
+        add_a_new_department: افزودن بخش جدید
+        export_to_excel: ارسال به اکسل
+        name: نام
+        abbreviation: مخفف
+        description: توضیحات
+        members: اعضا
+        edit_department: ویرایش بخش
+        delete_department: حذف بخش
+      new: 
+        create_a_new_department: ایجاد بخش جدید
+        department_name: نام بخش
+        abbreviation: مخفف
+        description: توضیحات
+        cancel: لغو
+        submit: ایجاد
+      edit: 
+        edit_department: ویرایش بخش
+        department_name: نام بخش
+        abbreviation: مخفف
+        description: توضیحات
+        cancel: لغو
+        submit: به‌روزرسانی
+      export: 
+        name: نام
+        abbreviation: مخفف
+        description: توضیحات
+        members_count: تعداد اعضا
+        created_at: تاریخ ایجاد

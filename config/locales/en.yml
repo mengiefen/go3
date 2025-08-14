@@ -182,3 +182,35 @@ en:
         status: Status
         admin: Admin
         created_at: Created At
+    departments:
+      index:
+        list_of_departments: List of departments
+        search_placeholder: Search departments by name or description ...
+        add_a_new_department: Add a new department
+        export_to_excel: Export to Excel
+        name: Name
+        abbreviation: Abbreviation
+        description: Description
+        members: Members
+        edit_department: Edit department
+        delete_department: Delete department
+      new: 
+        create_a_new_department: Create a new department
+        department_name: Department Name
+        abbreviation: Abbreviation
+        description: Description
+        cancel: Cancel
+        submit: Create
+      edit: 
+        edit_department: Edit department
+        department_name: Department Name
+        abbreviation: Abbreviation
+        description: Description
+        cancel: Cancel
+        submit: Update
+      export: 
+        name: Name
+        abbreviation: Abbreviation
+        description: Description
+        members_count: Members Count
+        created_at: Created At

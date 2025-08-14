@@ -7,11 +7,12 @@ module Ui
 
     attr_reader :id, :title, :size, :full_screen
 
-    def initialize(id:, title: nil, size: :md, full_screen: false)
+    def initialize(id:, title: nil, size: :md, full_screen: false, hidden: false)
       @id = id
       @title = title
       @size = size
       @full_screen = full_screen
+      @hidden = hidden
     end
 
     def modal_size_class
