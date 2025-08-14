@@ -4,16 +4,17 @@ module Ui
     renders_one :header
     renders_one :body
     renders_one :footer
-    
+
     attr_reader :id, :title, :size, :full_screen
-    
-    def initialize(id:, title: nil, size: :md, full_screen: false)
+
+    def initialize(id:, title: nil, size: :md, full_screen: false, hidden: false)
       @id = id
       @title = title
       @size = size
       @full_screen = full_screen
+      @hidden = hidden
     end
-    
+
     def modal_size_class
       case @size
       when :sm then "max-w-sm"
@@ -30,7 +31,7 @@ module Ui
       else "max-w-md"
       end
     end
-    
+
     def full_screen_classes
       @full_screen ? "fixed inset-0 p-0" : "relative p-6"
     end

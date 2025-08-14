@@ -1,0 +1,122 @@
+<!-- Mobile Home Dashboard -->
+<div class="<%= classes %>">
+  <!-- Welcome Section with animated gradient -->
+  <div class="px-4 pt-6 pb-8 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+    <div class="relative z-10">
+      <h1 class="text-3xl font-bold mb-1"><%= greeting %>, <%= user_name %></h1>
+      <p class="text-blue-100/90 text-sm"><%= formatted_date %></p>
+    </div>
+  </div>
+  
+  <!-- Quick Stats with elevated cards -->
+  <div class="px-4 -mt-6">
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-full -mr-10 -mt-10"></div>
+        <div class="relative">
+          <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-3 shadow-lg shadow-blue-500/20">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+          </div>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1"><%= org_count %></p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Organizations</p>
+        </div>
+      </div>
+      
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-green-500/5 rounded-full -mr-10 -mt-10"></div>
+        <div class="relative">
+          <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-3 shadow-lg shadow-green-500/20">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+          </div>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1"><%= task_count %></p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Active Tasks</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Today's Tasks -->
+  <div class="px-4 mt-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white">Today's Tasks</h2>
+      <button class="text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors">View all →</button>
+    </div>
+    
+    <% if today_tasks.any? %>
+      <div class="space-y-3">
+        <% today_tasks.each do |task| %>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center space-x-4 shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer">
+            <button class="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-600 flex-shrink-0 hover:border-blue-500 transition-colors relative group">
+              <span class="absolute inset-0 bg-blue-500 rounded-full scale-0 group-hover:scale-100 transition-transform duration-200"></span>
+            </button>
+            <div class="flex-1">
+              <p class="text-gray-900 dark:text-white font-semibold"><%= task[:title] %></p>
+              <% if task[:time] %>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                  <svg class="w-3.5 h-3.5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <%= task[:time] %>
+                </p>
+              <% end %>
+            </div>
+            <svg class="w-5 h-5 text-gray-400 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-8 text-center">
+        <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <p class="text-gray-500 dark:text-gray-400">No tasks for today</p>
+      </div>
+    <% end %>
+  </div>
+  
+  <!-- Recent Organizations -->
+  <div class="px-4 mt-8 mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white">Recent Organizations</h2>
+      <button class="text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors">See all →</button>
+    </div>
+    
+    <% if recent_orgs.any? %>
+      <div class="space-y-3">
+        <% recent_orgs.each do |org| %>
+          <button class="w-full bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center space-x-4 text-left shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98] group">
+            <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
+              <span class="text-white font-bold text-xl"><%= org[:name][0].upcase %></span>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-900 dark:text-white text-base"><%= org[:name] %></h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                <svg class="w-3.5 h-3.5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <%= org[:member_count] %> members
+              </p>
+            </div>
+            <svg class="w-5 h-5 text-gray-400 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-8 text-center">
+        <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+        <p class="text-gray-500 dark:text-gray-400">No recent organizations</p>
+      </div>
+    <% end %>
+  </div>
+</div>

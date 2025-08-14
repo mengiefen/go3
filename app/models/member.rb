@@ -1,7 +1,8 @@
 class Member < ApplicationRecord
   # Will enable PaperTrail later
   has_paper_trail
-  
+  acts_as_archival
+
   # Enable Mobility for translations with fallback to English
   extend Mobility
   translates :name, backend: :jsonb, fallbacks: true
@@ -15,22 +16,23 @@ class Member < ApplicationRecord
   belongs_to :user, optional: true
   has_many :role_assignments, -> { active }
   has_many :roles, through: :role_assignments, source: :role
-  has_many :inactive_role_assignments, -> { inactive }, class_name: 'RoleAssignment'
+  has_many :inactive_role_assignments, -> { inactive }, class_name: "RoleAssignment"
   has_many :inactive_roles, through: :inactive_role_assignments, source: :role
   has_and_belongs_to_many :groups
   has_many :departments, through: :roles
-  has_many :direct_permissions, as: :grantee, class_name: 'Permission'
+  has_many :direct_permissions, as: :grantee, class_name: "Permission"
 
   # Validations
-  validates :email, presence: true, 
-                    uniqueness: { scope: :organization_id },
-                    format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email,
+            uniqueness: { scope: :organization_id, allow_blank: true },
+            format: { with: URI::MailTo::EMAIL_REGEXP, allow_blank: true }
 
   validate :name_has_at_least_one_translation
 
+  enum :status, { active: 1, inactive: 0 }
   # Scopes
-  scope :active, -> { where(status: 'active') }
-  scope :inactive, -> { where(status: 'inactive') }
+  scope :active, -> { where(status: "active") }
+  scope :inactive, -> { where(status: "inactive") }
 
   def all_permissions
     role_permissions = roles.includes(:permissions).flat_map(&:permissions)
@@ -40,11 +42,31 @@ class Member < ApplicationRecord
   end
 
   def is_go3_admin?
-    user.is_go3_admin?
+    user&.is_go3_admin?
+  end
+
+  def status
+    return "archived" if self.archived?
+    return "joined" if joined_at.present?
+    return "invited" if invited_at.present?
+    "not_invited"
+  end
+
+  def localized_status
+    model_t("status.#{status}")
+  end
+
+  def has_permission?(code)
+    return true if is_go3_admin?
+    all_permissions.any? { |perm| perm.code == code && organization == perm.organization }
+  end
+
+  def org_admin?
+    has_permission?(Permission::ORG_ADMIN)
   end
 
   private
-  
+
   def initialize_name
     write_attribute(:name, {}) if read_attribute(:name).nil?
   end

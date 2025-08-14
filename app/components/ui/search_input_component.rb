@@ -12,4 +12,4 @@ class Ui::SearchInputComponent < ViewComponent::Base
     @show_voice_input = show_voice_input
     @html_options = html_options
   end
-end 
+end

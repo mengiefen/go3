@@ -5,7 +5,7 @@ class CreateMembers < ActiveRecord::Migration[8.0]
       t.jsonb :name
       t.references :organization, null: false, foreign_key: true
       t.references :user, null: true, foreign_key: true
-      t.string :status
+      t.integer :status, default: 1
 
       t.timestamps
     end

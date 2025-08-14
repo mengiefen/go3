@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :set_organization
+  before_action :set_task, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @tasks = current_tasks.includes(:user)
@@ -12,6 +12,20 @@ class TasksController < ApplicationController
   end
 
   def show
+    @frame_id = params[:frame_id]
+
+    respond_to do |format|
+      format.html do
+        if @frame_id.present?
+          render "show_tab", locals: {
+            task: @task,
+            frame_id: @frame_id
+          }, formats: [ :html ]
+        else
+          render :show
+        end
+      end
+    end
   end
 
   def new
@@ -24,8 +38,8 @@ class TasksController < ApplicationController
 
     if @task.save
       respond_to do |format|
-        format.html { redirect_to tasks_path, notice: 'Task created successfully.' }
-        format.turbo_stream { render turbo_stream: turbo_stream.prepend('tasks-list', partial: 'task_card', locals: { task: @task }) }
+        format.html { redirect_to tasks_path, notice: "Task created successfully." }
+        format.turbo_stream { render turbo_stream: turbo_stream.prepend("tasks-list", partial: "task_card", locals: { task: @task }) }
       end
     else
       respond_to do |format|
@@ -36,13 +50,27 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @frame_id = params[:frame_id]
+
+    respond_to do |format|
+      format.html do
+        if @frame_id.present?
+          render "edit_tab", locals: {
+            task: @task,
+            frame_id: @frame_id
+          }, formats: [ :html ]
+        else
+          render :edit
+        end
+      end
+    end
   end
 
   def update
     if @task.update(task_params)
       respond_to do |format|
-        format.html { redirect_to @task, notice: 'Task updated successfully.' }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(dom_id(@task), partial: 'task_card', locals: { task: @task }) }
+        format.html { redirect_to @task, notice: "Task updated successfully." }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(dom_id(@task), partial: "task_card", locals: { task: @task }) }
       end
     else
       respond_to do |format|
@@ -56,7 +84,7 @@ class TasksController < ApplicationController
     @task.destroy
 
     respond_to do |format|
-      format.html { redirect_to tasks_path, notice: 'Task deleted successfully.' }
+      format.html { redirect_to tasks_path, notice: "Task deleted successfully." }
       format.turbo_stream { render turbo_stream: turbo_stream.remove(dom_id(@task)) }
     end
   end
@@ -67,62 +95,56 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to tasks_path }
-      format.turbo_stream { render turbo_stream: turbo_stream.replace(dom_id(@task), partial: 'task_card', locals: { task: @task }) }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace(dom_id(@task), partial: "task_card", locals: { task: @task }) }
     end
   end
 
   def sidebar_content
     @sidebar_type = params[:sidebar_type]
-    
+
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.update("secondary-sidebar", 
+        render turbo_stream: turbo_stream.update("secondary-sidebar",
           render_to_string(SecondarySidebarComponent.new(sidebar_type: @sidebar_type))
         )
       end
     end
   end
-  
+
   def tab_content
     @filter_type = params[:filter_type] # 'category', 'status', 'priority'
     @filter_value = params[:filter_value]
     @content_name = params[:content_name]
-    @tab_id = "tab-tasks-#{@filter_type}-#{@filter_value}"
-    
+    @frame_id = params[:frame_id]
+
     Rails.logger.info "=== Task Tab Content Debug ==="
     Rails.logger.info "Filter type: #{@filter_type}"
     Rails.logger.info "Filter value: #{@filter_value}"
     Rails.logger.info "Organization: #{@organization&.name}"
     Rails.logger.info "Current user: #{current_user&.email}"
     Rails.logger.info "Current tasks count: #{current_tasks.count}"
-    
+
     # Filter tasks based on type
     @tasks = current_tasks.includes(:user)
     case @filter_type
-    when 'category'
-      @tasks = @filter_value == 'all' ? @tasks : @tasks.by_category(@filter_value)
-    when 'status'
+    when "category"
+      @tasks = @filter_value == "all" ? @tasks : @tasks.by_category(@filter_value)
+    when "status"
       @tasks = @tasks.by_status(@filter_value)
-    when 'priority'
+    when "priority"
       @tasks = @tasks.by_priority(@filter_value)
     end
     @tasks = @tasks.order(created_at: :desc)
-    
+
     Rails.logger.info "Filtered tasks count: #{@tasks.count}"
 
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.append("tab-content-area", 
-          render_to_string(partial: 'task_tab_content', locals: {
-            tasks: @tasks,
-            tab_id: @tab_id,
-            content_name: @content_name,
-            filter_type: @filter_type,
-            filter_value: @filter_value
-          })
-        )
-      end
-    end
+    # Force HTML format for turbo-frame requests
+    render "tab_content", locals: {
+      tasks: @tasks,
+      content_name: @content_name,
+      filter_type: @filter_type,
+      filter_value: @filter_value
+    }, formats: [ :html ]
   end
 
   private

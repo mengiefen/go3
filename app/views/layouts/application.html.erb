@@ -35,7 +35,7 @@
     
     <meta name="turbo-cache-control" content="no-preview">
   </head>
-  <body class="h-full bg-gray-50">
+  <body class="h-full bg-gray-50" dir=<%= supported_languages.dig(current_language, :rtl) ? "rtl" : "ltr" %>>
     <% if !(controller_name == 'sessions' && action_name == 'new' && devise_controller?) %>
       <%= PageLayout do |pl| %>
         <%= pl.with_header do %>
@@ -100,5 +100,7 @@
         });
       });
     </script>
+
+    <div id="modals"></div>
   </body>
 </html>

@@ -18,7 +18,7 @@ class Task < ApplicationRecord
   scope :overdue, -> { where(due_date: ...Time.current).where(status: %w[pending in_progress]) }
 
   def completed?
-    status == 'completed'
+    status == "completed"
   end
 
   def overdue?
@@ -26,26 +26,26 @@ class Task < ApplicationRecord
   end
 
   def complete!
-    update!(status: 'completed', completed_at: Time.current)
+    update!(status: "completed", completed_at: Time.current)
   end
 
   def priority_color
     case priority
-    when 'low' then 'green'
-    when 'medium' then 'yellow'
-    when 'high' then 'orange'
-    when 'urgent' then 'red'
-    else 'gray'
+    when "low" then "green"
+    when "medium" then "yellow"
+    when "high" then "orange"
+    when "urgent" then "red"
+    else "gray"
     end
   end
 
   def status_color
     case status
-    when 'pending' then 'gray'
-    when 'in_progress' then 'blue'
-    when 'completed' then 'green'
-    when 'cancelled' then 'red'
-    else 'gray'
+    when "pending" then "gray"
+    when "in_progress" then "blue"
+    when "completed" then "green"
+    when "cancelled" then "red"
+    else "gray"
     end
   end
 end

@@ -19,23 +19,23 @@ class Ui::AvatarComponentPreview < ViewComponent::Preview
       alt: "Default Avatar"
     )
   end
-  
+
   def sizes
     render_with_template
   end
-  
+
   def shapes
     render_with_template
   end
-  
+
   def with_status
     render_with_template
   end
-  
+
   def with_initials
     render_with_template
   end
-  
+
   def with_icon
     render Ui::AvatarComponent.new(
       icon: %(<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -45,7 +45,7 @@ class Ui::AvatarComponentPreview < ViewComponent::Preview
       alt: "User Icon"
     )
   end
-  
+
   def with_custom_colors
     render_with_template
   end

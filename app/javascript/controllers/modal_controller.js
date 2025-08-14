@@ -8,6 +8,11 @@ export default class extends Controller {
 
     // Trap focus within the modal
     this.setupFocusTrap();
+
+    const modalsContainer = document.getElementById('modals');
+    if (modalsContainer && this.element.parentNode !== modalsContainer) {
+      modalsContainer.appendChild(this.element);
+    }
   }
 
   disconnect() {

@@ -1,6 +1,6 @@
-<div class="w-16 h-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center py-6 space-y-3 shadow-2xl border-r border-slate-700" data-controller="icon-sidebar">
+<div class="w-16 h-full bg-slate-50 dark:bg-slate-900 flex flex-col items-center py-6 space-y-3 shadow-2xl border-r border-slate-200 dark:border-slate-700" data-controller="icon-sidebar">
   <% sidebar_items.each_with_index do |item, index| %>
-    <%= link_to item[:path], class: "icon-sidebar-item group relative w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 transform hover:scale-110 #{active?(item[:id]) ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-700 hover:text-white'}", 
+    <%= link_to item[:path], class: "icon-sidebar-item group relative w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 transform hover:scale-110 #{active?(item[:id]) ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'}", 
                               data: { action: "click->icon-sidebar#selectSidebar", sidebar_type: item[:id] },
                               title: item[:label] do %>
       
@@ -34,13 +34,13 @@
         <% end %>
         
         <!-- Active indicator -->
-        <div class="absolute -right-1 top-1/2 transform translate-x-full -translate-y-1/2 w-1 h-8 bg-blue-400 rounded-full opacity-0 transition-opacity duration-300 <%= active?(item[:id]) ? 'opacity-100' : '' %> group-hover:opacity-50" data-icon-sidebar-target="activeIndicator"></div>
+        <div class="absolute -right-1 top-1/2 transform translate-x-full -translate-y-1/2 w-1 h-8 bg-blue-500 dark:bg-blue-400 rounded-full opacity-0 transition-opacity duration-300 <%= active?(item[:id]) ? 'opacity-100' : '' %> group-hover:opacity-50" data-icon-sidebar-target="activeIndicator"></div>
       </div>
       
       <!-- Tooltip -->
-      <div class="absolute left-full ml-3 px-3 py-2 bg-slate-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+      <div class="absolute left-full ml-3 px-3 py-2 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
         <%= item[:label] %>
-        <div class="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+        <div class="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-2 h-2 bg-slate-800 dark:bg-slate-700 rotate-45"></div>
       </div>
     <% end %>
   <% end %>

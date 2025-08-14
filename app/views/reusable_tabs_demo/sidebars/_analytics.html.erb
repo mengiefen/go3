@@ -1,0 +1,26 @@
+<%= render NavigationSidebar::Component.new(
+  navigation_type: :analytics,
+  title: "ANALYTICS",
+  search_enabled: false,
+  collapsible: true,
+  categories: [
+    {
+      name: 'Reports',
+      icon: 'chart-bar',
+      collapsed: false,
+      items: [
+        { id: 'report-1', name: 'User Engagement', type: 'report', badge: nil },
+        { id: 'report-2', name: 'Revenue Report', type: 'report', badge: nil }
+      ]
+    },
+    {
+      name: 'Dashboards',
+      icon: 'dashboard',
+      collapsed: true,
+      items: [
+        { id: 'dash-1', name: 'Main Dashboard', type: 'dashboard', badge: nil },
+        { id: 'dash-2', name: 'Admin Dashboard', type: 'dashboard', badge: nil }
+      ]
+    }
+  ]
+) %>

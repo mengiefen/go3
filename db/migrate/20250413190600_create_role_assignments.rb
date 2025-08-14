@@ -9,7 +9,7 @@ class CreateRoleAssignments < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :role_assignments, [:role_id, :member_id]
-    add_index :role_assignments, [:member_id, :role_id]
+    add_index :role_assignments, [ :role_id, :member_id ]
+    add_index :role_assignments, [ :member_id, :role_id ]
   end
 end

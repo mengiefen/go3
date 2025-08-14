@@ -10,7 +10,7 @@ pin "luxon", to: "https://cdn.skypack.dev/luxon@3.4.4"
 
 
 
-# Fontawesome 
+# Fontawesome
 pin "@fortawesome/fontawesome-free", to: "@fortawesome--fontawesome-free.js" # @6.7.2
 
 # Pin controllers individually

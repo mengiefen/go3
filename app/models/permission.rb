@@ -8,7 +8,9 @@ class Permission < ApplicationRecord
   # Validations
   validates :code, presence: true
   validates :grantee, presence: true
-  validates :grantee_id, uniqueness: { scope: [:grantee_type, :code] }
+  validates :grantee_id, uniqueness: { scope: [ :grantee_type, :code ] }
+
+  ORG_ADMIN = "Organization.admin".freeze
 
   def permitted_users
     users = []
@@ -20,4 +22,4 @@ class Permission < ApplicationRecord
 
     users
   end
-end 
+end

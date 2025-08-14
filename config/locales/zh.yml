@@ -1,0 +1,216 @@
+zh:
+  common:
+    logo_alt: "GO3标志"
+    company_name: "GO3"
+    all_rights_reserved: "版权所有"
+    best_regards: "此致"
+    company_team: "GO3团队"
+  sign_up:
+    title: "创建账户"
+    first_name: "名字"
+    last_name: "姓氏"
+    email: "电子邮箱"
+    language: "语言"
+    password: "密码"
+    password_confirmation: "确认密码"
+    submit: "注册"
+    or_continue_with: "或继续使用"
+    already_have_account: "已有账户？"
+    sign_in: "登录"
+    minimum_password_length: "最少6个字符"
+  email_confirmation:
+    title: "感谢您的注册"
+    message: "感谢您创建账户。我们很高兴您加入我们！要开始使用，请点击我们发送到%{email}的链接来确认您的电子邮箱地址。如果您没有收到邮件，请点击下面的按钮重新发送确认邮件。"
+    message_html: "感谢您创建账户。我们很高兴您加入我们！要开始使用，请点击我们发送到%{email}的链接来确认您的电子邮箱地址。如果您没有收到邮件，请点击下面的按钮重新发送确认邮件。"
+    resend_button: "重新发送确认邮件"
+    sign_up_again: "使用其他邮箱注册"
+    check_spam: "检查垃圾邮件文件夹"
+    confirmation_sent: "确认邮件已发送"
+    resend_success: "确认邮件已重新发送"
+    resend_error: "无法重新发送确认邮件"
+  onboarding:
+    title: "欢迎来到GO3！让我们开始吧"
+    subtitle: "创建您的第一个组织，开始与我们同行"
+    organization_name_label: "您的组织名称是什么？"
+    organization_name_placeholder: "输入您的组织名称"
+    submit_button: "创建组织"
+    random_name_button: "生成随机名称"
+    description: "您的组织是您管理团队、项目和资源的地方。您可以随时更改。"
+    success_message: "组织创建成功！欢迎加入！"
+    error_message: "创建组织时出错。请重试。"
+  devise:
+    confirmations:
+      confirmed: "您的电子邮箱地址已成功确认。"
+      send_instructions: "您将在几分钟内收到一封包含确认说明的电子邮件。"
+      send_paranoid_instructions: "如果您的电子邮箱地址在我们的数据库中，您将在几分钟内收到一封包含确认说明的电子邮件。"
+    failure:
+      already_authenticated: "您已经登录。"
+      inactive: "您的账户尚未激活。"
+      invalid: "%{authentication_keys}或密码无效。"
+      locked: "您的账户已被锁定。"
+      last_attempt: "在账户被锁定之前，您还有一次尝试机会。"
+      not_found_in_database: "%{authentication_keys}或密码无效。"
+      timeout: "您的会话已过期。请重新登录。"
+      unauthenticated: "您需要登录或注册才能继续。"
+      unconfirmed: "在继续之前，您需要确认您的电子邮箱地址。"
+    mailer:
+      confirmation_instructions:
+        subject: "确认电子邮箱地址"
+        welcome: "欢迎来到GO3！"
+        hello: "你好，%{email}！"
+        confirm_link: "感谢您的注册！要完成注册并访问您的账户，请点击下面的按钮确认您的电子邮箱地址。"
+        confirm_button: "确认我的电子邮箱地址"
+        expiry_notice: "此确认链接将在24小时后过期。如果您没有创建此账户，请忽略此电子邮件。"
+        ignore_notice: "如果您没有请求此电子邮件，请忽略它。在您确认电子邮箱地址之前，您的账户将不会被创建。"
+      reset_password_instructions:
+        subject: "重置密码说明"
+      unlock_instructions:
+        subject: "解锁账户说明"
+      email_changed:
+        subject: "电子邮箱已更改"
+      password_change:
+        subject: "密码已更改"
+    omniauth_callbacks:
+      failure: "通过%{kind}的认证失败，原因是\"%{reason}\"。"
+      success: "通过%{kind}账户成功认证。"
+    passwords:
+      no_token: "如果没有通过重置密码的电子邮件链接，您无法访问此页面。如果您是通过重置密码的电子邮件链接访问此页面，请确保您使用了完整的URL。"
+      send_instructions: "您将在几分钟内收到一封包含重置密码说明的电子邮件。"
+      send_paranoid_instructions: "如果您的电子邮箱地址在我们的数据库中，您将在几分钟内收到一个重置密码的链接。"
+      updated: "您的密码已成功更改。您现在已登录。"
+      updated_not_active: "您的密码已成功更改。"
+    registrations:
+      destroyed: "再见！您的账户已成功删除。我们希望很快能再次见到您。"
+      signed_up: "欢迎！您已成功注册。"
+      signed_up_but_inactive: "您已成功注册。但是，我们无法让您登录，因为您的账户尚未激活。"
+      signed_up_but_locked: "您已成功注册。但是，我们无法让您登录，因为您的账户已被锁定。"
+      signed_up_but_unconfirmed: "已向您的电子邮箱地址发送一封包含确认链接的邮件。请点击链接以激活您的账户。"
+      update_needs_confirmation: "您已成功更新您的账户，但我们需要确认您的新电子邮箱地址。请检查您的电子邮件并点击确认链接以确认您的新电子邮箱地址。"
+      updated: "您的账户已成功更新。"
+      updated_but_not_signed_in: "您的账户已成功更新，但由于您的密码已更改，您需要重新登录。"
+    sessions:
+      signed_in: "登录成功。"
+      signed_out: "退出成功。"
+      already_signed_out: "已退出。"
+    unlocks:
+      send_instructions: "您将在几分钟内收到一封包含解锁账户说明的电子邮件。"
+      send_paranoid_instructions: "如果您的账户存在，您将在几分钟内收到一封包含解锁说明的电子邮件。"
+      unlocked: "您的账户已成功解锁。请登录以继续。"
+  errors:
+    messages:
+      already_confirmed: "已被确认，请登录"
+      confirmation_period_expired: "需要在%{period}内确认，请重新申请"
+      expired: "已过期，请重新申请"
+      not_found: "未找到"
+      not_locked: "未被锁定"
+      not_saved:
+        one: "保存%{resource}时出现1个错误："
+        other: "保存%{resource}时出现%{count}个错误："
+  flash:
+    actions:
+      create:
+        success: "创建成功"
+        error: "创建时发生错误"
+      update:
+        success: "更新成功"
+        error: "更新时发生错误"
+      destroy:
+        success: "删除成功"
+        error: "删除时发生错误"
+    errors:
+      not_authorized: "您没有执行此操作的权限"
+      not_found: "未找到资源"
+      invalid: "无效数据"
+      server_error: "服务器错误"
+  mailers:
+    member_mailer:
+      invitation:
+        you_are_invited: "您被邀请加入%{organization_name}"
+        template:
+          join: "加入%{organization_name}"
+          hello: "您好"
+          accept_invitation: "接受邀请"
+          invitation: "您已被邀请加入<strong>%{organization_name}</strong>。"
+          instruction: "请点击以下链接注册并接受邀请："
+          accept_invitation: "接受邀请"
+          copy_link: "或者复制此网址到您的浏览器中："
+          already_a_member: "如果您已有账户，请先登录。"
+  models:
+    member:
+      status:
+        joined: 已加入
+        invited: 已邀请
+        not_invited: 未邀请
+        archived: 已归档
+  views:
+    members:
+      index:
+        list_of_members: 成员列表
+        search_placeholder: 按姓名或邮箱搜索成员 ...
+        add_a_new_member: 添加新成员
+        export_to_excel: 导出到 Excel
+        name: 姓名
+        email: 邮箱
+        status: 状态
+        edit_member: 编辑成员
+        set_as_admin: 设为管理员
+        revoke_admin_permission: 撤销管理员权限
+        resend_invitation: 重新发送邀请
+        archive: 存档
+        unarchive: 取消存档
+      new:
+        create_a_new_member: 创建新成员
+        full_name: 全名
+        email: 邮箱（用于邀请）
+        initials: 首字母
+        color: 颜色
+        cancel: 取消
+        submit: 创建
+        submit_and_invite: 创建并邀请
+      edit:
+        edit_member: 编辑成员
+        full_name: 全名
+        email: 邮箱（用于邀请）
+        initials: 首字母
+        color: 颜色
+        cancel: 取消
+        submit: 更新
+        submit_and_invite: 更新并邀请
+      export:
+        name: 姓名
+        email: 邮箱
+        status: 状态
+        admin: 管理员
+        created_at: 创建时间
+    departments:
+      index:
+        list_of_departments: 部门列表
+        search_placeholder: 按名称或描述搜索部门 ...
+        add_a_new_department: 添加新部门
+        export_to_excel: 导出到Excel
+        name: 名称
+        abbreviation: 缩写
+        description: 描述
+        members: 成员
+        edit_department: 编辑部门
+        delete_department: 删除部门
+      new: 
+        create_a_new_department: 创建新部门
+        department_name: 部门名称
+        abbreviation: 缩写
+        description: 描述
+        cancel: 取消
+        submit: 创建
+      edit: 
+        edit_department: 编辑部门
+        department_name: 部门名称
+        abbreviation: 缩写
+        description: 描述
+        cancel: 取消
+        submit: 更新
+      export: 
+        name: 名称
+        abbreviation: 缩写
+        description: 描述
+        members_count: 成员数量
+        created_at: 创建时间

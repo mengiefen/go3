@@ -6,7 +6,7 @@ class Forms::InputComponent < ViewComponent::Base
   renders_one :error
   renders_one :prefix
   renders_one :suffix
-  
+
   def initialize(
     type: :text,
     name: nil,
@@ -29,7 +29,7 @@ class Forms::InputComponent < ViewComponent::Base
   )
     @type = type
     @name = name
-    @id = id || name&.to_s&.gsub(/[\[\]]+/, '_')&.sub(/_$/, '')
+    @id = id || name&.to_s&.gsub(/[\[\]]+/, "_")&.sub(/_$/, "")
     @value = value
     @placeholder = placeholder
     @required = required
@@ -46,9 +46,9 @@ class Forms::InputComponent < ViewComponent::Base
     @container_classes = container_classes
     @attrs = attrs
   end
-  
+
   private
-  
+
   def input_classes
     [
       "block w-full rounded border-gray-300 border focus:border-blue-500 focus:ring-blue-500",
@@ -58,7 +58,7 @@ class Forms::InputComponent < ViewComponent::Base
       @classes
     ].compact.join(" ")
   end
-  
+
   def size_classes
     case @size
     when :xs then "text-xs py-1 px-2"
@@ -68,14 +68,14 @@ class Forms::InputComponent < ViewComponent::Base
     else "text-base py-2 px-4"
     end
   end
-  
+
   def wrapper_classes
     [
       "relative rounded",
       @container_classes
     ].compact.join(" ")
   end
-  
+
   def input_attributes
     {
       type: @type,
@@ -99,5 +99,3 @@ class Forms::InputComponent < ViewComponent::Base
     }.compact
   end
 end
-  
-

@@ -7,12 +7,12 @@ RSpec.describe Permission, type: :model do
     it { should have_db_column(:grantee_id).of_type(:integer) }
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
-    
-    it { should have_db_index([:code, :grantee_type, :grantee_id]) }
-    it { should have_db_index([:grantee_type, :grantee_id]) }
-    it { should have_db_index([:code]) }
-    it { should have_db_index([:grantee_id]) }
-    it { should have_db_index([:grantee_type]) }
+
+    it { should have_db_index([ :code, :grantee_type, :grantee_id ]) }
+    it { should have_db_index([ :grantee_type, :grantee_id ]) }
+    it { should have_db_index([ :code ]) }
+    it { should have_db_index([ :grantee_id ]) }
+    it { should have_db_index([ :grantee_type ]) }
   end
 
   describe "validations" do
@@ -27,17 +27,16 @@ RSpec.describe Permission, type: :model do
 
   describe "PaperTrail" do
     it { should be_versioned }
-    
+
     it "tracks changes to permission attributes" do
       organization = create(:organization)
       department = create(:department, organization: organization)
       permission = create(:permission, code: "department.add_role", grantee: department, organization: organization)
-      
+
       expect {
         permission.destroy
       }.to change { permission.versions.count }.by(1)
       expect(permission.versions.last.event).to eq("destroy")
     end
   end
-
-end 
+end

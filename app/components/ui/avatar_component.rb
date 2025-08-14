@@ -50,16 +50,16 @@ module Ui
 
       # Generate a consistent color based on the initials or alt text
       seed = (@initials || @alt).to_s
-      colors = ["bg-blue-100 text-blue-800", 
-                "bg-red-100 text-red-800", 
-                "bg-green-100 text-green-800", 
-                "bg-yellow-100 text-yellow-800", 
-                "bg-purple-100 text-purple-800", 
-                "bg-pink-100 text-pink-800", 
-                "bg-indigo-100 text-indigo-800"]
-      
+      colors = [ "bg-blue-100 text-blue-800",
+                "bg-red-100 text-red-800",
+                "bg-green-100 text-green-800",
+                "bg-yellow-100 text-yellow-800",
+                "bg-purple-100 text-purple-800",
+                "bg-pink-100 text-pink-800",
+                "bg-indigo-100 text-indigo-800" ]
+
       return "bg-gray-100 text-gray-800" if seed.empty?
-      
+
       # Use a hash function to get a consistent index
       index = 0
       seed.each_byte { |b| index = (index + b) % colors.length }

@@ -4,6 +4,9 @@
 
 /* Import component-specific styles */
 @import "components";
+@import "tailwind/tabs";
+
+@import "conversations"
 
 /* Global styles for Font Awesome integration */
 .sidebar-icon {
@@ -11,6 +14,19 @@
   display: inline-block;
   text-align: center;
   margin-right: 0.5rem;
-} 
+}
 
-/* tabs */
+/* Tab content visibility management */
+.tab-content {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+.tab-content.active {
+  display: block;
+} 

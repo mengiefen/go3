@@ -19,7 +19,7 @@ module Alerts
 
     def initialize(
       variant: :info,
-      dismissible: false, 
+      dismissible: false,
       title: nil,
       classes: nil,
       data: {},
@@ -70,7 +70,7 @@ module Alerts
 
     def stimulus_attributes
       return {} unless @dismissible
-      
+
       {
         data: {
           controller: "alert",

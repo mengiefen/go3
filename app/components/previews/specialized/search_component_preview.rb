@@ -108,24 +108,24 @@ module Specialized
     end
 
     # @!endgroup
-    
+
     # @!group With Content
-    
+
     # @label With Custom Trigger
     def with_custom_trigger
       render_with_template
     end
-    
+
     # @label With Search Results
     def with_search_results
       render_with_template
     end
-    
+
     # @label With Categories
     def with_categories
       render_with_template
     end
-    
+
     # @!endgroup
   end
 end

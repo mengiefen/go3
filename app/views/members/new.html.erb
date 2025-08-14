@@ -1,0 +1,15 @@
+<%= turbo_frame_tag "modal" do %>
+  <%= render Ui::ModalComponent.new(id: "new_member_modal", title: view_t("create_a_new_member")) do %>
+    <%= form_with(
+      model: @member, 
+      url: organization_members_path, 
+      html: { 
+        id: "new_member_form", 
+        class: "space-y-2 bg-white rounded-xl" 
+      }) do |form| 
+    %>
+      <%= render partial: "form_content", locals: { form: form } %>
+    <% end %>
+  <% end %>
+<% end %>
+

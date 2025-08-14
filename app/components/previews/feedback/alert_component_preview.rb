@@ -17,11 +17,11 @@ class Feedback::AlertComponentPreview < ViewComponent::Preview
       "This is a default info alert."
     end
   end
-  
+
   def variants
     render_with_template
   end
-  
+
   def with_title
     render Feedback::AlertComponent.new(
       title: "Important Information"
@@ -29,7 +29,7 @@ class Feedback::AlertComponentPreview < ViewComponent::Preview
       "This alert has a title."
     end
   end
-  
+
   def dismissible
     render Feedback::AlertComponent.new(
       dismissible: true
@@ -37,7 +37,7 @@ class Feedback::AlertComponentPreview < ViewComponent::Preview
       "This alert can be dismissed."
     end
   end
-  
+
   def with_custom_icon
     render(Feedback::AlertComponent.new) do |component|
       component.with_icon do
@@ -48,7 +48,7 @@ class Feedback::AlertComponentPreview < ViewComponent::Preview
       "This alert has a custom icon."
     end
   end
-  
+
   def with_action
     render(Feedback::AlertComponent.new) do |component|
       component.with_action do

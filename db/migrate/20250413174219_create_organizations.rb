@@ -8,7 +8,7 @@ class CreateOrganizations < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :organizations, :name, using: :gin
     add_index :organizations, :parent_id
   end

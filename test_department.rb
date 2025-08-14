@@ -15,7 +15,7 @@ puts "Name: #{dept1.name.inspect}"
 # Create a department using setters
 puts "\nCreating department using setters..."
 dept2 = Department.new(organization: org)
-dept2.name_en = "Sales" 
+dept2.name_en = "Sales"
 dept2.name_fr = "Ventes"
 dept2.save!
 puts "Successfully created department with ID: #{dept2.id}"
@@ -29,4 +29,4 @@ puts "Successfully set name_en: #{dept3.name_en}"
 dept3.save!
 puts "Successfully saved department with ID: #{dept3.id}"
 
-puts "\nAll tests passed!" 
+puts "\nAll tests passed!"

@@ -20,25 +20,25 @@ class Ui::BadgeComponentPreview < ViewComponent::Preview
       "Default Badge"
     end
   end
-  
+
   def variants
     render_with_template
   end
-  
+
   def sizes
     render_with_template
   end
-  
+
   def rounded_vs_square
     render_with_template
   end
-  
+
   def with_dot
     render Ui::BadgeComponent.new(dot: true) do
       "Badge with Dot"
     end
   end
-  
+
   def with_custom_classes
     render Ui::BadgeComponent.new(classes: "border-2 border-blue-500") do
       "Custom Badge"

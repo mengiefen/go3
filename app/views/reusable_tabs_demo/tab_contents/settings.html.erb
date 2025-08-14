@@ -1,0 +1,93 @@
+<%= turbo_frame_tag frame_id do %>
+  <div class="p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-500 to-gray-600 p-6 text-white">
+          <h1 class="text-2xl font-bold">Settings: <%= content_name || content_id %></h1>
+          <p class="text-gray-100 mt-2">Application configuration and preferences</p>
+        </div>
+        
+        <div class="p-6 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-white">General Settings</h3>
+              
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <label class="flex items-center justify-between">
+                  <span class="text-slate-900 dark:text-white">Dark Mode</span>
+                  <input type="checkbox" class="toggle" checked>
+                </label>
+              </div>
+              
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <label class="flex items-center justify-between">
+                  <span class="text-slate-900 dark:text-white">Email Notifications</span>
+                  <input type="checkbox" class="toggle" checked>
+                </label>
+              </div>
+              
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <label class="flex items-center justify-between">
+                  <span class="text-slate-900 dark:text-white">Push Notifications</span>
+                  <input type="checkbox" class="toggle">
+                </label>
+              </div>
+            </div>
+            
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Privacy Settings</h3>
+              
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <label class="flex items-center justify-between">
+                  <span class="text-slate-900 dark:text-white">Profile Visibility</span>
+                  <select class="bg-white dark:bg-slate-600 border border-slate-300 dark:border-slate-500 rounded px-3 py-1">
+                    <option>Public</option>
+                    <option>Private</option>
+                    <option>Friends Only</option>
+                  </select>
+                </label>
+              </div>
+              
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <label class="flex items-center justify-between">
+                  <span class="text-slate-900 dark:text-white">Analytics Tracking</span>
+                  <input type="checkbox" class="toggle" checked>
+                </label>
+              </div>
+              
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <label class="flex items-center justify-between">
+                  <span class="text-slate-900 dark:text-white">Data Sharing</span>
+                  <input type="checkbox" class="toggle">
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="border-t border-slate-200 dark:border-slate-600 pt-6">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Account Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <h4 class="font-medium text-slate-900 dark:text-white mb-2">Account Type</h4>
+                <p class="text-slate-600 dark:text-slate-400">Premium</p>
+              </div>
+              <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg">
+                <h4 class="font-medium text-slate-900 dark:text-white mb-2">Member Since</h4>
+                <p class="text-slate-600 dark:text-slate-400">January 2024</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-4">
+            <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+              Save Changes
+            </button>
+            <button class="px-4 py-2 bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,186 @@
+<div class="flex flex-col h-full bg-gray-50 dark:bg-gray-950">
+  <!-- Header with filters and enhanced styling -->
+  <div class="sticky top-0 z-10 backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 border-b border-gray-100 dark:border-gray-800">
+    <div class="px-4 py-4">
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Tasks</h1>
+        <div class="flex items-center space-x-2">
+          <!-- Sort button with better styling -->
+          <button class="p-2.5 rounded-xl bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all duration-200"
+                  data-action="click->mobile-tasks#showSort">
+            <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path>
+            </svg>
+          </button>
+          <!-- Add button with gradient -->
+          <button class="p-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm hover:shadow-md transition-all duration-200"
+                  data-action="click->mobile-tasks#createNew">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Filter tabs with enhanced styling -->
+      <div class="flex space-x-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1">
+        <button class="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 <%= filter == 'all' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 shadow-sm hover:shadow-md' %>"
+                data-action="click->mobile-tasks#setFilter"
+                data-filter="all">
+          All (<%= tasks.size %>)
+        </button>
+        <button class="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 <%= filter == 'today' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 shadow-sm hover:shadow-md' %>"
+                data-action="click->mobile-tasks#setFilter"
+                data-filter="today">
+          Today (<%= tasks.select { |t| t[:due_date]&.to_date == Date.today }.size %>)
+        </button>
+        <button class="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 <%= filter == 'overdue' ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 shadow-sm hover:shadow-md' %>"
+                data-action="click->mobile-tasks#setFilter"
+                data-filter="overdue">
+          Overdue (<%= tasks.select { |t| t[:due_date] && t[:due_date] < Date.today && t[:status] != 'completed' }.size %>)
+        </button>
+        <button class="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 <%= filter == 'assigned' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 shadow-sm hover:shadow-md' %>"
+                data-action="click->mobile-tasks#setFilter"
+                data-filter="assigned">
+          Assigned to me
+        </button>
+        <button class="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 <%= filter == 'completed' ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 shadow-sm hover:shadow-md' %>"
+                data-action="click->mobile-tasks#setFilter"
+                data-filter="completed">
+          Completed
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tasks list -->
+  <div class="flex-1 overflow-y-auto" data-mobile-tasks-target="list">
+    <% if sorted_tasks.empty? %>
+      <!-- Empty state -->
+      <div class="flex flex-col items-center justify-center h-full px-8 py-12">
+        <div class="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+          <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">No tasks found</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
+          <% case filter %>
+          <% when 'today' %>
+            You have no tasks due today
+          <% when 'overdue' %>
+            Great! You have no overdue tasks
+          <% when 'assigned' %>
+            No tasks are assigned to you
+          <% when 'completed' %>
+            No completed tasks to show
+          <% else %>
+            Create your first task to get started
+          <% end %>
+        </p>
+      </div>
+    <% else %>
+      <div class="px-4 py-4 space-y-4">
+        <% sorted_tasks.each do |task| %>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg overflow-hidden transform transition-all duration-200 active:scale-[0.98] cursor-pointer"
+               data-action="click->mobile-tasks#selectTask"
+               data-task-id="<%= task[:id] %>">
+            <div class="p-5">
+              <div class="flex items-start space-x-4">
+                <!-- Status checkbox/icon with better styling -->
+                <button class="flex-shrink-0 mt-0.5 transition-transform hover:scale-110"
+                        data-action="click->mobile-tasks#toggleStatus stop"
+                        data-task-id="<%= task[:id] %>">
+                  <%= status_icon(task[:status]).html_safe %>
+                </button>
+                
+                <!-- Task content with enhanced typography -->
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white <%= task[:status] == 'completed' ? 'line-through opacity-60' : '' %>">
+                    <%= task[:title] %>
+                  </h3>
+                  
+                  <% if task[:description] %>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+                      <%= task[:description] %>
+                    </p>
+                  <% end %>
+                  
+                  <!-- Meta info with better spacing -->
+                  <div class="flex items-center flex-wrap gap-2 mt-3">
+                    <% if task[:priority] %>
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold <%= task[:priority] == 'urgent' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' : task[:priority] == 'high' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400' : task[:priority] == 'medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' %>">
+                        <%= task[:priority].capitalize %>
+                      </span>
+                    <% end %>
+                    
+                    <% if task[:due_date] %>
+                      <span class="flex items-center text-sm font-medium <%= task[:due_date] < Date.today && task[:status] != 'completed' ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400' %>">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <%= format_due_date(task[:due_date]) %>
+                      </span>
+                    <% end %>
+                    
+                    <% if task[:assignee] %>
+                      <span class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <div class="w-5 h-5 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full mr-1.5 flex items-center justify-center">
+                          <span class="text-white text-[10px] font-semibold"><%= task[:assignee][:name][0].upcase %></span>
+                        </div>
+                        <%= task[:assignee][:name] %>
+                      </span>
+                    <% end %>
+                  </div>
+                  
+                  <% if task[:tags]&.any? %>
+                    <div class="flex flex-wrap gap-1.5 mt-3">
+                      <% task[:tags].each do |tag| %>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                          #<%= tag %>
+                        </span>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  
+  <!-- Quick add bar with enhanced styling -->
+  <div class="sticky bottom-0 backdrop-blur-lg bg-white/90 dark:bg-gray-800/90 border-t border-gray-200/50 dark:border-gray-700/50 p-4">
+    <div class="flex items-center space-x-3">
+      <input type="text" 
+             placeholder="Add a task..."
+             class="flex-1 px-5 py-3.5 bg-gray-100/80 dark:bg-gray-700/80 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all duration-200 text-base"
+             data-action="keydown.enter->mobile-tasks#quickAdd">
+      <button class="p-3 rounded-xl bg-white dark:bg-gray-700 shadow-sm hover:shadow-md transition-all duration-200"
+              data-action="click->mobile-tasks#showAdvancedAdd">
+        <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

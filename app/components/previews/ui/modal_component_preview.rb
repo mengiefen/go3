@@ -1,7 +1,7 @@
 module Ui
   class ModalComponentPreview < ViewComponent::Preview
     # @!group Modal Variations
-    
+
     # @label Basic Modal
     # @description A basic modal with a title and content
     def basic
@@ -11,13 +11,13 @@ module Ui
         size: :md
       })
     end
-    
+
     # @label Different Sizes
     # @description Modals in different size variations
     def sizes
       render_with_template
     end
-    
+
     # @label Full Screen Modal
     # @description A modal that takes up the full screen
     def full_screen
@@ -27,7 +27,7 @@ module Ui
         full_screen: true
       })
     end
-    
+
     # @label Custom Header and Footer
     # @description Modal with custom header and footer content
     def custom_header_footer
@@ -36,7 +36,7 @@ module Ui
         size: :lg
       })
     end
-    
+
     # @label Form in Modal
     # @description Modal containing a form
     def with_form
@@ -46,7 +46,7 @@ module Ui
         size: :lg
       })
     end
-    
+
     # @!endgroup
   end
 end

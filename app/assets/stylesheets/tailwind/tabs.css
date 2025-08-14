@@ -1,0 +1,423 @@
+/* Tab system styles with smart text hiding */
+
+/* Tab bar layout */
+[data-vscode-tabs-target="tabBar"] {
+  display: flex !important;
+  align-items: stretch !important;
+  height: 100% !important;
+  min-width: 0; /* Important for flexbox shrinking */
+  gap: 0; /* No gap for seamless tabs */
+}
+
+/* Tab item base styles with dynamic sizing */
+.tab-item {
+  @apply transition-all duration-200 ease-in-out relative cursor-pointer;
+  flex: 0 1 auto; /* Can shrink but starts at content size */
+  min-width: 50px; /* Minimum width for icon-only mode */
+  max-width: 240px; /* Maximum tab width */
+  height: 100%;
+  display: flex !important;
+  flex-direction: row !important; /* Force horizontal layout */
+  align-items: center !important;
+  padding: 0 8px 0 12px !important; /* Less padding on right for close button */
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px 8px 0 0;
+  margin: 0 -6px; /* Overlap tabs */
+  isolation: isolate; /* Create new stacking context */
+}
+
+/* Add separator between tabs using a span element */
+.tab-separator {
+  display: none; /* Hide separators for Chrome-style tabs */
+}
+
+/* Tab overlap borders - creates clean edges */
+.tab-item::before,
+.tab-item::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 0;
+  width: 1px;
+  opacity: 0.2;
+}
+
+.tab-item::before {
+  left: 0;
+  background: #94a3b8; /* slate-400 */
+}
+
+.tab-item::after {
+  right: 0;
+  background: #94a3b8; /* slate-400 */
+}
+
+/* Dark mode borders */
+@media (prefers-color-scheme: dark) {
+  .tab-item::before,
+  .tab-item::after {
+    background: #334155; /* slate-700 */
+    opacity: 0.5;
+  }
+}
+
+/* Hide borders for active tab */
+.tab-item.active::before,
+.tab-item.active::after {
+  opacity: 0;
+}
+
+/* Hide right border of tab before active tab */
+.tab-item:has(+ .tab-item.active)::after {
+  opacity: 0;
+}
+
+/* Hide left border of tab after active tab */
+.tab-item.active + .tab-item::before {
+  opacity: 0;
+}
+
+/* Tab content wrapper - ensure horizontal layout */
+.tab-content-wrapper {
+  display: flex !important;
+  flex-direction: row !important; /* Force horizontal layout */
+  align-items: center !important;
+  gap: 8px; /* Reduced gap between elements */
+  height: 100%;
+  padding: 8px 0; /* Vertical padding for better height */
+  position: relative;
+  width: 100%;
+}
+
+/* When no icon, adjust text margin */
+.tab-content-wrapper:not(:has(.tab-icon)) .tab-text {
+  margin-left: 0;
+}
+
+/* Icon styles */
+.tab-icon {
+  @apply flex-shrink-0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 20px;
+  height: 20px;
+}
+
+/* Text styles with dynamic visibility */
+.tab-text {
+  @apply text-sm;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: opacity 0.15s ease-in-out, max-width 0.15s ease-in-out;
+  line-height: 1.5;
+  flex: 0 1 auto; /* Don't grow, but can shrink */
+  max-width: 180px; /* Prevent text from being too long */
+  min-width: 0; /* Allow shrinking to 0 */
+}
+
+/* Hide text when tab is too small */
+.tab-item[data-text-hidden="true"] .tab-text {
+  opacity: 0;
+  max-width: 0;
+  margin: 0;
+}
+
+/* Adjust icon margin when text is hidden */
+.tab-item[data-text-hidden="true"] .tab-icon {
+  margin-right: 0;
+}
+
+/* Close button styles */
+.tab-close {
+  @apply flex-shrink-0 rounded-full;
+  @apply transition-all duration-150 ease-in-out;
+  margin-left: 6px;
+  padding: 2px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Show close button on tab hover or when active */
+.tab-item:hover .tab-close,
+.tab-item.active .tab-close {
+  opacity: 0.7;
+  pointer-events: auto;
+}
+
+.tab-close:hover {
+  @apply bg-slate-300;
+  opacity: 1;
+}
+
+/* Close button icon size */
+.tab-close svg {
+  width: 14px;
+  height: 14px;
+  @apply text-slate-600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tab-close:hover {
+    background-color: rgb(71 85 105); /* slate-600 */
+  }
+  
+  .tab-close svg {
+    color: rgb(203 213 225); /* slate-300 */
+  }
+}
+
+/* Hide close button when tab is very small */
+.tab-item[data-text-hidden="true"] .tab-close {
+  margin-left: 4px;
+  padding: 2px;
+}
+
+/* Active tab styles with Chrome-like design */
+.tab-item.active {
+  @apply bg-white relative;
+  z-index: 30;
+  margin-bottom: -1px;
+  box-shadow: 
+    0 0 0 1px #e2e8f0,
+    0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode active tab */
+@media (prefers-color-scheme: dark) {
+  .tab-item.active {
+    background-color: rgb(30 41 59); /* slate-800 - matches content */
+    box-shadow: 
+      0 0 0 1px rgb(71 85 105), /* slate-600 border */
+      0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Hide curve elements - not needed for Chrome style */
+.tab-curve-left,
+.tab-curve-right {
+  display: none;
+}
+
+/* Chrome-style shadow for depth */
+.tab-item.active {
+  box-shadow: 
+    0 1px 4px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode shadow */
+@media (prefers-color-scheme: dark) {
+  .tab-item.active {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(100, 116, 139, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+}
+
+.tab-item.active .tab-icon svg {
+  @apply text-blue-600;
+}
+
+.tab-item.active .tab-text {
+  @apply text-slate-900 font-medium;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tab-item.active .tab-icon svg {
+    color: rgb(96 165 250); /* blue-400 */
+  }
+  
+  .tab-item.active .tab-text {
+    color: rgb(241 245 249); /* slate-100 */
+  }
+}
+
+/* Non-active tab styles */
+.tab-item:not(.active) {
+  @apply bg-slate-50/90;
+  z-index: 10;
+}
+
+.tab-item:not(.active):hover {
+  @apply bg-white/80;
+  z-index: 20;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tab-item:not(.active) .tab-text {
+  @apply text-slate-600;
+}
+
+.tab-item:not(.active) .tab-icon svg {
+  @apply text-slate-500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tab-item:not(.active) {
+    background-color: rgba(15, 23, 42, 0.8); /* slate-900/80 */
+  }
+  
+  .tab-item:not(.active):hover {
+    background-color: rgba(51, 65, 85, 0.9); /* slate-700/90 */
+    z-index: 20;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+  
+  .tab-item:not(.active) .tab-text {
+    color: rgb(148 163 184); /* slate-400 */
+  }
+  
+  .tab-item:not(.active):hover .tab-text {
+    color: rgb(203 213 225); /* slate-300 */
+  }
+  
+  .tab-item:not(.active) .tab-icon svg {
+    color: rgb(100 116 139); /* slate-500 */
+  }
+}
+
+/* Container queries for responsive tab sizing */
+@container (max-width: 600px) {
+  .tab-item {
+    min-width: 40px;
+  }
+}
+
+/* Force horizontal scrolling when needed */
+.tab-bar-scroll {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+}
+
+/* Ensure proper width calculation for tabs */
+.tab-item[data-text-hidden="true"] {
+  min-width: 40px !important;
+  max-width: 60px !important;
+}
+
+/* Animation for tab appearance */
+@keyframes tabSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tab-item {
+  animation: tabSlideIn 0.15s ease-out;
+}
+
+/* Smooth transitions for all tab interactions */
+.tab-item * {
+  transition-property: color, background-color, border-color, opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Focus styles for accessibility */
+.tab-item:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-1;
+}
+
+/* Hover effect for better interactivity */
+.tab-item:hover .tab-icon svg {
+  @apply text-slate-700;
+}
+
+.tab-item.active:hover .tab-icon svg {
+  @apply text-blue-700;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tab-item:hover .tab-icon svg {
+    color: rgb(226 232 240); /* slate-200 */
+  }
+  
+  .tab-item.active:hover .tab-icon svg {
+    color: rgb(147 197 253); /* blue-300 */
+  }
+}
+
+/* Tab bar container with container query support */
+.tab-bar-container {
+  @apply relative overflow-hidden;
+  container-type: inline-size;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f1f5f9; /* slate-100 */
+}
+
+/* Dark mode tab bar */
+@media (prefers-color-scheme: dark) {
+  .tab-bar-container {
+    border-bottom: 1px solid rgb(51 65 85); /* slate-700 */
+    background: rgb(15 23 42); /* slate-900 */
+  }
+}
+
+/* Scrollbar styles */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* No tabs indicator */
+[data-vscode-tabs-target="noTabsIndicator"] {
+  @apply flex-shrink-0;
+}
+
+/* Tab actions */
+[data-vscode-tabs-target="tabActions"] {
+  @apply flex-shrink-0;
+}
+
+/* Sortable dragging styles */
+.tab-sortable-ghost {
+  opacity: 0.4;
+  background-color: #e2e8f0;
+}
+
+.tab-sortable-drag {
+  opacity: 0.9;
+  cursor: grabbing !important;
+}
+
+/* Add cursor style for draggable tabs */
+.tab-item .tab-content-wrapper {
+  cursor: grab;
+}
+
+.tab-item .tab-content-wrapper:active {
+  cursor: grabbing;
+}
+
+/* Dark mode sortable styles */
+@media (prefers-color-scheme: dark) {
+  .tab-sortable-ghost {
+    background-color: rgb(51 65 85); /* slate-700 */
+  }
+}

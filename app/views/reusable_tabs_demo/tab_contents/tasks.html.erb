@@ -1,0 +1,124 @@
+<%= turbo_frame_tag frame_id do %>
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+    <!-- Header with gradient -->
+    <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold"><%= content_name %></h2>
+          <p class="text-blue-100 mt-1">ERP task management and workflow tracking</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6">
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Workflows</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Completed</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">89</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.98-.833-2.75 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Approval</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">7</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent ERP Tasks -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent ERP Workflows</h3>
+        <div class="space-y-3">
+          <% [
+            { title: "Process Q4 Financial Audit", priority: "high", status: "in_progress", assignee: "Sarah Mitchell", due: "Today" },
+            { title: "Employee Payroll Processing", priority: "urgent", status: "pending", assignee: "Michelle Carter", due: "Tomorrow" },
+            { title: "Inventory Reconciliation", priority: "medium", status: "completed", assignee: "Antonio Silva", due: "Yesterday" },
+            { title: "Budget Approval Workflow", priority: "high", status: "pending", assignee: "Alex Rodriguez", due: "This Week" },
+            { title: "Compliance Report Generation", priority: "medium", status: "in_progress", assignee: "Robert Zhang", due: "Friday" },
+            { title: "New Employee Onboarding", priority: "low", status: "pending", assignee: "Rachel Kim", due: "Next Week" }
+          ].each do |task| %>
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <h4 class="font-medium text-gray-900 dark:text-white"><%= task[:title] %></h4>
+                  <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="flex items-center">
+                      <span class="w-2 h-2 rounded-full mr-2 <%= task[:priority] == 'urgent' ? 'bg-red-500' : task[:priority] == 'high' ? 'bg-orange-500' : task[:priority] == 'medium' ? 'bg-yellow-500' : 'bg-green-500' %>"></span>
+                      <%= task[:priority].capitalize %> priority
+                    </span>
+                    <span>Assigned to <%= task[:assignee] %></span>
+                    <span>Due <%= task[:due] %></span>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= task[:status] == 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : task[:status] == 'in_progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400' %>">
+                    <%= task[:status].humanize %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-6 flex flex-wrap gap-3">
+        <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Create Workflow
+        </button>
+        <button class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+          </svg>
+          Filter by Department
+        </button>
+        <button class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          Generate Report
+        </button>
+      </div>
+    </div>
+  </div>
+<% end %>

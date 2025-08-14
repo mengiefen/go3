@@ -24,15 +24,15 @@ class Ui::CardComponentPreview < ViewComponent::Preview
       end
     end
   end
-  
+
   def with_header_and_footer
     render_with_template
   end
-  
+
   def variants
     render_with_template
   end
-  
+
   def without_padding
     render(Containers::CardComponent.new(padding: false)) do
       tag.div(class: "h-24 bg-gray-100 flex items-center justify-center") do
@@ -40,7 +40,7 @@ class Ui::CardComponentPreview < ViewComponent::Preview
       end
     end
   end
-  
+
   def with_border
     render(Containers::CardComponent.new(border: true)) do
       tag.p(class: "text-gray-700") do

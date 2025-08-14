@@ -22,33 +22,7 @@ export default class extends Controller {
     const contentId = event.currentTarget.dataset.contentId;
     const contentName = event.currentTarget.dataset.contentName;
 
-    // Check if tab already exists
-    const tabsController = this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller="vscode-tabs"]'),
-      'vscode-tabs'
-    );
-
-    if (tabsController) {
-      let existingTabId;
-
-      if (contentType.startsWith('task_')) {
-        const filterType = contentType.replace('task_', '');
-        existingTabId = `tab-tasks-${filterType}-${contentId}`;
-      } else {
-        existingTabId = `tab-${contentType}-${contentId}`;
-      }
-
-      const existingTab = document.getElementById(existingTabId);
-
-      if (existingTab) {
-        // Focus existing tab
-        console.log('Focusing existing tab:', existingTabId);
-        tabsController.setActiveTab(existingTabId);
-        return;
-      }
-    }
-
-    // Create new tab
+    // Always create new tab (allow multiple instances)
     console.log('Creating new tab for:', contentType, contentId, contentName);
     this.createNewTab(contentType, contentId, contentName);
   }
@@ -56,49 +30,97 @@ export default class extends Controller {
   createNewTab(contentType, contentId, contentName) {
     let url, tabId;
 
-    // Handle task-specific routing
-    if (contentType.startsWith('task_')) {
-      const filterType = contentType.replace('task_', '');
-      url = `/tasks/content/${filterType}/${contentId}?content_name=${encodeURIComponent(contentName)}`;
-      tabId = `tab-tasks-${filterType}-${contentId}`;
-    } else {
-      url = `/tab-demo/content/${contentType}/${contentId}?content_name=${encodeURIComponent(contentName)}`;
-      tabId = `tab-${contentType}-${contentId}`;
+    // Get tabs controller reference
+    const tabsElement = document.querySelector('[data-controller="vscode-tabs"]');
+    if (!tabsElement) {
+      console.error('No element with data-controller="vscode-tabs" found');
+      return;
     }
-
-    // Add tab to tab bar first
+    
     const tabsController = this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller="vscode-tabs"]'),
+      tabsElement,
       'vscode-tabs'
     );
-
-    if (tabsController) {
-      tabsController.addTab(tabId, contentName || `${contentType} ${contentId}`);
-      // Immediately focus the new tab (even before content loads)
-      tabsController.setActiveTab(tabId);
+    
+    if (!tabsController) {
+      console.error('VSCode tabs controller not found');
+      return;
     }
 
-    // Load content via Turbo
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/vnd.turbo-stream.html',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-    })
-      .then((response) => response.text())
-      .then((html) => {
-        Turbo.renderStreamMessage(html);
+    // Generate unique tab ID to support multiple instances
+    if (contentType.startsWith('task_')) {
+      const filterType = contentType.replace('task_', '');
+      tabId = tabsController.generateUniqueTabId(`tasks-${filterType}`, contentId);
+      url = `/tasks/content/${filterType}/${contentId}?content_name=${encodeURIComponent(contentName)}&frame_id=frame-${tabId}`;
+    } else {
+      tabId = tabsController.generateUniqueTabId(contentType, contentId);
+      url = `/tab-demo/content/${contentType}/${contentId}?content_name=${encodeURIComponent(contentName)}&frame_id=frame-${tabId}`;
+    }
 
-        // Re-activate the tab after content is loaded to ensure it's visible
-        setTimeout(() => {
-          if (tabsController) {
-            tabsController.setActiveTab(tabId);
-          }
-        }, 50);
-      })
-      .catch((error) => {
-        console.error('Error loading tab content:', error);
+    // Add tab to tab bar
+    tabsController.addTab(tabId, contentName || `${contentType} ${contentId}`);
+    console.log('Tab added with ID:', tabId);
+
+    // Small delay to ensure DOM is updated
+    setTimeout(() => {
+      // Load content via Turbo Frame
+      const contentContainer = document.getElementById(tabId);
+      console.log('Looking for container:', tabId, 'Found:', contentContainer);
+      if (contentContainer) {
+      // Add loading state to content immediately
+      contentContainer.classList.add('content-loading');
+      
+      // Add loading state to tab after it's created (optional, don't break if it fails)
+      setTimeout(() => {
+        try {
+          tabsController.setTabLoading(tabId, true);
+        } catch (e) {
+          console.warn('Could not set tab loading state:', e);
+        }
+      }, 50);
+      
+      // Create turbo frame for this tab
+      const turboFrame = document.createElement('turbo-frame');
+      turboFrame.id = `frame-${tabId}`;
+      turboFrame.src = url;
+      turboFrame.dataset.loadedTabId = tabId;
+      turboFrame.dataset.turboFrameRequestsFormat = 'html';
+      
+      // Listen for frame load start
+      turboFrame.addEventListener('turbo:before-frame-render', () => {
+        console.log('Frame starting to load for tab:', tabId);
       });
+      
+      // Listen for frame load event
+      turboFrame.addEventListener('turbo:frame-load', () => {
+        console.log('Frame loaded for tab:', tabId);
+        // Remove loading states
+        try {
+          tabsController.setTabLoading(tabId, false);
+          tabsController.setActiveTab(tabId);
+        } catch (e) {
+          console.warn('Error removing loading state:', e);
+        }
+        contentContainer.classList.remove('content-loading');
+      });
+      
+      // Listen for frame error
+      turboFrame.addEventListener('turbo:frame-missing', () => {
+        console.error('Frame failed to load for tab:', tabId);
+        try {
+          tabsController.setTabLoading(tabId, false);
+        } catch (e) {
+          console.warn('Error removing loading state on error:', e);
+        }
+        contentContainer.classList.remove('content-loading');
+        contentContainer.innerHTML = '<div class="p-4 text-red-600">Failed to load content</div>';
+      });
+      
+      // Add frame to content container
+      contentContainer.appendChild(turboFrame);
+      } else {
+        console.error('Content container not found for tab:', tabId);
+      }
+    }, 10);
   }
 }

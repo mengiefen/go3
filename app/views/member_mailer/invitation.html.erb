@@ -1,0 +1,16 @@
+<h1><%= mailer_template_t("join", organization_name: @organization.name) %></h1>
+
+<p><%= mailer_template_t("hello") %></p>
+
+<p><%= simple_format(mailer_template_t("invitation", organization_name: @organization.name)) %></p>
+
+<p><%= mailer_template_t("instruction", organization_name: @organization.name) %></p>
+
+<p>
+  <%= link_to mailer_template_t("accept_invitation"), @signup_url %>
+</p>
+
+<p><%= mailer_template_t("copy_link") %></p>
+<pre><%= @signup_url %></pre>
+
+<p><%= mailer_template_t("already_a_member") %></p>

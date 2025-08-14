@@ -36,19 +36,19 @@ class Forms::TextareaComponentPreview < ViewComponent::Preview
       component.with_hint { "Clean, simple textarea with default styling" }
     end
   end
-  
+
   def resize_options
     render_with_template
   end
-  
+
   def rows
     render_with_template
   end
-  
+
   def states
     render_with_template
   end
-  
+
   def with_error
     render(Forms::TextareaComponent.new(
       name: "error_example",
@@ -59,7 +59,7 @@ class Forms::TextareaComponentPreview < ViewComponent::Preview
       component.with_error { "Please enter a valid message" }
     end
   end
-  
+
   def with_character_count
     render(Forms::TextareaComponent.new(
       name: "with_maxlength",

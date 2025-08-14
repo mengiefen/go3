@@ -16,4 +16,4 @@ class DataDisplay::TreeViewComponent < ViewComponent::Base
       @expanded = expanded
     end
   end
-end 
+end
