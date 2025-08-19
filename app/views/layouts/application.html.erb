@@ -36,7 +36,10 @@
     <meta name="turbo-cache-control" content="no-preview">
   </head>
   <body class="h-full bg-gray-50" dir=<%= supported_languages.dig(current_language, :rtl) ? "rtl" : "ltr" %>>
-    <% if !(controller_name == 'sessions' && action_name == 'new' && devise_controller?) %>
+    <% if ['sessions', 'registrations', 'confirmations', 'onboarding'].include?(controller_name) %>
+      <%= yield %>    
+    <% else %>
+      <%= turbo_stream_from "members_list" %>
       <%= PageLayout do |pl| %>
         <%= pl.with_header do %>
           <a href="/"> <h1 class="ma-0 pa-0"> It's Go3 </h1></a>
@@ -66,9 +69,8 @@
           </ul>
         <% end %>
         <%= pl.with_main_content do %><% end %>
+
       <% end %>
-    <% else %>
-      <%= yield %>    
     <% end %>
     <!-- Include content from page_scripts block -->
     <%= yield :page_scripts if content_for?(:page_scripts) %>

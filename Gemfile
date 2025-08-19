@@ -104,6 +104,7 @@ group :development do
   # gem "mailcatcher" # Optional: Install separately with `gem install mailcatcher`
   gem "rubocop", "~> 1.75"
   gem "lefthook"
+  gem "bullet"
 end
 
 group :test do

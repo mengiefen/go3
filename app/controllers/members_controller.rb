@@ -4,7 +4,7 @@ class MembersController < ApplicationController
 
   def index
     authorize current_member
-    @members = current_organization.members.to_a.sort_by do |member|
+    @members = current_organization.members.includes([ :user, :direct_permissions ]).to_a.sort_by do |member|
       [
         member.archived? ? 1 : 0,       # unarchived first
         member.org_admin? ? 0 : 1,      # admins first
@@ -35,13 +35,12 @@ class MembersController < ApplicationController
 
       Turbo::StreamsChannel.broadcast_append_to(
         "members_list",
-        target: "members_list",
+        targets: ".members_list",
         partial: "members/member_row",
         locals: { member: @member }
       )
 
       render turbo_stream: [
-        turbo_stream.append("members_list", partial: "members/member_row", locals: { member: @member }),
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
       ]
     end
@@ -58,7 +57,6 @@ class MembersController < ApplicationController
       broadcast_member_update
 
       render turbo_stream: [
-        updated_row,
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
       ]
     end
@@ -69,7 +67,6 @@ class MembersController < ApplicationController
     @member = Member.find_by(id: params[:id])
     Permission.find_or_create_by(organization: @member.organization, grantee: @member, code: Permission::ORG_ADMIN)
     broadcast_member_update
-    stream_updated_row
   end
 
   def revoke_admin
@@ -77,7 +74,6 @@ class MembersController < ApplicationController
     @member = Member.find_by(id: params[:id])
     Permission.where(organization: @member.organization, grantee: @member, code: Permission::ORG_ADMIN).destroy_all
     broadcast_member_update
-    stream_updated_row
   end
 
   def resend_invitation
@@ -85,7 +81,6 @@ class MembersController < ApplicationController
     @member = Member.find_by(id: params[:id])
     invite
     broadcast_member_update
-    stream_updated_row
   end
 
   def archive
@@ -93,7 +88,6 @@ class MembersController < ApplicationController
     @member = Member.find_by(id: params[:id])
     @member.archive!
     broadcast_member_update
-    stream_updated_row
   end
 
   def unarchive
@@ -101,7 +95,6 @@ class MembersController < ApplicationController
     @member = Member.find_by(id: params[:id])
     @member.unarchive!
     broadcast_member_update
-    stream_updated_row
   end
 
   def export
@@ -147,22 +140,10 @@ class MembersController < ApplicationController
     )
   end
 
-  def stream_updated_row
-    render turbo_stream: updated_row
-  end
-
-  def updated_row
-    turbo_stream.replace(
-      "member_row_#{@member.id}",
-      partial: "members/member_row",
-      locals: { member: @member }
-    )
-  end
-
   def broadcast_member_update
     Turbo::StreamsChannel.broadcast_replace_to(
       "members_list",
-      target: "member_row_#{@member.id}",
+      targets: ".member_row_#{@member.id}",
       partial: "members/member_row",
       locals: { member: @member }
     )

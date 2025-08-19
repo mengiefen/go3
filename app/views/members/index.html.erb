@@ -1,5 +1,5 @@
 <div data-controller="search-member" class="h-full flex flex-col">
-  <div class="container mx-auto p-6 flex gap-16 items-center justify-between">
+  <div class="container mx-auto p-2 flex gap-16 items-center justify-between">
     <h2 class="text-2xl font-bold text-gray-900 tracking-tight"><%= view_t("list_of_members") %></h2>
     <input
       type="text"
@@ -23,7 +23,6 @@
   </div>
 
   <%= turbo_frame_tag "modal" %>
-  <%= turbo_stream_from "members_list" %>
 
   <div class="bg-white shadow overflow-x-hidden flex-1 overflow-y-auto">
     <%= render DataDisplay::TableComponent.new( 
@@ -33,7 +32,7 @@
         { label: view_t('email')},
         { label: view_t('status'), class: 'text-center' }
       ],
-      class_list: "table-auto",
+      class_list: "members_list table-auto",
       turbo_frame_target: "members_list"
     ) do |table| %>
       <% @members.each do |member| %>

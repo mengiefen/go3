@@ -48,6 +48,7 @@ export default class extends Controller {
 
     // Close the modal when Escape key is pressed
     if (event.key === 'Escape') {
+      event.preventDefault();
       this.close();
     }
   }
