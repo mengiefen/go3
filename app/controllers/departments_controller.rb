@@ -4,12 +4,12 @@ class DepartmentsController < ApplicationController
 
   def index
     authorize current_member
-    @departments = current_organization.departments.order(:name)
+    @departments = current_organization.departments.order(id: :desc)
   end
 
   def new
     authorize current_member
-    @organization = current_organization
+    # @organization = current_organization
     @department = Department.new
   end
 
@@ -29,19 +29,16 @@ class DepartmentsController < ApplicationController
     end
 
     if @department.save
-      Turbo::StreamsChannel.broadcast_append_to(
+      Turbo::StreamsChannel.broadcast_prepend_to(
         "departments_list",
-        target: "departments_list",
+        targets: ".departments_list",
         partial: "departments/department_row",
         locals: { department: @department }
       )
 
       render turbo_stream: [
-        turbo_stream.append("departments_list", partial: "departments/department_row", locals: { department: @department }),
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
       ]
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 
@@ -66,7 +63,6 @@ class DepartmentsController < ApplicationController
       broadcast_department_update
 
       render turbo_stream: [
-        updated_row,
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
       ]
     else
@@ -74,17 +70,17 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def destroy
-    authorize current_member
-    @department = Department.find_by(id: params[:id])
+  # def destroy
+  #   authorize current_member
+  #   @department = Department.find_by(id: params[:id])
 
-    if @department.destroy
-      broadcast_department_update
-      render turbo_stream: turbo_stream.remove("department_row_#{@department.id}")
-    else
-      render json: { error: "Failed to delete department" }, status: :unprocessable_entity
-    end
-  end
+  #   if @department.destroy
+  #     broadcast_department_update
+  #     render turbo_stream: turbo_stream.remove("department_row_#{@department.id}")
+  #   else
+  #     render json: { error: "Failed to delete department" }, status: :unprocessable_entity
+  #   end
+  # end
 
   def export
     authorize current_member
@@ -117,18 +113,10 @@ class DepartmentsController < ApplicationController
     )
   end
 
-  def updated_row
-    turbo_stream.replace(
-      "department_row_#{@department.id}",
-      partial: "departments/department_row",
-      locals: { department: @department }
-    )
-  end
-
   def broadcast_department_update
     Turbo::StreamsChannel.broadcast_replace_to(
       "departments_list",
-      target: "department_row_#{@department.id}",
+      targets: ".department_row_#{@department.id}",
       partial: "departments/department_row",
       locals: { department: @department }
     )

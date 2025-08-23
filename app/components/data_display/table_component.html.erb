@@ -1,5 +1,5 @@
 <!-- app/components/data_display/table_component.html.erb -->
-<table class="table-component <%= @class_list %>">
+<table class="table-component <%= @table_class_list %>">
   <thead class="sticky top-0 bg-white z-10 shadow-sm">
     <tr>
       <% @columns.each do |column| %>
@@ -9,7 +9,7 @@
       <% end %>
     </tr>
   </thead>
-  <tbody id="<%= @turbo_frame_target %>">
+  <tbody id="<%= @turbo_frame_target %>" class="<%= @body_class_list %>">
     <% rows.each do |row| %>
       <%= row %>
     <% end %>

@@ -145,6 +145,7 @@ en:
   views:
     members:
       index:
+        members: Members
         list_of_members: List of members
         search_placeholder: Search members by name or email ...
         add_a_new_member: Add a new member
@@ -184,6 +185,7 @@ en:
         created_at: Created At
     departments:
       index:
+        departments: Departments
         list_of_departments: List of departments
         search_placeholder: Search departments by name or description ...
         add_a_new_department: Add a new department
@@ -213,4 +215,72 @@ en:
         abbreviation: Abbreviation
         description: Description
         members_count: Members Count
+        created_at: Created At
+    roles:
+      index:
+        roles: Roles
+        list_of_roles: List of roles
+        search_placeholder: Search roles by name or description ...
+        add_a_new_role: Add a new role
+        export_to_excel: Export to Excel
+        name: Name
+        description: Description
+        department: Department
+        parent: Parent
+        current_assignee: Current Assignee
+        status: Status
+        actions: Actions
+        active: Active
+        inactive: Inactive
+      new: 
+        create_a_new_role: Create a new role
+        role_name: Role Name
+        role_name_placeholder: Enter role name
+        description: Description
+        description_placeholder: Enter role description
+        department: Department
+        select_department: Select a department
+        parent_role: Parent Role
+        select_parent_role: Select a parent role
+        active: Active
+        cancel: Cancel
+        submit: Create
+      edit: 
+        edit_role: Edit role
+        role_name: Role Name
+        role_name_placeholder: Enter role name
+        description: Description
+        description_placeholder: Enter role description
+        department: Department
+        select_department: Select a department
+        parent_role: Parent Role
+        select_parent_role: Select a parent role
+        active: Active
+        cancel: Cancel
+        submit: Update
+      assignments:
+        role_assignments: Role Assignments
+        manage_assignments: Manage role assignments
+        current_assignment: Current Assignment
+        past_assignments: Past Assignments
+        no_current_assignment: No current assignment
+        no_past_assignments: No past assignments
+        assign_member: Assign Member
+        select_member: Select a member
+        assign: Assign
+        unassign: Unassign
+        assigned_since: Assigned since
+        present: Present
+        confirm_unassign: Are you sure you want to unassign this member?
+        please_select_member: Please select a member
+        assignment_failed: Failed to assign member
+      export: 
+        name: Name
+        description: Description
+        department: Department
+        parent: Parent
+        current_assignee: Current Assignee
+        status: Status
+        active: Active
+        inactive: Inactive
         created_at: Created At

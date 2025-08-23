@@ -1,0 +1,8 @@
+<% roles.each do |role| %>
+  <%= render partial: "role_row", locals: { 
+    organization: organization, 
+    role: role, 
+    level: 0, 
+    additional_classes: '' 
+  } %>
+<% end %>

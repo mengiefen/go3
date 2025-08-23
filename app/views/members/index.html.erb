@@ -1,3 +1,4 @@
+<title><%= view_t("members") %></title>
 <div data-controller="search-member" class="h-full flex flex-col">
   <div class="container mx-auto p-2 flex gap-16 items-center justify-between">
     <h2 class="text-2xl font-bold text-gray-900 tracking-tight"><%= view_t("list_of_members") %></h2>
@@ -32,12 +33,13 @@
         { label: view_t('email')},
         { label: view_t('status'), class: 'text-center' }
       ],
-      class_list: "members_list table-auto",
+      table_class_list: "table-auto",
+      body_class_list: "members_list",
       turbo_frame_target: "members_list"
     ) do |table| %>
       <% @members.each do |member| %>
         <% table.with_row do %>
-          <%= render partial: "member_row", locals: { member: member } %>
+          <%= render partial: "member_row", locals: { member: member, org_admin: member.org_admin? } %>
         <% end %>
         <% end %>
     <% end %>

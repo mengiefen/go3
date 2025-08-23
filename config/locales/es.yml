@@ -145,6 +145,7 @@ es:
   views:
     members:
       index:
+        members: Miembros
         list_of_members: Lista de miembros
         search_placeholder: Buscar miembros por nombre o correo electrónico ...
         add_a_new_member: Agregar un nuevo miembro
@@ -184,6 +185,7 @@ es:
         created_at: Fecha de creación
     departments:
       index:
+        departments: Departamentos
         list_of_departments: Lista de departamentos
         search_placeholder: Buscar departamentos por nombre o descripción ...
         add_a_new_department: Agregar un nuevo departamento
@@ -213,4 +215,72 @@ es:
         abbreviation: Abreviatura
         description: Descripción
         members_count: Cantidad de miembros
+        created_at: Fecha de creación
+    roles:
+      index:
+        roles: Roles
+        list_of_roles: Lista de roles
+        search_placeholder: Buscar roles por nombre o descripción ...
+        add_a_new_role: Agregar un nuevo rol
+        export_to_excel: Exportar a Excel
+        name: Nombre
+        description: Descripción
+        department: Departamento
+        parent: Padre
+        current_assignee: Asignado actual
+        status: Estado
+        actions: Acciones
+        active: Activo
+        inactive: Inactivo
+      new: 
+        create_a_new_role: Crear un nuevo rol
+        role_name: Nombre del rol
+        role_name_placeholder: Ingrese el nombre del rol
+        description: Descripción
+        description_placeholder: Ingrese la descripción del rol
+        department: Departamento
+        select_department: Seleccione un departamento
+        parent_role: Rol padre
+        select_parent_role: Seleccione un rol padre
+        active: Activo
+        cancel: Cancelar
+        submit: Crear
+      edit: 
+        edit_role: Editar rol
+        role_name: Nombre del rol
+        role_name_placeholder: Ingrese el nombre del rol
+        description: Descripción
+        description_placeholder: Ingrese la descripción del rol
+        department: Departamento
+        select_department: Seleccione un departamento
+        parent_role: Rol padre
+        select_parent_role: Seleccione un rol padre
+        active: Activo
+        cancel: Cancelar
+        submit: Actualizar
+      assignments:
+        role_assignments: Asignaciones de roles
+        manage_assignments: Gestionar asignaciones de roles
+        current_assignment: Asignación actual
+        past_assignments: Asignaciones pasadas
+        no_current_assignment: Sin asignación actual
+        no_past_assignments: Sin asignaciones pasadas
+        assign_member: Asignar miembro
+        select_member: Seleccione un miembro
+        assign: Asignar
+        unassign: Desasignar
+        assigned_since: Asignado desde
+        present: Presente
+        confirm_unassign: ¿Está seguro de que desea desasignar este miembro?
+        please_select_member: Por favor seleccione un miembro
+        assignment_failed: Error al asignar miembro
+      export: 
+        name: Nombre
+        description: Descripción
+        department: Departamento
+        parent: Padre
+        current_assignee: Asignado actual
+        status: Estado
+        active: Activo
+        inactive: Inactivo
         created_at: Fecha de creación

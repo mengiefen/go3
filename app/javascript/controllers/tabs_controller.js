@@ -13,6 +13,9 @@ export default class extends Controller {
     this.tabCounterValue = this.tabCounterValue || 0
     this.activeTabIdValue = this.activeTabIdValue || "welcome"
     
+    // Initialize tab history stack to track activation order
+    this.tabHistory = []
+    
     // Check if we're loading a direct URL
     if (window.location.pathname !== '/') {
       const pathSegments = window.location.pathname.split('/').filter(p => p);
@@ -21,6 +24,8 @@ export default class extends Controller {
     } else {
       // Initialize with welcome tab
       this.initializeWelcomeTab()
+      // Add welcome tab to history
+      this.addToTabHistory("welcome")
     }
     
     // Listen for browser back/forward buttons
@@ -185,6 +190,9 @@ export default class extends Controller {
         contentDiv.innerHTML = html
         console.log(`Loaded content for URL: ${url}`)
         
+        // Extract and update tab title from the loaded content
+        this.updateTabTitleFromContent(tabElement, html)
+        
         // Remove loading state from tab
         this.setTabLoadingState(tabElement, false)
         
@@ -204,9 +212,44 @@ export default class extends Controller {
     }
   }
 
+  // New method to extract title from HTML content and update tab
+  updateTabTitleFromContent(tabElement, htmlContent) {
+    try {
+      // Create a temporary DOM parser to extract the title
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(htmlContent, 'text/html')
+      const titleElement = doc.querySelector('title')
+      
+      if (titleElement && titleElement.textContent.trim()) {
+        const newTitle = titleElement.textContent.trim()
+        const titleSpan = tabElement.querySelector('span')
+        
+        if (titleSpan) {
+          titleSpan.textContent = newTitle
+          console.log(`Updated tab title to: ${newTitle}`)
+          
+          // Update browser title if this is the active tab
+          const tabId = tabElement.dataset.tabId
+          if (this.activeTabIdValue === tabId) {
+            document.title = newTitle
+            // Update the browser history state with new title
+            const tabUrl = tabElement.dataset.tabUrl
+            window.history.replaceState({ tabUrl: tabUrl, tabTitle: newTitle }, newTitle, tabUrl)
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error extracting title from content:', error)
+      // If there's an error, we'll just keep the original title
+    }
+  }
+
   switchToTab(event) {
     const tabId = event.target ? event.target.closest('.tab-item').dataset.tabId : event
     console.log(`Switching to tab: ${tabId}`)
+    
+    // Add to tab history when switching
+    this.addToTabHistory(tabId)
     
     // Hide all content divs
     this.contentContainerTarget.querySelectorAll('div[data-tab-id]').forEach(div => {
@@ -284,10 +327,20 @@ export default class extends Controller {
       return
     }
     
-    // Get tab element and add closing animation
+    // Get the tab element being closed
     const tabElement = this.tabListTarget.querySelector(`[data-tab-id="${tabId}"]`)
+    
+    // Determine which tab to activate after closing (only if closing the active tab)
+    let nextActiveTabId = null
+    if (this.activeTabIdValue === tabId) {
+      nextActiveTabId = this.getPreviousTabFromHistory(tabId)
+    }
+    
+    // Remove from tab history
+    this.removeFromTabHistory(tabId)
+    
+    // Add closing animation to the tab
     if (tabElement) {
-      // Add closing animation
       tabElement.style.transform = 'translateX(-100%)'
       tabElement.style.opacity = '0'
       
@@ -304,10 +357,43 @@ export default class extends Controller {
       console.log(`Removed content div for tab: ${tabId}`)
     }
     
-    // If we closed the active tab, switch to welcome tab
-    if (this.activeTabIdValue === tabId) {
-      this.switchToTab('welcome')
+    // Switch to the next active tab if we closed the currently active tab
+    if (nextActiveTabId) {
+      this.switchToTab(nextActiveTabId)
     }
+  }
+
+  // Helper methods for tab history management
+  addToTabHistory(tabId) {
+    // Remove the tab from history if it already exists to avoid duplicates
+    this.tabHistory = this.tabHistory.filter(id => id !== tabId)
+    // Add the tab to the end of the history (most recent)
+    this.tabHistory.push(tabId)
+    console.log(`Tab history updated:`, this.tabHistory)
+  }
+
+  removeFromTabHistory(tabId) {
+    this.tabHistory = this.tabHistory.filter(id => id !== tabId)
+    console.log(`Removed ${tabId} from history:`, this.tabHistory)
+  }
+
+  getPreviousTabFromHistory(currentTabId) {
+    // Remove the current tab from consideration
+    const filteredHistory = this.tabHistory.filter(id => id !== currentTabId)
+    
+    // Get the most recent tab from the filtered history
+    if (filteredHistory.length > 0) {
+      const previousTabId = filteredHistory[filteredHistory.length - 1]
+      
+      // Verify the tab still exists in the DOM
+      const previousTab = this.tabListTarget.querySelector(`[data-tab-id="${previousTabId}"]`)
+      if (previousTab) {
+        return previousTabId
+      }
+    }
+    
+    // Fallback to welcome tab
+    return 'welcome'
   }
 
   handleSidebarClick(event) {

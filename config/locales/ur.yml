@@ -145,6 +145,7 @@ ur:
   views:
     members:
       index:
+        members: اراکین
         list_of_members: اراکین کی فہرست
         search_placeholder: نام یا ای میل سے اراکین تلاش کریں ...
         add_a_new_member: نیا رکن شامل کریں
@@ -184,6 +185,7 @@ ur:
         created_at: تخلیق کی تاریخ
     departments:
       index:
+        departments: محکمے
         list_of_departments: شعبوں کی فہرست
         search_placeholder: نام یا تفصیل کے ذریعے شعبے تلاش کریں ...
         add_a_new_department: نیا شعبہ شامل کریں
@@ -213,4 +215,72 @@ ur:
         abbreviation: مخفف
         description: تفصیل
         members_count: اراکین کی تعداد
+        created_at: تخلیق کی تاریخ
+    roles:
+      index:
+        roles: کردار
+        list_of_roles: کرداروں کی فہرست
+        search_placeholder: نام یا وضاحت کے ذریعے کردار تلاش کریں ...
+        add_a_new_role: نیا کردار شامل کریں
+        export_to_excel: ایکسل میں برآمد کریں
+        name: نام
+        description: وضاحت
+        department: شعبہ
+        parent: والدین
+        current_assignee: موجودہ ذمہ دار
+        status: حیثیت
+        actions: کارروائیاں
+        active: فعال
+        inactive: غیر فعال
+      new: 
+        create_a_new_role: نیا کردار بنائیں
+        role_name: کردار کا نام
+        role_name_placeholder: کردار کا نام درج کریں
+        description: وضاحت
+        description_placeholder: کردار کی وضاحت درج کریں
+        department: شعبہ
+        select_department: شعبہ منتخب کریں
+        parent_role: والدین کردار
+        select_parent_role: والدین کردار منتخب کریں
+        active: فعال
+        cancel: منسوخ کریں
+        submit: بنائیں
+      edit: 
+        edit_role: کردار میں ترمیم کریں
+        role_name: کردار کا نام
+        role_name_placeholder: کردار کا نام درج کریں
+        description: وضاحت
+        description_placeholder: کردار کی وضاحت درج کریں
+        department: شعبہ
+        select_department: شعبہ منتخب کریں
+        parent_role: والدین کردار
+        select_parent_role: والدین کردار منتخب کریں
+        active: فعال
+        cancel: منسوخ کریں
+        submit: اپ ڈیٹ کریں
+      assignments:
+        role_assignments: کردار کے تقرر
+        manage_assignments: تقرر کا انتظام کریں
+        current_assignment: موجودہ تقرر
+        past_assignments: سابقہ تقرر
+        no_current_assignment: کوئی موجودہ تقرر نہیں
+        no_past_assignments: کوئی سابقہ تقرر نہیں
+        assign_member: رکن مقرر کریں
+        select_member: رکن منتخب کریں
+        assign: مقرر کریں
+        unassign: ہٹائیں
+        assigned_since: سے مقرر
+        present: موجودہ
+        confirm_unassign: کیا آپ واقعی اس رکن کو ہٹانا چاہتے ہیں؟
+        please_select_member: براہ کرم ایک رکن منتخب کریں
+        assignment_failed: رکن کا تقرر ناکام ہوا
+      export: 
+        name: نام
+        description: وضاحت
+        department: شعبہ
+        parent: والدین
+        current_assignee: موجودہ ذمہ دار
+        status: حیثیت
+        active: فعال
+        inactive: غیر فعال
         created_at: تخلیق کی تاریخ

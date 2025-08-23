@@ -145,6 +145,7 @@ fa:
   views:
     members:
       index:
+        members: اعضا
         list_of_members: فهرست اعضا
         search_placeholder: جستجوی اعضا بر اساس نام یا ایمیل ...
         add_a_new_member: افزودن عضو جدید
@@ -184,6 +185,7 @@ fa:
         created_at: تاریخ ایجاد
     departments:
       index:
+        departamentos: بخش‌ها
         list_of_departments: فهرست بخش‌ها
         search_placeholder: جستجوی بخش‌ها بر اساس نام یا توضیحات ...
         add_a_new_department: افزودن بخش جدید
@@ -213,4 +215,72 @@ fa:
         abbreviation: مخفف
         description: توضیحات
         members_count: تعداد اعضا
+        created_at: تاریخ ایجاد
+    roles:
+      index:
+        roles: نقش‌ها
+        list_of_roles: فهرست نقش‌ها
+        search_placeholder: جستجوی نقش‌ها بر اساس نام یا توضیحات ...
+        add_a_new_role: افزودن نقش جدید
+        export_to_excel: ارسال به اکسل
+        name: نام
+        description: توضیحات
+        department: بخش
+        parent: والد
+        current_assignee: مسئول فعلی
+        status: وضعیت
+        actions: عملیات
+        active: فعال
+        inactive: غیرفعال
+      new: 
+        create_a_new_role: ایجاد نقش جدید
+        role_name: نام نقش
+        role_name_placeholder: نام نقش را وارد کنید
+        description: توضیحات
+        description_placeholder: توضیحات نقش را وارد کنید
+        department: بخش
+        select_department: بخش را انتخاب کنید
+        parent_role: نقش والد
+        select_parent_role: نقش والد را انتخاب کنید
+        active: فعال
+        cancel: لغو
+        submit: ایجاد
+      edit: 
+        edit_role: ویرایش نقش
+        role_name: نام نقش
+        role_name_placeholder: نام نقش را وارد کنید
+        description: توضیحات
+        description_placeholder: توضیحات نقش را وارد کنید
+        department: بخش
+        select_department: بخش را انتخاب کنید
+        parent_role: نقش والد
+        select_parent_role: نقش والد را انتخاب کنید
+        active: فعال
+        cancel: لغو
+        submit: به‌روزرسانی
+      assignments:
+        role_assignments: انتساب نقش‌ها
+        manage_assignments: مدیریت انتساب نقش‌ها
+        current_assignment: انتساب فعلی
+        past_assignments: انتساب‌های گذشته
+        no_current_assignment: انتساب فعلی وجود ندارد
+        no_past_assignments: انتساب گذشته‌ای وجود ندارد
+        assign_member: انتساب عضو
+        select_member: عضوی را انتخاب کنید
+        assign: انتساب
+        unassign: لغو انتساب
+        assigned_since: انتساب از
+        present: حال حاضر
+        confirm_unassign: آیا مطمئن هستید که می‌خواهید این عضو را لغو انتساب کنید؟
+        please_select_member: لطفاً عضوی را انتخاب کنید
+        assignment_failed: انتساب عضو ناموفق بود
+      export: 
+        name: نام
+        description: توضیحات
+        department: بخش
+        parent: والد
+        current_assignee: مسئول فعلی
+        status: وضعیت
+        active: فعال
+        inactive: غیرفعال
         created_at: تاریخ ایجاد

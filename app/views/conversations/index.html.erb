@@ -1,3 +1,4 @@
+<title>Conversations</title>
 <%= turbo_stream_from "conversations_list_user_#{current_user.id}" %>
 <div class="conversations bg-gray-50 text-gray-800 h-screen p-6 flex">
   <div class="conversations-list w-[300px] max-w-md flex flex-col">
@@ -13,7 +14,7 @@
       </div>
       
       <!-- Scrollable Conversation List -->
-      <%= turbo_frame_tag "conversations_list" do %>
+      <%= turbo_frame_tag "conversations_list", class: "conversations_list" do %>
         <% if @conversations.count.zero? %> 
           <p class="text-gray-600 mb-4">There are no conversations yet.</p>
         <% else %> 

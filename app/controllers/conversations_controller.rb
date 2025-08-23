@@ -1,4 +1,5 @@
 class ConversationsController < ApplicationController
+  include TabContent
   before_action :authenticate_user!
 
   def index
@@ -44,9 +45,9 @@ class ConversationsController < ApplicationController
       if @message.save
         # Broadcast to all participants
         @conversation.participants.each do |participant|
-          Turbo::StreamsChannel.broadcast_append_to(
+          Turbo::StreamsChannel.broadcast_prepend_to(
             "conversations_list_user_#{participant.id}",
-            target: "conversations_list",
+            targets: ".conversations_list",
             partial: "conversations/conversation",
             locals: { conversation: @conversation, current_user: participant, organization: current_organization }
           )

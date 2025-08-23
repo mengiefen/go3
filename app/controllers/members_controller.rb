@@ -4,23 +4,12 @@ class MembersController < ApplicationController
 
   def index
     authorize current_member
-    @members = current_organization.members.includes([ :user, :direct_permissions ]).to_a.sort_by do |member|
-      [
-        member.archived? ? 1 : 0,       # unarchived first
-        member.org_admin? ? 0 : 1,      # admins first
-        -member.created_at.to_i         # newer first
-      ]
-    end
+    @members = current_organization.members.includes([ :user, :direct_permissions ]).order(id: :desc)
   end
 
   def new
     authorize current_member
     @member = Member.new(organization: current_organization)
-  end
-
-  def edit
-    authorize current_member
-    @member = Member.find_by(id: params[:id])
   end
 
   def create
@@ -33,17 +22,22 @@ class MembersController < ApplicationController
         invite
       end
 
-      Turbo::StreamsChannel.broadcast_append_to(
+      Turbo::StreamsChannel.broadcast_prepend_to(
         "members_list",
         targets: ".members_list",
         partial: "members/member_row",
-        locals: { member: @member }
+        locals: { member: @member, org_admin: @member.org_admin? }
       )
 
       render turbo_stream: [
         turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
       ]
     end
+  end
+
+  def edit
+    authorize current_member
+    @member = Member.find_by(id: params[:id])
   end
 
   def update
@@ -145,7 +139,7 @@ class MembersController < ApplicationController
       "members_list",
       targets: ".member_row_#{@member.id}",
       partial: "members/member_row",
-      locals: { member: @member }
+      locals: { member: @member, org_admin: @member.org_admin? }
     )
   end
 end

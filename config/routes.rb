@@ -74,6 +74,19 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :roles do
+      collection do
+        get :export
+      end
+      member do
+        patch :activate
+        patch :deactivate
+        get :assignments
+        patch :assign_member
+        patch :unassign_member
+      end
+    end
+
     resources :conversations do
       member do
         post :reply

@@ -145,6 +145,7 @@ de:
   views:
     members:
       index:
+        members: Mitglieder
         list_of_members: Mitgliederliste
         search_placeholder: Mitglieder nach Name oder E-Mail suchen ...
         add_a_new_member: Neues Mitglied hinzufügen
@@ -184,6 +185,7 @@ de:
         created_at: Erstellt am
     departments:
       index:
+        departments: Abteilungen
         list_of_departments: Abteilungsliste
         search_placeholder: Abteilungen nach Name oder Beschreibung suchen ...
         add_a_new_department: Neue Abteilung hinzufügen
@@ -208,9 +210,77 @@ de:
         description: Beschreibung
         cancel: Abbrechen
         submit: Aktualisieren
-      export: 
-        name: Name
-        abbreviation: Abkürzung
-        description: Beschreibung
-        members_count: Mitgliederanzahl
-        created_at: Erstellt am
+  export: 
+    name: Name
+    abbreviation: Abreviatura
+    description: Beschreibung
+    members_count: Cantidad de miembros
+    created_at: Erstellt am
+roles:
+  index:
+    roles: Rollen
+    list_of_roles: Liste der Rollen
+    search_placeholder: Rollen nach Namen oder Beschreibung suchen ...
+    add_a_new_role: Neue Rolle hinzufügen
+    export_to_excel: Nach Excel exportieren
+    name: Name
+    description: Beschreibung
+    department: Abteilung
+    parent: Übergeordnet
+    current_assignee: Aktueller Zugewiesener
+    status: Status
+    actions: Aktionen
+    active: Aktiv
+    inactive: Inaktiv
+  new: 
+    create_a_new_role: Neue Rolle erstellen
+    role_name: Rollenname
+    role_name_placeholder: Rollenname eingeben
+    description: Beschreibung
+    description_placeholder: Rollenbeschreibung eingeben
+    department: Abteilung
+    select_department: Abteilung auswählen
+    parent_role: Übergeordnete Rolle
+    select_parent_role: Übergeordnete Rolle auswählen
+    active: Aktiv
+    cancel: Abbrechen
+    submit: Erstellen
+  edit: 
+    edit_role: Rolle bearbeiten
+    role_name: Rollenname
+    role_name_placeholder: Rollenname eingeben
+    description: Beschreibung
+    description_placeholder: Rollenbeschreibung eingeben
+    department: Abteilung
+    select_department: Abteilung auswählen
+    parent_role: Übergeordnete Rolle
+    select_parent_role: Übergeordnete Rolle auswählen
+    active: Aktiv
+    cancel: Abbrechen
+    submit: Aktualisieren
+  assignments:
+    role_assignments: Rollenzuweisungen
+    manage_assignments: Rollenzuweisungen verwalten
+    current_assignment: Aktuelle Zuweisung
+    past_assignments: Vergangene Zuweisungen
+    no_current_assignment: Keine aktuelle Zuweisung
+    no_past_assignments: Keine vergangenen Zuweisungen
+    assign_member: Mitglied zuweisen
+    select_member: Mitglied auswählen
+    assign: Zuweisen
+    unassign: Zuweisung aufheben
+    assigned_since: Zugewiesen seit
+    present: Gegenwärtig
+    confirm_unassign: Sind Sie sicher, dass Sie dieses Mitglied zuweisen möchten?
+    please_select_member: Bitte wählen Sie ein Mitglied aus
+    assignment_failed: Zuweisung des Mitglieds fehlgeschlagen
+  export: 
+    name: Name
+    description: Beschreibung
+    department: Abteilung
+    parent: Übergeordnet
+    current_assignee: Aktueller Zugewiesener
+    status: Status
+    active: Aktiv
+    inactive: Inaktiv
+    created_at: Erstellt am

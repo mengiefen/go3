@@ -145,6 +145,7 @@ ja:
   views:
     members:
       index:
+        members: メンバー
         list_of_members: メンバー一覧
         search_placeholder: 名前またはメールでメンバーを検索 ...
         add_a_new_member: 新しいメンバーを追加
@@ -184,6 +185,7 @@ ja:
         created_at: 作成日時
     departments:
       index:
+        departments: 部門
         list_of_departments: 部署一覧
         search_placeholder: 部署名または説明で検索 ...
         add_a_new_department: 新しい部署を追加
@@ -213,4 +215,72 @@ ja:
         abbreviation: 略称
         description: 説明
         members_count: メンバー数
+        created_at: 作成日
+    roles:
+      index:
+        roles: 役割
+        list_of_roles: 役割一覧
+        search_placeholder: 名前または説明で役割を検索...
+        add_a_new_role: 新しい役割を追加
+        export_to_excel: Excelにエクスポート
+        name: 名前
+        description: 説明
+        department: 部門
+        parent: 親
+        current_assignee: 現在の担当者
+        status: 状態
+        actions: アクション
+        active: 有効
+        inactive: 無効
+      new: 
+        create_a_new_role: 新しい役割を作成
+        role_name: 役割名
+        role_name_placeholder: 役割名を入力
+        description: 説明
+        description_placeholder: 役割の説明を入力
+        department: 部門
+        select_department: 部門を選択
+        parent_role: 親役割
+        select_parent_role: 親役割を選択
+        active: 有効
+        cancel: キャンセル
+        submit: 作成
+      edit: 
+        edit_role: 役割を編集
+        role_name: 役割名
+        role_name_placeholder: 役割名を入力
+        description: 説明
+        description_placeholder: 役割の説明を入力
+        department: 部門
+        select_department: 部門を選択
+        parent_role: 親役割
+        select_parent_role: 親役割を選択
+        active: 有効
+        cancel: キャンセル
+        submit: 更新
+      assignments:
+        role_assignments: 役割の割り当て
+        manage_assignments: 割り当てを管理
+        current_assignment: 現在の割り当て
+        past_assignments: 過去の割り当て
+        no_current_assignment: 現在の割り当てなし
+        no_past_assignments: 過去の割り当てなし
+        assign_member: メンバーを割り当て
+        select_member: メンバーを選択
+        assign: 割り当て
+        unassign: 割り当て解除
+        assigned_since: 割り当て開始日
+        present: 現在
+        confirm_unassign: このメンバーの割り当てを解除してもよろしいですか？
+        please_select_member: メンバーを選択してください
+        assignment_failed: メンバーの割り当てに失敗しました
+      export: 
+        name: 名前
+        description: 説明
+        department: 部門
+        parent: 親
+        current_assignee: 現在の担当者
+        status: 状態
+        active: 有効
+        inactive: 無効
         created_at: 作成日

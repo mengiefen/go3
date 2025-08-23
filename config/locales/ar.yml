@@ -145,6 +145,7 @@ ar:
   views:
     members:
       index:
+        members: الأعضاء
         list_of_members: قائمة الأعضاء
         search_placeholder: ابحث عن الأعضاء بالاسم أو البريد الإلكتروني ...
         add_a_new_member: إضافة عضو جديد
@@ -184,6 +185,7 @@ ar:
         created_at: تاريخ الإنشاء
     departments:
       index:
+        departments: الأقسام
         list_of_departments: قائمة الأقسام
         search_placeholder: ابحث عن الأقسام بالاسم أو الوصف ...
         add_a_new_department: إضافة قسم جديد
@@ -213,4 +215,72 @@ ar:
         abbreviation: الاختصار
         description: الوصف
         members_count: عدد الأعضاء
+        created_at: تاريخ الإنشاء
+    roles:
+      index:
+        roles: الأدوار
+        list_of_roles: قائمة الأدوار
+        search_placeholder: ابحث عن الأدوار بالاسم أو الوصف ...
+        add_a_new_role: إضافة دور جديد
+        export_to_excel: تصدير إلى إكسل
+        name: الاسم
+        description: الوصف
+        department: القسم
+        parent: الأصل
+        current_assignee: المكلف الحالي
+        status: الحالة
+        actions: الإجراءات
+        active: نشط
+        inactive: غير نشط
+      new: 
+        create_a_new_role: إنشاء دور جديد
+        role_name: اسم الدور
+        role_name_placeholder: أدخل اسم الدور
+        description: الوصف
+        description_placeholder: أدخل وصف الدور
+        department: القسم
+        select_department: اختر قسماً
+        parent_role: الدور الأصلي
+        select_parent_role: اختر دوراً أصلياً
+        active: نشط
+        cancel: إلغاء
+        submit: إنشاء
+      edit: 
+        edit_role: تعديل الدور
+        role_name: اسم الدور
+        role_name_placeholder: أدخل اسم الدور
+        description: الوصف
+        description_placeholder: أدخل وصف الدور
+        department: القسم
+        select_department: اختر قسماً
+        parent_role: الدور الأصلي
+        select_parent_role: اختر دوراً أصلياً
+        active: نشط
+        cancel: إلغاء
+        submit: تحديث
+      assignments:
+        role_assignments: تكليفات الدور
+        manage_assignments: إدارة التكليفات
+        current_assignment: التكليف الحالي
+        past_assignments: التكليفات السابقة
+        no_current_assignment: لا يوجد تكليف حالي
+        no_past_assignments: لا توجد تكليفات سابقة
+        assign_member: تعيين عضو
+        select_member: اختر عضواً
+        assign: تعيين
+        unassign: إلغاء التعيين
+        assigned_since: معين منذ
+        present: حاضر
+        confirm_unassign: هل أنت متأكد أنك تريد إلغاء تعيين هذا العضو؟
+        please_select_member: يرجى اختيار عضو
+        assignment_failed: فشل في تعيين العضو
+      export: 
+        name: الاسم
+        description: الوصف
+        department: القسم
+        parent: الأصل
+        current_assignee: المكلف الحالي
+        status: الحالة
+        active: نشط
+        inactive: غير نشط
         created_at: تاريخ الإنشاء

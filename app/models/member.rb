@@ -35,10 +35,9 @@ class Member < ApplicationRecord
   scope :inactive, -> { where(status: "inactive") }
 
   def all_permissions
-    role_permissions = roles.includes(:permissions).flat_map(&:permissions)
-    group_permissions = groups.includes(:permissions).flat_map(&:permissions)
-    department_permissions = departments.includes(:permissions).flat_map(&:permissions)
-    direct_permissions + role_permissions + group_permissions + department_permissions
+    collections = [ roles, groups, departments ]
+
+    (direct_permissions + collections.sum([]) { |c| c.includes(:permissions).flat_map(&:permissions) }).uniq
   end
 
   def is_go3_admin?
