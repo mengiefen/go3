@@ -1,286 +1,286 @@
+---
 en:
   common:
-    logo_alt: "GO3 Logo"
-    company_name: "GO3"
-    all_rights_reserved: "All rights reserved"
-    best_regards: "Best regards"
-    company_team: "GO3 Team"
-  sign_up:
-    title: "Create an account"
-    first_name: "First Name"
-    last_name: "Last Name"
-    email: "Email"
-    language: "Language"
-    password: "Password"
-    password_confirmation: "Password Confirmation"
-    submit: "Sign Up"
-    or_continue_with: "Or continue with"
-    already_have_account: "Already have an account?"
-    sign_in: "Sign In"
-    minimum_password_length: "6 characters minimum"
-  email_confirmation:
-    title: "Thank You for Signing Up"
-    message: "Thank you for creating an account with us. We're excited to have you on board! To get started, please confirm your email address by clicking the link we've sent to %{email}. If you don't see the email, please click the button below to resend the confirmation email."
-    message_html: "Thank you for creating an account with us. We're excited to have you on board! To get started, please confirm your email address by clicking the link we've sent to %{email}. If you don't see the email, please click the button below to resend the confirmation email."
-    resend_button: "Resend Confirmation Email"
-    sign_up_again: "Sign Up with Different Email"
-    check_spam: "Check Spam Folder"
-    confirmation_sent: "Confirmation email has been sent"
-    resend_success: "Confirmation email has been resent"
-    resend_error: "Unable to resend confirmation email"
-  onboarding:
-    title: "Welcome to GO3! Let's Get Started"
-    subtitle: "Create your first organization to begin your journey with us"
-    organization_name_label: "What's your organization's name?"
-    organization_name_placeholder: "Enter your organization name"
-    submit_button: "Create Organization"
-    random_name_button: "Generate Random Name"
-    description: "Your organization is where you'll manage your team, projects, and resources. You can always change this later."
-    success_message: "Organization created successfully! Welcome aboard!"
-    error_message: "There was an error creating your organization. Please try again."
+    all_rights_reserved: All rights reserved
+    best_regards: Best regards
+    company_name: GO3
+    company_team: GO3 Team
+    logo_alt: GO3 Logo
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      confirmed: Your email address has been successfully confirmed.
+      send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys} or password."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      already_authenticated: You are already signed in.
+      inactive: Your account is not activated yet.
+      invalid: Invalid %{authentication_keys} or password.
+      last_attempt: You have one more attempt before your account is locked.
+      locked: Your account is locked.
+      not_found_in_database: Invalid %{authentication_keys} or password.
+      timeout: Your session expired. Please sign in again to continue.
+      unauthenticated: You need to sign in or sign up before continuing.
+      unconfirmed: You have to confirm your email address before continuing.
     mailer:
       confirmation_instructions:
-        subject: "Confirm your email address"
-        welcome: "Welcome to GO3!"
-        hello: "Hello %{email}!"
-        confirm_link: "Thank you for signing up! To complete your registration and access your account, please confirm your email address by clicking the button below."
-        confirm_button: "Confirm my email address"
-        expiry_notice: "This confirmation link will expire in 24 hours. If you did not create an account, please ignore this email."
-        ignore_notice: "If you did not request this email, please ignore it. Your account will not be created until you confirm your email address."
-      reset_password_instructions:
-        subject: "Reset password instructions"
-      unlock_instructions:
-        subject: "Unlock instructions"
+        confirm_button: Confirm my email address
+        confirm_link: Thank you for signing up! To complete your registration and access your account, please confirm your email address by clicking the button below.
+        expiry_notice: This confirmation link will expire in 24 hours. If you did not create an account, please ignore this email.
+        hello: Hello %{email}!
+        ignore_notice: If you did not request this email, please ignore it. Your account will not be created until you confirm your email address.
+        subject: Confirm your email address
+        welcome: Welcome to GO3!
       email_changed:
-        subject: "Email Changed"
+        subject: Email Changed
       password_change:
-        subject: "Password Changed"
+        subject: Password Changed
+      reset_password_instructions:
+        subject: Reset password instructions
+      unlock_instructions:
+        subject: Unlock instructions
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      success: Successfully authenticated from %{kind} account.
     passwords:
-      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
-      updated: "Your password has been changed successfully. You are now signed in."
-      updated_not_active: "Your password has been changed successfully."
+      no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+      updated: Your password has been changed successfully. You are now signed in.
+      updated_not_active: Your password has been changed successfully.
     registrations:
-      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
-      signed_up: "Welcome! You have signed up successfully."
-      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
-      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
-      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
-      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address."
-      updated: "Your account has been updated successfully."
-      updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again."
+      destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
+      signed_up: Welcome! You have signed up successfully.
+      signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+      signed_up_but_locked: You have signed up successfully. However, we could not sign you in because your account is locked.
+      signed_up_but_unconfirmed: A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.
+      update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address.
+      updated: Your account has been updated successfully.
+      updated_but_not_signed_in: Your account has been updated successfully, but since your password was changed, you need to sign in again.
     sessions:
-      signed_in: "Signed in successfully."
-      signed_out: "Signed out successfully."
-      already_signed_out: "Signed out successfully."
+      already_signed_out: Signed out successfully.
+      signed_in: Signed in successfully.
+      signed_out: Signed out successfully.
     unlocks:
-      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
-      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
-      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
+      unlocked: Your account has been unlocked successfully. Please sign in to continue.
+  email_confirmation:
+    check_spam: Check Spam Folder
+    confirmation_sent: Confirmation email has been sent
+    message: Thank you for creating an account with us. We're excited to have you on board! To get started, please confirm your email address by clicking the link we've sent to %{email}. If you don't see the email, please click the button below to resend the confirmation email.
+    message_html: Thank you for creating an account with us. We're excited to have you on board! To get started, please confirm your email address by clicking the link we've sent to %{email}. If you don't see the email, please click the button below to resend the confirmation email.
+    resend_button: Resend Confirmation Email
+    resend_error: Unable to resend confirmation email
+    resend_success: Confirmation email has been resent
+    sign_up_again: Sign Up with Different Email
+    title: Thank You for Signing Up
   errors:
     messages:
-      already_confirmed: "was already confirmed, please try signing in"
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      expired: "has expired, please request a new one"
-      not_found: "not found"
-      not_locked: "was not locked"
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: has expired, please request a new one
+      not_found: not found
+      not_locked: was not locked
       not_saved:
-        one: "1 error prohibited this %{resource} from being saved:"
+        one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
   flash:
     actions:
       create:
-        success: "Successfully created"
-        error: "Error occurred while creating"
-      update:
-        success: "Successfully updated"
-        error: "Error occurred while updating"
+        error: Error occurred while creating
+        success: Successfully created
       destroy:
-        success: "Successfully deleted"
-        error: "Error occurred while deleting"
+        error: Error occurred while deleting
+        success: Successfully deleted
+      update:
+        error: Error occurred while updating
+        success: Successfully updated
     errors:
-      not_authorized: "You are not authorized to perform this action"
-      not_found: "Resource not found"
-      invalid: "Invalid data"
-      server_error: "Server error occurred"
+      invalid: Invalid data
+      not_authorized: You are not authorized to perform this action
+      not_found: Resource not found
+      server_error: Server error occurred
   mailers:
     member_mailer:
       invitation:
-        you_are_invited: "You're invited to join %{organization_name}"
         template:
-          join: "Join %{organization_name}"
-          hello: Hello,
-          accept_invitation: 
-          invitation: You've been invited to join <strong>%{organization_name}</strong>.
-          instruction: "Click the link below to sign up and accept your invitation:"
           accept_invitation: Accept Invitation
-          copy_link: "Or copy and paste this URL into your browser:"
           already_a_member: If you already have an account, please log in first.
+          copy_link: 'Or copy and paste this URL into your browser:'
+          hello: Hello,
+          instruction: 'Click the link below to sign up and accept your invitation:'
+          invitation: You've been invited to join <strong>%{organization_name}</strong>.
+          join: Join %{organization_name}
+        you_are_invited: You're invited to join %{organization_name}
   models:
     member:
       status:
-        joined: joined
-        invited: invited
-        not_invited: not invited
         archived: archived
+        invited: invited
+        joined: joined
+        not_invited: not invited
+  onboarding:
+    description: Your organization is where you'll manage your team, projects, and resources. You can always change this later.
+    error_message: There was an error creating your organization. Please try again.
+    organization_name_label: What's your organization's name?
+    organization_name_placeholder: Enter your organization name
+    random_name_button: Generate Random Name
+    submit_button: Create Organization
+    subtitle: Create your first organization to begin your journey with us
+    success_message: Organization created successfully! Welcome aboard!
+    title: Welcome to GO3! Let's Get Started
+  sign_up:
+    already_have_account: Already have an account?
+    email: Email
+    first_name: First Name
+    language: Language
+    last_name: Last Name
+    minimum_password_length: 6 characters minimum
+    or_continue_with: Or continue with
+    password: Password
+    password_confirmation: Password Confirmation
+    sign_in: Sign In
+    submit: Sign Up
+    title: Create an account
   views:
-    members:
-      index:
-        members: Members
-        list_of_members: List of members
-        search_placeholder: Search members by name or email ...
-        add_a_new_member: Add a new member
-        export_to_excel: Export to Excel
-        name: Name
-        email: Email
-        status: Status
-        edit_member: Edit member
-        set_as_admin: Set as admin
-        revoke_admin_permission: Revoke admin permission
-        resend_invitation: Resend invitation
-        archive: Archive
-        unarchive: Unarchive
-      new: 
-        create_a_new_member: Create a new member
-        full_name: Full name
-        email: Email (for invitation)
-        initials: Initials
-        color: Color
-        cancel: Cancel
-        submit: Create
-        submit_and_invite: Create and Invite
-      edit: 
-        edit_member: Edit member
-        full_name: Full name
-        email: Email (for invitation)
-        initials: Initials
-        color: Color
-        cancel: Cancel
-        submit: Update
-        submit_and_invite: Update and Invite
-      export: 
-        name: Name
-        email: Email
-        status: Status
-        admin: Admin
-        created_at: Created At
     departments:
-      index:
-        departments: Departments
-        list_of_departments: List of departments
-        search_placeholder: Search departments by name or description ...
-        add_a_new_department: Add a new department
-        export_to_excel: Export to Excel
-        name: Name
+      edit:
         abbreviation: Abbreviation
-        description: Description
-        members: Members
-        edit_department: Edit department
-        delete_department: Delete department
-      new: 
-        create_a_new_department: Create a new department
-        department_name: Department Name
-        abbreviation: Abbreviation
-        description: Description
         cancel: Cancel
-        submit: Create
-      edit: 
-        edit_department: Edit department
         department_name: Department Name
-        abbreviation: Abbreviation
         description: Description
-        cancel: Cancel
+        edit_department: Edit department
         submit: Update
-      export: 
-        name: Name
+      export:
         abbreviation: Abbreviation
+        created_at: Created At
         description: Description
         members_count: Members Count
-        created_at: Created At
-    roles:
-      index:
-        roles: Roles
-        list_of_roles: List of roles
-        search_placeholder: Search roles by name or description ...
-        add_a_new_role: Add a new role
-        export_to_excel: Export to Excel
         name: Name
+      index:
+        abbreviation: Abbreviation
+        add_a_new_department: Add a new department
+        delete_department: Delete department
+        departments: Departments
         description: Description
-        department: Department
-        parent: Parent
-        current_assignee: Current Assignee
-        status: Status
-        actions: Actions
-        active: Active
-        inactive: Inactive
-      new: 
-        create_a_new_role: Create a new role
-        role_name: Role Name
-        role_name_placeholder: Enter role name
-        description: Description
-        description_placeholder: Enter role description
-        department: Department
-        select_department: Select a department
-        parent_role: Parent Role
-        select_parent_role: Select a parent role
-        active: Active
+        edit_department: Edit department
+        export_to_excel: Export to Excel
+        list_of_departments: List of departments
+        members: Members
+        name: Name
+        search_placeholder: Search departments by name or description ...
+      new:
+        abbreviation: Abbreviation
         cancel: Cancel
+        create_a_new_department: Create a new department
+        department_name: Department Name
+        description: Description
         submit: Create
-      edit: 
-        edit_role: Edit role
-        role_name: Role Name
-        role_name_placeholder: Enter role name
-        description: Description
-        description_placeholder: Enter role description
-        department: Department
-        select_department: Select a department
-        parent_role: Parent Role
-        select_parent_role: Select a parent role
-        active: Active
+    members:
+      edit:
         cancel: Cancel
+        color: Color
+        edit_member: Edit member
+        email: Email (for invitation)
+        full_name: Full name
+        initials: Initials
         submit: Update
+        submit_and_invite: Update and Invite
+      export:
+        admin: Admin
+        created_at: Created At
+        email: Email
+        name: Name
+        status: Status
+      index:
+        add_a_new_member: Add a new member
+        archive: Archive
+        edit_member: Edit member
+        email: Email
+        export_to_excel: Export to Excel
+        list_of_members: List of members
+        members: Members
+        name: Name
+        resend_invitation: Resend invitation
+        revoke_admin_permission: Revoke admin permission
+        search_placeholder: Search members by name or email ...
+        set_as_admin: Set as admin
+        status: Status
+        unarchive: Unarchive
+      new:
+        cancel: Cancel
+        color: Color
+        create_a_new_member: Create a new member
+        email: Email (for invitation)
+        full_name: Full name
+        initials: Initials
+        submit: Create
+        submit_and_invite: Create and Invite
+    roles:
       assignments:
-        role_assignments: Role Assignments
-        manage_assignments: Manage role assignments
+        assign: Assign
+        assign_member: Assign Member
+        assigned_since: Assigned since
+        assignment_failed: Failed to assign member
+        confirm_unassign: Are you sure you want to unassign this member?
         current_assignment: Current Assignment
-        past_assignments: Past Assignments
+        manage_assignments: Manage role assignments
         no_current_assignment: No current assignment
         no_past_assignments: No past assignments
-        assign_member: Assign Member
-        select_member: Select a member
-        assign: Assign
-        unassign: Unassign
-        assigned_since: Assigned since
-        present: Present
-        confirm_unassign: Are you sure you want to unassign this member?
+        past_assignments: Past Assignments
         please_select_member: Please select a member
-        assignment_failed: Failed to assign member
-      export: 
-        name: Name
-        description: Description
-        department: Department
-        parent: Parent
-        current_assignee: Current Assignee
-        status: Status
+        present: Present
+        role_assignments: Role Assignments
+        select_member: Select a member
+        unassign: Unassign
+      edit:
         active: Active
-        inactive: Inactive
+        cancel: Cancel
+        department: Department
+        description: Description
+        description_placeholder: Enter role description
+        edit_role: Edit role
+        parent_role: Parent Role
+        role_name: Role Name
+        role_name_placeholder: Enter role name
+        select_department: Select a department
+        select_parent_role: Select a parent role
+        submit: Update
+      export:
+        active: Active
         created_at: Created At
+        current_assignee: Current Assignee
+        department: Department
+        description: Description
+        inactive: Inactive
+        name: Name
+        parent: Parent
+        status: Status
+      index:
+        actions: Actions
+        active: Active
+        add_a_new_role: Add a new role
+        current_assignee: Current Assignee
+        department: Department
+        description: Description
+        export_to_excel: Export to Excel
+        inactive: Inactive
+        list_of_roles: List of roles
+        name: Name
+        parent: Parent
+        roles: Roles
+        search_placeholder: Search roles by name or description ...
+        status: Status
+      new:
+        active: Active
+        cancel: Cancel
+        create_a_new_role: Create a new role
+        department: Department
+        description: Description
+        description_placeholder: Enter role description
+        parent_role: Parent Role
+        role_name: Role Name
+        role_name_placeholder: Enter role name
+        select_department: Select a department
+        select_parent_role: Select a parent role
+        submit: Create

@@ -1,286 +1,286 @@
+---
 fa:
   common:
-    logo_alt: "لوگوی GO3"
-    company_name: "GO3"
-    all_rights_reserved: "تمامی حقوق محفوظ است"
-    best_regards: "با احترام"
-    company_team: "تیم GO3"
-  sign_up:
-    title: "ایجاد حساب کاربری"
-    first_name: "نام"
-    last_name: "نام خانوادگی"
-    email: "ایمیل"
-    language: "زبان"
-    password: "رمز عبور"
-    password_confirmation: "تایید رمز عبور"
-    submit: "ثبت نام"
-    or_continue_with: "یا ادامه با"
-    already_have_account: "قبلاً حساب کاربری دارید؟"
-    sign_in: "ورود"
-    minimum_password_length: "حداقل 6 کاراکتر"
-  email_confirmation:
-    title: "با تشکر از ثبت نام شما"
-    message: "از ایجاد حساب کاربری با ما متشکریم. خوشحالیم که به ما پیوسته‌اید! برای شروع، لطفاً با کلیک روی لینکی که به %{email} ارسال کرده‌ایم، آدرس ایمیل خود را تایید کنید. اگر ایمیل را نمی‌بینید، لطفاً روی دکمه زیر کلیک کنید تا ایمیل تایید را مجدداً ارسال کنیم."
-    message_html: "از ایجاد حساب کاربری با ما متشکریم. خوشحالیم که به ما پیوسته‌اید! برای شروع، لطفاً با کلیک روی لینکی که به %{email} ارسال کرده‌ایم، آدرس ایمیل خود را تایید کنید. اگر ایمیل را نمی‌بینید، لطفاً روی دکمه زیر کلیک کنید تا ایمیل تایید را مجدداً ارسال کنیم."
-    resend_button: "ارسال مجدد ایمیل تایید"
-    sign_up_again: "ثبت نام با ایمیل دیگر"
-    check_spam: "بررسی پوشه اسپم"
-    confirmation_sent: "ایمیل تایید ارسال شد"
-    resend_success: "ایمیل تایید مجدداً ارسال شد"
-    resend_error: "امکان ارسال مجدد ایمیل تایید وجود ندارد"
-  onboarding:
-    title: "به GO3 خوش آمدید! بیایید شروع کنیم"
-    subtitle: "سازمان اول خود را ایجاد کنید تا سفر خود را با ما آغاز کنید"
-    organization_name_label: "نام سازمان شما چیست؟"
-    organization_name_placeholder: "نام سازمان خود را وارد کنید"
-    submit_button: "ایجاد سازمان"
-    random_name_button: "تولید نام تصادفی"
-    description: "سازمان شما جایی است که تیم، پروژه‌ها و منابع خود را مدیریت خواهید کرد. همیشه می‌توانید این را بعداً تغییر دهید."
-    success_message: "سازمان با موفقیت ایجاد شد! به ما خوش آمدید!"
-    error_message: "خطایی در ایجاد سازمان شما رخ داد. لطفاً دوباره تلاش کنید." 
+    all_rights_reserved: تمامی حقوق محفوظ است
+    best_regards: با احترام
+    company_name: GO3
+    company_team: تیم GO3
+    logo_alt: لوگوی GO3
   devise:
     confirmations:
-      confirmed: "آدرس ایمیل شما با موفقیت تایید شد."
-      send_instructions: "شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های تایید آدرس ایمیل خود دریافت خواهید کرد."
-      send_paranoid_instructions: "اگر آدرس ایمیل شما در پایگاه داده ما وجود داشته باشد، شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های تایید آدرس ایمیل خود دریافت خواهید کرد."
+      confirmed: آدرس ایمیل شما با موفقیت تایید شد.
+      send_instructions: شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های تایید آدرس ایمیل خود دریافت خواهید کرد.
+      send_paranoid_instructions: اگر آدرس ایمیل شما در پایگاه داده ما وجود داشته باشد، شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های تایید آدرس ایمیل خود دریافت خواهید کرد.
     failure:
-      already_authenticated: "شما قبلاً وارد شده‌اید."
-      inactive: "حساب کاربری شما هنوز فعال نشده است."
+      already_authenticated: شما قبلاً وارد شده‌اید.
+      inactive: حساب کاربری شما هنوز فعال نشده است.
       invalid: "%{authentication_keys} یا رمز عبور نامعتبر است."
-      locked: "حساب کاربری شما قفل شده است."
-      last_attempt: "قبل از قفل شدن حساب کاربری شما، یک تلاش دیگر باقی مانده است."
+      last_attempt: قبل از قفل شدن حساب کاربری شما، یک تلاش دیگر باقی مانده است.
+      locked: حساب کاربری شما قفل شده است.
       not_found_in_database: "%{authentication_keys} یا رمز عبور نامعتبر است."
-      timeout: "نشست شما منقضی شده است. لطفاً برای ادامه، دوباره وارد شوید."
-      unauthenticated: "برای ادامه، باید وارد شوید یا ثبت نام کنید."
-      unconfirmed: "قبل از ادامه، باید آدرس ایمیل خود را تایید کنید."
+      timeout: نشست شما منقضی شده است. لطفاً برای ادامه، دوباره وارد شوید.
+      unauthenticated: برای ادامه، باید وارد شوید یا ثبت نام کنید.
+      unconfirmed: قبل از ادامه، باید آدرس ایمیل خود را تایید کنید.
     mailer:
       confirmation_instructions:
-        subject: "تایید آدرس ایمیل"
-        welcome: "به GO3 خوش آمدید!"
-        hello: "سلام %{email}!"
-        confirm_link: "از ثبت نام شما متشکریم! برای تکمیل ثبت نام و دسترسی به حساب کاربری خود، لطفاً با کلیک روی دکمه زیر، آدرس ایمیل خود را تایید کنید."
-        confirm_button: "تایید آدرس ایمیل من"
-        expiry_notice: "این لینک تایید طی 24 ساعت منقضی خواهد شد. اگر شما این حساب کاربری را ایجاد نکرده‌اید، لطفاً این ایمیل را نادیده بگیرید."
-        ignore_notice: "اگر شما این ایمیل را درخواست نکرده‌اید، لطفاً آن را نادیده بگیرید. حساب کاربری شما تا زمانی که آدرس ایمیل خود را تایید نکنید، ایجاد نخواهد شد."
-      reset_password_instructions:
-        subject: "دستورالعمل‌های بازنشانی رمز عبور"
-      unlock_instructions:
-        subject: "دستورالعمل‌های باز کردن قفل"
+        confirm_button: تایید آدرس ایمیل من
+        confirm_link: از ثبت نام شما متشکریم! برای تکمیل ثبت نام و دسترسی به حساب کاربری خود، لطفاً با کلیک روی دکمه زیر، آدرس ایمیل خود را تایید کنید.
+        expiry_notice: این لینک تایید طی 24 ساعت منقضی خواهد شد. اگر شما این حساب کاربری را ایجاد نکرده‌اید، لطفاً این ایمیل را نادیده بگیرید.
+        hello: سلام %{email}!
+        ignore_notice: اگر شما این ایمیل را درخواست نکرده‌اید، لطفاً آن را نادیده بگیرید. حساب کاربری شما تا زمانی که آدرس ایمیل خود را تایید نکنید، ایجاد نخواهد شد.
+        subject: تایید آدرس ایمیل
+        welcome: به GO3 خوش آمدید!
       email_changed:
-        subject: "ایمیل تغییر کرد"
+        subject: ایمیل تغییر کرد
       password_change:
-        subject: "رمز عبور تغییر کرد"
+        subject: رمز عبور تغییر کرد
+      reset_password_instructions:
+        subject: دستورالعمل‌های بازنشانی رمز عبور
+      unlock_instructions:
+        subject: دستورالعمل‌های باز کردن قفل
     omniauth_callbacks:
-      failure: "احراز هویت شما از طریق %{kind} به دلیل \"%{reason}\" ناموفق بود."
-      success: "احراز هویت از طریق حساب %{kind} با موفقیت انجام شد."
+      failure: احراز هویت شما از طریق %{kind} به دلیل "%{reason}" ناموفق بود.
+      success: احراز هویت از طریق حساب %{kind} با موفقیت انجام شد.
     passwords:
-      no_token: "شما نمی‌توانید بدون استفاده از ایمیل بازنشانی رمز عبور به این صفحه دسترسی پیدا کنید. اگر از ایمیل بازنشانی رمز عبور به این صفحه آمده‌اید، لطفاً مطمئن شوید که از آدرس کامل ارائه شده استفاده کرده‌اید."
-      send_instructions: "شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های بازنشانی رمز عبور دریافت خواهید کرد."
-      send_paranoid_instructions: "اگر آدرس ایمیل شما در پایگاه داده ما وجود داشته باشد، شما طی چند دقیقه آینده لینک بازیابی رمز عبور را در آدرس ایمیل خود دریافت خواهید کرد."
-      updated: "رمز عبور شما با موفقیت تغییر کرد. شما اکنون وارد شده‌اید."
-      updated_not_active: "رمز عبور شما با موفقیت تغییر کرد."
+      no_token: شما نمی‌توانید بدون استفاده از ایمیل بازنشانی رمز عبور به این صفحه دسترسی پیدا کنید. اگر از ایمیل بازنشانی رمز عبور به این صفحه آمده‌اید، لطفاً مطمئن شوید که از آدرس کامل ارائه شده استفاده کرده‌اید.
+      send_instructions: شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های بازنشانی رمز عبور دریافت خواهید کرد.
+      send_paranoid_instructions: اگر آدرس ایمیل شما در پایگاه داده ما وجود داشته باشد، شما طی چند دقیقه آینده لینک بازیابی رمز عبور را در آدرس ایمیل خود دریافت خواهید کرد.
+      updated: رمز عبور شما با موفقیت تغییر کرد. شما اکنون وارد شده‌اید.
+      updated_not_active: رمز عبور شما با موفقیت تغییر کرد.
     registrations:
-      destroyed: "خداحافظ! حساب کاربری شما با موفقیت لغو شد. امیدواریم به زودی دوباره شما را ببینیم."
-      signed_up: "خوش آمدید! شما با موفقیت ثبت نام کردید."
-      signed_up_but_inactive: "شما با موفقیت ثبت نام کردید. با این حال، ما نتوانستیم شما را وارد کنیم زیرا حساب کاربری شما هنوز فعال نشده است."
-      signed_up_but_locked: "شما با موفقیت ثبت نام کردید. با این حال، ما نتوانستیم شما را وارد کنیم زیرا حساب کاربری شما قفل شده است."
-      signed_up_but_unconfirmed: "پیامی حاوی لینک تایید به آدرس ایمیل شما ارسال شده است. لطفاً برای فعال‌سازی حساب کاربری خود روی لینک کلیک کنید."
-      update_needs_confirmation: "شما حساب کاربری خود را با موفقیت به‌روزرسانی کردید، اما ما باید آدرس ایمیل جدید شما را تایید کنیم. لطفاً ایمیل خود را بررسی کنید و برای تایید آدرس ایمیل جدید خود روی لینک تایید کلیک کنید."
-      updated: "حساب کاربری شما با موفقیت به‌روزرسانی شد."
-      updated_but_not_signed_in: "حساب کاربری شما با موفقیت به‌روزرسانی شد، اما از آنجا که رمز عبور شما تغییر کرده است، باید دوباره وارد شوید."
+      destroyed: خداحافظ! حساب کاربری شما با موفقیت لغو شد. امیدواریم به زودی دوباره شما را ببینیم.
+      signed_up: خوش آمدید! شما با موفقیت ثبت نام کردید.
+      signed_up_but_inactive: شما با موفقیت ثبت نام کردید. با این حال، ما نتوانستیم شما را وارد کنیم زیرا حساب کاربری شما هنوز فعال نشده است.
+      signed_up_but_locked: شما با موفقیت ثبت نام کردید. با این حال، ما نتوانستیم شما را وارد کنیم زیرا حساب کاربری شما قفل شده است.
+      signed_up_but_unconfirmed: پیامی حاوی لینک تایید به آدرس ایمیل شما ارسال شده است. لطفاً برای فعال‌سازی حساب کاربری خود روی لینک کلیک کنید.
+      update_needs_confirmation: شما حساب کاربری خود را با موفقیت به‌روزرسانی کردید، اما ما باید آدرس ایمیل جدید شما را تایید کنیم. لطفاً ایمیل خود را بررسی کنید و برای تایید آدرس ایمیل جدید خود روی لینک تایید کلیک کنید.
+      updated: حساب کاربری شما با موفقیت به‌روزرسانی شد.
+      updated_but_not_signed_in: حساب کاربری شما با موفقیت به‌روزرسانی شد، اما از آنجا که رمز عبور شما تغییر کرده است، باید دوباره وارد شوید.
     sessions:
-      signed_in: "ورود موفقیت‌آمیز."
-      signed_out: "خروج موفقیت‌آمیز."
-      already_signed_out: "خروج موفقیت‌آمیز."
+      already_signed_out: خروج موفقیت‌آمیز.
+      signed_in: ورود موفقیت‌آمیز.
+      signed_out: خروج موفقیت‌آمیز.
     unlocks:
-      send_instructions: "شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های باز کردن قفل حساب کاربری خود دریافت خواهید کرد."
-      send_paranoid_instructions: "اگر حساب کاربری شما وجود داشته باشد، شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های باز کردن قفل آن دریافت خواهید کرد."
-      unlocked: "حساب کاربری شما با موفقیت باز شد. لطفاً برای ادامه، وارد شوید."
+      send_instructions: شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های باز کردن قفل حساب کاربری خود دریافت خواهید کرد.
+      send_paranoid_instructions: اگر حساب کاربری شما وجود داشته باشد، شما طی چند دقیقه آینده ایمیلی حاوی دستورالعمل‌های باز کردن قفل آن دریافت خواهید کرد.
+      unlocked: حساب کاربری شما با موفقیت باز شد. لطفاً برای ادامه، وارد شوید.
+  email_confirmation:
+    check_spam: بررسی پوشه اسپم
+    confirmation_sent: ایمیل تایید ارسال شد
+    message: از ایجاد حساب کاربری با ما متشکریم. خوشحالیم که به ما پیوسته‌اید! برای شروع، لطفاً با کلیک روی لینکی که به %{email} ارسال کرده‌ایم، آدرس ایمیل خود را تایید کنید. اگر ایمیل را نمی‌بینید، لطفاً روی دکمه زیر کلیک کنید تا ایمیل تایید را مجدداً ارسال کنیم.
+    message_html: از ایجاد حساب کاربری با ما متشکریم. خوشحالیم که به ما پیوسته‌اید! برای شروع، لطفاً با کلیک روی لینکی که به %{email} ارسال کرده‌ایم، آدرس ایمیل خود را تایید کنید. اگر ایمیل را نمی‌بینید، لطفاً روی دکمه زیر کلیک کنید تا ایمیل تایید را مجدداً ارسال کنیم.
+    resend_button: ارسال مجدد ایمیل تایید
+    resend_error: امکان ارسال مجدد ایمیل تایید وجود ندارد
+    resend_success: ایمیل تایید مجدداً ارسال شد
+    sign_up_again: ثبت نام با ایمیل دیگر
+    title: با تشکر از ثبت نام شما
   errors:
     messages:
-      already_confirmed: "قبلاً تایید شده است، لطفاً وارد شوید"
-      confirmation_period_expired: "باید طی %{period} تایید شود، لطفاً درخواست جدیدی ارسال کنید"
-      expired: "منقضی شده است، لطفاً درخواست جدیدی ارسال کنید"
-      not_found: "یافت نشد"
-      not_locked: "قفل نشده بود"
+      already_confirmed: قبلاً تایید شده است، لطفاً وارد شوید
+      confirmation_period_expired: باید طی %{period} تایید شود، لطفاً درخواست جدیدی ارسال کنید
+      expired: منقضی شده است، لطفاً درخواست جدیدی ارسال کنید
+      not_found: یافت نشد
+      not_locked: قفل نشده بود
       not_saved:
-        one: "1 خطا مانع از ذخیره این %{resource} شد:"
-        other: "%{count} خطا مانع از ذخیره این %{resource} شد:" 
+        one: '1 خطا مانع از ذخیره این %{resource} شد:'
+        other: "%{count} خطا مانع از ذخیره این %{resource} شد:"
   flash:
     actions:
       create:
-        success: "با موفقیت ایجاد شد"
-        error: "خطا در ایجاد"
-      update:
-        success: "با موفقیت به‌روزرسانی شد"
-        error: "خطا در به‌روزرسانی"
+        error: خطا در ایجاد
+        success: با موفقیت ایجاد شد
       destroy:
-        success: "با موفقیت حذف شد"
-        error: "خطا در حذف"
+        error: خطا در حذف
+        success: با موفقیت حذف شد
+      update:
+        error: خطا در به‌روزرسانی
+        success: با موفقیت به‌روزرسانی شد
     errors:
-      not_authorized: "شما مجاز به انجام این عمل نیستید"
-      not_found: "منبع یافت نشد"
-      invalid: "داده نامعتبر"
-      server_error: "خطای سرور"
+      invalid: داده نامعتبر
+      not_authorized: شما مجاز به انجام این عمل نیستید
+      not_found: منبع یافت نشد
+      server_error: خطای سرور
   mailers:
     member_mailer:
       invitation:
-        you_are_invited: "شما به سازمان %{organization_name} دعوت شده اید"
         template:
-          join: "به  %{organization_name} وارد شوید"
-          hello: سلام
-          accept_invitation: 
-          invitation: شما برای ورود به سازمان <strong>%{organization_name}</strong> دعوت شده اید.
-          instruction: "بر روی لینک زیر کلیک کنید و با تکمیل فرم ثبت نام دعوتنامه را بپذیرید:"
           accept_invitation: پذیرش دعوتنامه
-          copy_link: "یا می توانید لینک زیر  را کپی و در مرور گر خود وارد کنید:"
           already_a_member: اگر قبلا ثبت نام کرده اید لطفا ابتدا وارد شوید.
+          copy_link: 'یا می توانید لینک زیر  را کپی و در مرور گر خود وارد کنید:'
+          hello: سلام
+          instruction: 'بر روی لینک زیر کلیک کنید و با تکمیل فرم ثبت نام دعوتنامه را بپذیرید:'
+          invitation: شما برای ورود به سازمان <strong>%{organization_name}</strong> دعوت شده اید.
+          join: به  %{organization_name} وارد شوید
+        you_are_invited: شما به سازمان %{organization_name} دعوت شده اید
   models:
     member:
       status:
-        joined: "پیوسته"
-        invited: "دعوت شده"
-        not_invited: "دعوت نشده"
-        archived: "بایگانی شده"
+        archived: بایگانی شده
+        invited: دعوت شده
+        joined: پیوسته
+        not_invited: دعوت نشده
+  onboarding:
+    description: سازمان شما جایی است که تیم، پروژه‌ها و منابع خود را مدیریت خواهید کرد. همیشه می‌توانید این را بعداً تغییر دهید.
+    error_message: خطایی در ایجاد سازمان شما رخ داد. لطفاً دوباره تلاش کنید.
+    organization_name_label: نام سازمان شما چیست؟
+    organization_name_placeholder: نام سازمان خود را وارد کنید
+    random_name_button: تولید نام تصادفی
+    submit_button: ایجاد سازمان
+    subtitle: سازمان اول خود را ایجاد کنید تا سفر خود را با ما آغاز کنید
+    success_message: سازمان با موفقیت ایجاد شد! به ما خوش آمدید!
+    title: به GO3 خوش آمدید! بیایید شروع کنیم
+  sign_up:
+    already_have_account: قبلاً حساب کاربری دارید؟
+    email: ایمیل
+    first_name: نام
+    language: زبان
+    last_name: نام خانوادگی
+    minimum_password_length: حداقل 6 کاراکتر
+    or_continue_with: یا ادامه با
+    password: رمز عبور
+    password_confirmation: تایید رمز عبور
+    sign_in: ورود
+    submit: ثبت نام
+    title: ایجاد حساب کاربری
   views:
-    members:
-      index:
-        members: اعضا
-        list_of_members: فهرست اعضا
-        search_placeholder: جستجوی اعضا بر اساس نام یا ایمیل ...
-        add_a_new_member: افزودن عضو جدید
-        export_to_excel: ارسال به اکسل
-        name: نام
-        email: ایمیل
-        status: وضعیت
-        edit_member: ویرایش عضو
-        set_as_admin: تعیین به عنوان مدیر
-        revoke_admin_permission: لغو دسترسی مدیر
-        resend_invitation: ارسال مجدد دعوت‌نامه
-        archive: بایگانی
-        unarchive: خارج کردن از بایگانی
-      new:
-        create_a_new_member: ایجاد عضو جدید
-        full_name: نام کامل
-        email: ایمیل (برای دعوت)
-        initials: حروف اختصاری
-        color: رنگ
-        cancel: لغو
-        submit: ایجاد
-        submit_and_invite: ایجاد و دعوت
+    departments:
       edit:
-        edit_member: ویرایش عضو
-        full_name: نام کامل
-        email: ایمیل (برای دعوت)
-        initials: حروف اختصاری
-        color: رنگ
+        abbreviation: مخفف
         cancel: لغو
+        department_name: نام بخش
+        description: توضیحات
+        edit_department: ویرایش بخش
+        submit: به‌روزرسانی
+      export:
+        abbreviation: مخفف
+        created_at: تاریخ ایجاد
+        description: توضیحات
+        members_count: تعداد اعضا
+        name: نام
+      index:
+        abbreviation: مخفف
+        add_a_new_department: افزودن بخش جدید
+        delete_department: حذف بخش
+        departments: بخش‌ها
+        description: توضیحات
+        edit_department: ویرایش بخش
+        export_to_excel: ارسال به اکسل
+        list_of_departments: فهرست بخش‌ها
+        members: اعضا
+        name: نام
+        search_placeholder: جستجوی بخش‌ها بر اساس نام یا توضیحات ...
+      new:
+        abbreviation: مخفف
+        cancel: لغو
+        create_a_new_department: ایجاد بخش جدید
+        department_name: نام بخش
+        description: توضیحات
+        submit: ایجاد
+    members:
+      edit:
+        cancel: لغو
+        color: رنگ
+        edit_member: ویرایش عضو
+        email: ایمیل (برای دعوت)
+        full_name: نام کامل
+        initials: حروف اختصاری
         submit: به‌روزرسانی
         submit_and_invite: به‌روزرسانی و دعوت
       export:
-        name: نام
-        email: ایمیل
-        status: وضعیت
         admin: مدیر
         created_at: تاریخ ایجاد
-    departments:
-      index:
-        departamentos: بخش‌ها
-        list_of_departments: فهرست بخش‌ها
-        search_placeholder: جستجوی بخش‌ها بر اساس نام یا توضیحات ...
-        add_a_new_department: افزودن بخش جدید
-        export_to_excel: ارسال به اکسل
+        email: ایمیل
         name: نام
-        abbreviation: مخفف
-        description: توضیحات
-        members: اعضا
-        edit_department: ویرایش بخش
-        delete_department: حذف بخش
-      new: 
-        create_a_new_department: ایجاد بخش جدید
-        department_name: نام بخش
-        abbreviation: مخفف
-        description: توضیحات
-        cancel: لغو
-        submit: ایجاد
-      edit: 
-        edit_department: ویرایش بخش
-        department_name: نام بخش
-        abbreviation: مخفف
-        description: توضیحات
-        cancel: لغو
-        submit: به‌روزرسانی
-      export: 
-        name: نام
-        abbreviation: مخفف
-        description: توضیحات
-        members_count: تعداد اعضا
-        created_at: تاریخ ایجاد
-    roles:
-      index:
-        roles: نقش‌ها
-        list_of_roles: فهرست نقش‌ها
-        search_placeholder: جستجوی نقش‌ها بر اساس نام یا توضیحات ...
-        add_a_new_role: افزودن نقش جدید
-        export_to_excel: ارسال به اکسل
-        name: نام
-        description: توضیحات
-        department: بخش
-        parent: والد
-        current_assignee: مسئول فعلی
         status: وضعیت
-        actions: عملیات
-        active: فعال
-        inactive: غیرفعال
-      new: 
-        create_a_new_role: ایجاد نقش جدید
-        role_name: نام نقش
-        role_name_placeholder: نام نقش را وارد کنید
-        description: توضیحات
-        description_placeholder: توضیحات نقش را وارد کنید
-        department: بخش
-        select_department: بخش را انتخاب کنید
-        parent_role: نقش والد
-        select_parent_role: نقش والد را انتخاب کنید
-        active: فعال
+      index:
+        add_a_new_member: افزودن عضو جدید
+        archive: بایگانی
+        edit_member: ویرایش عضو
+        email: ایمیل
+        export_to_excel: ارسال به اکسل
+        list_of_members: فهرست اعضا
+        members: اعضا
+        name: نام
+        resend_invitation: ارسال مجدد دعوت‌نامه
+        revoke_admin_permission: لغو دسترسی مدیر
+        search_placeholder: جستجوی اعضا بر اساس نام یا ایمیل ...
+        set_as_admin: تعیین به عنوان مدیر
+        status: وضعیت
+        unarchive: خارج کردن از بایگانی
+      new:
         cancel: لغو
+        color: رنگ
+        create_a_new_member: ایجاد عضو جدید
+        email: ایمیل (برای دعوت)
+        full_name: نام کامل
+        initials: حروف اختصاری
         submit: ایجاد
-      edit: 
-        edit_role: ویرایش نقش
-        role_name: نام نقش
-        role_name_placeholder: نام نقش را وارد کنید
-        description: توضیحات
-        description_placeholder: توضیحات نقش را وارد کنید
-        department: بخش
-        select_department: بخش را انتخاب کنید
-        parent_role: نقش والد
-        select_parent_role: نقش والد را انتخاب کنید
-        active: فعال
-        cancel: لغو
-        submit: به‌روزرسانی
+        submit_and_invite: ایجاد و دعوت
+    roles:
       assignments:
-        role_assignments: انتساب نقش‌ها
-        manage_assignments: مدیریت انتساب نقش‌ها
+        assign: انتساب
+        assign_member: انتساب عضو
+        assigned_since: انتساب از
+        assignment_failed: انتساب عضو ناموفق بود
+        confirm_unassign: آیا مطمئن هستید که می‌خواهید این عضو را لغو انتساب کنید؟
         current_assignment: انتساب فعلی
-        past_assignments: انتساب‌های گذشته
+        manage_assignments: مدیریت انتساب نقش‌ها
         no_current_assignment: انتساب فعلی وجود ندارد
         no_past_assignments: انتساب گذشته‌ای وجود ندارد
-        assign_member: انتساب عضو
-        select_member: عضوی را انتخاب کنید
-        assign: انتساب
-        unassign: لغو انتساب
-        assigned_since: انتساب از
-        present: حال حاضر
-        confirm_unassign: آیا مطمئن هستید که می‌خواهید این عضو را لغو انتساب کنید؟
+        past_assignments: انتساب‌های گذشته
         please_select_member: لطفاً عضوی را انتخاب کنید
-        assignment_failed: انتساب عضو ناموفق بود
-      export: 
-        name: نام
-        description: توضیحات
-        department: بخش
-        parent: والد
-        current_assignee: مسئول فعلی
-        status: وضعیت
+        present: حال حاضر
+        role_assignments: انتساب نقش‌ها
+        select_member: عضوی را انتخاب کنید
+        unassign: لغو انتساب
+      edit:
         active: فعال
-        inactive: غیرفعال
+        cancel: لغو
+        department: بخش
+        description: توضیحات
+        description_placeholder: توضیحات نقش را وارد کنید
+        edit_role: ویرایش نقش
+        parent_role: نقش والد
+        role_name: نام نقش
+        role_name_placeholder: نام نقش را وارد کنید
+        select_department: بخش را انتخاب کنید
+        select_parent_role: نقش والد را انتخاب کنید
+        submit: به‌روزرسانی
+      export:
+        active: فعال
         created_at: تاریخ ایجاد
+        current_assignee: مسئول فعلی
+        department: بخش
+        description: توضیحات
+        inactive: غیرفعال
+        name: نام
+        parent: والد
+        status: وضعیت
+      index:
+        actions: عملیات
+        active: فعال
+        add_a_new_role: افزودن نقش جدید
+        current_assignee: مسئول فعلی
+        department: بخش
+        description: توضیحات
+        export_to_excel: ارسال به اکسل
+        inactive: غیرفعال
+        list_of_roles: فهرست نقش‌ها
+        name: نام
+        parent: والد
+        roles: نقش‌ها
+        search_placeholder: جستجوی نقش‌ها بر اساس نام یا توضیحات ...
+        status: وضعیت
+      new:
+        active: فعال
+        cancel: لغو
+        create_a_new_role: ایجاد نقش جدید
+        department: بخش
+        description: توضیحات
+        description_placeholder: توضیحات نقش را وارد کنید
+        parent_role: نقش والد
+        role_name: نام نقش
+        role_name_placeholder: نام نقش را وارد کنید
+        select_department: بخش را انتخاب کنید
+        select_parent_role: نقش والد را انتخاب کنید
+        submit: ایجاد

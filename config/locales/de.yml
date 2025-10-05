@@ -1,286 +1,286 @@
+---
 de:
   common:
-    logo_alt: "GO3 Logo"
-    company_name: "GO3"
-    all_rights_reserved: "Alle Rechte vorbehalten"
-    best_regards: "Mit freundlichen Grüßen"
-    company_team: "GO3 Team"
-  sign_up:
-    title: "Konto erstellen"
-    first_name: "Vorname"
-    last_name: "Nachname"
-    email: "E-Mail-Adresse"
-    language: "Sprache"
-    password: "Passwort"
-    password_confirmation: "Passwort bestätigen"
-    submit: "Registrieren"
-    or_continue_with: "Oder fortfahren mit"
-    already_have_account: "Haben Sie bereits ein Konto?"
-    sign_in: "Anmelden"
-    minimum_password_length: "6 Zeichen mindestens"
-  email_confirmation:
-    title: "Vielen Dank für Ihre Registrierung"
-    message: "Vielen Dank, dass Sie ein Konto bei uns erstellt haben. Wir freuen uns, Sie an Bord zu haben! Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf den Link klicken, den wir an %{email} gesendet haben. Wenn Sie die E-Mail nicht sehen, klicken Sie bitte auf die Schaltfläche unten, um die Bestätigungs-E-Mail erneut zu senden."
-    message_html: "Vielen Dank, dass Sie ein Konto bei uns erstellt haben. Wir freuen uns, Sie an Bord zu haben! Um zu beginnen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf den Link klicken, den wir an %{email} gesendet haben. Wenn Sie die E-Mail nicht sehen, klicken Sie bitte auf die Schaltfläche unten, um die Bestätigungs-E-Mail erneut zu senden."
-    resend_button: "Bestätigungs-E-Mail erneut senden"
-    sign_up_again: "Mit anderer E-Mail registrieren"
-    check_spam: "Spam-Ordner überprüfen"
-    confirmation_sent: "Bestätigungs-E-Mail wurde gesendet"
-    resend_success: "Bestätigungs-E-Mail wurde erneut gesendet"
-    resend_error: "Bestätigungs-E-Mail konnte nicht erneut gesendet werden"
-    onboarding:
-    title: "Willkommen bei GO3! Lassen Sie uns beginnen"
-    subtitle: "Erstellen Sie Ihre erste Organisation, um Ihre Reise mit uns zu starten"
-    organization_name_label: "Wie lautet der Name Ihrer Organisation?"
-    organization_name_placeholder: "Geben Sie den Namen Ihrer Organisation ein"
-    submit_button: "Organisation erstellen"
-    random_name_button: "Zufälligen Namen generieren"
-    description: "Ihre Organisation ist der Ort, an dem Sie Ihr Team, Ihre Projekte und Ressourcen verwalten. Sie können dies später jederzeit ändern."
-    success_message: "Organisation erfolgreich erstellt! Willkommen an Bord!"
-    error_message: "Bei der Erstellung Ihrer Organisation ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut." 
+    all_rights_reserved: Alle Rechte vorbehalten
+    best_regards: Mit freundlichen Grüßen
+    company_name: GO3
+    company_team: GO3 Team
+    logo_alt: GO3 Logo
   devise:
     confirmations:
-      confirmed: "Ihre E-Mail-Adresse wurde erfolgreich bestätigt."
-      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse."
-      send_paranoid_instructions: "Wenn Ihre E-Mail-Adresse in unserer Datenbank vorhanden ist, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse."
+      confirmed: Ihre E-Mail-Adresse wurde erfolgreich bestätigt.
+      send_instructions: Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse.
+      send_paranoid_instructions: Wenn Ihre E-Mail-Adresse in unserer Datenbank vorhanden ist, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse.
     failure:
-      already_authenticated: "Sie sind bereits angemeldet."
-      inactive: "Ihr Konto ist noch nicht aktiviert."
+      already_authenticated: Sie sind bereits angemeldet.
+      inactive: Ihr Konto ist noch nicht aktiviert.
       invalid: "%{authentication_keys} oder Passwort ungültig."
-      locked: "Ihr Konto ist gesperrt."
-      last_attempt: "Sie haben noch einen Versuch, bevor Ihr Konto gesperrt wird."
+      last_attempt: Sie haben noch einen Versuch, bevor Ihr Konto gesperrt wird.
+      locked: Ihr Konto ist gesperrt.
       not_found_in_database: "%{authentication_keys} oder Passwort ungültig."
-      timeout: "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
-      unauthenticated: "Sie müssen sich anmelden oder registrieren, um fortzufahren."
-      unconfirmed: "Sie müssen Ihre E-Mail-Adresse bestätigen, bevor Sie fortfahren können."
+      timeout: Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
+      unauthenticated: Sie müssen sich anmelden oder registrieren, um fortzufahren.
+      unconfirmed: Sie müssen Ihre E-Mail-Adresse bestätigen, bevor Sie fortfahren können.
     mailer:
       confirmation_instructions:
-        subject: "E-Mail-Adresse bestätigen"
-        welcome: "Willkommen bei GO3!"
-        hello: "Hallo %{email}!"
-        confirm_link: "Vielen Dank für Ihre Registrierung! Um Ihre Registrierung abzuschließen und auf Ihr Konto zuzugreifen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken."
-        confirm_button: "Meine E-Mail-Adresse bestätigen"
-        expiry_notice: "Dieser Bestätigungslink läuft in 24 Stunden ab. Wenn Sie dieses Konto nicht erstellt haben, ignorieren Sie bitte diese E-Mail."
-        ignore_notice: "Wenn Sie diese E-Mail nicht angefordert haben, ignorieren Sie sie bitte. Ihr Konto wird erst erstellt, wenn Sie Ihre E-Mail-Adresse bestätigen."
-      reset_password_instructions:
-        subject: "Anweisungen zum Zurücksetzen des Passworts"
-      unlock_instructions:
-        subject: "Anweisungen zum Entsperren des Kontos"
+        confirm_button: Meine E-Mail-Adresse bestätigen
+        confirm_link: Vielen Dank für Ihre Registrierung! Um Ihre Registrierung abzuschließen und auf Ihr Konto zuzugreifen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken.
+        expiry_notice: Dieser Bestätigungslink läuft in 24 Stunden ab. Wenn Sie dieses Konto nicht erstellt haben, ignorieren Sie bitte diese E-Mail.
+        hello: Hallo %{email}!
+        ignore_notice: Wenn Sie diese E-Mail nicht angefordert haben, ignorieren Sie sie bitte. Ihr Konto wird erst erstellt, wenn Sie Ihre E-Mail-Adresse bestätigen.
+        subject: E-Mail-Adresse bestätigen
+        welcome: Willkommen bei GO3!
       email_changed:
-        subject: "E-Mail geändert"
+        subject: E-Mail geändert
       password_change:
-        subject: "Passwort geändert"
+        subject: Passwort geändert
+      reset_password_instructions:
+        subject: Anweisungen zum Zurücksetzen des Passworts
+      unlock_instructions:
+        subject: Anweisungen zum Entsperren des Kontos
     omniauth_callbacks:
-      failure: "Die Authentifizierung über %{kind} ist fehlgeschlagen, weil \"%{reason}\"."
-      success: "Erfolgreiche Authentifizierung über %{kind}-Konto."
+      failure: Die Authentifizierung über %{kind} ist fehlgeschlagen, weil "%{reason}".
+      success: Erfolgreiche Authentifizierung über %{kind}-Konto.
     passwords:
-      no_token: "Sie können nicht auf diese Seite zugreifen, ohne über einen E-Mail-Link zum Zurücksetzen des Passworts zu kommen. Wenn Sie über einen E-Mail-Link zum Zurücksetzen des Passworts zu dieser Seite gekommen sind, stellen Sie bitte sicher, dass Sie die vollständige URL verwenden."
-      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts."
-      send_paranoid_instructions: "Wenn Ihre E-Mail-Adresse in unserer Datenbank vorhanden ist, erhalten Sie in wenigen Minuten einen Link zum Zurücksetzen Ihres Passworts."
-      updated: "Ihr Passwort wurde erfolgreich geändert. Sie sind jetzt angemeldet."
-      updated_not_active: "Ihr Passwort wurde erfolgreich geändert."
+      no_token: Sie können nicht auf diese Seite zugreifen, ohne über einen E-Mail-Link zum Zurücksetzen des Passworts zu kommen. Wenn Sie über einen E-Mail-Link zum Zurücksetzen des Passworts zu dieser Seite gekommen sind, stellen Sie bitte sicher, dass Sie die vollständige URL verwenden.
+      send_instructions: Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts.
+      send_paranoid_instructions: Wenn Ihre E-Mail-Adresse in unserer Datenbank vorhanden ist, erhalten Sie in wenigen Minuten einen Link zum Zurücksetzen Ihres Passworts.
+      updated: Ihr Passwort wurde erfolgreich geändert. Sie sind jetzt angemeldet.
+      updated_not_active: Ihr Passwort wurde erfolgreich geändert.
     registrations:
-      destroyed: "Auf Wiedersehen! Ihr Konto wurde erfolgreich gelöscht. Wir hoffen, Sie bald wiederzusehen."
-      signed_up: "Willkommen! Sie haben sich erfolgreich registriert."
-      signed_up_but_inactive: "Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto noch nicht aktiviert ist."
-      signed_up_but_locked: "Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto gesperrt ist."
-      signed_up_but_unconfirmed: "Eine Nachricht mit einem Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet. Bitte klicken Sie auf den Link, um Ihr Konto zu aktivieren."
-      update_needs_confirmation: "Sie haben Ihr Konto erfolgreich aktualisiert, aber wir müssen Ihre neue E-Mail-Adresse bestätigen. Bitte überprüfen Sie Ihre E-Mail und klicken Sie auf den Bestätigungslink, um Ihre neue E-Mail-Adresse zu bestätigen."
-      updated: "Ihr Konto wurde erfolgreich aktualisiert."
-      updated_but_not_signed_in: "Ihr Konto wurde erfolgreich aktualisiert, aber da Ihr Passwort geändert wurde, müssen Sie sich erneut anmelden."
+      destroyed: Auf Wiedersehen! Ihr Konto wurde erfolgreich gelöscht. Wir hoffen, Sie bald wiederzusehen.
+      signed_up: Willkommen! Sie haben sich erfolgreich registriert.
+      signed_up_but_inactive: Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto noch nicht aktiviert ist.
+      signed_up_but_locked: Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, da Ihr Konto gesperrt ist.
+      signed_up_but_unconfirmed: Eine Nachricht mit einem Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet. Bitte klicken Sie auf den Link, um Ihr Konto zu aktivieren.
+      update_needs_confirmation: Sie haben Ihr Konto erfolgreich aktualisiert, aber wir müssen Ihre neue E-Mail-Adresse bestätigen. Bitte überprüfen Sie Ihre E-Mail und klicken Sie auf den Bestätigungslink, um Ihre neue E-Mail-Adresse zu bestätigen.
+      updated: Ihr Konto wurde erfolgreich aktualisiert.
+      updated_but_not_signed_in: Ihr Konto wurde erfolgreich aktualisiert, aber da Ihr Passwort geändert wurde, müssen Sie sich erneut anmelden.
     sessions:
-      signed_in: "Erfolgreich angemeldet."
-      signed_out: "Erfolgreich abgemeldet."
-      already_signed_out: "Erfolgreich abgemeldet."
+      already_signed_out: Erfolgreich abgemeldet.
+      signed_in: Erfolgreich angemeldet.
+      signed_out: Erfolgreich abgemeldet.
     unlocks:
-      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zum Entsperren Ihres Kontos."
-      send_paranoid_instructions: "Wenn Ihr Konto existiert, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen zum Entsperren."
-      unlocked: "Ihr Konto wurde erfolgreich entsperrt. Bitte melden Sie sich an, um fortzufahren."
+      send_instructions: Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zum Entsperren Ihres Kontos.
+      send_paranoid_instructions: Wenn Ihr Konto existiert, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen zum Entsperren.
+      unlocked: Ihr Konto wurde erfolgreich entsperrt. Bitte melden Sie sich an, um fortzufahren.
+  email_confirmation:
+    check_spam: Controleer de spammap
+    confirmation_sent: Bevestigingsmail is verzonden
+    message: Bedankt voor het aanmaken van een account bij ons. We zijn blij dat je aan boord bent! Om te beginnen, bevestig je je e-mailadres door op de link te klikken die we naar %{email} hebben gestuurd. Als je de e-mail niet ziet, klik dan op de onderstaande knop om de bevestigingsmail opnieuw te verzenden.
+    message_html: Bedankt voor het aanmaken van een account bij ons. We zijn blij dat je aan boord bent! Om te beginnen, bevestig je je e-mailadres door op de link te klikken die we naar %{email} hebben gestuurd. Als je de e-mail niet ziet, klik dan op de onderstaande knop om de bevestigingsmail opnieuw te verzenden.
+    resend_button: Bevestigingsmail opnieuw verzenden
+    resend_error: Kan bevestigingsmail niet opnieuw verzenden
+    resend_success: Bevestigingsmail is opnieuw verzonden
+    sign_up_again: Aanmelden met een ander e-mailadres
+    title: Bedankt voor je registratie
   errors:
     messages:
-      already_confirmed: "wurde bereits bestätigt, bitte melden Sie sich an"
-      confirmation_period_expired: "muss innerhalb von %{period} bestätigt werden, bitte fordern Sie einen neuen an"
-      expired: "ist abgelaufen, bitte fordern Sie einen neuen an"
-      not_found: "nicht gefunden"
-      not_locked: "war nicht gesperrt"
+      already_confirmed: wurde bereits bestätigt, bitte melden Sie sich an
+      confirmation_period_expired: muss innerhalb von %{period} bestätigt werden, bitte fordern Sie einen neuen an
+      expired: ist abgelaufen, bitte fordern Sie einen neuen an
+      not_found: nicht gefunden
+      not_locked: war nicht gesperrt
       not_saved:
-        one: "1 Fehler verhinderte das Speichern von %{resource}:"
-        other: "%{count} Fehler verhinderten das Speichern von %{resource}:" 
+        one: '1 Fehler verhinderte das Speichern von %{resource}:'
+        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
   flash:
     actions:
       create:
-        success: "Erfolgreich erstellt"
-        error: "Fehler beim Erstellen"
-      update:
-        success: "Erfolgreich aktualisiert"
-        error: "Fehler beim Aktualisieren"
+        error: Fehler beim Erstellen
+        success: Erfolgreich erstellt
       destroy:
-        success: "Erfolgreich gelöscht"
-        error: "Fehler beim Löschen"
+        error: Fehler beim Löschen
+        success: Erfolgreich gelöscht
+      update:
+        error: Fehler beim Aktualisieren
+        success: Erfolgreich aktualisiert
     errors:
-      not_authorized: "Sie sind nicht berechtigt, diese Aktion auszuführen"
-      not_found: "Ressource nicht gefunden"
-      invalid: "Ungültige Daten"
-      server_error: "Serverfehler aufgetreten"
+      invalid: Ungültige Daten
+      not_authorized: Sie sind nicht berechtigt, diese Aktion auszuführen
+      not_found: Ressource nicht gefunden
+      server_error: Serverfehler aufgetreten
   mailers:
     member_mailer:
       invitation:
-        you_are_invited: "Sie sind eingeladen, %{organization_name} beizutreten"
         template:
+          accept_invitation: Einladung annehmen
+          already_a_member: Wenn Sie bereits ein Konto haben, melden Sie sich bitte zuerst an.
+          copy_link: 'Oder kopieren Sie diese URL und fügen Sie sie in Ihren Browser ein:'
+          hello: Hallo
+          instruction: 'Klicken Sie auf den untenstehenden Link, um sich anzumelden und die Einladung anzunehmen:'
+          invitation: Sie wurden eingeladen, <strong>%{organization_name}</strong> beizutreten.
           join: "%{organization_name} beitreten"
-          hello: "Hallo"
-          accept_invitation: "Einladung annehmen"
-          invitation: "Sie wurden eingeladen, <strong>%{organization_name}</strong> beizutreten."
-          instruction: "Klicken Sie auf den untenstehenden Link, um sich anzumelden und die Einladung anzunehmen:"
-          accept_invitation: "Einladung annehmen"
-          copy_link: "Oder kopieren Sie diese URL und fügen Sie sie in Ihren Browser ein:"
-          already_a_member: "Wenn Sie bereits ein Konto haben, melden Sie sich bitte zuerst an."
+        you_are_invited: Sie sind eingeladen, %{organization_name} beizutreten
   models:
     member:
       status:
-        joined: Beigetreten
-        invited: Eingeladen
-        not_invited: Nicht eingeladen
         archived: Archiviert
+        invited: Eingeladen
+        joined: Beigetreten
+        not_invited: Nicht eingeladen
+  onboarding:
+    description: Je organisatie is de plek waar je je team, projecten en middelen beheert. Je kunt dit later altijd wijzigen.
+    error_message: Er is een fout opgetreden bij het aanmaken van je organisatie. Probeer het opnieuw.
+    organization_name_label: Wat is de naam van je organisatie?
+    organization_name_placeholder: Voer de naam van je organisatie in
+    random_name_button: Genereer willekeurige naam
+    submit_button: Organisatie aanmaken
+    subtitle: Maak je eerste organisatie aan om je reis met ons te beginnen
+    success_message: Organisatie succesvol aangemaakt! Welkom aan boord!
+    title: Welkom bij GO3! Laten we beginnen
+  sign_up:
+    already_have_account: Haben Sie bereits ein Konto?
+    email: E-Mail-Adresse
+    first_name: Vorname
+    language: Sprache
+    last_name: Nachname
+    minimum_password_length: 6 Zeichen mindestens
+    or_continue_with: Oder fortfahren mit
+    password: Passwort
+    password_confirmation: Passwort bestätigen
+    sign_in: Anmelden
+    submit: Registrieren
+    title: Konto erstellen
   views:
-    members:
-      index:
-        members: Mitglieder
-        list_of_members: Mitgliederliste
-        search_placeholder: Mitglieder nach Name oder E-Mail suchen ...
-        add_a_new_member: Neues Mitglied hinzufügen
-        export_to_excel: In Excel exportieren
-        name: Name
-        email: E-Mail
-        status: Status
-        edit_member: Mitglied bearbeiten
-        set_as_admin: Als Administrator festlegen
-        revoke_admin_permission: Administratorrechte entziehen
-        resend_invitation: Einladung erneut senden
-        archive: Archivieren
-        unarchive: Wiederherstellen
-      new:
-        create_a_new_member: Neues Mitglied erstellen
-        full_name: Vollständiger Name
-        email: E-Mail (für Einladung)
-        initials: Initialen
-        color: Farbe
-        cancel: Abbrechen
-        submit: Erstellen
-        submit_and_invite: Erstellen und Einladen
+    departments:
       edit:
-        edit_member: Mitglied bearbeiten
-        full_name: Vollständiger Name
-        email: E-Mail (für Einladung)
-        initials: Initialen
-        color: Farbe
+        abbreviation: Abkürzung
         cancel: Abbrechen
+        department_name: Abteilungsname
+        description: Beschreibung
+        edit_department: Abteilung bearbeiten
+        submit: Aktualisieren
+      export:
+        abbreviation: Afkorting
+        created_at: Aangemaakt op
+        description: Beschrijving
+        members_count: Aantal leden
+        name: Naam
+      index:
+        abbreviation: Abkürzung
+        add_a_new_department: Neue Abteilung hinzufügen
+        delete_department: Abteilung löschen
+        departments: Abteilungen
+        description: Beschreibung
+        edit_department: Abteilung bearbeiten
+        export_to_excel: In Excel exportieren
+        list_of_departments: Abteilungsliste
+        members: Mitglieder
+        name: Name
+        search_placeholder: Abteilungen nach Name oder Beschreibung suchen ...
+      new:
+        abbreviation: Abkürzung
+        cancel: Abbrechen
+        create_a_new_department: Neue Abteilung erstellen
+        department_name: Abteilungsname
+        description: Beschreibung
+        submit: Erstellen
+    members:
+      edit:
+        cancel: Abbrechen
+        color: Farbe
+        edit_member: Mitglied bearbeiten
+        email: E-Mail (für Einladung)
+        full_name: Vollständiger Name
+        initials: Initialen
         submit: Aktualisieren
         submit_and_invite: Aktualisieren und Einladen
       export:
-        name: Name
-        email: E-Mail
-        status: Status
         admin: Administrator
         created_at: Erstellt am
-    departments:
-      index:
-        departments: Abteilungen
-        list_of_departments: Abteilungsliste
-        search_placeholder: Abteilungen nach Name oder Beschreibung suchen ...
-        add_a_new_department: Neue Abteilung hinzufügen
-        export_to_excel: In Excel exportieren
+        email: E-Mail
         name: Name
-        abbreviation: Abkürzung
-        description: Beschreibung
+        status: Status
+      index:
+        add_a_new_member: Neues Mitglied hinzufügen
+        archive: Archivieren
+        edit_member: Mitglied bearbeiten
+        email: E-Mail
+        export_to_excel: In Excel exportieren
+        list_of_members: Mitgliederliste
         members: Mitglieder
-        edit_department: Abteilung bearbeiten
-        delete_department: Abteilung löschen
-      new: 
-        create_a_new_department: Neue Abteilung erstellen
-        department_name: Abteilungsname
-        abbreviation: Abkürzung
-        description: Beschreibung
+        name: Name
+        resend_invitation: Einladung erneut senden
+        revoke_admin_permission: Administratorrechte entziehen
+        search_placeholder: Mitglieder nach Name oder E-Mail suchen ...
+        set_as_admin: Als Administrator festlegen
+        status: Status
+        unarchive: Wiederherstellen
+      new:
         cancel: Abbrechen
+        color: Farbe
+        create_a_new_member: Neues Mitglied erstellen
+        email: E-Mail (für Einladung)
+        full_name: Vollständiger Name
+        initials: Initialen
         submit: Erstellen
-      edit: 
-        edit_department: Abteilung bearbeiten
-        department_name: Abteilungsname
-        abbreviation: Abkürzung
-        description: Beschreibung
-        cancel: Abbrechen
-        submit: Aktualisieren
-  export: 
-    name: Name
-    abbreviation: Abreviatura
-    description: Beschreibung
-    members_count: Cantidad de miembros
-    created_at: Erstellt am
-roles:
-  index:
-    roles: Rollen
-    list_of_roles: Liste der Rollen
-    search_placeholder: Rollen nach Namen oder Beschreibung suchen ...
-    add_a_new_role: Neue Rolle hinzufügen
-    export_to_excel: Nach Excel exportieren
-    name: Name
-    description: Beschreibung
-    department: Abteilung
-    parent: Übergeordnet
-    current_assignee: Aktueller Zugewiesener
-    status: Status
-    actions: Aktionen
-    active: Aktiv
-    inactive: Inaktiv
-  new: 
-    create_a_new_role: Neue Rolle erstellen
-    role_name: Rollenname
-    role_name_placeholder: Rollenname eingeben
-    description: Beschreibung
-    description_placeholder: Rollenbeschreibung eingeben
-    department: Abteilung
-    select_department: Abteilung auswählen
-    parent_role: Übergeordnete Rolle
-    select_parent_role: Übergeordnete Rolle auswählen
-    active: Aktiv
-    cancel: Abbrechen
-    submit: Erstellen
-  edit: 
-    edit_role: Rolle bearbeiten
-    role_name: Rollenname
-    role_name_placeholder: Rollenname eingeben
-    description: Beschreibung
-    description_placeholder: Rollenbeschreibung eingeben
-    department: Abteilung
-    select_department: Abteilung auswählen
-    parent_role: Übergeordnete Rolle
-    select_parent_role: Übergeordnete Rolle auswählen
-    active: Aktiv
-    cancel: Abbrechen
-    submit: Aktualisieren
-  assignments:
-    role_assignments: Rollenzuweisungen
-    manage_assignments: Rollenzuweisungen verwalten
-    current_assignment: Aktuelle Zuweisung
-    past_assignments: Vergangene Zuweisungen
-    no_current_assignment: Keine aktuelle Zuweisung
-    no_past_assignments: Keine vergangenen Zuweisungen
-    assign_member: Mitglied zuweisen
-    select_member: Mitglied auswählen
-    assign: Zuweisen
-    unassign: Zuweisung aufheben
-    assigned_since: Zugewiesen seit
-    present: Gegenwärtig
-    confirm_unassign: Sind Sie sicher, dass Sie dieses Mitglied zuweisen möchten?
-    please_select_member: Bitte wählen Sie ein Mitglied aus
-    assignment_failed: Zuweisung des Mitglieds fehlgeschlagen
-  export: 
-    name: Name
-    description: Beschreibung
-    department: Abteilung
-    parent: Übergeordnet
-    current_assignee: Aktueller Zugewiesener
-    status: Status
-    active: Aktiv
-    inactive: Inaktiv
-    created_at: Erstellt am
+        submit_and_invite: Erstellen und Einladen
+    roles:
+      assignments:
+        assign: Toewijzen
+        assign_member: Lid toewijzen
+        assigned_since: Toegewezen sinds
+        assignment_failed: Het toewijzen van het lid is mislukt
+        confirm_unassign: Weet je zeker dat je dit lid wilt ontkoppelen?
+        current_assignment: Huidige toewijzing
+        manage_assignments: Roltoewijzingen beheren
+        no_current_assignment: Geen huidige toewijzing
+        no_past_assignments: Geen eerdere toewijzingen
+        past_assignments: Eerdere toewijzingen
+        please_select_member: Selecteer een lid
+        present: Huidig
+        role_assignments: Roltoewijzingen
+        select_member: Selecteer een lid
+        unassign: Ontkoppelen
+      edit:
+        active: Actief
+        cancel: Annuleren
+        department: Afdeling
+        description: Beschrijving
+        description_placeholder: Voer rolbeschrijving in
+        edit_role: Rol bewerken
+        parent_role: Bovenliggende rol
+        role_name: Rolnaam
+        role_name_placeholder: Voer rolnaam in
+        select_department: Selecteer een afdeling
+        select_parent_role: Selecteer een bovenliggende rol
+        submit: Bijwerken
+      export:
+        active: Actief
+        created_at: Aangemaakt op
+        current_assignee: Huidige toegewezene
+        department: Afdeling
+        description: Beschrijving
+        inactive: Inactief
+        name: Naam
+        parent: Bovenliggend
+        status: Status
+      index:
+        actions: Acties
+        active: Actief
+        add_a_new_role: Nieuwe rol toevoegen
+        current_assignee: Huidige toegewezene
+        department: Afdeling
+        description: Beschrijving
+        export_to_excel: Exporteren naar Excel
+        inactive: Inactief
+        list_of_roles: Lijst van rollen
+        name: Naam
+        parent: Bovenliggend
+        roles: Rollen
+        search_placeholder: Zoek rollen op naam of beschrijving ...
+        status: Status
+      new:
+        active: Actief
+        cancel: Annuleren
+        create_a_new_role: Nieuwe rol aanmaken
+        department: Afdeling
+        description: Beschrijving
+        description_placeholder: Voer rolbeschrijving in
+        parent_role: Bovenliggende rol
+        role_name: Rolnaam
+        role_name_placeholder: Voer rolnaam in
+        select_department: Selecteer een afdeling
+        select_parent_role: Selecteer een bovenliggende rol
+        submit: Aanmaken
