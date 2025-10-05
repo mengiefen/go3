@@ -1,5 +1,5 @@
 # Accounting settings 
-It is a set of configs that should be set before using a the accounting system. We need to add 2 fields in the organizations table:
+It is a set of configs that should be set before using the accounting system. We need to add 2 fields in the organizations table:
 
 1- uses_accounting: a boolan field that can be accessed only by GO3_ADMINs.
 2- accounting_settings: is a jsonb field that contains all the configs needed for using the system. if it is null we should redirect users to the accounting settings page and ask them to fill the required values. 
@@ -7,17 +7,17 @@ It is a set of configs that should be set before using a the accounting system. 
 It can be a setup wizard page instead of accounting settings page to allow them complete multiple steps 1 by 1.
 
 accounting settings keys: 
-1- base_currency: We should offer the closes guess based on the IP, region, or timezone of the user in the browser. 
-2- decimal_numbers: By default 2. they can change it. 
-3- category_indicator_length: 1 by default (between 1 and 2)
-4- ledger_indicator_length: 2 by default (between 1 and 3)
-5- account_indicator_length: 2 by default (between 1 and 4)
-6- multi_currency: boolean (default: false)
-7- Max_centers: 3 by default (between 1 and 6)
-8- center_code_lengrh: 6 by default
-9- use_parent_org_accounts: boolean // if has a parent_org
-10- use_parent_org_centers: boolean // if has a parent_org
-10- use_parent_org_fiscal_years: boolean // if has a parent_org
+- base_currency: We should offer the closes guess based on the IP, region, or timezone of the user in the browser. 
+- decimal_numbers: By default 2. they can change it. 
+- category_indicator_length: 1 by default (between 1 and 2)
+- ledger_indicator_length: 2 by default (between 1 and 3)
+- account_indicator_length: 2 by default (between 1 and 4)
+- multi_currency: boolean (default: false)
+- Max_centers: 3 by default (between 1 and 6)
+- center_code_lengrh: 6 by default
+- use_parent_org_accounts: boolean // if has a parent_org
+- use_parent_org_centers: boolean // if has a parent_org
+- use_parent_org_fiscal_years: boolean // if has a parent_org
 
 # account_categories
 - id (pk)
@@ -58,6 +58,8 @@ accounting settings keys:
 - code:
 - name: translatable
 - center_type_id: (fk)
+- centerable_type
+- centerable_id
 
 # fiscal_year
 - id
