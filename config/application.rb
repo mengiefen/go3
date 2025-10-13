@@ -40,3 +40,6 @@ module Go3
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+
+require "view_component"
+require "primer/view_components"

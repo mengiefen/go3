@@ -8,6 +8,20 @@
   "devDependencies": {
     "@eslint/js": "^9.31.0",
     "eslint": "^9.31.0",
-    "globals": "^16.3.0"
+    "globals": "^16.3.0",
+    "sass-embedded": "^1.93.2",
+    "vite": "^5.0.0",
+    "vite-plugin-ruby": "^5.1.0"
+  },
+  "dependencies": {
+    "@hotwired/turbo-rails": "^8.0.18",
+    "@primer/css": "^22.0.2",
+    "@primer/primitives": "^11.2.1",
+    "@primer/view-components": "^0.45.2",
+    "@tailwindcss/vite": "^4.1.14",
+    "alpine-turbo-drive-adapter": "^2.2.0",
+    "alpinejs": "^3.15.0",
+    "async-alpine": "^2.0.3",
+    "tailwindcss": "^4.1.14"
   }
 }

@@ -72,6 +72,8 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 gem "dotenv-rails"
 
+gem "vite_rails"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -88,8 +90,6 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "faker"
   gem "database_cleaner-active_record"
-
-  gem "hotwire-livereload"
 end
 
 group :development do
@@ -130,3 +130,5 @@ gem "view_component", "~> 3.21"
 # Excel generation
 gem "axlsx", "~> 1.3.6"
 gem "axlsx_rails", "~> 0.6"
+
+gem "primer_view_components", "~> 0.45.1"

@@ -140,4 +140,8 @@ Rails.application.routes.draw do
 
   # Onboarding routes
   resources :onboarding, only: [ :new ]
+
+  scope :demo do
+    get "/", to: "demo#index", as: :demo
+  end
 end
