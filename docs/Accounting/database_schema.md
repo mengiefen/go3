@@ -14,7 +14,7 @@ accounting settings keys:
 - account_indicator_length: 2 by default (between 1 and 4)
 - multi_currency: boolean (default: false)
 - Max_centers: 3 by default (between 1 and 6)
-- center_code_lengrh: 6 by default
+- center_code_length: 6 by default
 - use_parent_org_accounts: boolean // if has a parent_org
 - use_parent_org_centers: boolean // if has a parent_org
 - use_parent_org_fiscal_years: boolean // if has a parent_org
@@ -35,6 +35,7 @@ accounting settings keys:
 - is_contra_account: boolean
 - contra_account_for (fk, self referenced)
 - unexpected_balance: enum (accept, warn, disallow)
+- is_monetary: boolean
 
 # accounts
 - id (pk)
@@ -42,7 +43,7 @@ accounting settings keys:
 - name: translatable
 - ledger_id: (fk)
 - accepts_currency: boolean 
-- is_monetary: boolean
+
 
 # center_types
 - id (pk)
@@ -50,7 +51,7 @@ accounting settings keys:
 - start_code: string (but accepts only numbers like 00001)
 - end_code: string (but accepts only numbers like 00001)
 - auto_increment: boolean
-- controlled: boolean
+- scope: string (e.g, 'Party', 'Party.individuals', 'Product', 'Product.consumable')
 - organization_id: fk
 
 # centers

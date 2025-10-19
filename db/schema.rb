@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_19_122431) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_05_132800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,6 +62,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_19_122431) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_conversations_on_organization_id"
+  end
+
+  create_table "currencies", force: :cascade do |t|
+    t.jsonb "name"
+    t.string "abr"
+    t.integer "decimal_digits"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["abr"], name: "index_currencies_on_abr"
+    t.index ["name"], name: "index_currencies_on_name", using: :gin
+    t.index ["organization_id"], name: "index_currencies_on_organization_id"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -288,6 +300,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_19_122431) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "conversation_participants", "conversations"
   add_foreign_key "conversation_participants", "users"
+  add_foreign_key "currencies", "organizations"
   add_foreign_key "departments", "organizations"
   add_foreign_key "groups", "organizations"
   add_foreign_key "members", "organizations"

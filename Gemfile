@@ -105,7 +105,7 @@ group :development do
   gem "rubocop", "~> 1.75"
   gem "lefthook"
   gem "bullet"
-  gem 'i18n-tasks', '~> 1.0.15', group: :development
+  gem "i18n-tasks", "~> 1.0.15", group: :development
 end
 
 group :test do

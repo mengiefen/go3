@@ -26,6 +26,7 @@ class Organization < ApplicationRecord
 
   # Associations
   belongs_to :parent, class_name: "Organization", optional: true
+  belongs_to :main_currency, class_name: "Currency", optional: true
   has_many :children, class_name: "Organization", foreign_key: "parent_id", dependent: :nullify
   has_many :departments, dependent: :nullify
   has_many :groups, dependent: :nullify
@@ -33,6 +34,16 @@ class Organization < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :users, through: :members
   has_many :tasks, dependent: :destroy
+  has_many :currencies, dependent: :destroy
+  has_many :fiscal_years, dependent: :destroy
+  has_many :branches, dependent: :destroy
+  has_many :account_categories, dependent: :destroy
+  has_many :ledgers, through: :account_categories
+  has_many :accounts, through: :ledgers
+  has_many :center_types, dependent: :destroy
+  has_many :centers, through: :center_types
+  has_many :journal_entries, dependent: :destroy
+  has_many :journal_entry_items, through: :journal_entries
 
   # Validations
   validate :no_circular_references
@@ -60,6 +71,14 @@ class Organization < ApplicationRecord
 
   def trial_active?
     trial_end_date > Date.current
+  end
+
+  def effective_currencies
+    if use_parent_org_currencies && parent.present?
+      parent.effective_currencies
+    else
+      currencies
+    end
   end
 
   private
