@@ -143,5 +143,7 @@ Rails.application.routes.draw do
 
   scope :demo do
     get "/", to: "demo#index", as: :demo
+    get "/page2", to: "demo#page2", as: :demo_page2
+    get "/page3", to: "demo#page3", as: :demo_page3
   end
 end

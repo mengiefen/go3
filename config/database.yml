@@ -20,9 +20,12 @@ default: &default
 
 development:
   <<: *default
-  database: go3_development
-  host: localhost
+  host: /var/run/postgresql
   port: 5432
+  username: kennyuser
+  password:
+  sslmode: disable
+  database: go3_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.

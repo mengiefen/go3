@@ -34,9 +34,21 @@
     <%= yield :head_scripts if content_for?(:head_scripts) %>
     
     <meta name="turbo-cache-control" content="no-preview">
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'application' %>
+    <!--
+      If using a TypeScript entrypoint file:
+        vite_typescript_tag 'application'
+
+      If using a .jsx or .tsx entrypoint, add the extension:
+        vite_javascript_tag 'application.jsx'
+
+      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
+    -->
+
   </head>
-  <body class="h-full bg-gray-50" dir=<%= supported_languages.dig(current_language, :rtl) ? "rtl" : "ltr" %>>
-    <% if ['sessions', 'registrations', 'confirmations', 'onboarding'].include?(controller_name) %>
+  <body class="h-full bg-gray-50">
+    <% if true %>
       <%= yield %>    
     <% else %>
       <%= turbo_stream_from "members_list" %>

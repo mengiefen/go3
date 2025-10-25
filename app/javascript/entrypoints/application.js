@@ -4,10 +4,12 @@ import '@hotwired/turbo-rails'
 import 'alpine-turbo-drive-adapter'
 import AsyncAlpine from 'async-alpine'
 import Alpine from 'alpinejs'
+import TabsSystemComponent from '../components/TabsSystemComponent'
 
 window.Alpine = Alpine
 
 Alpine.plugin(AsyncAlpine)
+Alpine.data('tabsSystem', (...args) => new TabsSystemComponent(...args))
 Alpine.start()
 
 // To see this message, add the following to the `<head>` section in your

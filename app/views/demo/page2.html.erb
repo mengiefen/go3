@@ -1,6 +1,6 @@
-<%= turbo_frame_tag :page1, 'x-show': "currentTab.path === '#{request.url}'", data: { path: request.url } do %>
+<%= turbo_frame_tag :page2, 'x-show': "currentTab.path === '#{request.url}'", data: { path: request.url } do %>
   <div class="p-3">
-    <%= render Primer::Beta::Heading.new(tag: :h2).with_content('PAGE 1') %>
+    <%= render Primer::Beta::Heading.new(tag: :h2).with_content('PAGE 2') %>
     <%= render Primer::Beta::Text.new(tag: :p) do %>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet rhoncus nibh. Suspendisse congue dictum turpis non lacinia. Cras ullamcorper lacus imperdiet, suscipit justo in, iaculis elit. Praesent vitae velit vitae ex consectetur facilisis vitae ac nisl. Vivamus eget justo consectetur, fermentum risus id, condimentum nibh. Donec dapibus ante quis dui rhoncus, a pharetra nulla scelerisque. Praesent ac tincidunt tortor. Phasellus at nibh dapibus odio semper consequat eu non nunc. Fusce iaculis ligula at fringilla laoreet. Nam varius ultricies elit, eu lacinia lorem accumsan ac.
 

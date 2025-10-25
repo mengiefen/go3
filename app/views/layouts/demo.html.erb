@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="tab-title" content="<%= @page_title %>">
     <title><%= content_for?(:title) ? yield(:title) : "GO3 Platform" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %> 
@@ -45,7 +46,47 @@
     -->
 
   </head>
-  <body class="h-full" data-color-mode="light" data-light-theme="light" data-dark-theme="dark">
-    <%= yield %>    
+  <body class="h-full flex flex-col" data-color-mode="light" data-light-theme="light" data-dark-theme="dark">
+    <header class="w-full bgColor-emphasis px-4 py-3">
+      <%= render Primer::Beta::Heading.new(tag: :h1, color: :on_emphasis).with_content('HEADING') %>
+    </header>
+    <div class="w-full h-full flex">
+      <div class="w-1/4 bgColor-emphasis color-fg-on-emphasis p-3">
+        <%= render Primer::Beta::Link.new(href: demo_path, font_size: 2, display: :block, underline: true, data: { tab: :page1 }).with_content('Page 1') %>
+        <%= render Primer::Beta::Link.new(href: demo_page2_path, font_size: 2, display: :block, underline: true, data: { tab: :page2 }).with_content('Page 2') %>
+        <%= render Primer::Beta::Link.new(href: demo_page3_path, font_size: 2, display: :block, underline: true, data: { tab: :page3 }).with_content('Page 3') %>
+      </div>
+      <div
+        class="w-3/4 flex flex-col"
+        x-data="tabsSystem"
+        @turbo:click.document="handleTurboClick"
+        @turbo:frame-render="onFrameRender"
+        data-param-current-tab="<%= { path: request.url, title: @page_title, key: @tab_key }.to_json %>"
+      >
+        <div class="flex">
+          <template x-for="tab in tabs" :key="tab.path">
+            <div
+              class="flex gap-1 p-2 cursor-pointer bg-gray-100 opacity-50 [&.current]:opacity-100 select-none"
+              :class="{ current: tab.path === currentTab.path }"
+              @click="switchTab(tab)"
+              role="button"
+            >
+              <span x-text="tab.title"></span>
+              <button
+                type="button"
+                class="bg-gray-200 px-1 !rounded-full hover:bg-gray-300"
+                @click.self="closeTab(tab)" 
+                aria-label="Close tab"
+              >
+                &times;
+              </button>
+            </div>
+          </template>
+        </div>
+        <div class="w-full" x-ref="tabContent">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
