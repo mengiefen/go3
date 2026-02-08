@@ -19,7 +19,7 @@ class Rack::Attack
   throttle("logins/email", limit: 5, period: 20.seconds) do |req|
     if req.path == "/users/sign_in" && req.post?
       # Normalize the email, using the same logic as your authentication
-      req.params["user"]["email"].to_s.downcase.gsub(/\s+/, "")
+      # req.params["user"]["email"].to_s.downcase.gsub(/\s+/, "")
     end
   end
 

@@ -12,7 +12,6 @@ class CreateLedgers < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :account_categories, :name, using: :gin
     add_index :ledgers, :code, unique: true
   end
 end

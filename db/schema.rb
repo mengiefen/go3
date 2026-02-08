@@ -10,9 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_05_132800) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_19_192925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "account_categories", force: :cascade do |t|
+    t.string "code", null: false
+    t.jsonb "name"
+    t.integer "type", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_account_categories_on_code"
+    t.index ["name"], name: "index_account_categories_on_name", using: :gin
+    t.index ["organization_id"], name: "index_account_categories_on_organization_id"
+  end
+
+  create_table "accounts", force: :cascade do |t|
+    t.bigint "ledger_id", null: false
+    t.string "code", null: false
+    t.jsonb "name"
+    t.bigint "contra_for_id"
+    t.boolean "accepts_other_currencies", null: false
+    t.integer "allowed_center_types_1", array: true
+    t.integer "allowed_center_types_2", array: true
+    t.integer "allowed_center_types_3", array: true
+    t.integer "allowed_center_types_4", array: true
+    t.integer "allowed_center_types_5", array: true
+    t.integer "allowed_center_types_6", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_accounts_on_code", unique: true
+    t.index ["contra_for_id"], name: "index_accounts_on_contra_for_id"
+    t.index ["ledger_id"], name: "index_accounts_on_ledger_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -40,6 +71,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_05_132800) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "branches", force: :cascade do |t|
+    t.jsonb "name"
+    t.string "code"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_branches_on_code"
+    t.index ["name"], name: "index_branches_on_name", using: :gin
+    t.index ["organization_id"], name: "index_branches_on_organization_id"
+  end
+
+  create_table "center_types", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.jsonb "name"
+    t.string "first_code", null: false
+    t.string "last_code", null: false
+    t.boolean "auto_increment", default: true, null: false
+    t.string "scope"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_center_types_on_organization_id"
+  end
+
+  create_table "centers", force: :cascade do |t|
+    t.bigint "center_type_id", null: false
+    t.string "code", null: false
+    t.jsonb "name"
+    t.string "centerable_type"
+    t.integer "centerable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["center_type_id"], name: "index_centers_on_center_type_id"
+    t.index ["code"], name: "index_centers_on_code"
+    t.index ["name"], name: "index_centers_on_name", using: :gin
   end
 
   create_table "conversation_participants", force: :cascade do |t|
@@ -87,6 +154,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_05_132800) do
     t.index ["organization_id"], name: "index_departments_on_organization_id"
   end
 
+  create_table "fiscal_years", force: :cascade do |t|
+    t.jsonb "name"
+    t.date "start_date"
+    t.date "finish_date"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["finish_date"], name: "index_fiscal_years_on_finish_date"
+    t.index ["name"], name: "index_fiscal_years_on_name", using: :gin
+    t.index ["organization_id"], name: "index_fiscal_years_on_organization_id"
+    t.index ["start_date"], name: "index_fiscal_years_on_start_date"
+  end
+
   create_table "groups", force: :cascade do |t|
     t.jsonb "name", null: false
     t.jsonb "description"
@@ -102,6 +182,84 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_05_132800) do
     t.bigint "member_id", null: false
     t.index ["group_id", "member_id"], name: "index_groups_members_on_group_id_and_member_id"
     t.index ["member_id", "group_id"], name: "index_groups_members_on_member_id_and_group_id"
+  end
+
+  create_table "journal_entries", force: :cascade do |t|
+    t.date "date", null: false
+    t.date "effective_date", null: false
+    t.bigint "fiscal_year_id", null: false
+    t.bigint "branch_id", null: false
+    t.string "no", null: false
+    t.string "ref", null: false
+    t.integer "daily_no", null: false
+    t.integer "state", null: false
+    t.integer "entry_type", null: false
+    t.jsonb "description"
+    t.float "debit"
+    t.float "credit"
+    t.bigint "organization_id", null: false
+    t.bigint "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_journal_entries_on_branch_id"
+    t.index ["creator_id"], name: "index_journal_entries_on_creator_id"
+    t.index ["credit"], name: "index_journal_entries_on_credit"
+    t.index ["daily_no"], name: "index_journal_entries_on_daily_no"
+    t.index ["debit"], name: "index_journal_entries_on_debit"
+    t.index ["description"], name: "index_journal_entries_on_description", using: :gin
+    t.index ["entry_type"], name: "index_journal_entries_on_entry_type"
+    t.index ["fiscal_year_id"], name: "index_journal_entries_on_fiscal_year_id"
+    t.index ["no"], name: "index_journal_entries_on_no"
+    t.index ["organization_id"], name: "index_journal_entries_on_organization_id"
+    t.index ["state"], name: "index_journal_entries_on_state"
+  end
+
+  create_table "journal_entry_items", force: :cascade do |t|
+    t.bigint "journal_entry_id", null: false
+    t.integer "row", null: false
+    t.bigint "account_id"
+    t.bigint "center1_id"
+    t.bigint "center2_id"
+    t.bigint "center3_id"
+    t.bigint "center4_id"
+    t.bigint "center5_id"
+    t.bigint "center6_id"
+    t.jsonb "description"
+    t.float "debit"
+    t.float "credit"
+    t.bigint "currency_id", null: false
+    t.float "rate"
+    t.float "currency_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_journal_entry_items_on_account_id"
+    t.index ["center1_id"], name: "index_journal_entry_items_on_center1_id"
+    t.index ["center2_id"], name: "index_journal_entry_items_on_center2_id"
+    t.index ["center3_id"], name: "index_journal_entry_items_on_center3_id"
+    t.index ["center4_id"], name: "index_journal_entry_items_on_center4_id"
+    t.index ["center5_id"], name: "index_journal_entry_items_on_center5_id"
+    t.index ["center6_id"], name: "index_journal_entry_items_on_center6_id"
+    t.index ["credit"], name: "index_journal_entry_items_on_credit"
+    t.index ["currency_amount"], name: "index_journal_entry_items_on_currency_amount"
+    t.index ["currency_id"], name: "index_journal_entry_items_on_currency_id"
+    t.index ["debit"], name: "index_journal_entry_items_on_debit"
+    t.index ["journal_entry_id"], name: "index_journal_entry_items_on_journal_entry_id"
+    t.index ["rate"], name: "index_journal_entry_items_on_rate"
+  end
+
+  create_table "ledgers", force: :cascade do |t|
+    t.bigint "account_category_id", null: false
+    t.string "code", null: false
+    t.jsonb "name"
+    t.integer "balance_type", null: false
+    t.bigint "contra_for_id"
+    t.integer "unexpected_balance", null: false
+    t.boolean "is_monetary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_category_id"], name: "index_ledgers_on_account_category_id"
+    t.index ["code"], name: "index_ledgers_on_code", unique: true
+    t.index ["contra_for_id"], name: "index_ledgers_on_contra_for_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -159,7 +317,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_05_132800) do
     t.datetime "archived_at"
     t.integer "archive_number"
     t.string "language", default: "en", null: false
+    t.bigint "main_currency_id"
+    t.boolean "use_parent_org_currencies", default: false
+    t.boolean "use_parent_org_accounts", default: false
+    t.boolean "use_parent_org_centers", default: false
+    t.boolean "use_parent_org_fiscal_years", default: false
+    t.integer "account_category_length", default: 1
+    t.integer "ledger_length", default: 2
+    t.integer "account_length", default: 2
+    t.integer "center_length", default: 6
+    t.integer "center_levels", default: 3
     t.index ["archived_at"], name: "index_organizations_on_archived_at"
+    t.index ["main_currency_id"], name: "index_organizations_on_main_currency_id"
     t.index ["name"], name: "index_organizations_on_name", using: :gin
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
   end
@@ -296,19 +465,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_05_132800) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "account_categories", "organizations"
+  add_foreign_key "accounts", "accounts", column: "contra_for_id"
+  add_foreign_key "accounts", "ledgers"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "branches", "organizations"
+  add_foreign_key "center_types", "organizations"
+  add_foreign_key "centers", "center_types"
   add_foreign_key "conversation_participants", "conversations"
   add_foreign_key "conversation_participants", "users"
   add_foreign_key "currencies", "organizations"
   add_foreign_key "departments", "organizations"
+  add_foreign_key "fiscal_years", "organizations"
   add_foreign_key "groups", "organizations"
+  add_foreign_key "journal_entries", "branches"
+  add_foreign_key "journal_entries", "fiscal_years"
+  add_foreign_key "journal_entries", "members", column: "creator_id"
+  add_foreign_key "journal_entries", "organizations"
+  add_foreign_key "journal_entry_items", "centers", column: "account_id"
+  add_foreign_key "journal_entry_items", "centers", column: "center1_id"
+  add_foreign_key "journal_entry_items", "centers", column: "center2_id"
+  add_foreign_key "journal_entry_items", "centers", column: "center3_id"
+  add_foreign_key "journal_entry_items", "centers", column: "center4_id"
+  add_foreign_key "journal_entry_items", "centers", column: "center5_id"
+  add_foreign_key "journal_entry_items", "centers", column: "center6_id"
+  add_foreign_key "journal_entry_items", "currencies"
+  add_foreign_key "journal_entry_items", "journal_entries"
+  add_foreign_key "ledgers", "account_categories"
+  add_foreign_key "ledgers", "ledgers", column: "contra_for_id"
   add_foreign_key "members", "organizations"
   add_foreign_key "members", "users"
   add_foreign_key "message_receipts", "messages"
   add_foreign_key "message_receipts", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "messages", column: "reply_to_id"
+  add_foreign_key "organizations", "currencies", column: "main_currency_id"
   add_foreign_key "permissions", "organizations"
   add_foreign_key "role_assignments", "members"
   add_foreign_key "role_assignments", "roles"

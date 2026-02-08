@@ -16,7 +16,6 @@ class CreateAccounts < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :account_categories, :name, using: :gin
     add_index :accounts, :code, unique: true
   end
 end
