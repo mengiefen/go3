@@ -20,16 +20,8 @@ class CreateJournalEntryItems < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :journal_entry_items, :account_id
-    add_index :journal_entry_items, :center1_id
-    add_index :journal_entry_items, :center2_id
-    add_index :journal_entry_items, :center3_id
-    add_index :journal_entry_items, :center4_id
-    add_index :journal_entry_items, :center5_id
-    add_index :journal_entry_items, :center6_id
     add_index :journal_entry_items, :debit
     add_index :journal_entry_items, :credit
-    add_index :journal_entry_items, :currency_id
     add_index :journal_entry_items, :currency_amount
     add_index :journal_entry_items, :rate
   end

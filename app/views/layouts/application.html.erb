@@ -1,130 +1,25 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" class="h-full">
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <title><%= content_for?(:title) ? yield(:title) : "GO3 Platform" %></title>
+    <title>Rails + React</title>
+
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %> 
-    <%= yield :head %>
-    
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= yield :head_styles if content_for?(:head_styles) %>
-    
-    <!-- Ensure these are loaded before page content -->
-    <%= javascript_importmap_tags %>
-    <%= javascript_import_module_tag "alpinejs" %>
-    
-    <!-- Add moment.js with timezone support -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
-    
-    <%= yield :head_scripts if content_for?(:head_scripts) %>
-    
-    <meta name="turbo-cache-control" content="no-preview">
-  </head>
-  <body class="h-full bg-gray-50" dir=<%= supported_languages.dig(current_language, :rtl) ? "rtl" : "ltr" %>>
-    <% if ['sessions', 'registrations', 'confirmations', 'onboarding'].include?(controller_name) %>
-      <%= yield %>    
-    <% else %>
-      <%= turbo_stream_from "members_list" %>
-      <%= turbo_stream_from "departments_list" %>
-      <%= turbo_stream_from "roles_list" %>
-      <%= PageLayout do |pl| %>
-        <%= pl.with_header do %>
-          <a href="/"> <h1 class="ma-0 pa-0"> It's Go3 </h1></a>
-        <% end %>
-        <%= pl.with_side_panel do %>
-          <ul>
-            <li><%= link_to "Organizations", organizations_path, data: { 
-              action: "click->tabs#handleSidebarClick",
-              title: "Organizations",
-              tab_id: "organizations"
-            } %></li>
-            <li><%= link_to "New Organizations", new_organization_path, data: { 
-              action: "click->tabs#handleSidebarClick",
-              title: "New Organization",
-              tab_id: "new_organization"
-            } %></li>
-            <li><%= link_to "Members", organization_members_path(2), data: { 
-              action: "click->tabs#handleSidebarClick",
-              title: "Members",
-              tab_id: "members"
-            } %></li>
-            <li><%= link_to "Departments", organization_departments_path(2), data: { 
-              action: "click->tabs#handleSidebarClick",
-              title: "Departments",
-              tab_id: "departments"
-            } %></li>
-            <li><%= link_to "Roles", organization_roles_path(2), data: { 
-              action: "click->tabs#handleSidebarClick",
-              title: "Roles",
-              tab_id: "roles"
-            } %></li>
-            <li><%= link_to "Conversations", organization_conversations_path(2), data: { 
-              action: "click->tabs#handleSidebarClick",
-              title: "Conversations",
-              tab_id: "conversations"
-            } %></li>
-          </ul>
-        <% end %>
-        <%= pl.with_main_content do %><% end %>
+    <%= csp_meta_tag %>
 
-      <% end %>
-    <% end %>
-    <!-- Include content from page_scripts block -->
-    <%= yield :page_scripts if content_for?(:page_scripts) %>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Alpine.js like functionality for dropdowns
-        const dropdownButtons = document.querySelectorAll('[aria-haspopup="true"]');
-
-        dropdownButtons.forEach(button => {
-          const dropdown = button.nextElementSibling;
-
-          if (dropdown) {
-            button.addEventListener('click', function(e) {
-              e.stopPropagation();
-              const expanded = this.getAttribute('aria-expanded') === 'true';
-              this.setAttribute('aria-expanded', !expanded);
-              dropdown.style.display = expanded ? 'none' : 'block';
-            });
-
-            document.addEventListener('click', function(e) {
-              if (!dropdown.contains(e.target) && !button.contains(e.target)) {
-                button.setAttribute('aria-expanded', 'false');
-                dropdown.style.display = 'none';
-              }
-            });
-          }
-        });
-        
-        // Flash message dismissal
-        const dismissButtons = document.querySelectorAll('[data-dismiss]');
-        dismissButtons.forEach(button => {
-          button.addEventListener('click', () => {
-            const target = document.getElementById(button.dataset.dismiss);
-            if (target) {
-              target.remove();
-            }
-          });
-        });
-      });
+    <%# Vite React Refresh preamble %>
+    <script type="module">
+      import RefreshRuntime from "http://localhost:5173/@react-refresh"
+      RefreshRuntime.injectIntoGlobalHook(window)
+      window.$RefreshReg$ = () => {}
+      window.$RefreshSig$ = () => type => type
+      window.__vite_plugin_react_preamble_installed__ = true
     </script>
 
-    <div id="modals"></div>
+    <%# Load React entry %>
+    <script type="module" src="http://localhost:5173/src/main.tsx"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
   </body>
 </html>

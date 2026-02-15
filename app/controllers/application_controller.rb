@@ -7,15 +7,15 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  before_action :set_current_attributes
-  before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :store_user_location!, if: :storable_location?
-  before_action :set_locale
-  before_action :translate_flash_messages
-  before_action :authenticate_user!
-  before_action :check_onboarding
-  before_action :handle_organization_redirect
-  around_action :switch_locale
+  # before_action :set_current_attributes
+  # before_action :configure_permitted_parameters, if: :devise_controller?
+  # before_action :store_user_location!, if: :storable_location?
+  # before_action :set_locale
+  # before_action :translate_flash_messages
+  # before_action :authenticate_user!
+  # before_action :check_onboarding
+  # before_action :handle_organization_redirect
+  # around_action :switch_locale
 
   helper ComponentHelper
 

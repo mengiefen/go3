@@ -9,14 +9,19 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    self.resource = warden.authenticate!(auth_options)
+    sign_in(resource_name, resource)
+
+    render json: { id: resource.id, email: resource.email }, status: :ok
+  end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    sign_out(resource_name)
+
+    head :no_content
+  end
 
   # protected
 

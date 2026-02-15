@@ -136,6 +136,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     get "translations", to: "translations#index"
+    get "/health", to: "health#show"
+    post "/echo", to: "echo#create"
+    get "/me", to: "me#show"
   end
 
   # Onboarding routes
