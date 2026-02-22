@@ -1,0 +1,163 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+servers:
+- url: http://localhost:5000
+  variables:
+    defaultHost:
+      default: localhost:5000
+tags:
+- name: Authentication
+  description: User authentication endpoints
+paths:
+  "/users/confirmation":
+    get:
+      summary: Confirm user email
+      tags:
+      - Authentication
+      parameters:
+      - name: confirmation_token
+        in: query
+        description: Email confirmation token
+        example: 6vo7qV45ZqqiaomixcG6
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Email confirmed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  confirmation_sent_at:
+                    type: string
+                    example: '2026-02-22T19:18:12.729Z'
+  "/users":
+    post:
+      summary: Sign up as a new user
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  timezone:
+                    type: string
+                    example: UTC
+                  language:
+                    type: string
+                    example: en
+                  confirmation_sent_at:
+                    type: string
+                    example: '2026-02-22T19:18:12.729Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: john.doe@example.com
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                timezone:
+                  type: string
+                  example: UTC
+                language:
+                  type: string
+                  example: en
+  "/users/sign_in":
+    post:
+      summary: Log in with username and password
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: Logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: john.doe@example.com
+                    password:
+                      type: string
+                      example: AAAaaa@123
+  "/users/sign_out":
+    delete:
+      summary: Log out
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: Logged out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Signed out
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: john.doe@example.com

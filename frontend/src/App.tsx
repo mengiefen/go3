@@ -12,12 +12,62 @@ function App() {
     <HashRouter>
       <ThemeControllerProvider>
         <Provider store={store}>
-            <Header />
-            <Box padding={2}>
-            <Routes>
-              <Route index path="/" element={<Home/>}/>
-              <Route path="/*" element={<>not found</>} />
-            </Routes>
+          <Header />
+          <button onClick={() =>{ 
+            
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const raw = JSON.stringify({
+              "user": {
+                "email": "andycole@test.com",
+                "password": "AAAaaa@123"
+              }
+            });
+
+            const requestOptions = {
+              method: "POST",
+              headers: myHeaders,
+              body: raw,
+              redirect: "follow"
+            };
+
+            fetch("http://localhost:5000/users/sign_in", requestOptions)
+              .then((response) => response.text())
+              .then((result) => console.log(result))
+              .catch((error) => console.error(error));
+
+          } }>SIGN IN</button>
+
+          <button onClick={() =>{ 
+            
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const raw = JSON.stringify({
+              "user": {
+                "email": "andycole@test.com"
+              }
+            });
+
+            const requestOptions = {
+              method: "DELETE",
+              headers: myHeaders,
+              body: raw,
+              redirect: "follow"
+            };
+
+            fetch("http://localhost:5000/users/sign_out", requestOptions)
+              .then((response) => response.text())
+              .then((result) => console.log(result))
+              .catch((error) => console.error(error));
+
+          } }>SIGN OUT</button>
+          <Box padding={2}>
+          <Routes>
+            <Route index path="/" element={<Home/>}/>
+            <Route path="/*" element={<>not found</>} />
+          </Routes>
           </Box>
         </Provider>
       </ThemeControllerProvider>

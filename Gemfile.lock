@@ -214,6 +214,9 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
+    json-schema (6.1.0)
+      addressable (~> 2.8)
+      bigdecimal (>= 3.1, < 5)
     jwt (2.10.2)
       base64
     kamal (2.5.3)
@@ -427,6 +430,17 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.2)
+    rswag-api (2.17.0)
+      activesupport (>= 5.2, < 8.2)
+      railties (>= 5.2, < 8.2)
+    rswag-specs (2.17.0)
+      activesupport (>= 5.2, < 8.2)
+      json-schema (>= 2.2, < 7.0)
+      railties (>= 5.2, < 8.2)
+      rspec-core (>= 2.14)
+    rswag-ui (2.17.0)
+      actionpack (>= 5.2, < 8.2)
+      railties (>= 5.2, < 8.2)
     rubocop (1.75.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -600,6 +614,9 @@ DEPENDENCIES
   rotp (~> 6.0)
   rqrcode (~> 3.1)
   rspec-rails (~> 6.1.0)
+  rswag-api
+  rswag-specs
+  rswag-ui
   rubocop (~> 1.75)
   rubocop-rails-omakase
   selenium-webdriver (~> 4.34)
