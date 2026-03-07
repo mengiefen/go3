@@ -86,10 +86,6 @@ gem "net-imap", require: false
 gem "net-pop", require: false
 
 
-# Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-# gem "spring"
-gem "view_component", "~> 3.21"
-
 # Excel generation
 gem "axlsx", "~> 1.3.6"
 gem "axlsx_rails", "~> 0.6"

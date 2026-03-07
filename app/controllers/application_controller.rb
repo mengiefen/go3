@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   include Pundit::Authorization
-  include ComponentHelper
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -16,8 +15,6 @@ class ApplicationController < ActionController::Base
   # before_action :check_onboarding
   # before_action :handle_organization_redirect
   # around_action :switch_locale
-
-  helper ComponentHelper
 
   helper_method :current_language
 

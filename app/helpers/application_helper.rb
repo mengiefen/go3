@@ -1,6 +1,4 @@
 module ApplicationHelper
-  include ComponentHelper
-
   def supported_languages
     Rails.application.config.supported_languages
   end
