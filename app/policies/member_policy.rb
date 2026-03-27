@@ -3,11 +3,7 @@ class MemberPolicy < ApplicationPolicy
     is_org_admin?
   end
 
-  def new?
-    is_org_admin?
-  end
-
-  def edit?
+  def show?
     is_org_admin?
   end
 

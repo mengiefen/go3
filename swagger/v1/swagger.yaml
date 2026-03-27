@@ -12,6 +12,774 @@ tags:
 - name: Authentication
   description: User authentication endpoints
 paths:
+  "/organizations/{organization_id}/members":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+    - name: params
+      in: body
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            example: john.doe@example.com
+          name:
+            type: string
+            example: John Doe
+          color:
+            type: string
+            example: "#ff5512"
+          initial:
+            type: string
+            example: JD
+          invite:
+            type: boolean
+            example: true
+            description: If true, sends an invitation email including an invitation
+              link
+    get:
+      summary: Get all organization members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Loaded successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    email:
+                      type: string
+                      example: john.doe@example.com
+                    name:
+                      type: string
+                      example: John Doe
+                    user_id:
+                      type:
+                      - integer
+                      - nil
+                      example: 3
+                    organization_id:
+                      type: integer
+                      example: 1
+                    created_at:
+                      type: string
+                      example: '2026-02-20 10:52:46.787878000 +0000'
+                    updated_at:
+                      type: string
+                      example: '2026-02-20 10:52:46.787878000 +0000'
+                    invited_at:
+                      type:
+                      - string
+                      - nil
+                      example: '2026-02-20 10:52:46.787878000 +0000'
+                    invitation_key:
+                      type:
+                      - string
+                      - nil
+                      example: 0AB1CD2EF3
+                    joined_at:
+                      type:
+                      - string
+                      - nil
+                      example: '2026-02-20 10:52:46.787878000 +0000'
+                    archived_number:
+                      type:
+                      - integer
+                      - nil
+                      example: 1
+                    archived_at:
+                      type:
+                      - string
+                      - nil
+                      example: '2026-02-20 10:52:46.787878000 +0000'
+                    initial:
+                      type:
+                      - string
+                      - nil
+                      example: JD
+                    color:
+                      type:
+                      - string
+                      - nil
+                      example: "#ff5512"
+    post:
+      summary: Creating a new member
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Creates the new member successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: John Doe
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
+  "/organizations/{organization_id}/members/{id}":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: Member ID
+      required: true
+      schema:
+        type: integer
+    - name: params
+      in: body
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            example: john.doe@example.com
+          name:
+            type: string
+            example: Updated Name
+          color:
+            type: string
+            example: "#ff5512"
+          initial:
+            type: string
+            example: JD
+          invite:
+            type: boolean
+            example: true
+            description: If true, sends an invitation email including an invitation
+              link
+    get:
+      summary: Get the members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Loaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: John Doe
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
+    patch:
+      summary: Updates the members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Updates the member successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: Updated Name
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
+  "/organizations/{organization_id}/members/{id}/archive":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: Member ID
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Archives the members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Archives the member successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: John Doe
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
+  "/organizations/{organization_id}/members/{id}/unarchive":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: Member ID
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Unarchives the members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Unarchives the member successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: John Doe
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
+  "/organizations/{organization_id}/members/{id}/set_as_admin":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: Member ID
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Grants org admin permission to the members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Grants org admin permission to the member
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: John Doe
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
+  "/organizations/{organization_id}/members/{id}/revoke_admin":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: Member ID
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Revokes org admin permission from the members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Revokes org admin permission from the member
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: John Doe
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
+  "/organizations/{organization_id}/members/{id}/resend_invitation":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: Member ID
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: Sends invitation to the members
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Sends invitation to the members
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  name:
+                    type: string
+                    example: John Doe
+                  user_id:
+                    type:
+                    - integer
+                    - nil
+                    example: 3
+                  organization_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  updated_at:
+                    type: string
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invited_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  invitation_key:
+                    type:
+                    - string
+                    - nil
+                    example: 0AB1CD2EF3
+                  joined_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  archived_number:
+                    type:
+                    - integer
+                    - nil
+                    example: 1
+                  archived_at:
+                    type:
+                    - string
+                    - nil
+                    example: '2026-02-20 10:52:46.787878000 +0000'
+                  initial:
+                    type:
+                    - string
+                    - nil
+                    example: JD
+                  color:
+                    type:
+                    - string
+                    - nil
+                    example: "#ff5512"
   "/users/confirmation":
     get:
       summary: Confirm user email

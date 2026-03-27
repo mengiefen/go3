@@ -72,8 +72,8 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 gem "dotenv-rails"
 
-gem 'rswag-api'
-gem 'rswag-ui'
+gem "rswag-api"
+gem "rswag-ui"
 
 
 
@@ -90,7 +90,7 @@ gem "net-pop", require: false
 gem "axlsx", "~> 1.3.6"
 gem "axlsx_rails", "~> 0.6"
 
-gem 'graphql'
+gem "graphql"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -111,7 +111,7 @@ group :development, :test do
 
   gem "hotwire-livereload"
 
-  gem 'rswag-specs'
+  gem "rswag-specs"
 end
 
 group :development do

@@ -1,94 +1,83 @@
 class MembersController < ApplicationController
-  include TabContent
   before_action :authenticate_user!
 
   def index
     authorize current_member
-    @members = current_organization.members.includes([ :user, :direct_permissions ]).order(id: :desc)
+    members = current_organization.members
+    render json: members.order(id: :desc), status: :ok
   end
 
-  def new
+  def show
     authorize current_member
-    @member = Member.new(organization: current_organization)
+    member = current_organization.members.find_by_id(params[:id])
+    render json: { errors: [ controller_t("not_found") ] }, status: :not_found unless member
+    # Tech debt: Add translation
+    render json: member, status: :ok
   end
 
   def create
     authorize current_member
 
-    @member = Member.new(organization: current_organization)
-    @member.assign_attributes(member_params)
-    if @member.save
+    member = Member.new(organization: current_organization)
+    member.assign_attributes(member_params)
+    if member.save
       if params[:invite]
-        invite
+        invite(member)
       end
 
-      Turbo::StreamsChannel.broadcast_prepend_to(
-        "members_list",
-        targets: ".members_list",
-        partial: "members/member_row",
-        locals: { member: @member, org_admin: @member.org_admin? }
-      )
-
-      render turbo_stream: [
-        turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
-      ]
+      render json: member, status: :ok
     end
-  end
-
-  def edit
-    authorize current_member
-    @member = Member.find_by(id: params[:id])
   end
 
   def update
     authorize current_member
-    @member = Member.find_by(id: params[:id])
-    if @member.update(member_params)
+    member = Member.find_by(id: params[:id])
+    if member.update(member_params)
       if params[:invite]
-        invite
+        invite(member)
       end
 
-      broadcast_member_update
-
-      render turbo_stream: [
-        turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
-      ]
+      render json: member, status: :ok
     end
   end
 
   def set_as_admin
     authorize current_member
-    @member = Member.find_by(id: params[:id])
-    Permission.find_or_create_by(organization: @member.organization, grantee: @member, code: Permission::ORG_ADMIN)
-    broadcast_member_update
+    member = Member.find_by(id: params[:id])
+    Permission.find_or_create_by(organization: member.organization, grantee: member, code: Permission::ORG_ADMIN)
+
+    render json: member, status: :ok
   end
 
   def revoke_admin
     authorize current_member
-    @member = Member.find_by(id: params[:id])
-    Permission.where(organization: @member.organization, grantee: @member, code: Permission::ORG_ADMIN).destroy_all
-    broadcast_member_update
+    member = Member.find_by(id: params[:id])
+    Permission.where(organization: member.organization, grantee: member, code: Permission::ORG_ADMIN).destroy_all
+
+    render json: member, status: :ok
   end
 
   def resend_invitation
     authorize current_member
-    @member = Member.find_by(id: params[:id])
-    invite
-    broadcast_member_update
+    member = Member.find_by(id: params[:id])
+    render json: { errors: controller_t("already_joined") }, status: :unprocessable_content if member.joined_at.present?
+    # Tech debt: Add translation
+    invite(member)
+    render json: member, status: :ok
   end
 
   def archive
     authorize current_member
-    @member = Member.find_by(id: params[:id])
-    @member.archive!
-    broadcast_member_update
+    member = Member.find_by(id: params[:id])
+    member.archive!
+    render json: member, status: :ok
   end
 
   def unarchive
     authorize current_member
-    @member = Member.find_by(id: params[:id])
-    @member.unarchive!
-    broadcast_member_update
+    member = Member.find_by(id: params[:id])
+    member.unarchive!
+    render json: member, status: :ok
   end
 
   def export
@@ -110,18 +99,18 @@ class MembersController < ApplicationController
 
   private
 
-  def invite
+  def invite(member)
     invitation_key = SecureRandom.alphanumeric(10)
-    @member.update!(
+    member.update!(
       invited_at: Time.current,
       invitation_key: invitation_key
     )
 
     MemberMailer.invitation(
-      member_id: @member.id,
+      member_id: member.id,
       organization_id: current_organization.id,
       invitation_key: invitation_key,
-      language: @member.organization.language
+      language: member.organization.language
     ).deliver_later
   end
 
@@ -131,15 +120,6 @@ class MembersController < ApplicationController
       :email,
       :initial,
       :color
-    )
-  end
-
-  def broadcast_member_update
-    Turbo::StreamsChannel.broadcast_replace_to(
-      "members_list",
-      targets: ".member_row_#{@member.id}",
-      partial: "members/member_row",
-      locals: { member: @member, org_admin: @member.org_admin? }
     )
   end
 end

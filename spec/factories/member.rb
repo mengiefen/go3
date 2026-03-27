@@ -4,7 +4,16 @@ FactoryBot.define do
 
     name { "Member #{SecureRandom.uuid}" }
 
-    email { "email#{ rand(1..100) }@test.com" }
+    email { "email#{ rand(1..1000) }@test.com" }
+
+    trait :invited do
+      invited_at { DateTime.now }
+    end
+
+    trait :joined do
+      invited_at { DateTime.now - 1.day }
+      joined_at { DateTime.now }
+    end
 
     after(:build) do |member, evaluator|
       if evaluator.name.is_a?(String)

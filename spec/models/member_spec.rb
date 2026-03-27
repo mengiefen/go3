@@ -83,22 +83,6 @@ RSpec.describe Member, type: :model do
     end
   end
 
-  describe "scopes" do
-    let(:organization) { create(:organization, name: { en: "Scopes Org #{SecureRandom.uuid}" }) }
-    let!(:active_member) { create(:member, organization: organization, status: 'active') }
-    let!(:inactive_member) { create(:member, organization: organization, status: 'inactive') }
-
-    it "returns active members" do
-      expect(Member.active).to include(active_member)
-      expect(Member.active).not_to include(inactive_member)
-    end
-
-    it "returns inactive members" do
-      expect(Member.inactive).to include(inactive_member)
-      expect(Member.inactive).not_to include(active_member)
-    end
-  end
-
   describe "#all_permissions" do
     let(:organization) { create(:organization, name: { en: "Permissions Org #{SecureRandom.uuid}" }) }
     let(:member) { create(:member, organization: organization) }

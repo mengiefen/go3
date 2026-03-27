@@ -29,10 +29,11 @@ class Member < ApplicationRecord
 
   validate :name_has_at_least_one_translation
 
-  enum :status, { active: 1, inactive: 0 }
-  # Scopes
-  scope :active, -> { where(status: "active") }
-  scope :inactive, -> { where(status: "inactive") }
+  def serializable_hash(options = {})
+    options = options ? options.dup : {}
+    options[:methods] = %i[org_admin? status localized_status]
+    super(options)
+  end
 
   def all_permissions
     collections = [ roles, groups, departments ]
