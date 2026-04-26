@@ -30,7 +30,7 @@ class Users::ProfilesController < ApplicationController
       :last_name,
       :phone_number,
       :address,
-      :language,
+      :locale,
       :timezone,
       :avatar
     )

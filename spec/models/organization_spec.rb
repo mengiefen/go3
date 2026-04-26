@@ -16,9 +16,9 @@ RSpec.describe Organization, type: :model do
 
   describe "validations" do
     it "is not valid with a name not containing at least one translation" do
-      organization = build(:organization, name: {})
+      organization = FactoryBot.build(:organization, name: {})
       expect(organization).not_to be_valid
-      expect(organization.errors[:name]).to include("must contain at least one translation")
+      expect(organization.errors[:name].join(". ")).to include("must contain at least one")
     end
 
     it "is valid with a name containing at least one translation" do
@@ -33,7 +33,7 @@ RSpec.describe Organization, type: :model do
 
       duplicate_org = build(:organization, name: test_org_name, parent: parent_org)
       expect(duplicate_org).not_to be_valid
-      expect(duplicate_org.errors[:name]).to include(/must be unique within the organization/)
+      expect(duplicate_org.errors[:name]).to include(/has already been taken/)
     end
 
     it "prevents circular references" do

@@ -89,8 +89,9 @@ gem "net-pop", require: false
 # Excel generation
 gem "axlsx", "~> 1.3.6"
 gem "axlsx_rails", "~> 0.6"
-
 gem "graphql"
+gem "faker"
+gem "blueprinter"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -106,7 +107,7 @@ group :development, :test do
   gem "rspec-rails", "~> 6.1.0"
   gem "factory_bot_rails"
   gem "shoulda-matchers"
-  gem "faker"
+
   gem "database_cleaner-active_record"
 
   gem "hotwire-livereload"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_26_114205) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_24_105040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -264,7 +264,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_114205) do
 
   create_table "members", force: :cascade do |t|
     t.string "email", null: false
-    t.jsonb "name"
+    t.jsonb "name", default: {}, null: false
     t.bigint "organization_id", null: false
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -306,8 +306,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_114205) do
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.jsonb "name", null: false
-    t.jsonb "description"
+    t.jsonb "name", default: {}, null: false
+    t.jsonb "description", default: {}, null: false
     t.integer "parent_id"
     t.boolean "is_tenant"
     t.datetime "created_at", null: false
@@ -315,7 +315,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_114205) do
     t.boolean "is_trial", default: false
     t.datetime "archived_at"
     t.integer "archive_number"
-    t.string "language", default: "en", null: false
     t.bigint "main_currency_id"
     t.boolean "use_parent_org_currencies", default: false
     t.boolean "use_parent_org_accounts", default: false
@@ -326,6 +325,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_114205) do
     t.integer "account_length", default: 2
     t.integer "center_length", default: 6
     t.integer "center_levels", default: 3
+    t.string "locale", default: "en", null: false
+    t.string "active_locales", default: [], null: false, array: true
+    t.string "inactive_locales", default: [], null: false, array: true
     t.index ["archived_at"], name: "index_organizations_on_archived_at"
     t.index ["main_currency_id"], name: "index_organizations_on_main_currency_id"
     t.index ["name"], name: "index_organizations_on_name", using: :gin
@@ -427,7 +429,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_114205) do
     t.date "birth_date"
     t.string "avatar"
     t.string "timezone"
-    t.string "preferred_locale", default: "en"
     t.jsonb "preferences", default: {}, null: false
     t.boolean "active", default: true
     t.datetime "deactivated_at"
@@ -438,14 +439,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_114205) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "address"
-    t.string "language", default: "en"
+    t.string "locale", default: "en"
     t.string "role"
     t.boolean "use_tabbed_navigation", default: true
     t.index ["active"], name: "index_users_on_active"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["first_name", "last_name"], name: "index_users_on_first_name_and_last_name"
-    t.index ["language"], name: "index_users_on_language"
+    t.index ["locale"], name: "index_users_on_locale"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
     t.index ["phone_number"], name: "index_users_on_phone_number"
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, where: "((provider IS NOT NULL) AND (uid IS NOT NULL))"

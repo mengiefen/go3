@@ -1,6 +1,5 @@
 module Admin
   class OrganizationsController < ApplicationController
-    layout "dashboard"
     before_action :authenticate_user!
     before_action :set_organization, only: [ :show, :edit, :update, :archive, :unarchive ]
 
@@ -15,6 +14,17 @@ module Admin
 
     def edit
       authorize @organization
+    end
+
+    def create
+      organization = Organization.new(organization_params)
+      authorize organization
+
+      if organization.save
+        render json: organization, status: :created
+      else
+        render json: { errors: organization.errors.full_messages }, status: :unprocessable_entity
+      end
     end
 
     def update
@@ -63,7 +73,7 @@ module Admin
     end
 
     def organization_params
-      params.require(:organization).permit(:name, :description, :parent_id, :is_trial, :settings, :logo)
+      params.require(:organization).permit(:name, :description, :parent_id, :is_trial, :settings, :logo, :locale)
     end
   end
 end

@@ -1,5 +1,5 @@
 # Define supported languages for the application
-Rails.application.config.supported_languages = {
+Rails.application.config.supported_locales = {
   "en" => { name: "English", rtl: false },
   "fr" => { name: "Français", rtl: false },
   "es" => { name: "Español", rtl: false },
@@ -11,5 +11,5 @@ Rails.application.config.supported_languages = {
   "ur" => { name: "اردو", rtl: true }
 }.freeze
 
-# Define default language
-Rails.application.config.default_language = "en"
+# Define default locale
+Rails.application.config.default_locale = "en"

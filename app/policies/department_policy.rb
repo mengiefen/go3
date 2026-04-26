@@ -3,11 +3,7 @@ class DepartmentPolicy < ApplicationPolicy
     is_org_admin?
   end
 
-  def new?
-    is_org_admin?
-  end
-
-  def edit?
+  def show?
     is_org_admin?
   end
 
@@ -30,6 +26,6 @@ class DepartmentPolicy < ApplicationPolicy
   private
 
   def is_org_admin?
-    user.current_member&.has_permission?("Organization.admin")
+    current_member.has_permission?(Permission::ORG_ADMIN)
   end
 end

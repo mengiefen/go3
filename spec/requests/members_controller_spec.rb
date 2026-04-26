@@ -1,12 +1,10 @@
 require 'swagger_helper'
 
 RSpec.describe 'Users::Sessions API', type: :request do
-  include Devise::Test::IntegrationHelpers
-
   member_attributes = {
     id: { type: :integer, example: 1 },
     email: { type: :string, example: 'john.doe@example.com' },
-    name: { type: :string, example: 'John Doe' },
+    name: { type: :string0, example: 'John Doe' },
     user_id: { type: %i[ integer nil ], example: 3 },
     organization_id: { type: :integer, example: 1 },
     created_at: { type: :string, example: '2026-02-20 10:52:46.787878000 +0000' },
@@ -17,10 +15,11 @@ RSpec.describe 'Users::Sessions API', type: :request do
     archived_number: { type: %i[integer nil], example: 1 },
     archived_at: { type: %i[string nil], example: '2026-02-20 10:52:46.787878000 +0000' },
     initial: { type: %i[string nil], example: 'JD' },
-    color: { type: %i[string nil], example: '#ff5512' }
+    color: { type: %i[string nil], example: '#ff5512' },
+    translations: { type: :object, example: { name: { en: 'John Doe', fa: 'جان دو' } } }
   }
 
-  let(:organization) { create(:organization) }
+  let(:organization) { create(:organization, active_locales: [ 'fa' ]) }
   let!(:member_1) { create(:member, organization:) }
   let(:member_2) { create(:member, organization:) }
   let(:user) { create(:user) }
@@ -76,7 +75,8 @@ RSpec.describe 'Users::Sessions API', type: :request do
     parameter name: :organization_id, in: :path, type: :integer, description: 'Organization ID', required: true
     parameter name: :params, in: :body, schema: { type: :object, properties: {
         email: { type: :string, example: 'john.doe@example.com' },
-        name: { type: :string, example: 'John Doe' },
+        name_en: { type: :string, example: 'John Doe' },
+        name_fa: { type: :string, example: 'جان ذو' },
         color: { type: :string, example: '#ff5512' },
         initial: { type: :string, example: 'JD' },
         invite: { type: :boolean, example: true, description: 'If true, sends an invitation email including an invitation link' }
@@ -92,7 +92,8 @@ RSpec.describe 'Users::Sessions API', type: :request do
         schema type: :object, properties: member_attributes
         let(:organization_id) { organization.id }
         let(:params) { {
-          name: 'John Doe',
+          name_en: 'John Doe',
+          name_fa: 'جان دو',
           email: 'john.doe@example.com',
           color: '#ff5512',
           initial: 'JD',
@@ -112,7 +113,7 @@ RSpec.describe 'Users::Sessions API', type: :request do
     parameter name: :id, in: :path, type: :integer, description: 'Member ID', required: true
     parameter name: :params, in: :body, schema: { type: :object, properties: {
         email: { type: :string, example: 'john.doe@example.com' },
-        name: { type: :string, example: 'Updated Name' },
+        name_en: { type: :string, example: 'Updated Name' },
         color: { type: :string, example: '#ff5512' },
         initial: { type: :string, example: 'JD' },
         invite: { type: :boolean, example: true, description: 'If true, sends an invitation email including an invitation link' }
@@ -125,10 +126,10 @@ RSpec.describe 'Users::Sessions API', type: :request do
       produces 'application/json'
 
       response '200', 'Updates the member successfully' do
-        schema type: :object, properties: member_attributes.merge({ name: { type: :string, example: 'Updated Name' } })
+        schema type: :object, properties: member_attributes.merge({ name_en: { type: :string, example: 'Updated Name' } })
         let(:organization_id) { organization.id }
         let(:id) { member_1.id }
-        let(:params) { { name: 'Updated Name' } }
+        let(:params) { { name_en: 'Updated Name' } }
 
         run_test! do |response|
           data = JSON.parse(response.body)
@@ -155,7 +156,7 @@ RSpec.describe 'Users::Sessions API', type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data["id"]).to eq(member_1.id)
-          expect(data["archive_number"]).not_to be_nil
+          expect(data["status"]).to eq("archived")
         end
       end
     end
@@ -250,8 +251,7 @@ RSpec.describe 'Users::Sessions API', type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data["id"]).to eq(member_1.id)
-          expect(data["invited_at"]).not_to be_nil
-          expect(data["invitation_key"]).not_to be_nil
+          expect(data["status"]).to eq("invited")
         end
       end
     end

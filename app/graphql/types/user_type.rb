@@ -10,7 +10,7 @@ module Types
     field :timezone, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :language, String
+    field :locale, String
     field :role, String
     field :use_tabbed_navigation, Boolean
   end

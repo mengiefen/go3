@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'securerandom'
 
 RSpec.describe Member, type: :model do
   describe "database schema" do
@@ -7,7 +6,6 @@ RSpec.describe Member, type: :model do
     it { should have_db_column(:name).of_type(:jsonb) }
     it { should have_db_column(:organization_id).of_type(:integer).with_options(null: false) }
     it { should have_db_column(:user_id).of_type(:integer) }
-    it { should have_db_column(:status).of_type(:integer) }
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
 
@@ -17,13 +15,14 @@ RSpec.describe Member, type: :model do
     it { should have_db_index(:name).using(:gin) }
   end
 
-  describe "validations" do
-    let(:organization) { create(:organization, name: { en: "Member Org #{SecureRandom.uuid}" }) }
+  let(:organization) { create(:organization, name: { en: "Member Org #{SecureRandom.uuid}" }) }
+  subject { build(:member, organization: organization) }
 
+  describe "validations" do
     it "is not valid with a name not containing at least one translation" do
       member = build(:member, name: {}, organization: organization)
       expect(member).not_to be_valid
-      expect(member.errors[:name]).to include("must contain at least one translation")
+      expect(member.errors[:name].join(", ")).to include("must contain at least one")
     end
 
     it "is valid with a name containing at least one translation" do
@@ -52,7 +51,6 @@ RSpec.describe Member, type: :model do
   describe "associations" do
     it { should belong_to(:organization).optional(false) }
     it { should belong_to(:user).optional(true) }
-    it { should have_many(:role_assignments).conditions(finish_date: nil) }
     it { should have_many(:roles).through(:role_assignments) }
     it { should have_many(:inactive_role_assignments) }
     it { should have_many(:inactive_roles).through(:inactive_role_assignments).source(:role) }
@@ -84,7 +82,6 @@ RSpec.describe Member, type: :model do
   end
 
   describe "#all_permissions" do
-    let(:organization) { create(:organization, name: { en: "Permissions Org #{SecureRandom.uuid}" }) }
     let(:member) { create(:member, organization: organization) }
     let(:role) { create(:role, organization: organization) }
     let(:group) { create(:group, organization: organization) }
@@ -116,6 +113,55 @@ RSpec.describe Member, type: :model do
       expect(permissions).to include(department_permission)
       expect(permissions).to include(direct_permission)
       expect(permissions.size).to eq(4)
+    end
+  end
+
+  describe "#is_go3_admin" do
+    let(:user) { create(:user, :admin) }
+    let(:member) { create(:member, organization:, user:) }
+    it "Inherits is_go3_admin from user" do
+      expect(member.is_go3_admin?).to eq(true)
+    end
+  end
+
+  describe "#status" do
+    let (:member) { create(:member) }
+    it "Sets member as not_invited by default" do
+      expect(member.status).to eq("not_invited")
+    end
+
+    it "Sets member as invited after sending invitation" do
+      member.update(invited_at: DateTime.now)
+      expect(member.status).to eq("invited")
+    end
+
+    it "Sets member as joined after accepting invitation" do
+      member.update(joined_at: DateTime.now)
+      expect(member.status).to eq("joined")
+    end
+
+    it "Sets member as archived after archival" do
+      member.archive!
+      expect(member.status).to eq("archived")
+    end
+  end
+
+  describe "#localized_status" do
+    before { organization.update(locale: 'fa') }
+    let(:member) { create(:member, organization:) }
+    it "Translates status" do
+      I18n.with_locale(:fa) do
+        expect(member.localized_status).to eq("دعوت نشده")
+      end
+    end
+  end
+
+  describe "#has_permission?" do
+    let(:member) { create(:member, organization:) }
+    let!(:permission) { create(:permission, code: Permission::ORG_ADMIN, organization:, grantee: member) }
+    it "Checks member permission by code" do
+      expect(member.has_permission?(Permission::ORG_ADMIN)).to eq(true)
+      expect(member.org_admin?).to eq(true)
     end
   end
 

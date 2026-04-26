@@ -4,7 +4,7 @@ class MembersController < ApplicationController
   def index
     authorize current_member
     members = current_organization.members
-    render json: members.order(id: :desc), status: :ok
+    render json: MemberBlueprint.render(members, view: :index), status: :ok
   end
 
   def show
@@ -12,32 +12,33 @@ class MembersController < ApplicationController
     member = current_organization.members.find_by_id(params[:id])
     render json: { errors: [ controller_t("not_found") ] }, status: :not_found unless member
     # Tech debt: Add translation
-    render json: member, status: :ok
+    render json: MemberBlueprint.render(member, view: :show), status: :ok
   end
 
   def create
     authorize current_member
+    member = current_organization.members.new(permitted_params)
 
-    member = Member.new(organization: current_organization)
-    member.assign_attributes(member_params)
     if member.save
       if params[:invite]
         invite(member)
       end
 
-      render json: member, status: :ok
+      render json: MemberBlueprint.render(member, view: :index), status: :ok
+    else
+      render json: { errors: member.errors.full_messages }, status: :unprocessable_content
     end
   end
 
   def update
     authorize current_member
     member = Member.find_by(id: params[:id])
-    if member.update(member_params)
+    if member.update(permitted_params)
       if params[:invite]
         invite(member)
       end
 
-      render json: member, status: :ok
+      render json: MemberBlueprint.render(member, view: :index), status: :ok
     end
   end
 
@@ -46,7 +47,7 @@ class MembersController < ApplicationController
     member = Member.find_by(id: params[:id])
     Permission.find_or_create_by(organization: member.organization, grantee: member, code: Permission::ORG_ADMIN)
 
-    render json: member, status: :ok
+    render json: MemberBlueprint.render(member, view: :index), status: :ok
   end
 
   def revoke_admin
@@ -54,7 +55,7 @@ class MembersController < ApplicationController
     member = Member.find_by(id: params[:id])
     Permission.where(organization: member.organization, grantee: member, code: Permission::ORG_ADMIN).destroy_all
 
-    render json: member, status: :ok
+    render json: MemberBlueprint.render(member, view: :index), status: :ok
   end
 
   def resend_invitation
@@ -63,21 +64,21 @@ class MembersController < ApplicationController
     render json: { errors: controller_t("already_joined") }, status: :unprocessable_content if member.joined_at.present?
     # Tech debt: Add translation
     invite(member)
-    render json: member, status: :ok
+    render json: MemberBlueprint.render(member, view: :index), status: :ok
   end
 
   def archive
     authorize current_member
     member = Member.find_by(id: params[:id])
     member.archive!
-    render json: member, status: :ok
+    render json: MemberBlueprint.render(member, view: :index), status: :ok
   end
 
   def unarchive
     authorize current_member
     member = Member.find_by(id: params[:id])
     member.unarchive!
-    render json: member, status: :ok
+    render json: MemberBlueprint.render(member, view: :index), status: :ok
   end
 
   def export
@@ -110,16 +111,11 @@ class MembersController < ApplicationController
       member_id: member.id,
       organization_id: current_organization.id,
       invitation_key: invitation_key,
-      language: member.organization.language
+      locale: member.organization.locale
     ).deliver_later
   end
 
-  def member_params
-    params.require(:member).permit(
-      :name,
-      :email,
-      :initial,
-      :color
-    )
+  def permitted_params
+    params.permit(:email, :initial, :color, *t_params(:name))
   end
 end

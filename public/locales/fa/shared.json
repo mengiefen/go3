@@ -1,0 +1,5 @@
+{
+  "validation": {
+    "passwordsDoNotMatch": "رمز عبور مطابقت ندارد"
+  }
+}

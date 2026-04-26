@@ -42,6 +42,6 @@ class MemberPolicy < ApplicationPolicy
   private
 
   def is_org_admin?
-    record.has_permission?("Organization.admin")
+    record.has_permission?(Permission::ORG_ADMIN)
   end
 end

@@ -14,7 +14,7 @@ RSpec.describe 'Users::Registrations API', type: :request do
           first_name: { type: :string, example: 'John' },
           last_name: { type: :string, example: 'Doe' },
           timezone: { type: :string, example: 'UTC' },
-          language: { type: :string, example: 'en' }
+          locale: { type: :string, example: 'en' }
         }
       }
 
@@ -26,7 +26,7 @@ RSpec.describe 'Users::Registrations API', type: :request do
                   first_name: { type: :string, example: 'John' },
                   last_name: { type: :string, example: 'Doe' },
                   timezone: { type: :string, example: 'UTC' },
-                  language: { type: :string, example: 'en' },
+                  locale: { type: :string, example: 'en' },
                   confirmation_sent_at: { type: :string, example: '2026-02-22T19:18:12.729Z' }
                }
 
@@ -38,7 +38,7 @@ RSpec.describe 'Users::Registrations API', type: :request do
             first_name: 'John',
             last_name: 'Doe',
             timezone: 'UTC',
-            language: 'en'
+            locale: 'en'
           }
         end
 

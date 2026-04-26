@@ -1,32 +1,22 @@
 module ApplicationHelper
-  def supported_languages
-    Rails.application.config.supported_languages
+  def supported_locale
+    Rails.application.config.supported_locales
   end
 
-  def default_language
-    Rails.application.config.default_language
+  def default_locale
+    Rails.application.config.default_locale
   end
 
-  def language_name(code)
-    supported_languages[code]&.dig(:name) || code
-  end
-
-  def rtl_language?(code)
-    supported_languages[code]&.dig(:rtl) || false
+  def rtl_locale?(code)
+    supported_locale[code]&.dig(:rtl) || false
   end
 
   def current_rtl?
-    rtl_language?(I18n.locale.to_s)
+    rtl_locale?(I18n.locale.to_s)
   end
 
-  def language_dir
-    rtl_language?(I18n.locale.to_s) ? "rtl" : "ltr"
-  end
-
-  def view_t(key, action: nil, controller: nil, **options)
-    controller_segments = controller || controller_path.split("/").join(".")
-    action_segment = action || action_name
-    I18n.t("views.#{controller_segments}.#{action_segment}.#{key}", **options)
+  def locale_dir
+    rtl_locale?(I18n.locale.to_s) ? "rtl" : "ltr"
   end
 
   def contrast_color(hex_color)

@@ -4,41 +4,36 @@ class DepartmentsController < ApplicationController
 
   def index
     authorize current_member
-    @departments = current_organization.departments.order(id: :desc)
+    departments = current_organization.departments.order(id: :desc)
+    render json: departments, status: :ok
   end
 
-  def new
+  def show
     authorize current_member
-    # @organization = current_organization
-    @department = Department.new
+    department = current_organization.departments.find_by_id(params[:id])
+    render json: { errors: [ controller_t("not_found") ] }, status: :not_found unless department
+    # Tech debt: Add translation
+    render json: department, status: :ok
   end
 
   def create
     authorize current_member
-    organization = Organization.find(params[:organization_id])
 
-    @department = Department.new(organization: organization, abbreviation: department_params[:abbreviation])
+    department = Department.new(organization: current_organization, abbreviation: department_params[:abbreviation])
 
     # Handle translatable fields
     if department_params[:name].present?
-      @department.write_attribute(:name, department_params[:name])
+      department.write_attribute(:name, department_params[:name])
     end
 
     if department_params[:description].present?
-      @department.write_attribute(:description, department_params[:description])
+      department.write_attribute(:description, department_params[:description])
     end
 
-    if @department.save
-      Turbo::StreamsChannel.broadcast_prepend_to(
-        "departments_list",
-        targets: ".departments_list",
-        partial: "departments/department_row",
-        locals: { department: @department }
-      )
-
-      render turbo_stream: [
-        turbo_stream.replace("modal", "<turbo-frame id='modal'/>")
-      ]
+    if department.save
+      render json: department, status: :ok
+    else
+      render json: { errors: department.errors.full_messages }, status: :unprocessable_content
     end
   end
 

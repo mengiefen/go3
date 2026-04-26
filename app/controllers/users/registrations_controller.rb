@@ -9,13 +9,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.save
 
     if resource.persisted?
-      render json: resource, only: %i[id email first_name last_name confirmed timezone language confirmed_at confirmation_sent_at], status: :ok
+      render json: resource, only: %i[id email first_name last_name confirmed timezone locale confirmed_at confirmation_sent_at], status: :ok
     else
       render json: { errors: resource.errors.full_messages }, status: :unprocessable_content
     end
   end
 
   def sign_up_params
-    params.permit(:email, :password, :password_confirmation, :first_name, :last_name, :timezone, :language)
+    params.permit(:email, :password, :password_confirmation, :first_name, :last_name, :timezone, :locale)
   end
 end
