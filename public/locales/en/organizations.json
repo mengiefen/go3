@@ -1,0 +1,10 @@
+{
+  "createYourOrganization": "Create Your Organization",
+  "onboardingSubtitle": "Let's get started by creating your trial organization",
+  "organizationName": "Organization Name",
+  "organizationNamePlaceholder": "Enter your organization name",
+  "createOrganization": "Create Organization",
+  "organizationCreationFailed": "Failed to create organization. Please try again.",
+  "loadingOrganizations": "Loading your organizations...",
+  "signOut": "Sign Out"
+}

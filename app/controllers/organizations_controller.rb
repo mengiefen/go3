@@ -3,9 +3,9 @@ class OrganizationsController < ApplicationController
   before_action :set_organization, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    authorize Organization
-    @organizations = policy_scope(Organization).unarchived
-    sleep(5)
+    if params[:my_organizations]
+      render json: current_user.organizations.as_json(only: [ :id, :name ]), status: :ok
+    end
   end
 
   def show

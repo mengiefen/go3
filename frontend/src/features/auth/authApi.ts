@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithCsrf } from '../../app/baseQuery';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000',
-    credentials: 'include',
-  }),
+  baseQuery: baseQueryWithCsrf,
   endpoints: (builder) => ({
     signUp: builder.mutation({
       query: (userData) => ({

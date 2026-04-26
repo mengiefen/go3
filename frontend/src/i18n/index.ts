@@ -10,7 +10,7 @@ i18n
   .init({
     fallbackLng: 'en',
     defaultNS: 'shared',
-    ns: ['shared', 'auth'],
+    ns: ['shared', 'auth', 'organizations'],
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',
     },

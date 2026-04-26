@@ -47,7 +47,7 @@ export const SignIn = () => {
       }).unwrap();
       
       console.log('Sign in successful:', result);
-      navigate('/dashboard');
+      navigate('/app/organization-resolver');
     } catch (err: any) {
       console.error('Sign in failed:', err);
       

@@ -1,0 +1,10 @@
+{
+  "createYourOrganization": "ایجاد سازمان شما",
+  "onboardingSubtitle": "بیایید با ایجاد سازمان آزمایشی خود شروع کنیم",
+  "organizationName": "نام سازمان",
+  "organizationNamePlaceholder": "نام سازمان خود را وارد کنید",
+  "createOrganization": "ایجاد سازمان",
+  "organizationCreationFailed": "ایجاد سازمان ناموفق بود. لطفا دوباره تلاش کنید.",
+  "loadingOrganizations": "در حال بارگذاری سازمان‌های شما...",
+  "signOut": "خروج"
+}
