@@ -1,5 +1,11 @@
 {
-  "validation": {
-    "passwordsDoNotMatch": "رمز عبور مطابقت ندارد"
-  }
+  "signUp": "ثبت‌ نام",
+  "signIn": "ورود",
+  "firstName": "نام",
+  "lastName": "نام خانوادگی",
+  "email": "ایمیل",
+  "password": "رمز عبور",
+  "confirmPassword": "تکرار رمز عبور",
+  "timezone": "منطقه زمانی",
+  "locale": "زبان/منطقه"
 }

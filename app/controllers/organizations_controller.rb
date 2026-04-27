@@ -24,7 +24,9 @@ class OrganizationsController < ApplicationController
   def create
     if params[:is_trial]
       name = params[:name] || Faker::Company.name
-      @organization = Organization.new(name:, locale: current_user.locale, is_trial: true, is_tenant: false)
+      Mobility.with_locale(current_user.locale) do
+        @organization = Organization.new(name:, locale: current_user.locale, is_trial: true, is_tenant: false)
+      end
 
       authorize @organization
 
@@ -80,20 +82,22 @@ class OrganizationsController < ApplicationController
   end
 
   def setCurrentUserAsAdmin
-    member = Member.create(
-      user: current_user,
-      name: current_user.full_name,
-      organization: @organization,
-      email: current_user.email,
-      joined_at: DateTime.now,
-      initial: current_user.first_name[0].upcase + current_user.last_name[0].upcase,
-      color: "#c9b12d"
-    )
+    Mobility.with_locale(current_user.locale) do
+      member = Member.create(
+        user: current_user,
+        name: current_user.full_name,
+        organization: @organization,
+        email: current_user.email,
+        joined_at: DateTime.now,
+        initial: current_user.first_name[0].upcase + current_user.last_name[0].upcase,
+        color: "#c9b12d"
+      )
 
-    permission = Permission.create(
-      code: Permission::ORG_ADMIN,
-      grantee: member,
-      organization: @organization
-    )
+      permission = Permission.create(
+        code: Permission::ORG_ADMIN,
+        grantee: member,
+        organization: @organization
+      )
+    end
   end
 end

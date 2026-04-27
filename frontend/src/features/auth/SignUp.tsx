@@ -53,7 +53,7 @@ export const SignUp = () => {
     
     // Password match validation
     if (formData.password !== formData.password_confirmation) {
-      setValidationError(tShared('validation.passwordsDoNotMatch'));
+      setValidationError(t('validation.passwordsDoNotMatch'));
       return;
     }
     
@@ -96,13 +96,13 @@ export const SignUp = () => {
       <Box sx={{ mt: 8 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom align="center">
-            {t('signUp')}
+            {tShared('signUp')}
           </Typography>
           
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label={t('firstName')}
+              label={tShared('firstName')}
               name="first_name"
               value={formData.first_name}
               onChange={handleChange}
@@ -112,7 +112,7 @@ export const SignUp = () => {
             
             <TextField
               fullWidth
-              label={t('lastName')}
+              label={tShared('lastName')}
               name="last_name"
               value={formData.last_name}
               onChange={handleChange}
@@ -122,7 +122,7 @@ export const SignUp = () => {
             
             <TextField
               fullWidth
-              label={t('email')}
+              label={tShared('email')}
               name="email"
               type="email"
               value={formData.email}
@@ -134,7 +134,7 @@ export const SignUp = () => {
             
             <TextField
               fullWidth
-              label={t('password')}
+              label={tShared('password')}
               name="password"
               type="password"
               value={formData.password}
@@ -146,7 +146,7 @@ export const SignUp = () => {
             
             <TextField
               fullWidth
-              label={t('confirmPassword')}
+              label={tShared('confirmPassword')}
               name="password_confirmation"
               type="password"
               value={formData.password_confirmation}
@@ -159,7 +159,7 @@ export const SignUp = () => {
             <TextField
               fullWidth
               select
-              label={t('timezone')}
+              label={tShared('timezone')}
               name="timezone"
               value={formData.timezone}
               onChange={handleChange}
@@ -175,7 +175,7 @@ export const SignUp = () => {
             <TextField
               fullWidth
               select
-              label={t('locale')}
+              label={tShared('locale')}
               name="locale"
               value={formData.locale}
               onChange={handleChange}
@@ -202,7 +202,7 @@ export const SignUp = () => {
               disabled={isLoading}
               sx={{ mt: 3, mb: 2 }}
             >
-              {isLoading ? <CircularProgress size={24} /> : t('signUpButton')}
+              {isLoading ? <CircularProgress size={24} /> : tShared('signUp')}
             </Button>
             
             <Box sx={{ textAlign: 'center', mt: 2 }}>

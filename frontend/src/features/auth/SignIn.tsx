@@ -17,6 +17,7 @@ import { useSignInMutation } from './authApi';
 
 export const SignIn = () => {
   const { t } = useTranslation('auth');
+  const { t: tShared } = useTranslation('shared');
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
@@ -62,7 +63,7 @@ export const SignIn = () => {
       <Box sx={{ mt: 8 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom align="center">
-            {t('signIn')}
+            {tShared('signIn')}
           </Typography>
           
           <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
@@ -72,7 +73,7 @@ export const SignIn = () => {
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label={t('email')}
+              label={tShared('email')}
               name="email"
               type="email"
               value={formData.email}
@@ -84,7 +85,7 @@ export const SignIn = () => {
             
             <TextField
               fullWidth
-              label={t('password')}
+              label={tShared('password')}
               name="password"
               type="password"
               value={formData.password}
@@ -124,7 +125,7 @@ export const SignIn = () => {
               disabled={isLoading}
               sx={{ mt: 3, mb: 2 }}
             >
-              {isLoading ? <CircularProgress size={24} /> : t('signInButton')}
+              {isLoading ? <CircularProgress size={24} /> : tShared('signIn')}
             </Button>
             
             <Divider sx={{ my: 2 }} />

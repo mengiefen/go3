@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Alert,
   Button,
+  Stack,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useConfirmEmailMutation } from './authApi';
@@ -19,7 +20,9 @@ export const EmailConfirmation = () => {
   const [confirmEmail] = useConfirmEmailMutation();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [errorMessage, setErrorMessage] = useState('');
+  const [countdown, setCountdown] = useState(6);
   const executed = useRef(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const token = searchParams.get('confirmation_token');
 
@@ -35,7 +38,7 @@ export const EmailConfirmation = () => {
 
     const confirm = async () => {
       try {
-        console.log("sending token")
+        console.log("sending token");
         const result = await confirmEmail({ confirmation_token: token }).unwrap();
         console.log('Email confirmed:', result);
         setStatus('success');
@@ -43,7 +46,6 @@ export const EmailConfirmation = () => {
         console.error('Confirmation failed:', error);
         setStatus('error');
         
-        // Handle different error cases
         if (error.status === 404) {
           setErrorMessage(t('invalidToken'));
         } else if (error.status === 422) {
@@ -55,10 +57,40 @@ export const EmailConfirmation = () => {
     };
 
     confirm();
-  }, []);
+  }, [token, confirmEmail, t]);
 
-  const handleSignIn = () => {
-    navigate('/app/signin');
+  // Countdown timer for auto-redirect
+  useEffect(() => {
+    if (status === 'success') {
+      timerRef.current = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            // Clear timer and redirect
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+            }
+            navigate('/app/organization-resolver');
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    // Cleanup timer on component unmount
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [status, navigate]);
+
+  const handleRedirectNow = () => {
+    // Clear timer if exists
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    navigate('/app/organization-resolver');
   };
 
   if (status === 'loading') {
@@ -87,13 +119,20 @@ export const EmailConfirmation = () => {
             <Typography variant="body1" sx={{ mb: 3 }}>
               {t('youCanNowSignIn')}
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSignIn}
-            >
-              {t('goToSignIn')}
-            </Button>
+            
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleRedirectNow}
+              >
+                {t('continueNow')}
+              </Button>
+            </Stack>
+            
+            <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
+              {t('redirectingIn', { seconds: countdown })}
+            </Typography>
           </Paper>
         </Box>
       </Container>
@@ -113,7 +152,7 @@ export const EmailConfirmation = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate('/app/signup')}
+            onClick={() => navigate('/signup')}
           >
             {t('tryAgain')}
           </Button>
