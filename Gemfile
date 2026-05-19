@@ -72,6 +72,27 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 gem "dotenv-rails"
 
+gem "rswag-api"
+gem "rswag-ui"
+
+
+
+gem "tailwindcss-rails", "~> 4.3"
+gem "tailwindcss-ruby", "~> 4.1"
+
+# Email SMTP delivery
+gem "net-smtp", require: false
+gem "net-imap", require: false
+gem "net-pop", require: false
+
+
+# Excel generation
+gem "axlsx", "~> 1.3.6"
+gem "axlsx_rails", "~> 0.6"
+gem "graphql"
+gem "faker"
+gem "blueprinter"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -86,10 +107,12 @@ group :development, :test do
   gem "rspec-rails", "~> 6.1.0"
   gem "factory_bot_rails"
   gem "shoulda-matchers"
-  gem "faker"
+
   gem "database_cleaner-active_record"
 
   gem "hotwire-livereload"
+
+  gem "rswag-specs"
 end
 
 group :development do
@@ -114,20 +137,4 @@ group :test do
   gem "selenium-webdriver", "~> 4.34"
   gem "simplecov", require: false
 end
-
-gem "tailwindcss-rails", "~> 4.3"
-gem "tailwindcss-ruby", "~> 4.1"
-
-# Email SMTP delivery
-gem "net-smtp", require: false
-gem "net-imap", require: false
-gem "net-pop", require: false
-
-
-# Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-# gem "spring"
-gem "view_component", "~> 3.21"
-
-# Excel generation
-gem "axlsx", "~> 1.3.6"
-gem "axlsx_rails", "~> 0.6"
+gem "graphiql-rails", group: :development

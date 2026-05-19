@@ -5,6 +5,9 @@ Mobility.configure do
     active_record
     reader
     writer
+    backend_reader
+    locale_accessors
+    query
     presence
     cache
     fallbacks

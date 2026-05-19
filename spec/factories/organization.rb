@@ -1,15 +1,16 @@
 FactoryBot.define do
   factory :organization do
-    name { "Organization #{SecureRandom.uuid}" }
+    name { { en: "Organization #{SecureRandom.uuid}" } }
 
-    after(:build) do |org, evaluator|
-      if evaluator.name.is_a?(String)
-        Mobility.with_locale(:en) { org.name = evaluator.name }
-      elsif evaluator.name.is_a?(Hash)
-        org.name = nil
-        evaluator.name.each do |locale, name|
-          Mobility.with_locale(locale) { org.name = name }
-        end
+    after(:build) do |organization, evaluator|
+      name_value = evaluator.name
+      if name_value.is_a?(String)
+        default_locale = organization.locale || I18n.default_locale
+        organization.write_attribute(:name, { default_locale => name_value })
+      elsif name_value.is_a?(Hash)
+        organization.write_attribute(:name, name_value)
+      else
+        organization.name = { "en" => "Test Organization" }
       end
     end
   end

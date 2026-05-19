@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    # This will be the landing page
+    render "layouts/react_app"
   end
 end

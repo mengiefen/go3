@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   include Pundit::Authorization
-  include ComponentHelper
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -17,9 +16,7 @@ class ApplicationController < ActionController::Base
   # before_action :handle_organization_redirect
   # around_action :switch_locale
 
-  helper ComponentHelper
-
-  helper_method :current_language
+  helper_method :current_locale
 
   protected
 
@@ -78,7 +75,7 @@ class ApplicationController < ActionController::Base
   def set_locale
     # Get locale from user preference, params, or default
     locale = if user_signed_in?
-               current_user.language
+               current_user.locale
     elsif params[:locale]
                params[:locale]
     else
@@ -178,11 +175,15 @@ class ApplicationController < ActionController::Base
     current_organization.members.find_by(user: current_user)
   end
 
-  def current_language
-    current_user&.language || I18n.default_locale
+  def current_locale
+    current_user&.locale || I18n.default_locale
   end
 
   def switch_locale(&action)
-    I18n.with_locale(current_language, &action)
+    I18n.with_locale(current_locale, &action)
+  end
+
+  def t_params(attribute)
+    current_organization.available_locales.map { |locale| "#{attribute}_#{locale}".to_sym }
   end
 end

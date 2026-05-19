@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rails + React</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%# Vite React Refresh preamble %>
+    <script type="module">
+      import RefreshRuntime from "http://localhost:5173/@react-refresh"
+      RefreshRuntime.injectIntoGlobalHook(window)
+      window.$RefreshReg$ = () => {}
+      window.$RefreshSig$ = () => type => type
+      window.__vite_plugin_react_preamble_installed__ = true
+    </script>
+
+    <%# Load React entry %>
+    <script type="module" src="http://localhost:5173/src/main.tsx"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

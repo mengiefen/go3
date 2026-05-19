@@ -1,4 +1,6 @@
 class Member < ApplicationRecord
+  include TranslationHelper
+
   # Will enable PaperTrail later
   has_paper_trail
   acts_as_archival
@@ -6,10 +8,6 @@ class Member < ApplicationRecord
   # Enable Mobility for translations with fallback to English
   extend Mobility
   translates :name, backend: :jsonb, fallbacks: true
-
-  # Ensure name is always initialized as a hash
-  after_initialize :initialize_name
-  before_validation :initialize_name
 
   # Associations
   belongs_to :organization, optional: false
@@ -27,17 +25,14 @@ class Member < ApplicationRecord
             uniqueness: { scope: :organization_id, allow_blank: true },
             format: { with: URI::MailTo::EMAIL_REGEXP, allow_blank: true }
 
-  validate :name_has_at_least_one_translation
+  validates :organization, presence: true
 
-  enum :status, { active: 1, inactive: 0 }
-  # Scopes
-  scope :active, -> { where(status: "active") }
-  scope :inactive, -> { where(status: "inactive") }
+  validates_non_empty_translation :name, locales: ->(member) { [ member.organization&.locale ] }
 
   def all_permissions
-    collections = [ roles, groups, departments ]
+    collection = [ roles, groups, departments ]
 
-    (direct_permissions + collections.sum([]) { |c| c.includes(:permissions).flat_map(&:permissions) }).uniq
+    Permission.where(grantee: [ self, *collection ])
   end
 
   def is_go3_admin?
@@ -62,16 +57,5 @@ class Member < ApplicationRecord
 
   def org_admin?
     has_permission?(Permission::ORG_ADMIN)
-  end
-
-  private
-
-  def initialize_name
-    write_attribute(:name, {}) if read_attribute(:name).nil?
-  end
-
-  def name_has_at_least_one_translation
-    return if Mobility.available_locales.any? { |loc| name(locale: loc).present? }
-    errors.add(:name, "must contain at least one translation")
   end
 end

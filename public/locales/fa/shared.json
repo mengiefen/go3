@@ -1,0 +1,29 @@
+{
+  "fa": {
+    "actions": "اقدامات",
+    "commonActions": {
+      "archive": "بایگانی",
+      "cancel": "انصراف",
+      "create": "ایجاد",
+      "delete": "حذف",
+      "save": "ذخیره",
+      "unarchive": "لغو بایگانی",
+      "update": "به روز رسانی"
+    },
+    "confirmPassword": "تکرار رمز عبور",
+    "email": "ایمیل",
+    "firstName": "نام",
+    "lastName": "نام خانوادگی",
+    "locale": "زبان/منطقه",
+    "name": "نام",
+    "password": "رمز عبور",
+    "signIn": "ورود",
+    "signUp": "ثبت‌ نام",
+    "status": "وضعیت",
+    "timezone": "منطقه زمانی",
+    "validations": {
+      "invalidFormat": "فرمت وارد شده صحیح نمی باشد",
+      "required": "وارد کردن مقدار برای این فیلد الزامی است"
+    }
+  }
+}

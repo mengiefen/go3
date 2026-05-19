@@ -5,7 +5,7 @@
 <p><%= t('devise.mailer.confirmation_instructions.confirm_link') %></p>
 
 <p style="text-align: center;">
-  <%= link_to t('devise.mailer.confirmation_instructions.confirm_button'), confirmation_url(@resource, confirmation_token: @token), class: 'button' %>
+  <%= link_to t('devise.mailer.confirmation_instructions.confirm_button'), @confirmation_url, class: 'button' %>
 </p>
 
 <p><%= t('devise.mailer.confirmation_instructions.expiry_notice') %></p>

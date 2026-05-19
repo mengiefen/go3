@@ -222,11 +222,6 @@ class User < ApplicationRecord
     end
   end
 
-  # Preferences methods
-  def locale
-    preferences&.dig("preferred_locale") || "en"
-  end
-
   def set_preference(key, value)
     new_preferences = preferences || {}
     new_preferences[key] = value
@@ -485,6 +480,14 @@ class User < ApplicationRecord
 
   def full_name
     [ first_name, last_name ].compact.join(" ")
+  end
+
+  def member(organization)
+    members.find_by(organization: organization)
+  end
+
+  def is_org_admin?(organization)
+    member(organization).all_permissions.any? { |permission| permission.code == Permission::ORG_ADMIN }
   end
 
   private

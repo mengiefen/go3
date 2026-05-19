@@ -74,7 +74,7 @@
       
       <div style="text-align: center;">
         <%= link_to t('devise.mailer.confirmation_instructions.confirm_button'), 
-            confirmation_url(@resource, confirmation_token: @token), 
+            @confirmation_url, 
             class: "button" %>
       </div>
 

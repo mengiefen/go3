@@ -1,0 +1,29 @@
+{
+  "en": {
+    "actions": "Actions",
+    "commonActions": {
+      "archive": "Archive",
+      "cancel": "Cancel",
+      "create": "Create",
+      "delete": "Delete",
+      "save": "Save",
+      "unarchive": "Unarchive",
+      "update": "Update"
+    },
+    "confirmPassword": "Password repeat",
+    "email": "Email",
+    "firstName": "ّFirst name",
+    "lastName": "Last name",
+    "locale": "Locale",
+    "name": "Name",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "status": "Status",
+    "timezone": "Time zone",
+    "validations": {
+      "invalidFormat": "Format is not valid",
+      "required": "Required"
+    }
+  }
+}

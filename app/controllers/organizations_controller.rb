@@ -1,16 +1,20 @@
 class OrganizationsController < ApplicationController
-  include TabContent
   before_action :authenticate_user!
   before_action :set_organization, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    authorize Organization
-    @organizations = policy_scope(Organization).unarchived
-    sleep(5)
+    if params[:my_organizations]
+      render json: current_user.organizations.as_json(only: [ :id, :name ]), status: :ok
+    end
   end
 
   def show
-    authorize @organization
+    organization = Organization.find_by(id: params[:id])
+    render json: { errors: [ "not_found" ] }, status: :not_found and return unless organization
+    # Tech debt: Add translation
+    authorize organization
+
+    render json: OrganizationBlueprint.render(organization, view: params[:view] || :basic)
   end
 
   def new
@@ -23,42 +27,20 @@ class OrganizationsController < ApplicationController
   end
 
   def create
-    @organization = Organization.new(permitted_organization_params)
+    if params[:is_trial]
+      name = params[:name] || Faker::Company.name
+      Mobility.with_locale(current_user.locale) do
+        @organization = Organization.new(name:, locale: current_user.locale, is_trial: true, is_tenant: false)
+      end
 
-    # Set name translation using Mobility
-    Mobility.with_locale(I18n.locale) do
-      @organization.name = params[:organization][:name]
-    end
+      authorize @organization
 
-    # Set is_trial flag if user is not admin and creating top-level org
-    if !current_user.is_go3_admin? && !@organization.parent_id.present?
-      @organization.is_tenant = true
-      @organization.is_trial = true
-      @organization.language = current_user.language
-    end
-
-    if @organization.save
-      # Add current user as admin of the organization
-      member = Member.new(
-        user: current_user,
-        organization: @organization,
-        email: current_user.email,
-        joined_at: DateTime.now,
-        initial: current_user.first_name[0].upcase + current_user.last_name[0].upcase,
-        color: "#c9b12d"
-      ) unless current_user.is_go3_admin?
-
-      member.name = current_user.full_name
-      if member.save
-        Permission.create(
-          code: "Organization.admin",
-          grantee: member,
-          organization: @organization
-        )
-        redirect_to @organization, notice: "Organization was successfully created."
+      if @organization.save
+        setCurrentUserAsAdmin
+        render json: @organization.as_json(only: [ :id, :name ]), status: :ok
       end
     else
-      render :new
+
     end
   end
 
@@ -102,5 +84,25 @@ class OrganizationsController < ApplicationController
 
   def permitted_organization_params
     params.require(:organization).permit(*policy(@organization || Organization).permitted_attributes)
+  end
+
+  def setCurrentUserAsAdmin
+    Mobility.with_locale(current_user.locale) do
+      member = Member.create(
+        user: current_user,
+        name: current_user.full_name,
+        organization: @organization,
+        email: current_user.email,
+        joined_at: DateTime.now,
+        initial: current_user.first_name[0].upcase + current_user.last_name[0].upcase,
+        color: "#c9b12d"
+      )
+
+      permission = Permission.create(
+        code: Permission::ORG_ADMIN,
+        grantee: member,
+        organization: @organization
+      )
+    end
   end
 end

@@ -102,3 +102,11 @@ This application is configured for deployment using Docker containers. See the `
 ## CI/CD
 
 GitHub Actions are configured for continuous integration. See `.github/workflows/ci.yml` for details.
+
+
+# Documentation
+
+After adding tests for API endpoints:
+- generate documents by running `rake rswag:specs:swaggerize`
+- make sure rails server is running 
+- see documents at [http://localhost:3000/api-docs](http://localhost:3000/api-docs)

@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
-  resources :tasks do
-    member do
-      patch :complete
-    end
-    collection do
-      get "sidebar/:sidebar_type", to: "tasks#sidebar_content", as: :sidebar
-      get "content/:filter_type/:filter_value", to: "tasks#tab_content", as: :tab_content
-    end
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
+  post "/graphql", to: "graphql#execute"
+  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
+
   namespace :users do
     resource :profile, only: [ :show, :edit, :update ], controller: "profiles"
     delete "remove_avatar", to: "profiles#remove_avatar", as: :remove_avatar
@@ -62,7 +60,7 @@ Rails.application.routes.draw do
       member do
         patch :set_as_admin
         patch :revoke_admin
-        post :resend_invitation
+        post :send_invitation
         patch :archive
         patch :unarchive
       end
@@ -131,6 +129,7 @@ Rails.application.routes.draw do
   get "reusable-tabs-demo/sidebar/:sidebar_type", to: "reusable_tabs_demo#sidebar_content", as: :reusable_tabs_demo_sidebar
   get "reusable-tabs-demo/content/:content_type/:content_id", to: "reusable_tabs_demo#tab_content", as: :reusable_tabs_demo_content
 
+  get "app/*path", to: "home#index", constraints: ->(req) { req.format.html? }
   # Defines the root path route ("/")
   root "home#index"
 

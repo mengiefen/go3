@@ -3,11 +3,7 @@ class MemberPolicy < ApplicationPolicy
     is_org_admin?
   end
 
-  def new?
-    is_org_admin?
-  end
-
-  def edit?
+  def show?
     is_org_admin?
   end
 
@@ -27,7 +23,7 @@ class MemberPolicy < ApplicationPolicy
     is_org_admin?
   end
 
-  def resend_invitation?
+  def send_invitation?
     is_org_admin?
   end
 
@@ -46,6 +42,6 @@ class MemberPolicy < ApplicationPolicy
   private
 
   def is_org_admin?
-    record.has_permission?("Organization.admin")
+    record.has_permission?(Permission::ORG_ADMIN)
   end
 end
