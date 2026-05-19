@@ -9,7 +9,12 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    authorize @organization
+    organization = Organization.find_by(id: params[:id])
+    render json: { errors: [ "not_found" ] }, status: :not_found and return unless organization
+    # Tech debt: Add translation
+    authorize organization
+
+    render json: OrganizationBlueprint.render(organization, view: params[:view] || :basic)
   end
 
   def new

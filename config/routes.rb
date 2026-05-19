@@ -60,7 +60,7 @@ Rails.application.routes.draw do
       member do
         patch :set_as_admin
         patch :revoke_admin
-        post :resend_invitation
+        post :send_invitation
         patch :archive
         patch :unarchive
       end

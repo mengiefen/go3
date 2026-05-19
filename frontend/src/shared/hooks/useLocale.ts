@@ -3,29 +3,33 @@ import { useTranslation } from 'react-i18next';
 // import { useTheme } from '@mui/material/styles';
 import { locales, type LocaleCode } from '../constants/locales';
 
-export const useLocale = (currentLocale: LocaleCode) => {
+export const useLocale = (currentLocale?: LocaleCode) => {
   const { i18n } = useTranslation();
-  // const theme = useTheme();
+  
+  // Use provided locale, or i18n.language, or default to 'en'
+  const effectiveLocale = currentLocale || (i18n.language as LocaleCode) || 'en';
 
-  // Apply RTL/LTR direction and font when locale changes
   useEffect(() => {
-    const selectedLocale = locales.find(loc => loc.code === currentLocale);
+    // Only change language if different from current
+    if (effectiveLocale !== i18n.language) {
+      i18n.changeLanguage(effectiveLocale);
+    }
+    
+    const selectedLocale = locales.find(loc => loc.code === effectiveLocale);
     if (selectedLocale) {
       document.body.dir = selectedLocale.direction;
       document.body.style.direction = selectedLocale.direction;
-      i18n.changeLanguage(currentLocale);
-      
-      // MUI theme will re-render with new font via ThemeProvider
-      // The ThemeProvider listens to i18n.language changes
     }
-  }, [currentLocale, i18n]);
+  }, [effectiveLocale, i18n]);
 
-  const getLocaleDirection = (localeCode: LocaleCode) => {
-    return locales.find(loc => loc.code === localeCode)?.direction || 'ltr';
+  const localeDirection = (localeCode?: LocaleCode) => {
+    const code = localeCode || effectiveLocale;
+    return locales.find(loc => loc.code === code)?.direction || 'ltr';
   };
 
   return {
-    getLocaleDirection,
+    localeDirection,
     locales,
+    currentLocale: effectiveLocale,
   };
 };

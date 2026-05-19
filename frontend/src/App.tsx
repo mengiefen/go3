@@ -7,6 +7,7 @@ import { OrganizationResolver } from './features/organizations/OrganizationResol
 import { Onboarding } from './features/organizations/Onboarding';
 import { AppLayout } from './features/app/AppLayout';
 import { Dashboard } from './features/app/Dashboard';
+import { MembersPage } from './features/members/MembersPage';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="app/onboarding" element={<Onboarding />} />
           <Route path="app/organizations" element={<AppLayout />}>
             <Route path=":organizationId" element={<Dashboard />} />
+            <Route path="/app/organizations/:organizationId/members" element={<MembersPage />} />
           </Route>
           <Route path="app/" element={<Navigate to="/signup" />} />
         </Routes>

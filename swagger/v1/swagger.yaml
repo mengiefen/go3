@@ -750,7 +750,7 @@ paths:
                       name:
                         en: John Doe
                         fa: جان دو
-  "/organizations/{organization_id}/members/{id}/resend_invitation":
+  "/organizations/{organization_id}/members/{id}/send_invitation":
     parameters:
     - name: organization_id
       in: path

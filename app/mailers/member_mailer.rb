@@ -1,8 +1,8 @@
 class MemberMailer < ApplicationMailer
-  def invitation(member_id:, organization_id:, invitation_key:, locale:)
+  def invitation(member_id:, organization_id:, invitation_key:, locale:, email:)
     @member = Member.find(member_id)
     @organization = Organization.find(organization_id)
-    @signup_url = new_user_registration_url(invitation_key:, locale:)
+    @signup_url = "http://localhost:5000/app/signup?invitation_key=#{invitation_key}&locale=#{locale}&email=#{email}"
 
     mail(
       to: @member.email,

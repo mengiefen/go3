@@ -9,6 +9,9 @@ export const organizationsApi = createApi({
     getMyOrganizations: builder.query<Organization[], void>({
       query: () => '/organizations?my_organizations=true',
     }),
+    getOrganization: builder.query<Organization, number>({
+      query: (organizationId) => `/organizations/${organizationId}`,
+    }),
     createTrialOrganization: builder.mutation<Organization, { name: string }>({
       query: (data) => ({
         url: '/organizations',
@@ -19,4 +22,4 @@ export const organizationsApi = createApi({
   }),
 });
 
-export const { useGetMyOrganizationsQuery, useCreateTrialOrganizationMutation } = organizationsApi;
+export const { useGetMyOrganizationsQuery, useGetOrganizationQuery, useCreateTrialOrganizationMutation } = organizationsApi;

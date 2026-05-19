@@ -10,9 +10,17 @@ i18n
   .init({
     fallbackLng: 'en',
     defaultNS: 'shared',
-    ns: ['shared', 'auth', 'organizations'],
+    ns: ['shared', 'auth', 'organizations', 'members'],
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',
+      parse: (data: string, languages?: string | string[]) => {
+        const parsed = JSON.parse(data);
+        const lang = Array.isArray(languages) ? languages[0] : languages;
+        if (lang && parsed[lang] && typeof parsed[lang] === 'object') {
+          return parsed[lang];
+        }
+        return parsed;
+      },
     },
     interpolation: {
       escapeValue: false,

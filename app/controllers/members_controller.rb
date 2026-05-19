@@ -3,7 +3,7 @@ class MembersController < ApplicationController
 
   def index
     authorize current_member
-    members = current_organization.members
+    members = current_organization.members.includes(:user).order(id: :desc)
     render json: MemberBlueprint.render(members, view: :index), status: :ok
   end
 
@@ -58,7 +58,7 @@ class MembersController < ApplicationController
     render json: MemberBlueprint.render(member, view: :index), status: :ok
   end
 
-  def resend_invitation
+  def send_invitation
     authorize current_member
     member = Member.find_by(id: params[:id])
     render json: { errors: controller_t("already_joined") }, status: :unprocessable_content if member.joined_at.present?
@@ -111,11 +111,12 @@ class MembersController < ApplicationController
       member_id: member.id,
       organization_id: current_organization.id,
       invitation_key: invitation_key,
-      locale: member.organization.locale
+      locale: member.organization.locale,
+      email: member.email
     ).deliver_later
   end
 
   def permitted_params
-    params.permit(:email, :initial, :color, *t_params(:name))
+    params.permit(:email, :initial, :color, :invitation_key, :invited_at, *t_params(:name))
   end
 end

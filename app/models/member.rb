@@ -30,9 +30,9 @@ class Member < ApplicationRecord
   validates_non_empty_translation :name, locales: ->(member) { [ member.organization&.locale ] }
 
   def all_permissions
-    collections = [ roles, groups, departments ]
+    collection = [ roles, groups, departments ]
 
-    (direct_permissions + collections.sum([]) { |c| c.includes(:permissions).flat_map(&:permissions) }).uniq
+    Permission.where(grantee: [ self, *collection ])
   end
 
   def is_go3_admin?

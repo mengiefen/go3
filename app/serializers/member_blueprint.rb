@@ -2,7 +2,8 @@ class MemberBlueprint < Blueprinter::Base
   identifier :id
 
   view :index do
-    fields :name, :email, :color, :initial, :org_admin?, :status, :localized_status
+    fields :name, :email, :color, :initial, :status, :localized_status, :joined_at, :invited_at
+    field :org_admin?, name: :org_admin
   end
 
   view :show do

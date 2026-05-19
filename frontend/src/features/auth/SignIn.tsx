@@ -14,12 +14,15 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useSignInMutation } from './authApi';
+import { useDispatch } from 'react-redux';
+import { setUser } from './authSlice';
 
 export const SignIn = () => {
   const { t } = useTranslation('auth');
   const { t: tShared } = useTranslation('shared');
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -47,7 +50,13 @@ export const SignIn = () => {
         },
       }).unwrap();
       
-      console.log('Sign in successful:', result);
+      dispatch(setUser({ 
+        id: result.id, 
+        email: result.email,
+        first_name: '', // Add if available in response
+        last_name: ''   // Add if available in response
+      }));
+
       navigate('/app/organization-resolver');
     } catch (err: any) {
       console.error('Sign in failed:', err);

@@ -23,7 +23,7 @@ class MemberPolicy < ApplicationPolicy
     is_org_admin?
   end
 
-  def resend_invitation?
+  def send_invitation?
     is_org_admin?
   end
 

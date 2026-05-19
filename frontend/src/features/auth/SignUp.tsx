@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useQueryParam from '../../hooks/queryParam'
 import {
   Container,
   Paper,
@@ -17,24 +18,31 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useSignUpMutation } from './authApi';
 import { timezones, locales } from '../../shared/constants';
 import { useLocale } from '../../shared/hooks/useLocale';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from './authSlice';
 
 export const SignUp = () => {
   const { t } = useTranslation('auth');
   const { t: tShared } = useTranslation('shared');
-  
+
+  const invitationEmail = useQueryParam('email')
   const [formData, setFormData] = useState({
-    email: '',
+    email: invitationEmail ||'',
     first_name: '',
     last_name: '',
     password: '',
     password_confirmation: '',
     timezone: 'UTC',
-    locale: 'en',
+    locale: useQueryParam('locale') || 'en',
+    invitation_key: useQueryParam('invitation_key') || null
   });
   
   const [isSuccess, setIsSuccess] = useState(false);
   const [signUp, { isLoading, error }] = useSignUpMutation();
   const [validationError, setValidationError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   
   // Use the custom locale hook
   useLocale(formData.locale as any);
@@ -59,7 +67,17 @@ export const SignUp = () => {
     
     try {
       const { password_confirmation, ...userData } = formData;
-      await signUp(userData).unwrap();
+      let result = await signUp(userData).unwrap();
+      console.log(result);
+      if (result.confirmed_at != null) {
+        dispatch(setUser({ 
+          id: result.id, 
+          email: result.email,
+          first_name: '', // Add if available in response
+          last_name: ''   // Add if available in response
+        }));
+        navigate('/app/organization-resolver')
+      } 
       setIsSuccess(true);
     } catch (err) {
       console.error('Sign up failed:', err);
@@ -130,6 +148,7 @@ export const SignUp = () => {
               margin="normal"
               dir="ltr"
               required
+              disabled={!!invitationEmail}
             />
             
             <TextField

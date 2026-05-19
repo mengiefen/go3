@@ -201,8 +201,9 @@ RSpec.describe 'Users::Sessions API', type: :request do
 
         run_test! do |response|
           data = JSON.parse(response.body)
+          puts data
           expect(data["id"]).to eq(member_1.id)
-          expect(data["org_admin?"]).to eq(true)
+          expect(data["org_admin"]).to eq(true)
         end
       end
     end
@@ -226,13 +227,13 @@ RSpec.describe 'Users::Sessions API', type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data["id"]).to eq(member_1.id)
-          expect(data["org_admin?"]).to eq(false)
+          expect(data["org_admin"]).to eq(false)
         end
       end
     end
   end
 
-  path '/organizations/{organization_id}/members/{id}/resend_invitation' do
+  path '/organizations/{organization_id}/members/{id}/send_invitation' do
     parameter name: :organization_id, in: :path, type: :integer, description: 'Organization ID', required: true
     parameter name: :id, in: :path, type: :integer, description: 'Member ID', required: true
 
