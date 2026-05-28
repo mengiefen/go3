@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { store } from '../../../../frontend/src/app/store';
+import { store } from '@/store';
 import { ThemeProvider } from '../ThemeContext';
 import { ToastProvider } from '../ToastContext';
 

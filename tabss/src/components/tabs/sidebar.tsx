@@ -8,6 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link, useLocation } from '@tanstack/react-router';
 import {
   Banknote,
+  Building2,
   Calendar,
   Hexagon,
   LayoutDashboard,
@@ -16,6 +17,7 @@ import {
   Settings,
   Store,
   Table as TableIcon,
+  Users,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -63,6 +65,18 @@ export function Sidebar() {
       pageId: 'chat',
       icon: MessageSquare,
       href: '/chat',
+    },
+    {
+      title: 'Members',
+      pageId: 'members',
+      icon: Users,
+      href: '/members',
+    },
+    {
+      title: 'Organizations',
+      pageId: 'organizations',
+      icon: Building2,
+      href: '/organizations',
     },
   ];
 

@@ -53,14 +53,14 @@ const theme = createTheme({
       palette: {
         primary: {
           main: '#D0BCFF',
-          light: '#EADDFF', // Keep light var for reference if needed
-          dark: '#381E72',
+          light: '#EADDFF',
+          dark: '#B49FE8', // lighter hover bg 
           contrastText: '#381E72',
         },
         secondary: {
           main: '#CCC2DC',
           light: '#E8DEF8',
-          dark: '#332D41',
+          dark: '#AFA3BE', // lighter hover bg 
           contrastText: '#332D41',
         },
         background: {

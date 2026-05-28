@@ -13,13 +13,15 @@ const DashboardPlaceholder = () => (
   </Box>
 );
 
-import { CalendarPage } from '@/routes/_dashboard.calendar';
-import { ChatPage } from '@/routes/_dashboard.chat';
-import { InventoryPage } from '@/routes/_dashboard.inventory';
-import { SalesPage } from '@/routes/_dashboard.sales';
-import { SettingsPage } from '@/routes/_dashboard.settings';
-import { ShopsPage } from '@/routes/_dashboard.shops';
-import { TablesPage } from '@/routes/_dashboard.tables';
+import { CalendarPage } from '@/features/calendar/CalendarPage';
+import { ChatPage } from '@/features/chat/ChatPage';
+import { InventoryPage } from '@/features/inventory/InventoryPage';
+import { SalesPage } from '@/features/sales/SalesPage';
+import { SettingsPage } from '@/features/settings/SettingsPage';
+import { ShopsPage } from '@/features/shops/ShopsPage';
+import { TablesPage } from '@/features/tables/TablesPage';
+import { MembersPage } from '@/features/members/MembersPage';
+import { OrganizationsPage } from '@/features/organizations/OrganizationsPage';
 
 export const PAGE_REGISTRY: Record<string, React.ComponentType> = {
   dashboard: DashboardPlaceholder,
@@ -30,6 +32,8 @@ export const PAGE_REGISTRY: Record<string, React.ComponentType> = {
   settings: SettingsPage,
   tables: TablesPage,
   chat: ChatPage,
+  members: MembersPage,
+  organizations: OrganizationsPage,
 };
 
 export function PageContent({ pageId }: { pageId: string }) {

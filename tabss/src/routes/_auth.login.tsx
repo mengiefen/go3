@@ -1,5 +1,6 @@
 import { Google } from '@mui/icons-material';
 import {
+  Alert,
   Box,
   Button,
   IconButton,
@@ -7,7 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import {
   Activity,
   ArrowLeft,
@@ -17,25 +18,56 @@ import {
   Mail,
   Zap,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useSignInMutation } from '@/features/auth/authApi';
+import { setUser } from '@/features/auth/authSlice';
 
 export const Route = createFileRoute('/_auth/login')({
   component: LoginPage,
 });
 
+type LoginFormValues = {
+  email: string;
+  password: string;
+};
+
 function LoginPage() {
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [emailNotConfirmed, setEmailNotConfirmed] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signIn, { isLoading }] = useSignInMutation();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    defaultValues: { email: '', password: '' },
   });
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    // TODO: Implement actual login logic
-    setTimeout(() => setLoading(false), 2000);
+  const onSubmit = async (data: LoginFormValues) => {
+    setServerError(null);
+    setEmailNotConfirmed(false);
+    try {
+      const result = await signIn({ user: { email: data.email, password: data.password } }).unwrap();
+      dispatch(setUser({
+        id: result.id,
+        email: result.email,
+        first_name: result.first_name || '',
+        last_name: result.last_name || '',
+      }));
+      navigate({ to: '/' });
+    } catch (err: any) {
+      if (err?.status === 401 && err?.data?.error === 'unconfirmed') {
+        setEmailNotConfirmed(true);
+      } else {
+        setServerError('Invalid email or password.');
+      }
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -298,7 +330,12 @@ function LoginPage() {
             </Typography>
           </Box>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {(serverError || emailNotConfirmed) && (
+              <Alert severity={emailNotConfirmed ? 'warning' : 'error'} sx={{ mb: 3, borderRadius: '8px' }}>
+                {emailNotConfirmed ? 'Please confirm your email before signing in.' : serverError}
+              </Alert>
+            )}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               {/* Email Field */}
               <Box>
@@ -321,16 +358,19 @@ function LoginPage() {
                 >
                   Email
                 </Typography>
+                <Controller
+                  name="email"
+                  control={control}
+                  rules={{ required: 'Email is required', pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' } }}
+                  render={({ field }) => (
                 <TextField
+                  {...field}
                   id="email"
                   type="email"
                   fullWidth
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
                   placeholder="entity@go2.net"
-                  required
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
                   slotProps={{
                     input: {
                       endAdornment: (
@@ -345,7 +385,6 @@ function LoginPage() {
                       bgcolor: 'background.paper',
                       border: '1px solid', borderColor: 'divider',
                       borderRadius: '8px',
-                      ...('borderTopRightRadius' in {} ? {} : {}), // removing old rules nicely
                       fontFamily: 'JetBrains Mono, monospace',
                       fontSize: '16px',
                       color: 'text.primary',
@@ -356,21 +395,13 @@ function LoginPage() {
                       },
                       '& input': {
                         padding: '12px 16px',
-                        '&::placeholder': {
-                          color: 'text.secondary',
-                          opacity: 0.7,
-                        },
+                        '&::placeholder': { color: 'text.secondary', opacity: 0.7 },
                       },
                     },
-                    '& .MuiInputAdornment-root': {
-                      '& svg': {
-                        transition: 'color 0.2s',
-                      },
-                    },
-                    '& .Mui-focused .MuiInputAdornment-root svg': {
-                      color: 'primary.main',
-                    },
+                    '& .Mui-focused .MuiInputAdornment-root svg': { color: 'primary.main' },
                   }}
+                />
+                  )}
                 />
               </Box>
 
@@ -391,15 +422,18 @@ function LoginPage() {
                 >
                   Password
                 </Typography>
+                <Controller
+                  name="password"
+                  control={control}
+                  rules={{ required: 'Password is required', minLength: { value: 6, message: 'Min 6 characters' } }}
+                  render={({ field }) => (
                 <TextField
+                  {...field}
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   fullWidth
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                  required
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
                   slotProps={{
                     input: {
                       endAdornment: (
@@ -408,15 +442,9 @@ function LoginPage() {
                             onClick={() => setShowPassword(!showPassword)}
                             edge="end"
                             size="small"
-                            sx={{
-                              color: 'text.secondary',
-                            }}
+                            sx={{ color: 'text.secondary' }}
                           >
-                            {showPassword ? (
-                              <EyeOff size={16} />
-                            ) : (
-                              <Eye size={16} />
-                            )}
+                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -435,15 +463,11 @@ function LoginPage() {
                         border: '1px solid', borderColor: 'primary.main',
                         bgcolor: 'action.hover',
                       },
-                      '& input': {
-                        padding: '12px 16px',
-                        '&::placeholder': {
-                          color: 'text.secondary',
-                          opacity: 0.7,
-                        },
-                      },
+                      '& input': { padding: '12px 16px' },
                     },
                   }}
+                />
+                  )}
                 />
               </Box>
 
@@ -452,7 +476,7 @@ function LoginPage() {
                 <Button
                   type="submit"
                   fullWidth
-                  disabled={loading}
+                  disabled={isLoading}
                   sx={{
                     position: 'relative',
                     px: 3,
@@ -500,7 +524,7 @@ function LoginPage() {
                       gap: 1.5,
                     }}
                   >
-                    {loading ? 'Signing In...' : 'Sign In'}
+                    {isLoading ? 'Signing In...' : 'Sign In'}
                   </Box>
                 </Button>
               </Box>
@@ -544,8 +568,8 @@ function LoginPage() {
               <Link
                 to="/register"
                 style={{
-                  color: 'primary.main',
-                  textDecoration: 'none',
+                  color: 'inherit',
+                  textDecoration: 'underline',
                   marginLeft: 8,
                   transition: 'color 0.2s',
                 }}

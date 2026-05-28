@@ -1,16 +1,17 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import HomeCard from "./homeCard";
-import { useGetHealthQuery } from "../../redux/api/health";
+import { useNavigate } from "@tanstack/react-router";
+import HomeCard from "./HomeCard";
+import { useGetHealthQuery } from "@/store/api/health";
 
 const Home = () => {
   const nav = useNavigate();
 
-  const { data, error, isLoading } = useGetHealthQuery();
-  
+  const { data } = useGetHealthQuery();
+
   return (
     <Box>
-      <h1> data: { data?.status.toString() ?? 'test'} </h1>
+      <h1>data: {data?.status.toString() ?? 'test'}</h1>
+
       {/* Welcome Section */}
       <Box mb={3}>
         <Typography variant="h4" gutterBottom>
@@ -40,21 +41,21 @@ const Home = () => {
         <HomeCard
           cardText="Practice the game solo to get a feel for the mechanics and improve your strategy."
           buttonText="Play!"
-          action={() => nav("/gameSetup")}
+          action={() => nav({ to: '/inventory' })}
         />
         <HomeCard
           cardText="Start a multiplayer session to challenge friends or other players online."
           buttonText="Create a session!"
-          action={() => nav("/gameSetup?type=1")}
+          action={() => nav({ to: '/sales' })}
         />
         <HomeCard
           cardText="Join an existing multiplayer game session and compete with others for the best score."
           buttonText="Join a session"
-          action={() => nav("/game")}
+          action={() => nav({ to: '/tables' })}
         />
       </Grid>
     </Box>
   );
-}
+};
 
 export default Home;

@@ -7,8 +7,8 @@ import {
   Button,
   Stack,
 } from '@mui/material';
-import { useInitUserQuery, useUpdateUserByUUIDMutation } from '../../redux/api/auth';
-import { getOrCreateUserId } from '../../lib/helper';
+import { useInitUserQuery, useUpdateUserByUUIDMutation } from '@/store/api/auth';
+import { getOrCreateUserId } from '@/libs/helpers';
 
 const UserProfileDrawer: React.FC = () => {
   // Mock initial values (later fetched from API/context)

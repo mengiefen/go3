@@ -1,13 +1,15 @@
 import { Google } from '@mui/icons-material';
 import {
+  Alert,
   Box,
   Button,
   IconButton,
   InputAdornment,
+  MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import {
   Activity,
   ArrowLeft,
@@ -17,32 +19,104 @@ import {
   Mail,
   Zap,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useSignUpMutation } from '@/features/auth/authApi';
+import { setUser } from '@/features/auth/authSlice';
+import { timezones, locales } from '@/constants';
+import { useLocale } from '@/hooks/shared/useLocale';
+import type { LocaleCode } from '@/constants/locales';
 
 export const Route = createFileRoute('/_auth/register')({
   component: RegisterPage,
 });
 
+type RegisterFormValues = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  timezone: string;
+  locale: LocaleCode;
+};
+
 function RegisterPage() {
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signUp, { isLoading }] = useSignUpMutation();
+
+  const invitationEmail = useMemo(() => new URLSearchParams(window.location.search).get('email'), []);
+  const invitationKey = useMemo(() => new URLSearchParams(window.location.search).get('invitation_key'), []);
+  const defaultLocale = (new URLSearchParams(window.location.search).get('locale') || 'en') as LocaleCode;
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: invitationEmail || '',
+      password: '',
+      password_confirmation: '',
+      timezone: 'UTC',
+      locale: defaultLocale,
+    },
   });
 
-  const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    // TODO: Implement actual registration logic
-    setTimeout(() => setLoading(false), 2000);
+  const currentLocale = watch('locale');
+  useLocale(currentLocale);
+
+  const onSubmit = async (data: RegisterFormValues) => {
+    setServerError(null);
+    try {
+      const { password_confirmation, ...userData } = data;
+      const payload = invitationKey ? { ...userData, invitation_key: invitationKey } : userData;
+      const result = await signUp(payload).unwrap();
+      if (result.confirmed_at != null) {
+        dispatch(setUser({
+          id: result.id,
+          email: result.email,
+          first_name: result.first_name || '',
+          last_name: result.last_name || '',
+        }));
+        navigate({ to: '/' });
+      }
+      setIsSuccess(true);
+    } catch (err: any) {
+      setServerError(err?.data?.error || 'Registration failed. Please try again.');
+    }
   };
 
   const handleGoogleSignup = () => {
-    // TODO: Implement Google OAuth
     console.log('Google signup clicked');
+  };
+
+  const fieldSx = {
+    '& .MuiInputBase-root': {
+      bgcolor: 'background.paper',
+      border: '1px solid',
+      borderColor: 'divider',
+      borderRadius: '8px',
+      fontFamily: 'JetBrains Mono, monospace',
+      fontSize: '16px',
+      color: 'text.primary',
+      '&:before, &:after': { display: 'none' },
+      '&.Mui-focused': {
+        border: '1px solid',
+        borderColor: 'primary.main',
+        bgcolor: 'action.hover',
+      },
+      '& input': { padding: '12px 16px' },
+      '& .MuiSelect-select': { padding: '12px 16px' },
+    },
   };
 
   return (
@@ -300,244 +374,186 @@ function RegisterPage() {
             </Typography>
           </Box>
 
-          <form onSubmit={handleRegister}>
+          {isSuccess && (
+            <Alert severity="success" sx={{ mb: 3, borderRadius: '8px' }}>
+              Account created! Check your email to confirm your address.
+            </Alert>
+          )}
+
+          {!isSuccess && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {serverError && (
+              <Alert severity="error" sx={{ mb: 3, borderRadius: '8px' }}>{serverError}</Alert>
+            )}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               {/* First and Last Name */}
               <Box sx={{ display: 'flex', gap: 3 }}>
                 <Box sx={{ flex: 1 }}>
-                  <Typography
-                    component="label"
-                    htmlFor="firstName"
-                    sx={{
-                      display: 'block',
-                      fontFamily: 'JetBrains Mono, monospace',
-                      fontSize: '10px',
-                      color: 'text.secondary',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.15em',
-                      mb: 1,
-                    }}
-                  >
+                  <Typography component="label" htmlFor="first_name" sx={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.15em', mb: 1 }}>
                     First Name
                   </Typography>
-                  <TextField
-                    id="firstName"
-                    type="text"
-                    fullWidth
-                    value={formData.firstName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, firstName: e.target.value })
-                    }
-                    required
-                    sx={{
-                      '& .MuiInputBase-root': {
-                        bgcolor: 'var(--md-sys-color-surface-container-low)',
-                        border: '1px solid var(--md-sys-color-outline-variant)',
-                        borderRadius: '8px',
-                        fontFamily: 'JetBrains Mono, monospace',
-                        fontSize: '16px',
-                        color: 'var(--md-sys-color-on-surface)',
-                        '&:before, &:after': { display: 'none' },
-                        '&.Mui-focused': {
-                          border: '1px solid var(--md-sys-color-primary)',
-                          bgcolor: 'var(--md-sys-color-primary-container)',
-                        },
-                        '& input': {
-                          padding: '12px 16px',
-                        },
-                      },
-                    }}
+                  <Controller
+                    name="first_name"
+                    control={control}
+                    rules={{ required: 'Required' }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        id="first_name"
+                        fullWidth
+                        error={!!errors.first_name}
+                        helperText={errors.first_name?.message}
+                        sx={fieldSx}
+                      />
+                    )}
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography
-                    component="label"
-                    htmlFor="lastName"
-                    sx={{
-                      display: 'block',
-                      fontFamily: 'JetBrains Mono, monospace',
-                      fontSize: '10px',
-                      color: 'text.secondary',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.15em',
-                      mb: 1,
-                    }}
-                  >
+                  <Typography component="label" htmlFor="last_name" sx={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.15em', mb: 1 }}>
                     Last Name
                   </Typography>
-                  <TextField
-                    id="lastName"
-                    type="text"
-                    fullWidth
-                    value={formData.lastName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, lastName: e.target.value })
-                    }
-                    required
-                    sx={{
-                      '& .MuiInputBase-root': {
-                        bgcolor: 'var(--md-sys-color-surface-container-low)',
-                        border: '1px solid var(--md-sys-color-outline-variant)',
-                        borderRadius: '8px',
-                        fontFamily: 'JetBrains Mono, monospace',
-                        fontSize: '16px',
-                        color: 'var(--md-sys-color-on-surface)',
-                        '&:before, &:after': { display: 'none' },
-                        '&.Mui-focused': {
-                          border: '1px solid var(--md-sys-color-primary)',
-                          bgcolor: 'var(--md-sys-color-primary-container)',
-                        },
-                        '& input': {
-                          padding: '12px 16px',
-                        },
-                      },
-                    }}
+                  <Controller
+                    name="last_name"
+                    control={control}
+                    rules={{ required: 'Required' }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        id="last_name"
+                        fullWidth
+                        error={!!errors.last_name}
+                        helperText={errors.last_name?.message}
+                        sx={fieldSx}
+                      />
+                    )}
                   />
                 </Box>
               </Box>
 
               {/* Email Field */}
               <Box>
-                <Typography
-                  component="label"
-                  htmlFor="email"
-                  sx={{
-                    display: 'block',
-                    fontFamily: 'JetBrains Mono, monospace',
-                    fontSize: '10px',
-                    color: 'text.secondary',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
-                    mb: 1,
-                  }}
-                >
+                <Typography component="label" htmlFor="email" sx={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.15em', mb: 1 }}>
                   Email
                 </Typography>
-                <TextField
-                  id="email"
-                  type="email"
-                  fullWidth
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  placeholder="entity@go2.net"
-                  required
-                  slotProps={{
-                    input: {
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Mail
-                            size={16}
-                            color="var(--md-sys-color-on-surface-variant)"
-                          />
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-                  sx={{
-                    '& .MuiInputBase-root': {
-                      bgcolor: 'background.paper',
-                      border: '1px solid', borderColor: 'divider',
-                      borderRadius: '8px',
-                      ...('borderTopRightRadius' in {} ? {} : {}), // removing old rules nicely
-                      fontFamily: 'JetBrains Mono, monospace',
-                      fontSize: '16px',
-                      color: 'text.primary',
-                      '&:before, &:after': { display: 'none' },
-                      '&.Mui-focused': {
-                        border: '1px solid', borderColor: 'primary.main',
-                        bgcolor: 'action.hover',
-                      },
-                      '& input': {
-                        padding: '12px 16px',
-                        '&::placeholder': {
-                          color: 'text.secondary',
-                          opacity: 0.7,
+                <Controller
+                  name="email"
+                  control={control}
+                  rules={{ required: 'Email is required', pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' } }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="email"
+                      type="email"
+                      fullWidth
+                      placeholder="entity@go2.net"
+                      disabled={!!invitationEmail}
+                      error={!!errors.email}
+                      helperText={errors.email?.message}
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Box component="span" sx={{ display: 'flex', color: 'text.secondary' }}><Mail size={16} /></Box>
+                            </InputAdornment>
+                          ),
                         },
-                      },
-                    },
-                    '& .MuiInputAdornment-root svg': {
-                      transition: 'color 0.2s',
-                    },
-                    '& .Mui-focused .MuiInputAdornment-root svg': {
-                      color: 'primary.main',
-                    },
-                  }}
+                      }}
+                      sx={fieldSx}
+                    />
+                  )}
                 />
               </Box>
 
               {/* Password Field */}
               <Box>
-                <Typography
-                  component="label"
-                  htmlFor="password"
-                  sx={{
-                    display: 'block',
-                    fontFamily: 'JetBrains Mono, monospace',
-                    fontSize: '10px',
-                    color: 'text.secondary',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
-                    mb: 1,
-                  }}
-                >
+                <Typography component="label" htmlFor="password" sx={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.15em', mb: 1 }}>
                   Password
                 </Typography>
-                <TextField
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  fullWidth
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                  required
-                  slotProps={{
-                    input: {
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                            size="small"
-                            sx={{
-                              color: 'text.secondary',
-                            }}
-                          >
-                            {showPassword ? (
-                              <EyeOff size={16} />
-                            ) : (
-                              <Eye size={16} />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-                  sx={{
-                    '& .MuiInputBase-root': {
-                      bgcolor: 'background.paper',
-                      border: '1px solid', borderColor: 'divider',
-                      borderRadius: '8px',
-                      fontFamily: 'JetBrains Mono, monospace',
-                      fontSize: '16px',
-                      color: 'text.primary',
-                      '&:before, &:after': { display: 'none' },
-                      '&.Mui-focused': {
-                        border: '1px solid', borderColor: 'primary.main',
-                        bgcolor: 'action.hover',
-                      },
-                      '& input': {
-                        padding: '12px 16px',
-                        '&::placeholder': {
-                          color: 'text.secondary',
-                          opacity: 0.7,
+                <Controller
+                  name="password"
+                  control={control}
+                  rules={{ required: 'Password is required', minLength: { value: 6, message: 'Min 6 characters' } }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      fullWidth
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" size="small" sx={{ color: 'text.secondary' }}>
+                                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
                         },
-                      },
-                    },
-                  }}
+                      }}
+                      sx={fieldSx}
+                    />
+                  )}
                 />
+              </Box>
+
+              {/* Confirm Password */}
+              <Box>
+                <Typography component="label" htmlFor="password_confirmation" sx={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.15em', mb: 1 }}>
+                  Confirm Password
+                </Typography>
+                <Controller
+                  name="password_confirmation"
+                  control={control}
+                  rules={{
+                    required: 'Please confirm your password',
+                    validate: (val) => val === watch('password') || 'Passwords do not match',
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="password_confirmation"
+                      type={showPassword ? 'text' : 'password'}
+                      fullWidth
+                      error={!!errors.password_confirmation}
+                      helperText={errors.password_confirmation?.message}
+                      sx={fieldSx}
+                    />
+                  )}
+                />
+              </Box>
+
+              {/* Timezone + Locale */}
+              <Box sx={{ display: 'flex', gap: 3 }}>
+                <Box sx={{ flex: 1 }}>
+                  <Typography component="label" htmlFor="timezone" sx={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.15em', mb: 1 }}>
+                    Timezone
+                  </Typography>
+                  <Controller
+                    name="timezone"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField {...field} id="timezone" select fullWidth sx={fieldSx}>
+                        {timezones.map((tz) => <MenuItem key={tz} value={tz}>{tz}</MenuItem>)}
+                      </TextField>
+                    )}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography component="label" htmlFor="locale" sx={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.15em', mb: 1 }}>
+                    Language
+                  </Typography>
+                  <Controller
+                    name="locale"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField {...field} id="locale" select fullWidth sx={fieldSx}>
+                        {locales.map((loc) => <MenuItem key={loc.code} value={loc.code}>{loc.label}</MenuItem>)}
+                      </TextField>
+                    )}
+                  />
+                </Box>
               </Box>
 
               {/* Create Account Button */}
@@ -545,7 +561,7 @@ function RegisterPage() {
                 <Button
                   type="submit"
                   fullWidth
-                  disabled={loading}
+                  disabled={isLoading}
                   sx={{
                     position: 'relative',
                     px: 3,
@@ -560,40 +576,13 @@ function RegisterPage() {
                     border: 'none',
                     overflow: 'hidden',
                     transition: 'all 0.2s',
-                    '&:hover': {
-                      bgcolor: 'primary.dark',
-                      transform: 'translateY(-1px)',
-                    },
-                    '&:disabled': {
-                      opacity: 0.5,
-                      cursor: 'not-allowed',
-                    },
+                    '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
+                    '&:disabled': { opacity: 0.5, cursor: 'not-allowed' },
                   }}
                 >
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      inset: 0,
-                      bgcolor: 'action.hover',
-                      transform: 'translateX(-100%)',
-                      transition: 'transform 0.3s',
-                      '.MuiButton-root:hover &': {
-                        transform: 'translateX(0)',
-                      },
-                    }}
-                  />
-                  <Box
-                    component="span"
-                    sx={{
-                      position: 'relative',
-                      zIndex: 10,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 1.5,
-                    }}
-                  >
-                    {loading ? 'Creating Account...' : 'Register'}
+                  <Box sx={{ position: 'absolute', inset: 0, bgcolor: 'action.hover', transform: 'translateX(-100%)', transition: 'transform 0.3s', '.MuiButton-root:hover &': { transform: 'translateX(0)' } }} />
+                  <Box component="span" sx={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
+                    {isLoading ? 'Creating Account...' : 'Register'}
                   </Box>
                 </Button>
               </Box>
@@ -614,16 +603,14 @@ function RegisterPage() {
                   textTransform: 'none',
                   letterSpacing: '0.01em',
                   fontWeight: 500,
-                  '&:hover': {
-                    border: '1px solid', borderColor: 'primary.main',
-                    bgcolor: 'action.hover',
-                  },
+                  '&:hover': { border: '1px solid', borderColor: 'primary.main', bgcolor: 'action.hover' },
                 }}
               >
                 Sign up with Google
               </Button>
             </Box>
           </form>
+          )}
 
           <Box sx={{ mt: 4, textAlign: 'center' }}>
             <Typography
@@ -637,8 +624,8 @@ function RegisterPage() {
               <Link
                 to="/login"
                 style={{
-                  color: 'primary.main',
-                  textDecoration: 'none',
+                  color: 'inherit',
+                  textDecoration: 'underline',
                   marginLeft: 8,
                   transition: 'color 0.2s',
                 }}

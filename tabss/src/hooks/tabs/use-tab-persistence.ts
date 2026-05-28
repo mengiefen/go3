@@ -1,5 +1,5 @@
 import type { WorkspaceLayout } from '@/types/tabs';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const STORAGE_KEY = 'suk-workspace-layout';
 
@@ -7,6 +7,8 @@ export function useTabPersistence(
   layout: WorkspaceLayout,
   setLayout: React.Dispatch<React.SetStateAction<WorkspaceLayout>>,
 ) {
+  const hasMountedRef = useRef(false);
+
   // Hydrate from local storage after mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -22,8 +24,12 @@ export function useTabPersistence(
     }
   }, [setLayout]);
 
-  // Save to local storage on change
+  // Save to local storage on change 
   useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
   }, [layout]);
 }

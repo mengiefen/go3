@@ -1,7 +1,7 @@
 // import { AuthResponseT, LoginRequestT, SignupRequestT, UserT } from 'src/types';
 import baseApi from './baseApi';
 import { TagName } from '../lib/tags';
-import type { AuthResponseT, LoginRequestT, SignupRequestT } from '../../types/api';
+import type { AuthResponseT, LoginRequestT, SignupRequestT } from '@/types/api';
 
 export type UserT ={
   userID:number,

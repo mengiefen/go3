@@ -1,4 +1,4 @@
-import { useTabManager } from '@/hooks/use-tab-manager';
+import { useTabManager } from '@/hooks/tabs/use-tab-manager';
 import {
   DndContext,
   DragOverlay,
@@ -14,7 +14,7 @@ import {
   Group as PanelGroup,
   Separator as PanelResizeHandle,
 } from 'react-resizable-panels';
-import { TabGroup } from './tab-group';
+import { TabGroup } from './TabGroup';
 
 export function TabWorkspace() {
   const {

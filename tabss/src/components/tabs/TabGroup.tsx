@@ -9,10 +9,10 @@ import Box from '@mui/material/Box';
 import { useMemo, useState } from 'react';
 
 import type { Tab } from '@/types/tabs';
-import { PageContent } from './page-registry';
-import { SortableTab } from './sortable-tab';
-import { TabContainerContextMenu } from './tab-container-context-menu';
-import { TabContextMenu } from './tab-context-menu';
+import { PageContent } from './PageRegistry';
+import { SortableTab } from './SortableTab';
+import { TabContainerContextMenu } from './TabContainerContextMenu';
+import { TabContextMenu } from './TabContextMenu';
 
 interface TabGroupProps {
   panelId: string;

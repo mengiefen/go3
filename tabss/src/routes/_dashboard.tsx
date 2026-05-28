@@ -1,6 +1,6 @@
-import { RouteSynchronizer } from '@/components/tabs/route-synchronizer';
-import { Sidebar } from '@/components/tabs/sidebar';
-import { TabWorkspace } from '@/components/tabs/tab-workspace';
+import { RouteSynchronizer } from '@/components/tabs/RouteSynchronizer';
+import { Sidebar } from '@/components/tabs/Sidebar';
+import { TabWorkspace } from '@/components/tabs/TabWorkspace';
 import { TabProvider } from '@/hooks/tabs/use-tab-manager';
 import { createFileRoute } from '@tanstack/react-router';
 

@@ -22,7 +22,7 @@ import {
   TableRow,
   TableSelectionCheckbox,
   TableSortHeader,
-} from './index';
+} from '@/components/ui/DataTable/index';
 
 // Sample Data
 const FIRST_NAMES = [

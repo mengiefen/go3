@@ -1,13 +1,13 @@
 'use client';
 
-import { useTabManager } from '@/hooks/use-tab-manager';
+import { useTabManager } from '@/hooks/tabs/use-tab-manager';
 import { useLocation } from '@tanstack/react-router';
 import { useEffect, useRef } from 'react';
 
 export function RouteSynchronizer() {
   const pathname = useLocation({ select: (location) => location.pathname });
   const { openTab } = useTabManager();
-  const lastPathRef = useRef(pathname);
+  const lastPathRef = useRef('');
 
   useEffect(() => {
     if (pathname === lastPathRef.current) return;
@@ -40,6 +40,12 @@ export function RouteSynchronizer() {
     } else if (pathname.startsWith('/chat')) {
       pageId = 'chat';
       title = 'Chat';
+    } else if (pathname.startsWith('/members')) {
+      pageId = 'members';
+      title = 'Members';
+    } else if (pathname.startsWith('/organizations')) {
+      pageId = 'organizations';
+      title = 'Organizations';
     }
 
     if (pageId) {

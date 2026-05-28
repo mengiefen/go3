@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import CssBaseline from '@mui/material/CssBaseline';
-import { createAppTheme } from '@/lib/theme';
-import type { ThemeMode } from '@/lib/theme';
+import { createAppTheme } from '@/libs/theme';
+import type { ThemeMode } from '@/libs/theme';
 
 interface ThemeContextType {
   mode: ThemeMode;

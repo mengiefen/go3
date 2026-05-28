@@ -16,6 +16,8 @@ import { Route as DashboardTablesRouteImport } from './routes/_dashboard.tables'
 import { Route as DashboardShopsRouteImport } from './routes/_dashboard.shops'
 import { Route as DashboardSettingsRouteImport } from './routes/_dashboard.settings'
 import { Route as DashboardSalesRouteImport } from './routes/_dashboard.sales'
+import { Route as DashboardOrganizationsRouteImport } from './routes/_dashboard.organizations'
+import { Route as DashboardMembersRouteImport } from './routes/_dashboard.members'
 import { Route as DashboardInventoryRouteImport } from './routes/_dashboard.inventory'
 import { Route as DashboardChatRouteImport } from './routes/_dashboard.chat'
 import { Route as DashboardCalendarRouteImport } from './routes/_dashboard.calendar'
@@ -55,6 +57,16 @@ const DashboardSalesRoute = DashboardSalesRouteImport.update({
   path: '/sales',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardOrganizationsRoute = DashboardOrganizationsRouteImport.update({
+  id: '/organizations',
+  path: '/organizations',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMembersRoute = DashboardMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardInventoryRoute = DashboardInventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
@@ -88,6 +100,8 @@ export interface FileRoutesByFullPath {
   '/calendar': typeof DashboardCalendarRoute
   '/chat': typeof DashboardChatRoute
   '/inventory': typeof DashboardInventoryRoute
+  '/members': typeof DashboardMembersRoute
+  '/organizations': typeof DashboardOrganizationsRoute
   '/sales': typeof DashboardSalesRoute
   '/settings': typeof DashboardSettingsRoute
   '/shops': typeof DashboardShopsRoute
@@ -100,6 +114,8 @@ export interface FileRoutesByTo {
   '/calendar': typeof DashboardCalendarRoute
   '/chat': typeof DashboardChatRoute
   '/inventory': typeof DashboardInventoryRoute
+  '/members': typeof DashboardMembersRoute
+  '/organizations': typeof DashboardOrganizationsRoute
   '/sales': typeof DashboardSalesRoute
   '/settings': typeof DashboardSettingsRoute
   '/shops': typeof DashboardShopsRoute
@@ -114,6 +130,8 @@ export interface FileRoutesById {
   '/_dashboard/calendar': typeof DashboardCalendarRoute
   '/_dashboard/chat': typeof DashboardChatRoute
   '/_dashboard/inventory': typeof DashboardInventoryRoute
+  '/_dashboard/members': typeof DashboardMembersRoute
+  '/_dashboard/organizations': typeof DashboardOrganizationsRoute
   '/_dashboard/sales': typeof DashboardSalesRoute
   '/_dashboard/settings': typeof DashboardSettingsRoute
   '/_dashboard/shops': typeof DashboardShopsRoute
@@ -129,6 +147,8 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/chat'
     | '/inventory'
+    | '/members'
+    | '/organizations'
     | '/sales'
     | '/settings'
     | '/shops'
@@ -141,6 +161,8 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/chat'
     | '/inventory'
+    | '/members'
+    | '/organizations'
     | '/sales'
     | '/settings'
     | '/shops'
@@ -154,6 +176,8 @@ export interface FileRouteTypes {
     | '/_dashboard/calendar'
     | '/_dashboard/chat'
     | '/_dashboard/inventory'
+    | '/_dashboard/members'
+    | '/_dashboard/organizations'
     | '/_dashboard/sales'
     | '/_dashboard/settings'
     | '/_dashboard/shops'
@@ -217,6 +241,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSalesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/_dashboard/organizations': {
+      id: '/_dashboard/organizations'
+      path: '/organizations'
+      fullPath: '/organizations'
+      preLoaderRoute: typeof DashboardOrganizationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/members': {
+      id: '/_dashboard/members'
+      path: '/members'
+      fullPath: '/members'
+      preLoaderRoute: typeof DashboardMembersRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/_dashboard/inventory': {
       id: '/_dashboard/inventory'
       path: '/inventory'
@@ -271,6 +309,8 @@ interface DashboardRouteChildren {
   DashboardCalendarRoute: typeof DashboardCalendarRoute
   DashboardChatRoute: typeof DashboardChatRoute
   DashboardInventoryRoute: typeof DashboardInventoryRoute
+  DashboardMembersRoute: typeof DashboardMembersRoute
+  DashboardOrganizationsRoute: typeof DashboardOrganizationsRoute
   DashboardSalesRoute: typeof DashboardSalesRoute
   DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardShopsRoute: typeof DashboardShopsRoute
@@ -282,6 +322,8 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardCalendarRoute: DashboardCalendarRoute,
   DashboardChatRoute: DashboardChatRoute,
   DashboardInventoryRoute: DashboardInventoryRoute,
+  DashboardMembersRoute: DashboardMembersRoute,
+  DashboardOrganizationsRoute: DashboardOrganizationsRoute,
   DashboardSalesRoute: DashboardSalesRoute,
   DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardShopsRoute: DashboardShopsRoute,
