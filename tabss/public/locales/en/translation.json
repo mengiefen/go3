@@ -1,0 +1,39 @@
+{
+  "app": {
+    "title": "Suk Tabs",
+    "welcome": "Welcome to Tabs"
+  },
+  "pages": {
+    "dashboard": "Dashboard",
+    "inventory": "Inventory",
+    "sales": "Sales",
+    "calendar": "Calendar",
+    "shops": "Shops",
+    "settings": "Settings",
+    "appearance": "Appearance"
+  },
+  "tabs": {
+    "closeTab": "Close Tab",
+    "closeOthers": "Close Others",
+    "closeAll": "Close All",
+    "splitRight": "Split Right",
+    "splitDown": "Split Down",
+    "duplicate": "Duplicate",
+    "pinTab": "Pin Tab",
+    "unpinTab": "Unpin Tab",
+    "copyLink": "Copy Link",
+    "noTabsOpen": "No tabs open. Select a page from the sidebar."
+  },
+  "settings": {
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize how GO2 looks and feels on your device.",
+      "theme": "Theme Preference",
+      "language": "Language & Region",
+      "selectLanguage": "Select your preferred language for the interface."
+    }
+  },
+  "toast": {
+    "linkCopied": "Workspace link copied to clipboard"
+  }
+}
